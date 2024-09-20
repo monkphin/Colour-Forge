@@ -61,30 +61,20 @@ A paint catalogue and recipe book for miniature painters
 
 ## Site Owner goals
 
-To store user data securely, particularly things like login credentials, using best practices like password hashes and other forms of encryption.
-
-Ensure that the app is accessible and responsive over all devices, providing a mobile friendly design. 
-
-Enable data management allowing users to add, edit and delete from their collections of paints and recipes. 
-
-For the user interface to be simple and easy to use, allowing users to create and store recipes or add to their paint collection. 
-
-To promote sharing and creativity by allowing users to document and share their painting methods with others. 
+- To store user data securely, particularly things like login credentials, using best practices like password hashes and other forms of encryption.
+- Ensure that the app is accessible and responsive over all devices, providing a mobile friendly design. 
+- Enable data management allowing users to add, edit and delete from their collections of paints and recipes. 
+- For the user interface to be simple and easy to use, allowing users to create and store recipes or add to their paint collection. 
+- To promote sharing and creativity by allowing users to document and share their painting methods with others. 
 
 ## Visitor Goals
-Easily organise and track my paint collection, ensuring I know what I have available and what I may need to replace. 
-
-Create and store paint recipes, so that I can replicate colour schemes and methods over the life of a painting project. 
-
-To have a clean, user friendly interface to allow me to manage my paints and recipes without confusion. 
-
-To be able to access my collection and recipes from any device so I can use the app while working on miniatures or while out shipping for paints. 
-
-To quickly search and filters paints or recipes to find specific entries based on things like colour, type of paint or project. 
-
-For my data to be securely stored so that I have no concerns about losing my recipes or any personal information that may be stored. 
-
-To be able to easily share recipes with friends. 
+- Easily organise and track my paint collection, ensuring I know what I have available and what I may need to replace. 
+- Create and store paint recipes, so that I can replicate colour schemes and methods over the life of a painting project. 
+- To have a clean, user friendly interface to allow me to manage my paints and recipes without confusion. 
+- To be able to access my collection and recipes from any device so I can use the app while working on miniatures or while out shipping for paints. 
+- To quickly search and filters paints or recipes to find specific entries based on things like colour, type of paint or project. 
+- For my data to be securely stored so that I have no concerns about losing my recipes or any personal information that may be stored. 
+- To be able to easily share recipes with friends. 
 
 # User Stories
 ## Account registration and authentication
