@@ -1,131 +1,179 @@
-![CI logo](https://codeinstitute.s3.amazonaws.com/fullstack/ci_logo_small.png)
+# **Colour Forge**
 
-Welcome USER_NAME,
+A paint catalogue and recipe book for miniature painters
 
-This is the Code Institute student template for Gitpod. We have preinstalled all of the tools you need to get started. It's perfectly ok to use this template as the basis for your project submissions.
+# Contents
 
-You can safely delete this README.md file or change it for your own project. Please do read it at least once, though! It contains some important information about Gitpod and the extensions we use. Some of this information has been updated since the video content was created. The last update to this file was: **June 18, 2024**
+- [User Experience](#user-experience)
 
-## Gitpod Reminders
+  - [Site Owner Goals](#site-owner-goals)
+  - [A Visitors Goals](#visitor-goals)
 
-To run a frontend (HTML, CSS, Javascript only) application in Gitpod, in the terminal, type:
+- [User Stories](#user-stories)
 
-`python3 -m http.server`
+  - [Account Registration and Authentication](#account-registration-and-authentication)
+  - [Paint Collection Management](#paint-collection-management)
+  - [Recipe Creation and Management](#recipe-creation-and-management)
+  - [Viewing and Searching](#viewing-and-searching)    
+  - [User Experience and Visuals](#user-experience-and-visuals)    
+  - [Security and Error Handling](#security-and-error-handling)    
+  - [Data Management](#data-management)    
+  - [Administration](#administration)    
+  - [Social Features](#social-features)    
 
-A blue button should appear to click: _Make Public_,
+- [Design](#design)
 
-Another blue button should appear to click: _Open Browser_.
+  - [Wireframes](#wireframes)
+  - [Entity Relationship Diagram](#erd)
+  - [Schema](#schema)
 
-To run a backend Python file, type `python3 app.py` if your Python file is named `app.py`, of course.
+- [Security and best Practices](#security-and-best-practices)  
 
-A blue button should appear to click: _Make Public_,
+- [Features](#features)
 
-Another blue button should appear to click: _Open Browser_.
+- [Bugs and Issues](#bugs-and-issues)
 
-By Default, Gitpod gives you superuser security privileges. Therefore, you do not need to use the `sudo` (superuser do) command in the bash terminal in any of the lessons.
+- [Technology](#technology)
 
-To log into the Heroku toolbelt CLI:
+- [Testing](#testing-and-validation)
 
-1. Log in to your Heroku account and go to *Account Settings* in the menu under your avatar.
-2. Scroll down to the *API Key* and click *Reveal*
-3. Copy the key
-4. In Gitpod, from the terminal, run `heroku_config`
-5. Paste in your API key when asked
+- [Version Control and Deployment](#version-control-and-deployment)
 
-You can now use the `heroku` CLI program - try running `heroku apps` to confirm it works. This API key is unique and private to you, so do not share it. If you accidentally make it public, you can create a new one with _Regenerate API Key_.
+- [Credits](#credits)
+  
 
-### Connecting your Mongo database
+# User Experience
 
-- **Connect to Mongo CLI on a IDE**
-- navigate to your MongoDB Clusters Sandbox
-- click **"Connect"** button
-- select **"Connect with the MongoDB shell"**
-- select **"I have the mongo shell installed"**
-- choose **mongosh (2.0 or later)** for : **"Select your mongo shell version"**
-- choose option: **"Run your connection string in your command line"**
-- in the terminal, paste the copied code `mongo "mongodb+srv://<CLUSTER-NAME>.mongodb.net/<DBname>" --apiVersion 1 --username <USERNAME>`
-  - replace all `<angle-bracket>` keys with your own data
-- enter password _(will not echo **\*\*\*\*** on screen)_
+## Site Owner goals
 
-------
+To store user data securely, particularly things like login credentials, using best practices like password hashes and other forms of encryption.
 
-## Release History
+Ensure that the app is accessible and responsive over all devices, providing a mobile friendly design. 
 
-We continually tweak and adjust this template to help give you the best experience. Here is the version history:
+Enable data management allowing users to add, edit and delete from their collections of paints and recipes. 
 
-**June 18, 2024,** Add Mongo back into template
+For the user interface to be simple and easy to use, allowing users to create and store recipes or add to their paint collection. 
 
-**June 14, 2024,** Temporarily remove Mongo until the key issue is resolved
+To promote sharing and creativity by allowing users to document and share their painting methods with others. 
 
-**May 28 2024:** Fix Mongo and Links installs
+## Visitor Goals
+Easily organise and track my paint collection, ensuring I know what I have available and what I may need to replace. 
 
-**April 26 2024:** Update node version to 16
+Create and store paint recipes, so that I can replicate colour schemes and methods over the life of a painting project. 
 
-**September 20 2023:** Update Python version to 3.9.17.
+To have a clean, user friendly interface to allow me to manage my paints and recipes without confusion. 
 
-**September 1 2021:** Remove `PGHOSTADDR` environment variable.
+To be able to access my collection and recipes from any device so I can use the app while working on miniatures or while out shipping for paints. 
 
-**July 19 2021:** Remove `font_fix` script now that the terminal font issue is fixed.
+To quickly search and filters paints or recipes to find specific entries based on things like colour, type of paint or project. 
 
-**July 2 2021:** Remove extensions that are not available in Open VSX.
+For my data to be securely stored so that I have no concerns about losing my recipes or any personal information that may be stored. 
 
-**June 30 2021:** Combined the P4 and P5 templates into one file, added the uptime script. See the FAQ at the end of this file.
+To be able to easily share recipes with friends. 
 
-**June 10 2021:** Added: `font_fix` script and alias to fix the Terminal font issue
+# User Stories
+## Account registration and authentication
+- 1. As a user, I want to be able to register for an account so that I may save my paint collection and recipes. 
+- 2. As a user, I want to log in securely to access my data. 
+- 3. As a user, I want to be able to reset my password if I forget it
+- 4. As a user, I want to be able to change my account details
 
-**May 10 2021:** Added `heroku_config` script to allow Heroku API key to be stored as an environment variable.
+## Paint Collection Management
+- 1. As a user, I would like to be able to add new paints to my collection by entering details of the paint. 
+- 2. As a user, I want to be able to edit details of any paints in my collection, such as quantity, if I need to replace it and so on. 
+- 3. As a user, I would like to be able to delete paints that I no longer have or use. 
+- 4. As a user, I want to be able to search and filter my paint collection. 
+- 5. As a user, I would like to be able to add paints to my library from an existing list. 
 
-**April 7 2021:** Upgraded the template for VS Code instead of Theia.
+## Recipe creation and Management. 
+- 1. As a user, I would like to be able to create new recipes using paints from my Library. 
+- 2. As a user, I want to add detailed step by step instructions to my recipes. 
+- 3. As a user, I would like to upload images to help see how each stage of the recipe looks. 
+- 4. As a user, I want to be able to add tags or other identifiers to recipes to help me organise them. 
+- 5. As a user, I would like to be able to edit my recipes as I improve them or need to change paints used. 
+- 6. As a user, I would like to be able to delete recipes that are no longer of use to me. 
 
-**October 21 2020:** Versions of the HTMLHint, Prettier, Bootstrap4 CDN and Auto Close extensions updated. The Python extension needs to stay the same version for now.
+## Viewing and Searching
+- 1. As a user, I want to be able to search my library and recipes using keywords. 
+- 2. As a user, I want to be able to see all recipes that may use a particular paint from my library. 
 
-**October 08 2020:** Additional large Gitpod files (`core.mongo*` and `core.python*`) are now hidden in the Explorer, and have been added to the `.gitignore` by default.
+## User Experience and Visuals
+- 1. As a user, I want the application to be clean and easy to navigate. 
+- 2. As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. 
 
-**September 22 2020:** Gitpod occasionally creates large `core.Microsoft` files. These are now hidden in the Explorer. A `.gitignore` file has been created to make sure these files will not be committed, along with other common files.
+## Security and error handling. 
+- 1. As a user, I want my password to be stored securely to protect my account. 
+- 2. As a user, I would like that only I am able to modify or edit my library or recipes. 
+- 3. As a user, I want to receive visual feedback or confirmation when I edit or delete a paint or recipe. 
+- 4. As a user, I would like to be alerted when I try and submit an incomplete form, with an indication of what data may be missing.
 
-**April 16 2020:** The template now automatically installs MySQL instead of relying on the Gitpod MySQL image. The message about a Python linter not being installed has been dealt with, and the set-up files are now hidden in the Gitpod file explorer.
+## Data Management
+- 1. As a user, I would like to be able to import my paint collection for faster entry. 
+- 2. As a user, I would like to be able to export my collection and recipes so that I know i have a back up. 
+- 3. As a user, I would like to be able to reset my library, recipes or both to allow me to start over if needed. 
 
-**April 13 2020:** Added the _Prettier_ code beautifier extension instead of the code formatter built-in to Gitpod.
+## Administration
+- 1. As an admin, I want to be able to manage user accounts, including editing and deletion. 
 
-**February 2020:** The initialisation files now _do not_ auto-delete. They will remain in your project. You can safely ignore them. They just make sure that your workspace is configured correctly each time you open it. It will also prevent the Gitpod configuration popup from appearing.
+## Social features
+- 1. As a user I would like to be able to have a link for my recipes so that I can share them with other users. 
 
-**December 2019:** Added Eventyret's Bootstrap 4 extension. Type `!bscdn` in a HTML file to add the Bootstrap boilerplate. Check out the <a href="https://github.com/Eventyret/vscode-bcdn" target="_blank">README.md file at the official repo</a> for more options.
 
-------
+## Site Visitor
 
-## FAQ about the uptime script
+# Design
 
-**Why have you added this script?**
+## Wireframes:
 
-It will help us to calculate how many running workspaces there are at any one time, which greatly helps us with cost and capacity planning. It will help us decide on the future direction of our cloud-based IDE strategy.
+Wireframes were created with Balsamiq software to provide rough mock-ups for layout.
 
-**How will this affect me?**
+<details>
+<summary>Mobile Wireframes</summary>
+<img src="readme-assets/images/mobile-wireframes.png">
+</details>
 
-For everyday usage of Gitpod, it doesn’t have any effect at all. The script only captures the following data:
+## ERD
 
-- An ID that is randomly generated each time the workspace is started.
-- The current date and time
-- The workspace status of “started” or “running”, which is sent every 5 minutes.
+<details>
+<summary>3 Table ERD</summary>
+<img src="readme-assets/images/3-table-erd.png">
+</details>
 
-It is not possible for us or anyone else to trace the random ID back to an individual, and no personal data is being captured. It will not slow down the workspace or affect your work.
+<details>
+<summary>4 Table ERD</summary>
+<img src="readme-assets/images/4-table-erd.png">
+</details>
 
-**So….?**
+## Schema
 
-We want to tell you this so that we are being completely transparent about the data we collect and what we do with it.
+I have a few possible options for this, depending on what is determined to be the best approach.
 
-**Can I opt out?**
+Option 1 - would consist of three tables: 
+A user table where the user account information is stored, which would have hashed passwords etc which would have a one to many relationship with both the Paints and Recipes tables. 
+A paints table where each users paint is stored, this would have a many to many relationship to Recipes. 
+A recipes table, where each users paint recipes are stored. 
 
-Yes, you can. Since no personally identifiable information is being captured, we'd appreciate it if you let the script run; however if you are unhappy with the idea, simply run the following commands from the terminal window after creating the workspace, and this will remove the uptime script:
+One issue with the above is that the Paints table could, over time become unwieldy, since the relationship being one to many implies theirs potential for paint duplication. I could make this many to many, but this could also introduce issues where users could add a paint for it to be then updated by another user, which may produce less than ideal outcomes. 
 
-```
-pkill uptime.sh
-rm .vscode/uptime.sh
-```
+Option 2
+Would be to allow the users to not only add their own paints, but to have a list of pre-existing paints that users can select from. Effectively giving me 4 tables. 
+A user table which would have two one to many relationships with the user_paints and recipes tables. 
+A default_paints table which would store a predetermined 'stock' list of paints which the users could pick from. 
+A user_paints table where the users paints would be stored. This could store either references to the default_paints table, or have the data from that table copied to itself. Assuming we're referencing paints, this would need a many to one relationship to the default_paints table. 
+A recipes table which contains the users recipes, which would have a many to many relationship with the user_paints table. 
 
-**Anything more?**
+Of the two options, I think the 4 table solution offers the most performant options with the least amount of repetition of data. 
 
-Yes! We'd strongly encourage you to look at the source code of the `uptime.sh` file so that you know what it's doing. As future software developers, it will be great practice to see how these shell scripts work.
+# Security and best Practices
 
----
+# Features
 
-Happy coding!
+# Bugs and Issues
+
+# Technology.
+
+# Testing and Validation
+
+# Version control and Deployment
+
+# Credits
