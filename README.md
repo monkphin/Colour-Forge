@@ -24,6 +24,19 @@ A paint catalogue and recipe book for miniature painters
 - [Design](#design)
 
   - [Wireframes](#wireframes)
+
+    - [Homepage](#homepage)
+    - [Side Menu](#side-menu)
+    - [Registration Page](#registration-page)
+    - [Profile Pages](#profile-pages)
+    - [List Display Option for Library and Recipe Pages](#list-display-option-for-library-and-recipe-pages)
+    - [Cards Option for Library and Recipe Pages](#cards-option-for-library-and-recipe-pages)
+    - [Separate Pages Option for Paint library](#separate-pages-option-for-paint-library)
+    - [Modal Option for Paint library](#modal-option-for-paint-library)
+    - [Separate Pages Option for Recipes](#separate-pages-option-for-recipes)
+    - [Modal Option for Recipes](#modal-option-for-recipes)
+    - [Custom 404](#custom-404)
+
   - [Entity Relationship Diagram](#erd)
   - [Schema](#schema)
 
@@ -34,6 +47,8 @@ A paint catalogue and recipe book for miniature painters
 - [Bugs and Issues](#bugs-and-issues)
 
 - [Technology](#technology)
+
+  - [Frameworks and Programs](#frameworks-and-programs)
 
 - [Testing](#testing-and-validation)
 
@@ -127,9 +142,153 @@ To be able to easily share recipes with friends.
 
 Wireframes were created with Balsamiq software to provide rough mock-ups for layout.
 
+### Homepage
+
+The home page currently shows either a login page, or a specific landing page, where users can add paints or recipes to their account, as well as showing a carousel of their library and recipes depending on if they're logged in when accessing the page or not. 
+
 <details>
-<summary>Mobile Wireframes</summary>
-<img src="readme-assets/images/mobile-wireframes.png">
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-homepage.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-homepage.png">
+</details>
+
+### Side Menu
+
+The side menu is specific to the mobile experience and will show either login/registration options for none logged in users, or more typical site navigation options for logged in users.  
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-menu.png">
+</details>
+
+### Registration Page
+
+The registration page is accessible both from the home page and side bar when the user is not logged in. It allows a user to register for an account.  
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-registration.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-registration.png">
+</details>
+
+### Profile Pages
+
+The profile page will allow the user to manage their profile as needed, requesting password resets, change their username or email address, granting them the ability to reset their library or recipes and delete their account entirely. 
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-user-profile.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-user-profile.png">
+</details>
+
+### List Display Option for Library and Recipe Pages. 
+
+I had a couple of ideas for how to present the items for both the library and recipes lists - the most obvious one being a list of items for each. This could either be infinitely scrolling or use pagination to handle longer lists. 
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-lists.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-lists.png">
+</details>
+
+### Cards Option for Library and Recipe Pages
+
+The alternative to the list to show the user their library or recipes was to use cards, allowing for a slightly cleaner and more mobile friendly look, due to the cards presenting a larger interaction surface than a list would. Again much like the lists this could either infinitely scroll or allow for pagination for large library/recipe collection handling. 
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-cards.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-cards.png">
+</details>
+
+### Separate pages option for paint library
+
+I had a couple of ideas for how to handle showing the individual paints for the library, one was to simply have each paint as its own page, this provides the maximum amount of room on smaller devices to show information. It may also be easier to handle in terms of building. The accordion at the bottom of the page will show some simple details about each recipe mentioned and will function as another path to get to the specific recipe in question.  The wireframes also show what it should look like when deleting, editing and successfully editing the page.
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-paint-library-pages.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-paint-library-pages.png">
+</details>
+
+### Modal option for paint library
+
+The other option, which I think is more visually pleasing, but potentially more limiting in terms of space would be to use some form of modal when selecting the paint. The wireframes also show what it should look like when deleting, editing and successfully editing the page.
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-paint-library-modal.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-paint-library-modal.png">
+</details>
+
+### Separate pages option for recipes
+
+Much like with the paint library, I thought it would be worth while to mock up a couple of options for how the recipe items should look when accessed. Again, having these rendered as single pages allows for the most amount of room to be used for the content on smaller screens. In this case, the accordion is being used to show each stage of the paint recipe and will contain simple instructions and images. The images should be able to be expanded via modals or light boxes. Again, the images show deletion alerts, the edit screen and an update confirmation.  
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-recipe-pages.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-recipe-pages.png">
+</details>
+
+### Modal option for recipes
+
+Much like with the paint library, I tested what this could look like containing the same data in a modal, which again may be more aesthetically pleasing but has other considerations which make it less ideal, including less space to work with, possible complexity of code, etc. 
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-recipe-modal.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-recipe-modal.png">
+</details>
+
+### Custom 404
+
+The custom 404 functions as a way of handling users who may end up in places that they shouldn't when accessing the site. This features the same core layout that features throughout the rest of the site and allows the user to navigate back to the home page or use the menu to get to other locations. 
+
+<details>
+<summary>Mobile</summary>
+<img src="readme-assets/images/mobile-404.png">
+</details>
+
+<details>
+<summary>Desktop</summary>
+<img src="readme-assets/images/desktop-404.png">
 </details>
 
 ## ERD
