@@ -170,7 +170,25 @@ Of the two options, I think the 4 table solution offers the most performant opti
 
 # Bugs and Issues
 
-# Technology.
+# Technology
+
+## Frameworks and Programs
+
+- [ERD DB Designer](https://erd.dbdesigner.net/designer/schema/1726781528-4-table-erd)
+
+  - Used to help with ERD diagrams and understanding the DB relationships
+
+- [Balsamiq](https://balsamiq.com/)
+
+  - Wire-framing program.
+
+- [VSCode](https://code.visualstudio.com/)
+
+  - IDE of choice.  
+
+- [Git](https://github.com/)
+
+  - Used for version control, storage and deployment.  
 
 # Testing and Validation
 
