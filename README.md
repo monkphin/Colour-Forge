@@ -138,12 +138,12 @@ The home page currently shows either a login page, or a specific landing page, w
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-homepage.png">
+<img src="docs/assets/mobile-homepage.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-homepage.png">
+<img src="docs/assets/desktop-homepage.png">
 </details>
 
 ### Side Menu
@@ -152,7 +152,7 @@ The side menu is specific to the mobile experience and will show either login/re
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-menu.png">
+<img src="docs/assets/mobile-menu.png">
 </details>
 
 ### Registration Page
@@ -161,12 +161,12 @@ The registration page is accessible both from the home page and side bar when th
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-registration.png">
+<img src="docs/assets/mobile-registration.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-registration.png">
+<img src="docs/assets/desktop-registration.png">
 </details>
 
 ### Profile Pages
@@ -175,12 +175,12 @@ The profile page will allow the user to manage their profile as needed, requesti
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-user-profile.png">
+<img src="docs/assets/mobile-user-profile.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-user-profile.png">
+<img src="docs/assets/desktop-user-profile.png">
 </details>
 
 ### List Display Option for Library and Recipe Pages. 
@@ -189,12 +189,12 @@ I had a couple of ideas for how to present the items for both the library and re
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-lists.png">
+<img src="docs/assets/mobile-lists.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-lists.png">
+<img src="docs/assets/desktop-lists.png">
 </details>
 
 ### Cards Option for Library and Recipe Pages
@@ -203,12 +203,12 @@ The alternative to the list to show the user their library or recipes was to use
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-cards.png">
+<img src="docs/assets/mobile-cards.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-cards.png">
+<img src="docs/assets/desktop-cards.png">
 </details>
 
 ### Separate pages option for paint library
@@ -217,12 +217,12 @@ I had a couple of ideas for how to handle showing the individual paints for the 
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-paint-library-pages.png">
+<img src="docs/assets/mobile-paint-library-pages.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-paint-library-pages.png">
+<img src="docs/assets/desktop-paint-library-pages.png">
 </details>
 
 ### Modal option for paint library
@@ -231,12 +231,12 @@ The other option, which I think is more visually pleasing, but potentially more 
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-paint-library-modal.png">
+<img src="docs/assets/mobile-paint-library-modal.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-paint-library-modal.png">
+<img src="docs/assets/desktop-paint-library-modal.png">
 </details>
 
 ### Separate pages option for recipes
@@ -245,12 +245,12 @@ Much like with the paint library, I thought it would be worth while to mock up a
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-recipe-pages.png">
+<img src="docs/assets/mobile-recipe-pages.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-recipe-pages.png">
+<img src="docs/assets/desktop-recipe-pages.png">
 </details>
 
 ### Modal option for recipes
@@ -259,12 +259,12 @@ Much like with the paint library, I tested what this could look like containing 
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-recipe-modal.png">
+<img src="docs/assets/mobile-recipe-modal.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-recipe-modal.png">
+<img src="docs/assets/desktop-recipe-modal.png">
 </details>
 
 ### Custom 404
@@ -273,29 +273,29 @@ The custom 404 functions as a way of handling users who may end up in places tha
 
 <details>
 <summary>Mobile</summary>
-<img src="readme-assets/images/mobile-404.png">
+<img src="docs/assets/mobile-404.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="readme-assets/images/desktop-404.png">
+<img src="docs/assets/desktop-404.png">
 </details>
 
 ## ERD
 
 <details>
 <summary>3 Table ERD</summary>
-<img src="readme-assets/images/3-table-erd.png">
+<img src="docs/assets/3-table-erd.png">
 </details>
 
 <details>
 <summary>4 Table ERD</summary>
-<img src="readme-assets/images/4-table-erd.png">
+<img src="docs/assets/4-table-erd.png">
 </details>
 
 <details>
 <summary>Final Table ERD</summary>
-<img src="readme-assets/images/table-erd.png">
+<img src="docs/assets/table-erd.png">
 </details>
 
 ## Schema
