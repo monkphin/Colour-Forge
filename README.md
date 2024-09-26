@@ -302,64 +302,65 @@ The custom 404 functions as a way of handling users who may end up in places tha
 
 I have a few possible options for this, depending on what is determined to be the best approach.
 
-Option 1 - would consist of three tables: 
-A user table where the user account information is stored, which would have hashed passwords etc which would have a one to many relationship with both the Paints and Recipes tables. 
-A paints table where each users paint is stored, this would have a many to many relationship to Recipes. 
-A recipes table, where each users paint recipes are stored. 
-
+Option 1  
+This would consist of three tables: </br>
+ - A user table where the user account information is stored, which would have hashed passwords etc which would have a one to many relationship with both the Paints and Recipes tables. </br>
+ - A paints table where each users paint is stored, this would have a many to many relationship to Recipes. </br>
+ - A recipes table, where each users paint recipes are stored. </br>
+</br>
 One issue with the above is that the Paints table could, over time become unwieldy, since the relationship being one to many implies theirs potential for paint duplication. I could make this many to many, but this could also introduce issues where users could add a paint for it to be then updated by another user, which may produce less than ideal outcomes. 
 
-Option 2
-Would be to allow the users to not only add their own paints, but to have a list of pre-existing paints that users can select from. Effectively giving me 4 tables. 
-A user table which would have two one to many relationships with the user_paints and recipes tables. 
-A default_paints table which would store a predetermined 'stock' list of paints which the users could pick from. 
-A user_paints table where the users paints would be stored. This could store either references to the default_paints table, or have the data from that table copied to itself. Assuming we're referencing paints, this would need a many to one relationship to the default_paints table. 
-A recipes table which contains the users recipes, which would have a many to many relationship with the user_paints table. 
+Option 2</br>
+Would be to allow the users to not only add their own paints, but to have a list of pre-existing paints that users can select from. Effectively giving me 4 tables. </br>
+ - A user table which would have two one to many relationships with the user_paints and recipes tables. </br>
+ - A default_paints table which would store a predetermined 'stock' list of paints which the users could pick from. </br>
+ - A user_paints table where the users paints would be stored. This could store either references to the default_paints table, or have the data from that table copied to itself. Assuming we're referencing paints, this would need a many to one relationship to the default_paints table. </br>
+ - A recipes table which contains the users recipes, which would have a many to many relationship with the user_paints table. 
 
 Of the two options, I think the 4 table solution offers the most performant options with the least amount of repetition of data. 
 
-Current version. 
-Due to the relative complexity of the initial project plan, I have scaled back a little to focus on just the paint recipes section, since this requires 6 or 7 tables to get working how I would like it to. 
+Final version. </br>
+Due to the relative complexity of the initial project plan, I have scaled back a little to focus on just the paint recipes section, since this requires 6 tables to get working how I would like it to. 
 
-- user
-This is the table where all the user data will be stored, such as username, password, email etc. 
-  user_id - an auto incrementing field, which stores the tables primary key. 
-  email - a text field, used for storing each users email address to allow for login and password reset functionality.
-  username - a text field where the user could store their username which would be used to display personalised messaging as well as allow for login. 
-  password - a text field for the users password. 
+user </br>
+This is the table where all the user data will be stored, such as username, password, email etc. </br>
+ - user_id - an auto incrementing field, which stores the tables primary key. </br>
+ - email - a text field, used for storing each users email address to allow for login and password reset functionality.</br>
+ - username - a text field where the user could store their username which would be used to display personalised messaging as well as allow for login. </br>
+ - password - a text field for the users password. 
 
-- recipes
-This is where the users recipes will be stored. It will have a foreign key for the users table, to allow for a one to many relationship to the users table so each user may create many recipes. 
-  recipe_Id - an auto incrementing field which stores the tables primary key. 
-  user_id - the foreign key used for the one to many relationship to the users table. 
-  recipe_name - a text field for storing the name of each recipe, eg 'Space Marine Captain', 'Dark Eldar Reavers' etc. 
-  recipe_desc - a text field used to store a description of the recipe, where the user can describe what the recipe is for and any paints used in it. 
+recipes</br>
+This is where the users recipes will be stored. It will have a foreign key for the users table, to allow for a one to many relationship to the users table so each user may create many recipes. </br>
+ - recipe_Id - an auto incrementing field which stores the tables primary key. </br>
+ - user_id - the foreign key used for the one to many relationship to the users table. </br>
+ - recipe_name - a text field for storing the name of each recipe, eg 'Space Marine Captain', 'Dark Eldar Reavers' etc. </br>
+ - recipe_desc - a text field used to store a description of the recipe, where the user can describe what the recipe is for and any paints used in it. </br>
 
-- recipe_stages
-This table is for the each specific stage of the recipe. A recipe should consist of at least one stage and be able to extend as far as is needed to meet the users requirements. This has a one to many relationship with the recipes table. 
-  stage_id - an auto incrementing field, which stores the tables primary key. 
-  recipe_id - the foreign key to link to the recipes table for the one to many relationship since each recipe will have one or more stages.  
-  stage_num - a numerical value the user can enter to delineate the order of stages. Eg stage 1, stage 2 etc. 
-  instructions - text based instructions for each stage of the recipe. Eg - 'Apply a base coat of Dark Angels Green'
-  is_final_stage - a boolean value where, when adding stages to the recipe, the user is able to confirm if the stage they are adding is the last stage of the recipe, which then flags any assigned image to this stage to be usable in the thumbnail for the recipe and the recipes description - effectively showing the finished product. 
+recipe_stages</br>
+This table is for the each specific stage of the recipe. A recipe should consist of at least one stage and be able to extend as far as is needed to meet the users requirements. This has a one to many relationship with the recipes table. </br>
+ - stage_id - an auto incrementing field, which stores the tables primary key. </br>
+ - recipe_id - the foreign key to link to the recipes table for the one to many relationship since each recipe will have one or more stages. </br> 
+ - stage_num - a numerical value the user can enter to delineate the order of stages. Eg stage 1, stage 2 etc. </br>
+ - instructions - text based instructions for each stage of the recipe. Eg - 'Apply a base coat of Dark Angels Green'</br>
+ - is_final_stage - a boolean value where, when adding stages to the recipe, the user is able to confirm if the stage they are adding is the last stage of the recipe, which then flags any assigned image to this stage to be usable in the thumbnail for the recipe and the recipes description - effectively showing the finished product. 
 
-- recipe_images
-This table is used to store images for each stage of the recipe, ideally a placeholder image should be stored here if the user opts to not upload an image of their own. It has a one to many relationship to the recipe_stages table, allowing each stage to have multiple images if needed. 
-  image_id - an auto incrementing field, which stores the tables primary key. 
-  stage_id - the foreign key used to link to the recipe stages table for the one to many relationship, since each stage could have multiple images. 
-  image_url - the URL string of the uploaded image, automatically inserted when the user uploads an image. 
-  alt_text - a text string for the image alt text to ensure basic accessibility standards are met. 
+recipe_images</br>
+This table is used to store images for each stage of the recipe, ideally a placeholder image should be stored here if the user opts to not upload an image of their own. It has a one to many relationship to the recipe_stages table, allowing each stage to have multiple images if needed. </br>
+ - image_id - an auto incrementing field, which stores the tables primary key. </br>
+ - stage_id - the foreign key used to link to the recipe stages table for the one to many relationship, since each stage could have multiple images. </br>
+ - image_url - the URL string of the uploaded image, automatically inserted when the user uploads an image. </br>
+ - alt_text - a text string for the image alt text to ensure basic accessibility standards are met. </br>
 
-- entity_tags   
-This table isn't directly updatable by the user, instead its used to allow for a many to many relationship between the recipes table and the recipe_tags table. 
-  recipe_id - a foreign key, linking to the recipes table. 
-  tag_id - a foreign key linking to the tags table. 
-  entity_type - this isn't used in the MVP release, which features just the users recipes - in the final version this will be auto filled with the entity that the tag relates to, eg 'paint', 'recipe', 'miniature' and so on. 
+entity_tags   </br>
+This table isn't directly updatable by the user, instead its used to allow for a many to many relationship between the recipes table and the recipe_tags table. </br>
+ - recipe_id - a foreign key, linking to the recipes table. </br>
+ - tag_id - a foreign key linking to the tags table. </br>
+ - entity_type - this isn't used in the MVP release, which features just the users recipes - in the final version this will be auto filled with the entity that the tag relates to, eg 'paint', 'recipe', 'miniature' and so on. 
 
-- recipe_tags
-This table exists purely to store the tags that each user adds. Since it has a many to many relationship thanks to the recipe_tags table, each user can use any tag that is added in any recipe they may create, which should help limit potential data duplication as more users join the service. 
-  tag_id - an auto incrementing field, which stores the tables primary key. 
-  tag_name - a text field where the tag name will be stored. 
+recipe_tags</br>
+This table exists purely to store the tags that each user adds. Since it has a many to many relationship thanks to the recipe_tags table, each user can use any tag that is added in any recipe they may create, which should help limit potential data duplication as more users join the service. </br>
+ - tag_id - an auto incrementing field, which stores the tables primary key. </br>
+ - tag_name - a text field where the tag name will be stored. </br>
 
 While i have larger plans around the ability to catalogue paints owned by a user and link them to their recipes, their is a chance due to time constraints that this may not make into an MVP release, as such the above schema is designed with a degree of adaptability in mind, allowing me to add in additional tables to handle other data, either via many to many relationships or one to many relationships.   
 # Security and best Practices
