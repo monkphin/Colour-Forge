@@ -16,8 +16,10 @@
    "workbench.colorTheme": "Visual Studio Dark",
    "terminal.integrated.gpuAcceleration": "canvas",
    "cSpell.words": [
+      "backref",
       "colourforge",
       "Eldar",
+      "ondelete",
       "Reavers"
    ],
 }
