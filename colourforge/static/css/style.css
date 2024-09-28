@@ -8,6 +8,10 @@ main {
     flex: 1 0 auto;
 }
 
+img {
+    padding: 10px;
+}
+
 .image-container {
     display: flex;
     justify-content: center;
@@ -17,4 +21,13 @@ main {
 
 .site-logo {
     max-width: 100%;
+}
+
+.carousel-container {
+    justify-content: center;
+    align-items: center;
+}
+
+.carousel-title {
+    align-items: center;
 }

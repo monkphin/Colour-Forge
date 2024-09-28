@@ -1,12 +1,37 @@
 {% extends "base.html" %}
 {% block content %}
 
-<!--Login Display-->
+<!--Not Logged In Display-->
 
-<div class="image-container">
+<!--<div class="image-container">
     <img class="site_logo" src={{ url_for('static', filename='images/logo.png') }}></img>
-</div>
+</div>-->
 
 <!--Logged in Display-->
+
+<div class="col s12 m12">
+    <a href="{{ url_for('add_recipe') }}">
+      <div class="card horizontal small-card s6 m6">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe">
+        </div>
+        <div class="card-content">
+          <h2 class="card-title">Add Recipe</h2>
+          <p>Quickly add a new paint recipe</p>
+        </div>
+      </div>
+    </a>
+  </div>
+  <div class="carousel-container">
+    <div class="carousel">
+      <h3 class="carousel-title">Youre recipes</h3>
+      <a class="carousel-item" href="#one!"><img src="https://picsum.photos/200"></a>
+      <a class="carousel-item" href="#two!"><img src="https://picsum.photos/200"></a>
+      <a class="carousel-item" href="#three!"><img src="https://picsum.photos/200"></a>
+      <a class="carousel-item" href="#four!"><img src="https://picsum.photos/200"></a>
+      <a class="carousel-item" href="#five!"><img src="https://picsum.photos/200"></a>
+    </div>
+  </div>
+      
 
 {% endblock %}
