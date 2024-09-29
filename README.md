@@ -393,74 +393,69 @@ While i have larger plans around the ability to catalogue paints owned by a user
 
  - Used to generate secret Key
 
+ - [Cloudinary](https://cloudinary.com/users/login)
+
+ - Used to host image files
+
 # Testing and Validation
 
 ## Use based functionality testing
-While working on building basic functionality. It occurred to me that I would need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
+While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
 
-- add recipe
+### add recipe
 <details>
 <summary>basic functionality to write to the recipes table</summary>
 <img src="docs/assets/add_recipe_test.png">
-</details>
 
-<details>
-<summary>Output of writing to the recipes table </summary>
-Recipe Name: This is a test of the add recipe function
-Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
-127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -
-</details>
+Output of writing to the recipes table<br>
 
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> \dt
-           List of relations
+Recipe Name: This is a test of the add recipe function<br>
+Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.<br>
+127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+
+Recipes table contents<br>
+open_punch_bath_8981=> \dt<br>
+           List of relations<br>
  Schema |  Name   | Type  |    Owner
 --------+---------+-------+-------------
  public | recipes | table | urbqgoc5q8y
-(1 row)
-
-open_punch_bath_8981=> select * from recipes;
+(1 row)<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |                recipe_name                |                                                                recipe_desc
 -----------+-------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------
          1 | This is a test of the add recipe function | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
 (1 row)
-
+</details>
 
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>Output of writing to the recipe and recipe_stages tables</summary>
 <img src="docs/assets/add_recipe_test2.png">
-</details>
 
-<details>
-<summary>Output of writing to the recipe and recipe_stages tables </summary>
-Recipe Name: This is a test of the recipe stages
-Recipe Description: Testing to see if a single stage can be added OK
-2
-Instructions List: ['Just a single stage test. ']
-Is Final Stage?: None
-127.0.0.1 - - [29/Sep/2024 21:22:27] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 21:22:27] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/css/style.css HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/images/logo.png HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -
-</details>
+Recipe Name: This is a test of the recipe stages<br>
+Recipe Description: Testing to see if a single stage can be added OK<br>
+2<br>
+Instructions List: ['Just a single stage test. ']<br>
+Is Final Stage?: None<br>
+127.0.0.1 - - [29/Sep/2024 21:22:27] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 21:22:27] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> \dt
+open_punch_bath_8981=> \dt<br>
               List of relations
  Schema |     Name      | Type  |    Owner
 --------+---------------+-------+-------------
  public | recipe_stages | table | urbqgoc5q8y
  public | recipes       | table | urbqgoc5q8y
-(2 rows)
-
-open_punch_bath_8981=> select * from recipes;
+(2 rows)<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |             recipe_name             |                   recipe_desc
 -----------+-------------------------------------+--------------------------------------------------
          1 | This is a test of the recipe stages | Testing to see if a single stage can be added OK
@@ -471,38 +466,31 @@ open_punch_bath_8981=> select * from recipe_stages;
 ----------+-----------+-----------+----------------------------+----------------
         1 |         1 |         1 | Just a single stage test.  | f
 (1 row)
-
 </details>
 
 
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>basic functionality to write to the recipes table and add multiple stages to the recipes_stages table</summary>
 <img src="docs/assets/add_recipe_test3.png">
-</details>
-
-<details>
-<summary>Output of writing to the recipe and recipe_stages tables </summary>
-Recipe Name: Testing adding 2 stages
-Recipe Description: This is a test of 2 stages
-3
-Instructions List: ['This is the first stage.', 'This is the second stage. ']
-Is Final Stage?: None
-127.0.0.1 - - [29/Sep/2024 21:25:01] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 21:25:01] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/images/logo.png HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/js/script.js HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -
-</details>
-
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> select * from recipes;
+<br>
+Recipe Name: Testing adding 2 stages<br>
+Recipe Description: This is a test of 2 stages<br>
+3<br>
+Instructions List: ['This is the first stage.', 'This is the second stage. ']<br>
+Is Final Stage?: None<br>
+127.0.0.1 - - [29/Sep/2024 21:25:01] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 21:25:01] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |       recipe_name       |        recipe_desc
 -----------+-------------------------+----------------------------
          1 | Testing adding 2 stages | This is a test of 2 stages
-(1 row)
-
-open_punch_bath_8981=> select * from recipe_stages;
+(1 row)<br>
+<br>
+open_punch_bath_8981=> select * from recipe_stages;<br>
  stage_id | recipe_id | stage_num |        instructions        | is_final_stage 
 ----------+-----------+-----------+----------------------------+----------------
         1 |         1 |         1 | This is the first stage.   | f
@@ -510,36 +498,28 @@ open_punch_bath_8981=> select * from recipe_stages;
 (2 rows)
 </details>
 
-
-
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>Output of writing to the recipe and recipe_stages tables and testing the Boolean</summary>
 <img src="docs/assets/add_recipe_test4.png">
-</details>
 
-<details>
-<summary>Output of writing to the recipe and recipe_stages tables </summary>
-Recipe Name: Testing three stages with a final stage
-Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. 
-4
-Instructions List: ['This is stage 1 of the third test', 'This is stage 2 of the third test', 'This is stage 3 of the third test']
-Is Final Stage?: on
-127.0.0.1 - - [29/Sep/2024 21:28:22] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/css/style.css HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/images/logo.png HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -
-</details>
-
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> select * from recipes;
+Recipe Name: Testing three stages with a final stage<br>
+Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. <br>
+4<br>
+Instructions List: ['This is stage 1 of the third test', 'This is stage 2 of the third test', 'This is stage 3 of the third test']<br>
+Is Final Stage?: on<br>
+127.0.0.1 - - [29/Sep/2024 21:28:22] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |               recipe_name               |                                                                       recipe_desc
 -----------+-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------
          1 | Testing three stages with a final stage | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
-(1 row)
-
-open_punch_bath_8981=> select * from recipe_stages;
+(1 row)<br>
+<br>
+open_punch_bath_8981=> select * from recipe_stages;<br>
  stage_id | recipe_id | stage_num |           instructions            | is_final_stage 
 ----------+-----------+-----------+-----------------------------------+----------------
         1 |         1 |         1 | This is stage 1 of the third test | t
@@ -550,34 +530,28 @@ open_punch_bath_8981=> select * from recipe_stages;
 It seemed this assigned true to all stages, rather than just the last. This caused me to rethink how this should be handled, either giving the user an option per stage, which seems like too clunky a solution. Or to automatically assume the last stage added is the last stage of the instructions, which would make more sense since this is where we would normally expect the image used in the card for the recipe to be selected from. 
 
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>Output of writing to the recipe and recipe_stages tables and testing the new Boolean logic</summary>
 <img src="docs/assets/add_recipe_test5.png">
-</details>
-
-<details>
-<summary>Output of writing to the recipe and recipe_stages tables </summary>
-Recipe Name: Retest of multiple stages, with the new logic for the final stage added
-Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
-5
-Instructions List: ['This stage 1 of the test of the adjusted Boolean handling', 'This stage 2 of the test of the adjusted Boolean handling', 'This stage 3 of the test of the adjusted Boolean handling', 'This stage 4 of the test of the adjusted Boolean handling']
-Is Final Stage?: None
-127.0.0.1 - - [29/Sep/2024 21:43:16] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 21:43:16] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/js/script.js HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/css/style.css HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -
-</details>
-
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> select * from recipes;
+<br>
+Recipe Name: Retest of multiple stages, with the new logic for the final stage added<br>
+Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image<br>
+5<br>
+Instructions List: ['This stage 1 of the test of the adjusted Boolean handling', 'This stage 2 of the test of the adjusted Boolean handling', 'This stage 3 of the test of the adjusted Boolean handling', 'This stage 4 of the test of the adjusted Boolean handling']<br>
+Is Final Stage?: None<br>
+127.0.0.1 - - [29/Sep/2024 21:43:16] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 21:43:16] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc
 -----------+-------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          1 | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
          2 | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
-(2 rows)
-
-open_punch_bath_8981=> select * from recipe_stages;
+(2 rows)<br>
+<br>
+open_punch_bath_8981=> select * from recipe_stages;<br>
  stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage 
 ----------+-----------+-----------+-----------------------------------------------------------+----------------
         1 |         1 |         1 | This is stage 1 of the third test                         | t
@@ -590,37 +564,31 @@ open_punch_bath_8981=> select * from recipe_stages;
 </details>
 
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>Output of writing to the recipe and recipe_stages tables and testing the fix Boolean logic</summary>
 <img src="docs/assets/add_recipe_test6.png">
-</details>
-
-<details>
-<summary>Output of writing to the recipe and recipe_stages tables </summary>
-Recipe Name: Test of adjusted logic for Bool handling
-Recipe Description: THis is hopefully a final test for the adjusted Boolean logic
-3
-Instructions List: ['Stage 1 of the adjusted logic test', 'Stage 2 of the adjusted logic test']
-Is Final Stage?: None
-127.0.0.1 - - [29/Sep/2024 21:55:34] "POST /add_recipe HTTP/1.1" 302 -
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /recipes HTTP/1.1" 200 -
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/css/style.css HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/images/logo.png HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/js/script.js HTTP/1.1" 304 -
-127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -
-</details>
-
-<details>
-<summary>Recipes table contents</summary>
-open_punch_bath_8981=> select * from recipes;
+<br>
+Recipe Name: Test of adjusted logic for Bool handling<br>
+Recipe Description: THis is hopefully a final test for the adjusted Boolean logic<br>
+3<br>
+Instructions List: ['Stage 1 of the adjusted logic test', 'Stage 2 of the adjusted logic test']<br>
+Is Final Stage?: None<br>
+127.0.0.1 - - [29/Sep/2024 21:55:34] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> select * from recipes;<br>
  recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc
 -----------+-------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
          1 | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
          2 | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
          3 | Testing adjusted logic for last stage check                             | Adjusted logic check for final stage logic
          4 | Test of adjusted logic for Bool handling                                | THis is hopefully a final test for the adjusted Boolean logic
-(4 rows)
-
-open_punch_bath_8981=> select * from recipe_stages;
+(4 rows)<br>
+<br>
+open_punch_bath_8981=> select * from recipe_stages;<br>
  stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage 
 ----------+-----------+-----------+-----------------------------------------------------------+----------------
         1 |         1 |         1 | This is stage 1 of the third test                         | t

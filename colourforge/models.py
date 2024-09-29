@@ -53,7 +53,7 @@ class RecipeStages(db.Model):
     def __repr__(self):
         return f"<Stage {self.stage_num}: {self.instructions[:50]}...>"
 
-"""
+
 class RecipeImages(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_images'
@@ -61,14 +61,14 @@ class RecipeImages(db.Model):
     # schema for the recipe_images modal
     image_id = db.Column(db.Integer, primary_key=True)
     stage_id = db.Column(db.Integer, db.ForeignKey("recipe_stages.stage_id", ondelete='CASCADE'), nullable=False)
-    image_url = db.Column(db.String(255), nullable=False, default='/static/images/stages_placeholder.jpg')
-    thumbnail_url = db.Column(db.String(255), nullable=False, default='/static/images/stages_placeholder_thumb.jpg')
+    image_url = db.Column(db.String(255), nullable=True)
+    thumbnail_url = db.Column(db.String(255), nullable=True)
     alt_text = db.Column(db.String(255), nullable=True)
 
     def __repr__(self):
         return f"<Image {self.image_url}>"
 
-
+"""
 class RecipeTags(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_tags'
