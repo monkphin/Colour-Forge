@@ -389,7 +389,47 @@ While i have larger plans around the ability to catalogue paints owned by a user
 
   - Used for version control, storage and deployment.  
 
+- [Djecrety](https://djecrety.ir/)
+
+ - Used to generate secret Key
+
 # Testing and Validation
+
+## Use based functionality testing
+While working on building basic functionality. It occurred to me that I would need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
+
+- add recipe
+<details>
+<summary>basic functionality to write to the recipes table</summary>
+<img src="docs/assets/add_recipe.png">
+</details>
+
+<details>
+<summary>Output of writing to the recipes table </summary>
+Recipe Name: This is a test of the add recipe function
+Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
+127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -
+</details>
+
+<details>
+<summary>Recipes table contents</summary>
+open_punch_bath_8981=> \dt
+           List of relations
+ Schema |  Name   | Type  |    Owner
+--------+---------+-------+-------------
+ public | recipes | table | urbqgoc5q8y
+(1 row)
+
+open_punch_bath_8981=> select * from recipes;
+ recipe_id |                recipe_name                |                                                                recipe_desc
+-----------+-------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------
+         1 | This is a test of the add recipe function | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
+(1 row)
+</details>
 
 # Version control and Deployment
 

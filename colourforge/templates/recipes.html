@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Recipes</h2>
+<div class="row">
+  <form class="col s12">
+    <div class="row">
+      <div class="input-field col s12">
+        <input placeholder="Recipe Name" id="recipe_name" type="text" class="validate">
+        <label for="recipe_name">Recipe Name</label>
+      </div>
+      <div class="row">
+        <div class="input-field col s12">
+          <textarea id="recipe_desc" class="materialize-textarea"></textarea>
+          <label for="receipe_desc">Receipe Description</label>
+        </div>
+      </div>
+    </div>    
+  </form>
+</div>
+
+{% endblock %}

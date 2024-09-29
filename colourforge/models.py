@@ -1,6 +1,7 @@
 from colourforge import db
 
 
+"""
 class User(db.Model):
     # Explicitly set the table name
     __tablename__ = 'user'
@@ -16,7 +17,8 @@ class User(db.Model):
 
     def __repr__(self):
         # __repr__ to represent itself in the form of a string
-        return f"<User {self.user_name}>"
+        return f"<User {self.user_name}>
+"""
 
 
 class Recipes(db.Model):
@@ -25,18 +27,18 @@ class Recipes(db.Model):
 
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
+    # user_id = db.Column(db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
     recipe_name = db.Column(db.String(150), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 
     # Relationship to other models
-    stages = db.relationship('RecipeStages', backref='recipe', lazy=True)
-    tags = db.relationship('EntityTags', backref='recipe', lazy=True)
+    # stages = db.relationship('RecipeStages', backref='recipe', lazy=True)
+    # tags = db.relationship('EntityTags', backref='recipe', lazy=True)
 
     def __repr__(self):
         return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>" 
 
-
+"""
 class RecipeStages(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_stages'
@@ -89,4 +91,5 @@ class EntityTags(db.Model):
     entity_type = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>"
+        return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>
+"""
