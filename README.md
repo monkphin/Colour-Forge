@@ -635,7 +635,6 @@ open_punch_bath_8981=> select * from recipe_stages;
 (9 rows)
 </details>
 
-
 # Version control and Deployment
 
 # Credits
