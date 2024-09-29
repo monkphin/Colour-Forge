@@ -16,10 +16,11 @@
         </div>
         <div class="row">
           <div class="input-field col s12">
-            <textarea id="instructions" name="instructions" class="materialize-textarea" required></textarea>
-            <label for="instructions">Stage One Instructions</label>
+            <textarea id="instructions" name="instruction[]" class="materialize-textarea input" required></textarea>
+            <label for="instructions">Stage 1 Instructions</label>
           </div>        
-          <button type="button" class="instructions">Add field</button>
+          <button type="button" class="add_field">Add Stage</button>
+          <button type="button" class="remove_field">Remove Stage</button>
         </div>  
         <!-- Final Stage Switch to allow user to set image to be the card image on the recipes page -->
         <div class="row valign-wrapper">
