@@ -434,3 +434,6 @@ open_punch_bath_8981=> select * from recipes;
 # Version control and Deployment
 
 # Credits
+
+
+Placeholder image for recipes from https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/

@@ -31,3 +31,12 @@ img {
 .carousel-title {
     align-items: center;
 }
+
+form {
+    padding: 20px;
+  }
+  
+  input {
+    width: 100%;
+    margin-bottom: 5px;
+  }

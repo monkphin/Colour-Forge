@@ -1,8 +1,12 @@
-document.addEventListener("DOMContentLoaded", function() {
-    // sidenav initialization
-    let sidenav = document.querySelectorAll(".sidenav");
-    M.Sidenav.init(sidenav);
-    // carousel initialization
-    let carousel = document.querySelectorAll('.carousel');
-    M.Carousel.init(carousel);
+$(document).ready(function(){
+    // Initialize sidenav
+    $('.sidenav').sidenav();
+
+    // Initialize carousel
+    $('.carousel').carousel();
+
+    // Dynamically add new input field after the last input
+    $(document).on('click', '.add_field', function() {
+        $('<input type="text" class="input" name="field[]" value="">').insertAfter('.input:last');
+    });
 });
