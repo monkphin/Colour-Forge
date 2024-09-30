@@ -3,6 +3,7 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 import cloudinary
 import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
 if os.path.exists("env.py"):
     import env # noqa
 

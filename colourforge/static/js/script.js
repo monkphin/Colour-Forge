@@ -9,27 +9,26 @@ $(document).ready(function(){
     $(document).on('click', '.add_field', function() {
         var stageCount = $('.input').length + 1;  // Get the current count of inputs and increment by 1
         var newStage = `
-            <div class="input-field col s12">
-              <textarea class="materialize-textarea input" name="instructions[]"></textarea>
+            <div class="input-field col s12 multi-stage">
+              <textarea id="instructions" name="instructions[]" class="materialize-textarea input" required></textarea>
               <label for="instructions">Stage ${stageCount} Instructions</label>
               <div class="file-field input-field">
                 <div class="btn">
-                  <span>File</span>
-                <input type="file" name="images" accept="image/*" multiple>
+                  <span>Add Images</span>
+                  <input type="file" name="images" accept="image/*" multiple>
                 </div>
                 <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Upload one or more images here">
+                  <input class="file-path validate" type="text" placeholder="Upload one or more images here for stage ${stageCount}">
+                  <div class="input-field">
+                    <textarea id="image_desc" name="image_desc" class="materialize-textarea"></textarea>
+                    <label for="image_desc">Image Description</label>
+                  </div>
                 </div>
-              </div>
             </div>
         `;
         $('.input:last').parent().after(newStage);  // Insert after the last input
     });
     $(document).on('click', '.remove_field', function() {
-        $('.input-field:last').remove();
+        $('.multi-stage:last').remove();
     });
 });
-
-
-
-
