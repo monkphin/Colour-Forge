@@ -20,7 +20,6 @@ $(document).ready(function(){
       }
     });
 
-
     // Dynamically add new input field after the last input
     $(document).on('click', '.add_field', function() {
         var stageCount = $('.input').length + 1;  // Get the current count of inputs and increment by 1
