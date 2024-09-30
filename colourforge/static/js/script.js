@@ -5,6 +5,22 @@ $(document).ready(function(){
     // Initialize carousel
     $('.carousel').carousel();
 
+    // Initialize Tags
+    $('.chips-autocomplete').chips({
+      placeholder: 'Enter a tag',
+      secondaryPlaceholder: '+Tag',
+      autocompleteOptions: {
+        data: {
+          'Apple': null,
+          'Microsoft': null,
+          'Google': null
+        },
+        limit: Infinity,
+        minLength: 1
+      }
+    });
+
+
     // Dynamically add new input field after the last input
     $(document).on('click', '.add_field', function() {
         var stageCount = $('.input').length + 1;  // Get the current count of inputs and increment by 1

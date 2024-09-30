@@ -33,7 +33,7 @@ class Recipes(db.Model):
 
     # Relationship to other models
     stages = db.relationship('RecipeStages', backref='recipe', lazy=True)
-    # tags = db.relationship('EntityTags', backref='recipe', lazy=True)
+    tags = db.relationship('EntityTags', backref='recipe', lazy=True)
 
     def __repr__(self):
         return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>" 
@@ -68,7 +68,7 @@ class RecipeImages(db.Model):
     def __repr__(self):
         return f"<Image {self.image_url}>"
 
-"""
+
 class RecipeTags(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_tags'
@@ -91,5 +91,4 @@ class EntityTags(db.Model):
     entity_type = db.Column(db.String(50), nullable=False)
 
     def __repr__(self):
-        return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>
-"""
+        return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>"
