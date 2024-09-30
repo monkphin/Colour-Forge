@@ -603,13 +603,182 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 (9 rows)
 </details>
 
+<details>
+<summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
+<img src="docs/assets/add_recipe_test7.png">
+<br>
+Recipe Name: This is a test of adding the images to Cloudinary and the DB<br>
+Recipe Description: Testing of image upload for a single stage<br>
+1<br>
+Instructions List: ['This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL. ']<br>
+Is Final Stage?: None<br>
+Image names: [<FileStorage: 'hero-image.png' ('image/png')>]<br>
+127.0.0.1 - - [30/Sep/2024 18:04:08] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> SELECT * FROM recipes;<br>
+ recipe_id |                         recipe_name                          |                recipe_desc
+-----------+--------------------------------------------------------------+--------------------------------------------
+         1 | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage
+(1 row)
+
+open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
+ stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage
+----------+-----------+-----------+-------------------------------------------------------------------------------------------------------------+----------------
+        1 |         1 |         1 | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t
+(1 row)
+
+open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
+ image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text
+----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+--------------------------------------------------------------------------
+        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.
+(1 row)
+</details>
+
+<details>
+<summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
+<img src="docs/assets/add_recipe_test8.png">
+<br>
+Recipe Name: This is a test of adding multiple images<br>
+Recipe Description: Will try for three images this time over 4 stages<br>
+1<br>
+Instructions List: ['This is the first stages image', 'This is the second stages image', 'The third stage will have no alt_text added', 'This will have no image attached ']<br>
+Is Final Stage?: None<br>
+Image names: [<FileStorage: '404-page-desktop.png' ('image/png')>]<br>
+127.0.0.1 - - [30/Sep/2024 18:12:03] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> SELECT * FROM recipes;<br>
+ recipe_id |                         recipe_name                          |                    recipe_desc
+-----------+--------------------------------------------------------------+---------------------------------------------------
+         1 | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage
+         2 | This is a test of adding multiple images                     | Will try for three images this time over 4 stages
+(2 rows)
+
+open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
+ stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage 
+----------+-----------+-----------+-------------------------------------------------------------------------------------------------------------+----------------
+        1 |         1 |         1 | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t
+        2 |         2 |         1 | This is the first stages image                                                                              | f
+(2 rows)
+
+open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
+ image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text
+----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+--------------------------------------------------------------------------
+        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.
+        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727716322/tnp1ssx1ac3gjs8blb0g.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/tnp1ssx1ac3gjs8blb0g.jpg | Sad Pikachu!
+(2 rows)
+(1 row)
+</details>
+
+The above only seemed to add a single image of the several that were input. On inspection, I'd missed creating the images and alt text entries as arrays. 
+
+<details>
+<summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
+<img src="docs/assets/add_recipe_test9.png">
+<br>
+Recipe Name: Testing multiple image uploads<br>
+Recipe Description: This is a test<br>
+3<br>
+Instructions List: ['Stage 1', 'Stage 2', 'Stage 3']<br>
+Is Final Stage?: None<br>
+Image names: ['404-page-desktop.png', 'hero-image.png', 'Screenshot 2024-06-16 123914.png']<br>
+alt text: ['Sad pika', 'Hero Image', 'Local Map']<br>
+127.0.0.1 - - [30/Sep/2024 22:17:19] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> SELECT * FROM recipes;<br>
+ recipe_id |          recipe_name           |  recipe_desc   
+-----------+--------------------------------+----------------
+         1 | Testing multiple image uploads | This is a test
+(1 row)
+
+open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
+ stage_id | recipe_id | stage_num | instructions | is_final_stage 
+----------+-----------+-----------+--------------+----------------
+        1 |         1 |         1 | Stage 1      | f
+        2 |         1 |         2 | Stage 2      | f
+        3 |         1 |         3 | Stage 3      | t
+(3 rows)
+
+open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
+ image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |  alt_text  
+----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+------------
+        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika
+        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image
+        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map
+(3 rows)
+</details>
+
+<details>
+<summary>Out put of testing unexpected behaviours, such as not filling in all fields, forgetting to add alt-text (image description), forgetting to add an image, etc.</summary>
+<img src="docs/assets/add_recipe_test10.png">
+<img src="docs/assets/add_recipe_test10a.png">
+<br>
+Recipe Name: Test of not adding data to all fields for multiple stages<br>
+Recipe Description: Some stages will have all fields filled. Some will not.<br>
+5<br>
+Instructions List: ['Stage 1 - this is the control and will have data in all fields ', 'Stage 2 - this will only have the instructions ', 'Stage 3 - This will just be an image', "Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this. ", 'Stage 5 - this needed to be filled in to submit, as expected']<br>
+Is Final Stage?: None<br>
+Image names: ['Screenshot 2024-06-08 021116.png', '', 'Screenshot 2024-09-12 223744.png', '', 'Screenshot 2024-07-25 202904.png']<br>
+alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mockup - In this instance I'm testing adding images and no Instructions"]<br>
+127.0.0.1 - - [30/Sep/2024 22:28:38] "POST /add_recipe HTTP/1.1" 302 -<br>
+127.0.0.1 - - [30/Sep/2024 22:28:38] "GET /recipes HTTP/1.1" 200 -<br>
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+<br>
+open_punch_bath_8981=> SELECT * FROM recipes;<br>
+ recipe_id |                        recipe_name                        |                       recipe_desc
+-----------+-----------------------------------------------------------+----------------------------------------------------------
+         1 | Testing multiple image uploads                            | This is a test
+         2 | Test of not adding data to all fields for multiple stages | Some stages will have all fields filled. Some will not.
+(2 rows)
+
+open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
+ stage_id | recipe_id | stage_num |                                                                                                     instructions                                                                                                     | is_final_stage 
+----------+-----------+-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------
+        1 |         1 |         1 | Stage 1                                                                                                                                                                                                              | f
+        2 |         1 |         2 | Stage 2                                                                                                                                                                                                              | f
+        3 |         1 |         3 | Stage 3                                                                                                                                                                                                              | t
+        4 |         2 |         1 | Stage 1 - this is the control and will have data in all fields                                                                                                                                                       | f
+        5 |         2 |         2 | Stage 2 - this will only have the instructions                                                                                                                                                                       | f
+        6 |         2 |         3 | Stage 3 - This will just be an image                                                                                                                                                                                 | f
+        7 |         2 |         4 | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f
+        8 |         2 |         5 | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t
+(8 rows)
+
+open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
+ image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                   alt_text
+----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------
+        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika
+        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image
+        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map
+        4 |        4 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731716/jwrsx0hlqixuxl2k1fdc.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/jwrsx0hlqixuxl2k1fdc.jpg | The Thing
+        5 |        6 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731717/ytwtbmoc6wmrxenzk5fj.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ytwtbmoc6wmrxenzk5fj.jpg |
+        6 |        8 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731718/xeynhlcgz4jbzuysjg34.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/xeynhlcgz4jbzuysjg34.jpg | Phone Mockup - In this instance I'm testing adding images and no Instructions
+(6 rows)
+</details>
+
+The above test, while initially using 6 stages for testing, also let me test what would happen if I removed a stage using the remove button before submitting, since the 5th and 6th stages were both initially intended to have the instructions empty, with the sixth stage having just the images alt-text added. Since both stages were unable to be submitted as empty as per design this meant that stage 6 was no longer needed, allowing me to prove the removal of a stage stops it being submitted. 
+
 # Version control and Deployment
 
 # Credits
 
 
 Placeholder image for recipes from https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/
-
 
 
 

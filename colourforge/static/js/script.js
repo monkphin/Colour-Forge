@@ -15,12 +15,12 @@ $(document).ready(function(){
               <div class="file-field input-field">
                 <div class="btn">
                   <span>Add Images</span>
-                  <input type="file" name="images" accept="image/*" multiple>
+                  <input type="file" name="images[]" accept="image/*">
                 </div>
                 <div class="file-path-wrapper">
-                  <input class="file-path validate" type="text" placeholder="Upload one or more images here for stage ${stageCount}">
+                  <input class="file-path validate" type="text" placeholder="Add an image for this stage: Stage ${stageCount}">
                   <div class="input-field">
-                    <textarea id="image_desc" name="image_desc" class="materialize-textarea"></textarea>
+                    <textarea id="image_desc" name="image_desc[]" class="materialize-textarea"></textarea>
                     <label for="image_desc">Image Description</label>
                   </div>
                 </div>
