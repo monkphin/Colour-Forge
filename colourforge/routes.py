@@ -18,7 +18,7 @@ def home():
 @app.route("/recipes")
 def recipes():
     recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
-
+    
     return render_template("recipes.html", recipes=recipes, tag_dict={})
 
 
