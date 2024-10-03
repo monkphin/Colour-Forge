@@ -62,7 +62,12 @@ def add_recipe():
                 upload_result = cloudinary.uploader.upload(image) 
                 image_url = upload_result.get('secure_url')
                 thumbnail_url, options = cloudinary_url(
-                    upload_result['public_id'], format="jpg", crop="fill", width=100, height=100)
+                    upload_result['public_id'], 
+                    format="jpg", 
+                    crop="fill", 
+                    width=200, 
+                    height=200
+                    )
 
             # Determine if this is the last stage
             is_final_stage = (instruction == instructions[-1])
@@ -112,10 +117,18 @@ def add_recipe():
                             db.session.commit()
 
                         # Check if the tag is already associated with this recipe
-                        existing_tag = EntityTags.query.filter_by(recipe_id=recipe.recipe_id, tag_id=tag.tag_id).first()
+                        existing_tag = EntityTags.query.filter_by(
+                            recipe_id=recipe.recipe_id, 
+                            tag_id=tag.tag_id
+                            ).first()
+                        
                         if not existing_tag:
                             # Associate the tag with the recipe
-                            entity_tag = EntityTags(recipe_id=recipe.recipe_id, tag_id=tag.tag_id, entity_type='recipe')
+                            entity_tag = EntityTags(
+                                recipe_id=recipe.recipe_id, 
+                                tag_id=tag.tag_id, 
+                                entity_type='recipe'
+                                )
                             db.session.add(entity_tag)
 
             db.session.commit()
@@ -129,7 +142,12 @@ def add_recipe():
                     db.session.flush()  # Make sure tag_id is generated before proceeding
 
                     # Associate the tag with the recipe only if it's not already associated
-                    entity_tag = EntityTags(recipe_id=recipe.recipe_id, tag_id=tag.tag_id, entity_type='recipe')
+                    entity_tag = EntityTags(
+                        recipe_id=recipe.recipe_id, 
+                        tag_id=tag.tag_id, 
+                        entity_type='recipe'
+                        )
+                    
                     db.session.add(entity_tag)
 
             stage_num += 1
@@ -142,7 +160,8 @@ def add_recipe():
         return redirect("recipes")
 
     else:
-        # Get collection of existing tags as a variable and iterate through to create a dictionary to match how materialize is handling chips/tags.     
+        # Get collection of existing tags as a variable and iterate through
+        # to create a dictionary to match how materialize is handling chips/tags.     
         all_tags = RecipeTags.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 

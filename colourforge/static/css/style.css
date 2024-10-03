@@ -40,3 +40,9 @@ form {
     width: 100%;
     margin-bottom: 5px;
   }
+
+
+ .col.s4.m4.recipe-cards {
+    min-height: 450px;
+    max-height: 450px;
+  }
