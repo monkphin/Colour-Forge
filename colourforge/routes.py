@@ -17,7 +17,9 @@ def home():
 
 @app.route("/recipes")
 def recipes():
-    return render_template("recipes.html", tag_dict={})
+    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+
+    return render_template("recipes.html", recipes=recipes, tag_dict={})
 
 
 @app.route("/add_recipe", methods=["GET", "POST"])
