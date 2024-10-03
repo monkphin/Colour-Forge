@@ -9,16 +9,26 @@
       <div class="input-field col s12">
         <!-- Recipe Name field -->
         <input id="recipe_name" name="recipe_name" minlength="5" maxlength="150" type="text" class="validate" required>
-        <label for="recipe_name">Recipe Name</label>
+        <label for="recipe_name">Recipe Name (required)</label>
       </div>
 
       <div class="row">
         <div class="input-field col s12">
           <!-- Recipe Description field -->
           <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required></textarea>
-          <label for="recipe_desc">Recipe Description</label>
-          <!-- tags field -->
-          <div class="chips chips-autocomplete"></div>
+          <label for="recipe_desc">Recipe Description (required)</label>
+          <!-- tags field -->          
+          <div class="row">
+            <div class="col s6">
+              <p>Searchable Tags</p>
+              <p>(Optional, press enter for each tag)</p>
+            </div>
+            <div class="col s6">
+              <div class="chips chips-autocomplete"></div>
+              <i class="material-icons clear"></i>
+              <input type="hidden" name="tags" id="tags_input">
+            </div>
+          </div>   
         </div>
 
         <!-- Everything below is the initial stage for the instructions and images -->
@@ -26,15 +36,15 @@
           <div class="input-field col s12">
             <!-- Instructions stage 1 - will always show -->
             <textarea id="instructions" name="instructions[]" class="materialize-textarea input" required></textarea>
-            <label for="instructions">Stage 1 Instructions</label>
+            <label for="instructions">Stage 1 Instructions (required)</label>
             <!-- Image upload handling -->
             <div class="file-field input-field">
               <div class="btn">
-                <span>Add Images</span>
+                <span>Add Image</span>
                 <input type="file" name="images[]" accept="image/*">
               </div>
               <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Add an image for this stage">
+                <input class="file-path validate" type="text" placeholder="Add an optional image for stage 1">
                 <!-- Alt Text field -->
                 <div class="input-field">
                   <textarea id="image_desc" name="image_desc[]" class="materialize-textarea"></textarea>

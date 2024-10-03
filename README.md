@@ -44,6 +44,8 @@ A paint catalogue and recipe book for miniature painters
 
 - [Features](#features)
 
+Tags, these were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully. Eventually I found [this Reddit Thread](https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/) along with this [Stackoverflow thread](https://stackoverflow.com/questions/62894961/problem-with-materialize-chips-autocomplete) and this [Github Issue](https://github.com/Dogfalo/materialize/issues/6401) which all helped me understand what was needed to get this working. 
+
 - [Bugs and Issues](#bugs-and-issues)
 
 - [Technology](#technology)
@@ -368,6 +370,8 @@ While i have larger plans around the ability to catalogue paints owned by a user
 # Features
 
 # Bugs and Issues
+
+Found an odd bug when using the chips feature from Materialize, where it was causing the stage counter to jump from 1 to 3 when adding a new stage. Removing the javascript needed for Chips to be initialized I found the behaviour worked as expected. The easiest fix here was to hard set the stageCount to 1, then increment/decrement it as part of the function to add/remove each stage as needed. This issue also made me realise that the ID tags being assigned were not unique as they're supposed to be, so I corrected this using Jinja to append the stage number to the ID tag for each new stage added by Javascript. 
 
 # Technology
 
@@ -722,7 +726,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 </details>
 
 <details>
-<summary>Out put of testing unexpected behaviours, such as not filling in all fields, forgetting to add alt-text (image description), forgetting to add an image, etc.</summary>
+<summary>Output of testing unexpected behaviours, such as not filling in all fields, forgetting to add alt-text (image description), forgetting to add an image, etc.</summary>
 <img src="docs/assets/add_recipe_test10.png">
 <img src="docs/assets/add_recipe_test10a.png">
 <br>
@@ -772,6 +776,76 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 </details>
 
 The above test, while initially using 6 stages for testing, also let me test what would happen if I removed a stage using the remove button before submitting, since the 5th and 6th stages were both initially intended to have the instructions empty, with the sixth stage having just the images alt-text added. Since both stages were unable to be submitted as empty as per design this meant that stage 6 was no longer needed, allowing me to prove the removal of a stage stops it being submitted. 
+
+<details>
+<summary>Testing writing to all tables needed for adding a recipe, recipes, recipe_stages, recipe_images, recipe_tags and entity_tags  </summary>
+<img src="docs/assets/add_recipe_test11.png">
+<br>
+Recipe Name: Dark Angels Desaturated Power Armour<br>
+Recipe Description: This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour<br>
+1<br>
+Instructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, sinInstructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. ", 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. ']<br>
+Is Final Stage?: None<br>
+Image names: ['404-page-desktop.png', 'game-wave.png', 'hero-image.png', 'jest.png']<br>
+alt text: ['Undercoated Dark Angel', 'Base coat', 'First Highlight', 'Wash']<br>
+Full form content ImmutableMultiDict([('recipe_name', 'Dark Angels Desaturated Power Armour'), ('recipe_desc', 'This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour'), ('tags', 'Dark Angels,Warhammer,Space Marines,Power Armour,Desaturated'), ('instructions[]', 'Undercoat the model with a flat black paint. '), ('instructions[]', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. "), ('instructions[]', "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. "), ('instructions[]', 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. '), ('image_desc[]', 'Undercoated Dark Angel'), ('image_desc[]', 'Base coat'), ('image_desc[]', 'First Highlight'), ('image_desc[]', 'Wash')])<br>
+<br>
+open_punch_bath_8981=> \dt<br>
+              List of relations
+ Schema |     Name      | Type  |    Owner    
+--------+---------------+-------+-------------
+ public | entity_tags   | table | urbqgoc5q8y
+ public | recipe_images | table | urbqgoc5q8y
+ public | recipe_stages | table | urbqgoc5q8y
+ public | recipe_tags   | table | urbqgoc5q8y
+ public | recipes       | table | urbqgoc5q8y
+(5 rows)
+
+open_punch_bath_8981=> select * from recipes;<br>
+ recipe_id |             recipe_name              |                                        recipe_desc
+-----------+--------------------------------------+--------------------------------------------------------------------------------------------
+         1 | Dark Angels Desaturated Power Armour | This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour
+(1 row)
+
+open_punch_bath_8981=> select * from recipe_stages;<br>
+ stage_id | recipe_id | stage_num |                                                                                                                               instructions                                                                                                                               | is_final_stage 
+----------+-----------+-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------
+        1 |         1 |         1 | Undercoat the model with a flat black paint.                                                                                                                                                                                                                             | f
+        2 |         1 |         2 | Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left.                                                | f
+        3 |         1 |         3 | using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f
+        4 |         1 |         4 | Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t
+(4 rows)
+
+open_punch_bath_8981=> select * from recipe_images;<br>
+ image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |        alt_text        
+----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+------------------------
+        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987873/q5i2ftplla6udtqxdlob.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/q5i2ftplla6udtqxdlob.jpg | Undercoated Dark Angel
+        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987876/afcihcowy0sjo7jvtzx1.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/afcihcowy0sjo7jvtzx1.jpg | Base coat
+        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987877/bc4onemhmikj4otzngk2.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/bc4onemhmikj4otzngk2.jpg | First Highlight
+        4 |        4 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987878/g5ccnr4thoblvveatmpq.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/g5ccnr4thoblvveatmpq.jpg | Wash
+(4 rows)
+
+open_punch_bath_8981=> select * from recipe_tags;<br>
+ tag_id |   tag_name    
+--------+---------------
+      1 | Dark Angels
+      2 | Warhammer
+      3 | Space Marines
+      4 | Power Armour
+      5 | Desaturated
+(5 rows)
+
+open_punch_bath_8981=> select * from entity_tags;<br>
+ recipe_id | tag_id | entity_type 
+-----------+--------+-------------
+         1 |      1 | recipe
+         1 |      2 | recipe
+         1 |      3 | recipe
+         1 |      4 | recipe
+         1 |      5 | recipe
+(5 rows)
+</details>
+
 
 # Version control and Deployment
 

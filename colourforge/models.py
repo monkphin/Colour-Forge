@@ -50,6 +50,8 @@ class RecipeStages(db.Model):
     instructions = db.Column(db.Text, nullable=False)
     is_final_stage = db.Column(db.Boolean, default=False)
 
+    recipe_images = db.relationship('RecipeImages', backref='stage', lazy=True)
+
     def __repr__(self):
         return f"<Stage {self.stage_num}: {self.instructions[:50]}...>"
 
