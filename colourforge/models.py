@@ -28,7 +28,7 @@ class Recipes(db.Model):
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
     # user_id = db.Column(db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
-    recipe_name = db.Column(db.String(150), nullable=False)
+    recipe_name = db.Column(db.String(55), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 
     # Relationship to other models

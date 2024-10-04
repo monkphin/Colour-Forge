@@ -12,7 +12,23 @@
 
 <div class="row">
   <div class="col s12 center-align">
-    <!--<div class="col s6 m6">-->
+
+    <div class="col s6 m6 large">
+      <div class="card horizontal small-card">
+        <div class="card-image">
+          <img src="{{ url_for('static', filename='images/paint_library.png') }}" alt="Add Recipe">
+        </div>
+        <div class="card-stacked">
+          <div class="card-content">
+            <h2 class="card-title">Add Paint</h2>
+            <p>Feature Coming Soon</p>
+            <a href="#" class="btn-small light-blue disabled">Add Paint</a>
+          </div>
+        </div>
+      </div>
+    </div>  
+
+    <div class="col s6 m6 large">
       <div class="card horizontal small-card">
         <div class="card-image">
           <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe">
@@ -20,61 +36,41 @@
         <div class="card-stacked">
           <div class="card-content">
             <h2 class="card-title">Add Recipe</h2>
-            <p>Quickly add a new paint recipe</p>
+            <p>Add a new paint recipe</p>
             <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
           </div>
         </div>
       </div>
-    <!--</div>-->
+    </div>  
   </div>
+
   <div class="carousel-container col s12 center-align">
     <h3 class="carousel-title">Your recipes</h3>
     <div class="carousel">
-        <a class="carousel-item" href="#one!"><img src="{{ url_for('static', filename='images/placeholder.png') }}"></a>
-        <a class="carousel-item" href="#two!"><img src="{{ url_for('static', filename='images/placeholder.png') }}"></a>
-        <a class="carousel-item" href="#three!"><img src="{{ url_for('static', filename='images/placeholder.png') }}"></a>
-        <a class="carousel-item" href="#four!"><img src="{{ url_for('static', filename='images/placeholder.png') }}"></a>
-        <a class="carousel-item" href="#five!"><img src="{{ url_for('static', filename='images/placeholder.png') }}"></a>
+      {% for recipe in recipes[:6] %}
+        <a class="carousel-item" href="#recipe-{{ recipe.id }}">
+          <div class="card recipe-cards">
+            <div class="card-image waves-effect waves-block waves-light">
+              {% for stage in recipe.stages %}
+                {% if stage.is_final_stage %}
+                  {% if stage.recipe_images %}
+                    <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                  {% else %}
+                    <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                  {% endif %}
+                {% endif %}
+              {% endfor %}
+            </div>
+            <div class="card-content">
+              <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
+            </div>
+          </div>
+        </a>
+      {% endfor %}
     </div>
   </div>
-</div>  
-
-
-
-
+  
+  
+  
 
 {% endblock %}
-
-
-
-
-
-<div class="col s12 m7">
-  <h2 class="header">Horizontal Card</h2>
-  <div class="card horizontal">
-    <div class="card-image">
-      <img src="https://lorempixel.com/100/190/nature/6">
-    </div>
-    <div class="card-stacked">
-      <div class="card-content">
-        <p>I am a very simple card. I am good at containing small bits of information.</p>
-      </div>
-      <div class="card-action">
-        <a href="#">This is a link</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card horizontal small-card s6 m6">
-  <div class="card-image">
-    <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe">
-  </div>
-  <div class="card-content">
-    <h2 class="card-title">Add Recipe</h2>
-    <p>Quickly add a new paint recipe</p>
-  </div>
-  <div class="card-action">
-    <a href="{{ url_for('add_recipe') }}" class="btn-large light-blue">Add Recipe</a>
-  </div>
-</div>

@@ -12,7 +12,8 @@ from colourforge.models import (Recipes,
 
 @app.route("/")
 def home():
-    return render_template("home.html", tag_dict={})
+    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+    return render_template("home.html", recipes=recipes, tag_dict={})
 
 
 @app.route("/recipes")

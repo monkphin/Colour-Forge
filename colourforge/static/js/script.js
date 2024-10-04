@@ -5,7 +5,10 @@ $(document).ready(function(){
   $('.sidenav').sidenav();
 
   // Initialize carousel
-  $('.carousel').carousel();
+  $('.carousel').carousel({
+    fullWidth: false,  // Adjust this to your liking
+    indicators: true
+  });
 
   // Dynamically add new input field after the last input
   $(document).on('click', '.add_field', function() {
