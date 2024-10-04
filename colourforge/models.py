@@ -91,6 +91,8 @@ class EntityTags(db.Model):
     recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.recipe_id", ondelete='CASCADE'), primary_key=True)
     tag_id = db.Column(db.Integer, db.ForeignKey("recipe_tags.tag_id", ondelete='CASCADE'), primary_key=True)
     entity_type = db.Column(db.String(50), nullable=False)
+    
+    recipe_tag = db.relationship("RecipeTags", backref="entity_tags")
 
     def __repr__(self):
         return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>"
