@@ -167,12 +167,21 @@ def add_recipe():
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
         return render_template("add_recipe.html", tag_dict=tag_dict)
-    return render_template("add_recipe.html")
+
 
 
 @app.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
     recipe=Recipes.query.get(recipe_id)
-    
-    return render_template('recipe_page.html', recipe=recipe, tag_dict={})
+    referrer = request.headers.get("referrer")
 
+    
+    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, tag_dict={})
+
+@app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
+def edit_recipe(recipe_id):
+
+    recipe=Recipes.query.get(recipe_id)
+    referrer = request.headers.get("referrer")
+    
+    return render_template('edit_recipe.html', recipe=recipe, referrer=referrer, tag_dict={})

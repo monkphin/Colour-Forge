@@ -3,34 +3,33 @@ $(document).ready(function(){
 
   // Initialize sidenav
   $('.sidenav').sidenav();
-
   // Initialize carousel
   $('.carousel').carousel({
     fullWidth: false,  // Adjust this to your liking
     indicators: false
   });
   // Initialize Accordion
-  $(document).ready(function(){
-    $('.collapsible').collapsible();
-  });
+  $('.collapsible').collapsible();
+  // Initialize Modal 
+  $('.modal').modal();
 
   // Dynamically add new input field after the last input
   $(document).on('click', '.add_field', function() {
       stageCount ++;  // Get the current count of inputs and increment by 1
       var newStage = `
           <div class="input-field col s12 multi-stage">
-            <textarea id="instructions" name="instructions[]" class="materialize-textarea input" required></textarea>
-            <label for="instructions">Stage ${stageCount} Instructions (required)</label>
+            <textarea id="instructions_${ stageCount }" name="instructions[]" class="materialize-textarea input" required></textarea>
+            <label for="instructions_${ stageCount }">Stage ${ stageCount } Instructions (required)</label>
             <div class="file-field input-field">
               <div class="btn">
                 <span>Add Images</span>
                 <input type="file" name="images[]" accept="image/*">
               </div>
               <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Add an optional image for stage ${stageCount}">
+                <input class="file-path validate" type="text" placeholder="Add an optional image for stage ${ stageCount }">
                 <div class="input-field">
-                  <textarea id="image_desc" name="image_desc[]" class="materialize-textarea"></textarea>
-                  <label for="image_desc">Image Description</label>
+                  <textarea id="image_desc_${ stageCount }" name="image_desc[]" class="materialize-textarea"></textarea>
+                  <label for="image_desc_${ stageCount }">Image Description</label>
                 </div>
               </div>
           </div>

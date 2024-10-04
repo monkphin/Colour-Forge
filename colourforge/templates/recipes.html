@@ -1,11 +1,11 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Recipes</h2>
-
 <div class="row">
   <div class="col s12 center-align">
-      <div class="card horizontal small-card">
+    <h2>Recipes</h2>
+
+    <div class="card horizontal small-card">
         <div class="card-image">
           <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe">
         </div>
@@ -13,11 +13,10 @@
           <div class="card-content">
             <h2 class="card-title">Add Recipe</h2>
               {% if recipes %}
-                <p>Add a new paint recipe</p>
+                <p>Add a new paint recipe to help guide you in future projects</p>
               {% else %}
                 <p>You have no recipes currently, add one?</p>
               {% endif %}
-
             <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
           </div>
         </div>
@@ -33,7 +32,9 @@
         {% for stage in recipe.stages %}
           {% if stage.is_final_stage %}
             {% if stage.recipe_images %}
-              <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+              <a href="{{ url_for('recipe_page', recipe_id=recipe.recipe_id) }}">
+                <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+              </a>
             {% else %}
               <img class="activator" src="{{ url_for('static', filename='images/placeholder.png')}}" alt="placeholder image">
             {% endif %} 
@@ -43,17 +44,13 @@
         <div class="card-content">
           <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
           <span class="activator grey-text text-darken-4"><i class="fas fa-expand-arrows-alt"> Read More</i></span>
-        <div>
-          <a href="#" class="btn green accent-4">Edit</a>
-          <a href="#" class="btn red">Delete</a>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"><i class="fas fa-times"> Close</i></span>
+          <p>{{ recipe.recipe_desc }}</p>
         </div>
       </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4"><i class="fas fa-times"> Close</i></span>
-        <p>{{ recipe.recipe_desc }}</p>
-      </div>
     </div>
-  </div>
   {% endfor %}
 </div>
 

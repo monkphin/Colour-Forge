@@ -1,10 +1,14 @@
 {% extends "base.html" %}
 {% block content %}
-Back Button
+
 <div class="row">
   <div class="col s12 center-align">
+
+    <!-- stage title -->
     <h2 class="card-title">{{ recipe.recipe_name }}</h2>
     <div class="card-stacked">
+
+      <!-- stage tags -->
       <div class="card-content">
         Tags:
           {% if recipe.tags %}
@@ -22,8 +26,11 @@ Back Button
           {% endif %}
       </div>
     </div>
+
+    <!-- stage desc and image  -->
     <div class="card horizontal small-card">
       <div class="card-image">
+        <!-- Display last stage image as the recipes image, to show the end result. -->
         {% for stage in recipe.stages %}
         {% if stage.is_final_stage %}
           {% if stage.recipe_images %}
@@ -40,6 +47,9 @@ Back Button
       </div>
     </div>
   </div>
+
+  <!-- collapsible stages with modal for each stags image -->
+
   <div>
     <ul class="collapsible">
       {% for stage in recipe.stages %}
@@ -48,16 +58,43 @@ Back Button
           <div class="collapsible-body">
             <span>{{ stage.instructions }}</span>
               {% if stage.recipe_images %}
-                <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                  <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                </a>
               {% else %}
-                <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                  <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                </a>
               {% endif %}
-          </div>
 
+            <!-- modal structure -->
+            <div id="modal{{ stage.stage_id }}" class="modal">
+              <div class="modal-content">
+                {% if stage.recipe_images %}
+                  {% for image in stage.recipe_images %}
+                    <img src="{{ stage.recipe_images[0].image_url }}" alt="{{ recipe.stages[0].recipe_images[0].alt_text }}">
+                  {% endfor %}
+                {% else %}
+                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+              </div>
+            </div>
+          </div>
         </li>
       {% endfor %}
     </ul>
-</div>
+
+    <!-- back/edit/delete buttons -->
+    <div>
+      <a href="{{ referrer }}" class="btn blue ">Back</a>
+      <a href="#" class="btn green accent-4">Edit</a>
+      <a href="#" class="btn red">Delete</a>
+    </div>
+  </div>
+
 
 
 
