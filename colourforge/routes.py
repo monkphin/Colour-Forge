@@ -168,3 +168,11 @@ def add_recipe():
 
         return render_template("add_recipe.html", tag_dict=tag_dict)
     return render_template("add_recipe.html")
+
+
+@app.route("/recipe_page/<int:recipe_id>")
+def recipe_page(recipe_id):
+    recipe=Recipes.query.get(recipe_id)
+    
+    return render_template('recipe_page.html', recipe=recipe, tag_dict={})
+

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+{% block content %}
+
+<h2>Recipes</h2>
+
+<div class="row">
+  <div class="col s12 center-align">
+    <div class="card-stacked">
+      <div class="card-content">
+        <h2 class="card-title">{{ recipe.recipe_name }}</h2>
+        Tags:
+        <div class="chip">
+          {% if recipe.tags %}
+            {% for tags in recipe.tag %}
+              {% if tag.recipe_tag %}
+                {{ tag.recipe_tag }}
+              {% else %}
+                <p>No Tags</p>
+              {% endif %}
+            {% endfor %}
+          {% else %}
+            <p>No Tags</p>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+    <div class="card horizontal small-card">
+      <div class="card-image">
+        {% for stage in recipe.stages %}
+        {% if stage.is_final_stage %}
+          {% if stage.recipe_images %}
+            <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+          {% else %}
+            <img class="activator" src="{{ url_for('static', filename='images/placeholder.png')}}" alt="placeholder image">
+          {% endif %} 
+        {% endif %}  
+      {% endfor %}
+    </div>
+    <div class="card-stacked">
+      <div class="card-content">
+        <p>{{ recipe.recipe_desc }}</p>
+      </div>
+    </div>
+  </div>
+  <div>
+    <ul class="collapsible">
+      {% for stage in recipe.stages %}
+        <li>
+          <div class="collapsible-header"><i class="material-icons"></i>Stage: {{ stage.stage_num }}</div>
+          <div class="collapsible-body">
+            <span>{{ stage.instructions }}</span>
+            <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+          </div>
+
+        </li>
+      {% endfor %}
+    </ul>
+</div>
+
+
+
+{% endblock %}
+

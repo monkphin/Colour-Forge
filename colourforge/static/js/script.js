@@ -7,7 +7,11 @@ $(document).ready(function(){
   // Initialize carousel
   $('.carousel').carousel({
     fullWidth: false,  // Adjust this to your liking
-    indicators: true
+    indicators: false
+  });
+  // Initialize Accordion
+  $(document).ready(function(){
+    $('.collapsible').collapsible();
   });
 
   // Dynamically add new input field after the last input

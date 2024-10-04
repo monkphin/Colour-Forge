@@ -47,30 +47,34 @@
   <div class="carousel-container col s12 center-align">
     <h3 class="carousel-title">Your recipes</h3>
     <div class="carousel">
-      {% for recipe in recipes[:6] %}
-        <a class="carousel-item" href="#recipe-{{ recipe.id }}">
-          <div class="card recipe-cards">
-            <div class="card-image waves-effect waves-block waves-light">
-              {% for stage in recipe.stages %}
-                {% if stage.is_final_stage %}
-                  {% if stage.recipe_images %}
-                    <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
-                  {% else %}
-                    <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+      {% if recipes %}
+        {% for recipe in recipes[:6] %}
+          <a class="carousel-item" href="{{ url_for('recipe_page', recipe_id=recipe.recipe_id) }}">
+            <div class="card recipe-cards">
+              <div class="card-image waves-effect waves-block waves-light">
+                {% for stage in recipe.stages %}
+                  {% if stage.is_final_stage %}
+                    {% if stage.recipe_images %}
+                      <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                    {% else %}
+                      <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                    {% endif %}
                   {% endif %}
-                {% endif %}
-              {% endfor %}
+                {% endfor %}
+              </div>
+              <div class="card-content">
+                <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
+              </div>
             </div>
-            <div class="card-content">
-              <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
-            </div>
-          </div>
-        </a>
-      {% endfor %}
+          </a>
+        {% endfor %}
+      {% else %}
+      <div class="card-content">
+        <h4 class="card-title">You have no recipes currently, add one?</h4>
+        <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
+      </div>
+      {% endif %}
     </div>
   </div>
-  
-  
-  
 
 {% endblock %}
