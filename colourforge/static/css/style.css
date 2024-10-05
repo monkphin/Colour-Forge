@@ -43,6 +43,6 @@ form {
 
 
  .col.s4.m4.recipe-cards {
-    min-height: 450px;
-    max-height: 450px;
+    min-height: 5000px;
+    max-height: 5000px;
   }

@@ -90,12 +90,9 @@
     <!-- back/edit/delete buttons -->
     <div>
       <a href="{{ referrer }}" class="btn blue ">Back</a>
-      <a href="#" class="btn green accent-4">Edit</a>
+      <a href="{{ url_for('edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn green accent-4">Edit</a>
       <a href="#" class="btn red">Delete</a>
     </div>
   </div>
-
-
-
 
 {% endblock %}

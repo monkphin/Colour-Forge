@@ -167,21 +167,27 @@ def add_recipe():
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
         return render_template("add_recipe.html", tag_dict=tag_dict)
-
+    return render_template("add_recipe.html")
 
 
 @app.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
     recipe=Recipes.query.get(recipe_id)
-    referrer = request.headers.get("referrer")
+    referrer = request.referrer # changed because I was working off documentation 
+    # I found where referer was misspelled for legacy reasons and this annoyed me. 
+    # Found other, less irritating documentation which pointed to using this approach instead. 
 
-    
     return render_template('recipe_page.html', recipe=recipe, referrer=referrer, tag_dict={})
+
 
 @app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
+    recipe=Recipes.query.get_or_404(recipe_id)
+    recipes=list(Recipes.query.order_by(Recipes.recipe_id).all())
 
-    recipe=Recipes.query.get(recipe_id)
-    referrer = request.headers.get("referrer")
-    
-    return render_template('edit_recipe.html', recipe=recipe, referrer=referrer, tag_dict={})
+    if request.method == "POST":
+        recipe.recipe_name=request.form.get('recipe_name'),
+        recipe.recipe_desc=request.form.get('recipe_desc'),
+        db.session.commit()
+
+    return render_template('edit_recipe.html', recipe=recipe, recipes=recipes, tag_dict={})
