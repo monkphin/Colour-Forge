@@ -52,14 +52,19 @@
           <textarea id="instructions_{{ stage.stage_num }}" name="instructions[]" class="materialize-textarea" required>{{ stage.instructions }}</textarea>
           <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
         </div>
+       <div>
+         <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+        </div>
+        <!-- edit image field should this only display when previewed image is hidden? -->
         <div class="file-field input-field">
           <div class="btn">
-            <span>Add Image</span>
+            <span>Edit Image</span>
             <input type="file" name="images[]" accept="image/*">
           </div>
           <div class="file-path-wrapper">
-            <input class="file-path validate" type="text" placeholder="Add an optional image for stage 1" value="{{ stage.recipe_images[0].thumbnail_url }}">
-            <!-- Alt Text field -->
+            <input class="file-path validate" type="text" placeholder="Add an optional image for stage {{ stage.stage_num }}" value="{{ stage.recipe_images[0].thumbnail_url }}">
+           
+            <!-- edit alt text field -->
             <div class="input-field">
               <textarea id="image_desc_1" name="image_desc[]" class="materialize-textarea">{{ stage.recipe_images[0].alt_text }}</textarea>
               <label for="image_desc_1">Image Description</label>
@@ -72,8 +77,8 @@
     <!-- Buttons to handle adding/deleting rows -->
     <div class="row">
       <div class="col s12 center-align">
-        <button type="button" class="add_field">Add Stage</button>
-        <button type="button" class="remove_field">Remove Stage</button>
+        <button type="button" class="add_edit_field">Add Stage</button>
+        <button type="button" class="remove_edit_field">Remove Stage</button>
       </div>
     </div>
 

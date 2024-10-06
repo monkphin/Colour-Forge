@@ -48,6 +48,11 @@ Tags, these were a challenge to get to work correctly due to not only the need f
 
 - [Bugs and Issues](#bugs-and-issues)
 
+Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
+jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
+
+While falling back to rendering a placeholder file locally is fine, I couldnt quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didnt submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldnt ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
+
 - [Technology](#technology)
 
   - [Frameworks and Programs](#frameworks-and-programs)

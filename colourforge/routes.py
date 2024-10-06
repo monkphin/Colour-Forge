@@ -83,12 +83,6 @@ def add_recipe():
             )
             db.session.add(recipe_stage)
             db.session.flush() 
-
-            # Used to check whats being output. Delete before Prod
-            print(stage_num)
-            instructions = request.form.getlist('instructions[]')
-            print("Instructions List:", instructions)
-            print("Is Final Stage?:", request.form.get('is_final_stage'))
         
             # If an image was added, create the entry in the DB
             if image_url: 
@@ -99,6 +93,15 @@ def add_recipe():
                     alt_text = alt_text
                 )
                 db.session.add(recipe_image)
+            else:
+                placeholder_image = RecipeImages(
+                    stage_id = recipe_stage.stage_id,  
+                    image_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',
+                    thumbnail_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png',
+                    alt_text = 'Placeholder Image'                  
+                )
+                db.session.add(placeholder_image)
+
 
             # Used to check whats being output. Delete before Prod
             print("Image names:", [image.filename for image in image_files])
