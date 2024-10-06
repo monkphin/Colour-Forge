@@ -32,8 +32,18 @@ class Recipes(db.Model):
     recipe_desc = db.Column(db.Text, nullable=False)
 
     # Relationship to other models
-    stages = db.relationship('RecipeStages', backref='recipe', lazy=True)
-    tags = db.relationship('EntityTags', backref='recipe', lazy=True)
+    stages = db.relationship(
+        'RecipeStages', 
+        backref='recipe', 
+        lazy=True, 
+        cascade="all, delete-orphan"
+        )
+    tags = db.relationship(
+        'EntityTags', 
+        backref='recipe', 
+        lazy=True,  
+        cascade="all, delete-orphan"
+        )
 
     def __repr__(self):
         return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>" 
@@ -45,12 +55,23 @@ class RecipeStages(db.Model):
 
     # schema for the recipe_stages modal
     stage_id = db.Column(db.Integer, primary_key=True)
-    recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.recipe_id", ondelete='CASCADE'), nullable=False)
+    recipe_id = db.Column(
+        db.Integer, 
+        db.ForeignKey(
+            "recipes.recipe_id", 
+            ondelete='CASCADE'), 
+            nullable=False
+        )
     stage_num = db.Column(db.Integer, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     is_final_stage = db.Column(db.Boolean, default=False)
 
-    recipe_images = db.relationship('RecipeImages', backref='stage', lazy=True)
+    recipe_images = db.relationship(
+        'RecipeImages', 
+        backref='stage', 
+        lazy=True,  
+        cascade="all, delete-orphan"
+        )
 
     def __repr__(self):
         return f"<Stage {self.stage_num}: {self.instructions[:50]}...>"
@@ -62,7 +83,13 @@ class RecipeImages(db.Model):
 
     # schema for the recipe_images modal
     image_id = db.Column(db.Integer, primary_key=True)
-    stage_id = db.Column(db.Integer, db.ForeignKey("recipe_stages.stage_id", ondelete='CASCADE'), nullable=False)
+    stage_id = db.Column(
+        db.Integer, 
+        db.ForeignKey(
+            "recipe_stages.stage_id", 
+            ondelete='CASCADE'
+            ), 
+        nullable=False)
     image_url = db.Column(db.String(255), nullable=True)
     thumbnail_url = db.Column(db.String(255), nullable=True)
     alt_text = db.Column(db.String(255), nullable=True)
@@ -88,11 +115,28 @@ class EntityTags(db.Model):
     __tablename__ = 'entity_tags'
 
     # schema for the entity_tags modal
-    recipe_id = db.Column(db.Integer, db.ForeignKey("recipes.recipe_id", ondelete='CASCADE'), primary_key=True)
-    tag_id = db.Column(db.Integer, db.ForeignKey("recipe_tags.tag_id", ondelete='CASCADE'), primary_key=True)
+    recipe_id = db.Column(
+        db.Integer, 
+        db.ForeignKey(
+            "recipes.recipe_id", 
+            ondelete='CASCADE'
+            ), 
+        primary_key=True
+        )
+    tag_id = db.Column(
+        db.Integer, 
+        db.ForeignKey(
+            "recipe_tags.tag_id", 
+            ), 
+        primary_key=True
+        )
     entity_type = db.Column(db.String(50), nullable=False)
     
     recipe_tag = db.relationship("RecipeTags", backref="entity_tags")
 
     def __repr__(self):
-        return f"<EntityTag recipe_id={self.recipe_id} tag_id={self.tag_id} entity_type={self.entity_type}>"
+        return (
+            f"<EntityTag recipe_id={self.recipe_id} "
+            f"tag_id={self.tag_id} "
+            f"entity_type={self.entity_type}>"
+            )

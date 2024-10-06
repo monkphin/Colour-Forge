@@ -35,16 +35,14 @@ def add_recipe():
         db.session.add(recipe)
         db.session.commit()
 
-        # Used to check whats being output. Delete before Prod
-        print("Recipe Name:", request.form.get('recipe_name'))
-        print("Recipe Description:", request.form.get('recipe_desc'))
-
         # initialise variables
         instructions = request.form.getlist('instructions[]')
         image_files = request.files.getlist('images[]')
         alt_texts = request.form.getlist('image_desc[]')
-        recipe_tags = request.form.getlist('recipe_tags[]')
+        #collect tags and convert to a string
         tag_names_str = request.form.get('tags', '')
+        # split string at the comma to allow them to be added one at a time to 
+        # the db
         tag_names = tag_names_str.split(',') 
         stage_num = 1
 
@@ -54,7 +52,8 @@ def add_recipe():
             # check if the current instruction has an image
             image = image_files[i] if i < len(image_files) else None
             # check if the current image/instruction has an alt text. 
-            alt_text = alt_texts[i] if i < len(alt_texts) else "No description provided"
+            alt_text = alt_texts[i] if i < len(
+                alt_texts) else "No description provided"
 
             # Add to cloudinary if image is present
             image_url = None
@@ -96,16 +95,17 @@ def add_recipe():
             else:
                 placeholder_image = RecipeImages(
                     stage_id = recipe_stage.stage_id,  
-                    image_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',
-                    thumbnail_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png',
+                    image_url = (
+                        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+                        'v1728052910/placeholder.png'
+                        ),
+                    thumbnail_url = (
+                        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+                        'c_fill,h_200,w_200/placeholder.png'
+                        ),
                     alt_text = 'Placeholder Image'                  
                 )
-                db.session.add(placeholder_image)
-
-
-            # Used to check whats being output. Delete before Prod
-            print("Image names:", [image.filename for image in image_files])
-            print("alt text:", alt_texts)   
+                db.session.add(placeholder_image) 
 
             # Tag handler
             # Process each submitted tag
@@ -113,7 +113,8 @@ def add_recipe():
                 for tag_name in tag_names:
                     tag_name = tag_name.strip()
                     if tag_name:
-                        tag = RecipeTags.query.filter_by(tag_name=tag_name).first()
+                        tag = RecipeTags.query.filter_by(
+                            tag_name=tag_name).first()
 
                         if not tag:
                             tag = RecipeTags(tag_name=tag_name)
@@ -143,9 +144,10 @@ def add_recipe():
                 if not tag:
                     tag = RecipeTags(tag_name=tag_name)
                     db.session.add(tag)
-                    db.session.flush()  # Make sure tag_id is generated before proceeding
+                    db.session.flush()  
 
-                    # Associate the tag with the recipe only if it's not already associated
+                    # Associate the tag with the recipe only if it's not already
+                    # associated
                     entity_tag = EntityTags(
                         recipe_id=recipe.recipe_id, 
                         tag_id=tag.tag_id, 
@@ -159,6 +161,9 @@ def add_recipe():
 
             db.session.commit()
 
+            # Used to check whats being output. Delete before Prod
+            print("Image names:", [image.filename for image in image_files])
+            print("alt text:", alt_texts)  
             print(f"Full form content {request.form}")
 
         return redirect("recipes")
@@ -170,7 +175,6 @@ def add_recipe():
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
         return render_template("add_recipe.html", tag_dict=tag_dict)
-    return render_template("add_recipe.html")
 
 
 @app.route("/recipe_page/<int:recipe_id>")
@@ -178,9 +182,15 @@ def recipe_page(recipe_id):
     recipe=Recipes.query.get(recipe_id)
     referrer = request.referrer # changed because I was working off documentation 
     # I found where referer was misspelled for legacy reasons and this annoyed me. 
-    # Found other, less irritating documentation which pointed to using this approach instead. 
+    # Found other, less irritating documentation which pointed to using this 
+    # approach instead. 
 
-    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, tag_dict={})
+    return render_template(
+        'recipe_page.html', 
+        recipe=recipe, 
+        referrer=referrer, 
+        tag_dict={}
+        )
 
 
 @app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -191,6 +201,31 @@ def edit_recipe(recipe_id):
     if request.method == "POST":
         recipe.recipe_name=request.form.get('recipe_name'),
         recipe.recipe_desc=request.form.get('recipe_desc'),
+
+        # tag handling here
+
+        # init variables with existing data
+        instructions = request.form.getlist('instructions[]')
+        images = request.files.getlist('images[]')
+        image_descs = request.form.getlist('image_desc[]')
+
+        print("these are the pulled Instructions: ", instructions)
+        print("Image names:", [image.filename for image in images])
+        print("These are the pulled Image Descs:", image_descs)
+
         db.session.commit()
 
-    return render_template('edit_recipe.html', recipe=recipe, recipes=recipes, tag_dict={})
+    return render_template(
+        'edit_recipe.html', 
+        recipe=recipe, 
+        recipes=recipes, 
+        tag_dict={}
+        )
+
+@app.route("/delete_recipe<int:recipe_id>")
+def delete_recipe(recipe_id):
+    recipe = Recipes.query.get_or_404(recipe_id)
+    db.session.delete(recipe)
+    db.session.commit()
+
+    return redirect(url_for('recipes'))
