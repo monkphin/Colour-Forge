@@ -41,8 +41,18 @@ form {
     margin-bottom: 5px;
   }
 
-
  .col.s4.m4.recipe-cards {
     min-height: 5000px;
     max-height: 5000px;
   }
+
+  .inline-lists {
+    display: flex;
+    list-style-type: none;
+    justify-content: center;
+}
+
+.inline-lists li {
+    margin-right: 10px;
+}
+
