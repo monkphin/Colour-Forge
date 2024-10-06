@@ -1,6 +1,6 @@
-$(document).ready(function(){
+$(document).ready(function() {
   var stageCount = 1;
-
+  
   // Initialize sidenav
   $('.sidenav').sidenav();
   // Initialize carousel
@@ -12,6 +12,11 @@ $(document).ready(function(){
   $('.collapsible').collapsible();
   // Initialize Modal 
   $('.modal').modal();
+
+  //Disable submit button on add_recipe form to prevent button spam
+  $('#addRecipe').on('submit', function() {
+    $('#addRecipeButton').prop('disabled', true);
+  });
 
   // Dynamically add new input field after the last input
   $(document).on('click', '.add_field', function() {
