@@ -28,6 +28,9 @@ cloudinary.config(
     api_secret=os.environ.get("CLOUDINARY_API_SECRET")
 )
 
+# SendGrid config
+app.config["SENDGRID_API_KEY"] = os.environ.get("SENDGRID_API_KEY")
+
 db = SQLAlchemy(app)
 
 from colourforge import routes  # noqa
