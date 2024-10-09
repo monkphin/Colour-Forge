@@ -10,65 +10,62 @@ from colourforge.models import (Recipes,
                                 )
 
 
-@app.route("/")
-def home():
-    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
-    return render_template("home.html", recipes=recipes, tag_dict={})
+# Helper functions
+def recipe_handler(recipe_id=None, form_data=None):
+    if recipe_id: 
+        recipe = Recipes.query.get_or_404(recipe_id)
+    else: 
+        recipe = Recipes()
 
-
-@app.route("/recipes")
-def recipes():
-    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+    recipe.recipe_name=request.form.get('recipe_name')
+    recipe.recipe_desc=request.form.get('recipe_desc')
     
-    return render_template("recipes.html", recipes=recipes, tag_dict={})
+    db.session.add(recipe)
+    db.session.commit()    
+    return recipe
 
 
-@app.route("/add_recipe", methods=["GET", "POST"])
-def add_recipe():
-    if request.method == "POST":        
+def image_handler(image):
+    if image and image.filename != '':
+        upload_result = cloudinary.uploader.upload(image) 
+        image_url = upload_result.get('secure_url')
+        thumbnail_url, options = cloudinary_url(
+            upload_result['public_id'], 
+            format="jpg", 
+            crop="fill", 
+            width=200, 
+            height=200
+            )
+        return image_url, thumbnail_url
+    else:
+        return None, None
 
-        # Create the Recipe entry in the Database
-        recipe = Recipes(
-            recipe_name=request.form.get('recipe_name'),
-            recipe_desc=request.form.get('recipe_desc'),
-        )
-        db.session.add(recipe)
-        db.session.commit()
 
-        # initialise variables
-        instructions = request.form.getlist('instructions[]')
-        image_files = request.files.getlist('images[]')
-        alt_texts = request.form.getlist('image_desc[]')
-        #collect tags and convert to a string
-        tag_names_str = request.form.get('tags', '')
-        # split string at the comma to allow them to be added one at a time to 
-        # the db
-        tag_names = tag_names_str.split(',') 
-        stage_num = 1
-
-        # loop through instructions index
+def instruction_handler(recipe, instructions, image_files, alt_texts):
         i = 0
+        stage_num = 1
         for instruction in instructions: 
             # check if the current instruction has an image
             image = image_files[i] if i < len(image_files) else None
             # check if the current image/instruction has an alt text. 
             alt_text = alt_texts[i] if i < len(
                 alt_texts) else "No description provided"
+            
+            #upload to cloudinary if present
+            image_url, thumbnail_url = image_handler(image)
 
-            # Add to cloudinary if image is present
-            image_url = None
-            thumbnail_url = None
-            if image and image.filename != '':
-                upload_result = cloudinary.uploader.upload(image) 
-                image_url = upload_result.get('secure_url')
-                thumbnail_url, options = cloudinary_url(
-                    upload_result['public_id'], 
-                    format="jpg", 
-                    crop="fill", 
-                    width=200, 
-                    height=200
-                    )
-
+                        # If an image was added, create the entry in the DB
+            if not image_url:
+                image_url = (
+                    'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+                    'v1728052910/placeholder.png'
+                    ),
+                thumbnail_url = (
+                    'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+                    'c_fill,h_200,w_200/placeholder.png'
+                    ),
+                alt_text = 'Placeholder Image'               
+        
             # Determine if this is the last stage
             is_final_stage = (instruction == instructions[-1])
 
@@ -82,104 +79,69 @@ def add_recipe():
             )
             db.session.add(recipe_stage)
             db.session.flush() 
-        
-            # If an image was added, create the entry in the DB
-            if image_url: 
-                recipe_image = RecipeImages(
-                    stage_id = recipe_stage.stage_id,
-                    image_url = image_url,
-                    thumbnail_url = thumbnail_url,
-                    alt_text = alt_text
+         
+            recipe_image = RecipeImages(
+                stage_id = recipe_stage.stage_id,
+                image_url = image_url,
+                thumbnail_url = thumbnail_url,
+                alt_text = alt_text
                 )
-                db.session.add(recipe_image)
-            else:
-                placeholder_image = RecipeImages(
-                    stage_id = recipe_stage.stage_id,  
-                    image_url = (
-                        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
-                        'v1728052910/placeholder.png'
-                        ),
-                    thumbnail_url = (
-                        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
-                        'c_fill,h_200,w_200/placeholder.png'
-                        ),
-                    alt_text = 'Placeholder Image'                  
-                )
-                db.session.add(placeholder_image) 
+            db.session.add(recipe_image)
 
-            # Tag handler
-            # Process each submitted tag
-            if tag_names:
-                for tag_name in tag_names:
-                    tag_name = tag_name.strip()
-                    if tag_name:
-                        tag = RecipeTags.query.filter_by(
-                            tag_name=tag_name).first()
+            i += 1
+            stage_num += 1
 
-                        if not tag:
-                            tag = RecipeTags(tag_name=tag_name)
-                            db.session.add(tag)
-                            db.session.commit()
 
-                        # Check if the tag is already associated with this recipe
-                        existing_tag = EntityTags.query.filter_by(
-                            recipe_id=recipe.recipe_id, 
-                            tag_id=tag.tag_id
-                            ).first()
-                        
-                        if not existing_tag:
-                            # Associate the tag with the recipe
-                            entity_tag = EntityTags(
-                                recipe_id=recipe.recipe_id, 
-                                tag_id=tag.tag_id, 
-                                entity_type='recipe'
-                                )
-                            db.session.add(entity_tag)
-
-            db.session.commit()
-
-            for tag_name in tag_names:
-                tag = RecipeTags.query.filter_by(tag_name=tag_name).first()
+def tag_handler(recipe, tag_names):
+    if tag_names:
+        for tag_name in tag_names:
+            tag_name = tag_name.strip()
+            if tag_name:
+                tag = RecipeTags.query.filter_by(
+                    tag_name=tag_name).first()
 
                 if not tag:
                     tag = RecipeTags(tag_name=tag_name)
                     db.session.add(tag)
-                    db.session.flush()  
+                    db.session.commit()
 
-                    # Associate the tag with the recipe only if it's not already
-                    # associated
+                # Check if the tag is already associated with this recipe
+                existing_tag = EntityTags.query.filter_by(
+                    recipe_id=recipe.recipe_id, 
+                    tag_id=tag.tag_id
+                    ).first()
+                
+                if not existing_tag:
+                    # Associate the tag with the recipe
                     entity_tag = EntityTags(
                         recipe_id=recipe.recipe_id, 
                         tag_id=tag.tag_id, 
                         entity_type='recipe'
                         )
-                    
                     db.session.add(entity_tag)
 
-            stage_num += 1
-            i += 1
+    db.session.commit()
 
-            db.session.commit()
 
-            # Used to check whats being output. Delete before Prod
-            print("Image names:", [image.filename for image in image_files])
-            print("alt text:", alt_texts)  
-            print(f"Full form content {request.form}")
+# App routes for flask functionality 
 
-        return redirect("recipes")
+# Routes that only render content
+@app.route("/")
+def home():
+    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+    return render_template("home.html", recipes=recipes, tag_dict={})
 
-    else:
-        # Get collection of existing tags as a variable and iterate through
-        # to create a dictionary to match how materialize is handling chips/tags.     
-        all_tags = RecipeTags.query.all()
-        tag_dict = {tag.tag_name: None for tag in all_tags}
 
-        return render_template("add_recipe.html", tag_dict=tag_dict)
+@app.route("/recipes")
+def recipes():
+    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+
+    return render_template("recipes.html", recipes=recipes, tag_dict={})
 
 
 @app.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
-    recipe=Recipes.query.get(recipe_id)
+    recipe=Recipes.query.get_or_404(recipe_id)
     referrer = request.referrer # changed because I was working off documentation 
     # I found where referer was misspelled for legacy reasons and this annoyed me. 
     # Found other, less irritating documentation which pointed to using this 
@@ -192,6 +154,45 @@ def recipe_page(recipe_id):
         tag_dict={}
         )
 
+# Routes that render and write content 
+@app.route("/add_recipe", methods=["GET", "POST"])
+def add_recipe():
+    if request.method == "POST":    
+
+        # Create recipe in DB
+        recipe = recipe_handler(form_data=request.form)    
+
+        # Init Variables 
+        instructions = request.form.getlist('instructions[]')
+        image_files = request.files.getlist('images[]')
+        alt_texts = request.form.getlist('image_desc[]')
+        #collect tags and convert to a string
+        tag_names_str = request.form.get('tags', '')
+        # split string at the comma to add one at a time to the db
+        tag_names = tag_names_str.split(',') 
+        stage_num = 1
+
+        #Process instructions and images
+        instruction_handler(recipe, instructions, image_files, alt_texts)
+
+        #process tags
+        tag_handler(recipe, tag_names)
+
+        # Used to check whats being output. Delete before Prod
+        print("Image names:", [image.filename for image in image_files])
+        print("alt text:", alt_texts)  
+        print(f"Full form content {request.form}")
+
+        return redirect("recipes")
+
+    else:
+        # Get collection of existing tags as a variable and iterate through
+        # to create a dictionary to match how materialize is handling chips/tags.     
+        all_tags = RecipeTags.query.all()
+        tag_dict = {tag.tag_name: None for tag in all_tags}
+
+        return render_template("add_recipe.html", tag_dict=tag_dict)
+
 
 @app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
@@ -199,8 +200,7 @@ def edit_recipe(recipe_id):
     recipes=list(Recipes.query.order_by(Recipes.recipe_id).all())
 
     if request.method == "POST":
-        recipe.recipe_name=request.form.get('recipe_name'),
-        recipe.recipe_desc=request.form.get('recipe_desc'),
+        recipe = recipe_handler(recipe_id=recipe_id, form_data=request.form)
 
         # tag handling here
 
