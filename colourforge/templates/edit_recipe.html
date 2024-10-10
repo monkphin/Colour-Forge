@@ -51,19 +51,29 @@
       Recipe Stages
       <hr>
       {% for stage in recipe.stages %}
-        <div class="input-field col s7 multi-stage">
+      <div class="row multi-stage">
+        <!-- Instruction Field -->
+        <div class="input-field col s7">
           <textarea id="instructions_{{ stage.stage_num }}" name="instructions[]" class="materialize-textarea" required>{{ stage.instructions }}</textarea>
           <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
         </div>
-        <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
-          {% if stage.recipe_images %}
+    
+        <!-- Image Container or File Input Container -->
+        {% if stage.recipe_images %}
+          <!-- Existing Image Container -->
+          <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
             <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
             <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
-          {% else %}
+          </div>
+        {% else %}
+          <!-- Placeholder Image Container -->
+          <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
             <img src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png" alt="No image available">
             <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
-          {% endif %}
-        </div>
+          </div>
+        {% endif %}
+    
+        <!-- File Input Container (Initially Hidden) -->
         <div id="file_input_container_{{ stage.stage_num }}" class="col s5" style="display: none;">
           <div class="file-field input-field">
             <div class="btn">
@@ -73,7 +83,7 @@
             <div class="file-path-wrapper">
               <input class="file-path validate" type="text" placeholder="Stage {{ stage.stage_num }} image">
             </div>
-            <!-- Edit alt text field -->
+            <!-- Alt Text Field -->
             <div class="input-field">
               <textarea id="image_desc_{{ stage.stage_num }}" name="image_desc[]" class="materialize-textarea"></textarea>
               <label for="image_desc_{{ stage.stage_num }}">Image Description</label>
@@ -81,9 +91,11 @@
             <button type="button" class="cancel_replace_button btn grey lighten-1" data-stage-num="{{ stage.stage_num }}">Cancel</button>
           </div>
         </div>
-      {% endfor %}
+      </div>
+    {% endfor %}
+    
 
-    </div>
+
 
 
     <!-- Buttons to handle adding/deleting rows -->
