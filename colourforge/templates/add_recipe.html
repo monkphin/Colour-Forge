@@ -1,79 +1,80 @@
 {% extends "base.html" %}
 {% block content %}
 
-<h2>Add recipe</h2>
+<h2 class="center-align">Add Recipe</h2>
 <div class="row card-panel grey lighten-5">
-  <form class="col s12" method="POST" action={{ url_for('add_recipe') }} enctype="multipart/form-data" id="addRecipe">
+  <form class="col s12" method="POST" action="{{ url_for('add_recipe') }}" enctype="multipart/form-data" id="addRecipe">
     
+    <!-- Recipe Name Field -->
     <div class="row">
       <div class="input-field col s12">
-        <!-- Recipe Name field -->
         <input id="recipe_name" name="recipe_name" minlength="5" maxlength="55" type="text" class="validate" required>
         <label for="recipe_name">Recipe Name (required)</label>
       </div>
+    </div>
 
-      <div class="row">
-        <div class="input-field col s12">
-          <!-- Recipe Description field -->
-          <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required></textarea>
-          <label for="recipe_desc">Recipe Description (required)</label>
-          <!-- tags field -->          
-          <div class="row">
-            <div class="col s6">
-              <p>Searchable Tags</p>
-              <p>(Optional, press enter for each tag)</p>
-            </div>
-            <div class="col s6">
-              <div class="chips chips-autocomplete"></div>
-              <i class="material-icons clear"></i>
-              <input type="hidden" name="tags" id="tags_input">
-            </div>
-          </div>   
-        </div>
-
-        <!-- Everything below is the initial stage for the instructions and images -->
-        <div class="row">
-          <div class="input-field col s12">
-            <!-- Instructions stage 1 - will always show -->
-            <textarea id="instructions_1" name="instructions[]" class="materialize-textarea input" required></textarea>
-            <label for="instructions_1">Stage 1 Instructions (required)</label>
-            <!-- Image upload handling -->
-            <div class="file-field input-field">
-              <div class="btn">
-                <span>Add Image</span>
-                <input type="file" name="images[]" accept="image/*">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Add an optional image for stage 1">
-                <!-- Alt Text field -->
-                <div class="input-field">
-                  <textarea id="image_desc_1" name="image_desc[]" class="materialize-textarea"></textarea>
-                  <label for="image_desc_1">Image Description</label>
-                </div>
-              </div>
-            </div>
-          </div> 
-
-          <!-- Buttons to handle adding/deleting rows -->
-          <div class="row">
-            <div class="col s12 center-align">       
-              <button type="button" class="add_field">Add Stage</button>
-              <button type="button" class="remove_field">Remove Stage</button>
-            </div>
-          </div>
-        </div>  
-
-        <!-- Button to submit the recipe -->
-        <div class="row">
-          <div class="col s12 center-align">
-            <button type="submit" class="btn-small light-blue darken-1" id="addRecipeButton">
-              Add Recipe
-            </button>
-          </div>
-        </div>
-
+    <!-- Recipe Description Field and Tags -->
+    <div class="row">
+      <div class="input-field col s12">
+        <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required></textarea>
+        <label for="recipe_desc">Recipe Description (required)</label>
       </div>
-    </div>    
+      <div class="row">
+        <div class="col s6">
+          <p>Searchable Tags</p>
+          <p>(Optional, press enter for each tag)</p>
+        </div>
+        <div class="col s6">
+          <div class="chips chips-autocomplete"></div>
+          <i class="material-icons clear"></i>
+          <input type="hidden" name="tags" id="tags_input">
+        </div>
+      </div>
+    </div>
+      <!-- Unsure if I like this but it needs styling if it stays -->
+      Recipe Stages
+      <hr>
+    <!-- Initial Stage for Instructions and Images -->
+    <div class="row multi-stage">
+      <!-- Instructions Textarea -->
+      <div class="input-field col s7">
+        <textarea id="instructions_1" name="instructions[]" class="materialize-textarea input" required></textarea>
+        <label for="instructions_1">Stage 1 Instructions (required)</label>
+      </div>
+      <!-- Image Upload Handling -->
+      <div class="col s5">
+        <div class="file-field input-field">
+          <div class="btn">
+            <span>Add Image</span>
+            <input type="file" name="images[]" accept="image/*">
+          </div>
+          <div class="file-path-wrapper">
+            <input class="file-path validate" type="text" placeholder="Stage 1 image">
+          </div>
+          <!-- Alt Text Field -->
+          <div class="input-field">
+            <textarea id="image_desc_1" name="image_desc[]" class="materialize-textarea"></textarea>
+            <label for="image_desc_1">Image Description</label>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Buttons to Add/Remove Stages -->
+    <div class="row">
+      <div class="col s12 center-align">
+        <button type="button" class="add_field btn">Add Stage</button>
+        <button type="button" class="remove_field btn">Remove Stage</button>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="row">
+      <div class="col s12 center-align">
+        <button type="submit" class="btn-small light-blue darken-1" id="addRecipeButton">Add Recipe</button>
+      </div>
+    </div>
+
   </form>
 </div>
 

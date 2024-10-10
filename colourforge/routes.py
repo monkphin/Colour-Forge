@@ -213,7 +213,7 @@ def add_recipe():
         print("Image names:", [image.filename for image in image_files])
         print("alt text:", alt_texts)  
         print(f"Full form content {request.form}")
-
+        flash("Recipe has been added")
         return redirect("recipes")
 
     else:

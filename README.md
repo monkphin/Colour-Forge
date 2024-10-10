@@ -356,6 +356,7 @@ This table is used to store images for each stage of the recipe, ideally a place
  - stage_id - the foreign key used to link to the recipe stages table for the one to many relationship, since each stage could have multiple images. </br>
  - image_url - the URL string of the uploaded image, automatically inserted when the user uploads an image. </br>
  - alt_text - a text string for the image alt text to ensure basic accessibility standards are met. </br>
+ - public_id - a text string, which was added later after I realised this would be an efficient way of handling image deletion to stop wasting space on Cloudinary</br>
 
 entity_tags   </br>
 This table isn't directly updatable by the user, instead its used to allow for a many to many relationship between the recipes table and the recipe_tags table. </br>
@@ -376,6 +377,12 @@ While i have larger plans around the ability to catalogue paints owned by a user
 # Bugs and Issues
 
 Found an odd bug when using the chips feature from Materialize, where it was causing the stage counter to jump from 1 to 3 when adding a new stage. Removing the javascript needed for Chips to be initialized I found the behaviour worked as expected. The easiest fix here was to hard set the stageCount to 1, then increment/decrement it as part of the function to add/remove each stage as needed. This issue also made me realise that the ID tags being assigned were not unique as they're supposed to be, so I corrected this using Jinja to append the stage number to the ID tag for each new stage added by Javascript. 
+
+I decided part way through developing the edit functionality to split out the varying functions needed to drive each page, in an effort to encourage more DRY like behaviour allowing for reuse of code. When trying to amalgamate both initial DB entry and editing an existing entry into a single function, this kept having issues, causing me to split these out into their own create and edit functions. While the code is now easier to maintain, since the various app routes and functions are smaller and simpler it does remove some element of adhering to DRY practices, since as things stand, most of the functions are essentially limited to single app routes using them with a few exceptions, such as image uploading. 
+
+While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
+
+
 
 # Technology
 
