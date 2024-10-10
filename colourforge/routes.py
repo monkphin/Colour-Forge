@@ -22,23 +22,25 @@ def recipe_handler(form_data):
     db.session.commit()    
     return recipe
 
+
 def upload_image(image):
     if image and image.filename != '':
         upload_result = cloudinary.uploader.upload(image) 
         image_url = upload_result.get('secure_url')
+        public_id = upload_result.get('public_id')
         thumbnail_url, options = cloudinary_url(
-            upload_result['public_id'], 
+            public_id, 
             format="jpg", 
             crop="fill", 
             width=200, 
             height=200
             )
-        return image_url, thumbnail_url
+        return image_url, thumbnail_url, public_id
     else:
-        return None, None
+        return None, None, None
 
 
-def instruction_handler(recipe, instructions, image_files, alt_texts ):
+def instruction_handler(recipe, instructions, image_files, alt_texts):
     i = 0
     stage_num = 1
     for instruction in instructions: 
@@ -49,7 +51,7 @@ def instruction_handler(recipe, instructions, image_files, alt_texts ):
             alt_texts) else "No description provided"
         
         #upload to cloudinary if present
-        image_url, thumbnail_url = upload_image(image)
+        image_url, thumbnail_url, public_id  = upload_image(image)
 
                     # If an image was added, create the entry in the DB
         if not image_url:
@@ -61,7 +63,8 @@ def instruction_handler(recipe, instructions, image_files, alt_texts ):
                 'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
                 'c_fill,h_200,w_200/placeholder.png'
                 ),
-            alt_text = 'Placeholder Image'               
+            alt_text = 'Placeholder Image'   
+            public_id = None           
     
         # Determine if this is the last stage
         is_final_stage = (instruction == instructions[-1])
@@ -81,7 +84,8 @@ def instruction_handler(recipe, instructions, image_files, alt_texts ):
             stage_id = recipe_stage.stage_id,
             image_url = image_url,
             thumbnail_url = thumbnail_url,
-            alt_text = alt_text
+            alt_text = alt_text,
+            public_id = public_id
             )
         db.session.add(recipe_image)
 
@@ -95,7 +99,14 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
 
     # Delete existing stages and images
     for stage in existing_stages:
-        RecipeImages.query.filter_by(stage_id=stage.stage_id).delete()
+        images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
+        for image in images:
+            if image.public_id:
+                try:
+                    cloudinary.uploader.destroy(image.public_id)
+                except cloudinary.exceptions.Error as e:
+                    print(f"Error deleting image {image.public_id} {str(e)}")
+            db.session.delete(image)        
         db.session.delete(stage)
     db.session.commit()
 
@@ -248,9 +259,28 @@ def edit_recipe(recipe_id):
         tag_dict={}
         )
 
-@app.route("/delete_recipe<int:recipe_id>")
+@app.route("/delete_recipe/<int:recipe_id>")
 def delete_recipe(recipe_id):
     recipe = Recipes.query.get_or_404(recipe_id)
+
+    # Delete associated stages and images
+    stages = RecipeStages.query.filter_by(recipe_id=recipe.recipe_id).all()
+    for stage in stages:
+        images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
+        for image in images:
+            if image.public_id:
+                try:
+                    # Delete the image from Cloudinary using public_id
+                    cloudinary.uploader.destroy(image.public_id)
+                except cloudinary.exceptions.Error as e:
+                    print(f"Error deleting image {image.public_id}: {str(e)}")
+            db.session.delete(image)  # Delete image record from the database
+        db.session.delete(stage)  # Delete stage record from the database
+
+    # Delete associated tags
+    EntityTags.query.filter_by(recipe_id=recipe.recipe_id).delete()
+
+    # Delete the recipe itself
     db.session.delete(recipe)
     db.session.commit()
 

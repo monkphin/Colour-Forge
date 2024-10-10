@@ -93,6 +93,7 @@ class RecipeImages(db.Model):
     image_url = db.Column(db.String(255), nullable=True)
     thumbnail_url = db.Column(db.String(255), nullable=True)
     alt_text = db.Column(db.String(255), nullable=True)
+    public_id = db.Column(db.String, nullable=True)
 
     def __repr__(self):
         return f"<Image {self.image_url}>"
