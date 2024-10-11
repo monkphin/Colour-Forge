@@ -102,10 +102,7 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
         images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
             if image.public_id:
-                try:
-                    cloudinary.uploader.destroy(image.public_id)
-                except cloudinary.exceptions.Error as e:
-                    print(f"Error deleting image {image.public_id} {str(e)}")
+                cloudinary.uploader.destroy(image.public_id)
             db.session.delete(image)        
         db.session.delete(stage)
     db.session.commit()
@@ -155,7 +152,6 @@ def edit_tag_handler(recipe, tag_names):
 
 
 # App routes for flask functionality 
-
 # Routes that only render content
 @app.route("/")
 def home():
@@ -185,6 +181,7 @@ def recipe_page(recipe_id):
         tag_dict={}
         )
 
+
 # Routes that render and write content 
 @app.route("/add_recipe", methods=["GET", "POST"])
 def add_recipe():
@@ -209,11 +206,6 @@ def add_recipe():
         #process tags
         tag_handler(recipe, tag_names)
 
-        # Used to check whats being output. Delete before Prod
-        print("Image names:", [image.filename for image in image_files])
-        print("alt text:", alt_texts)  
-        print(f"Full form content {request.form}")
-        flash("Recipe has been added")
         return redirect("recipes")
 
     else:
@@ -243,14 +235,13 @@ def edit_recipe(recipe_id):
 
         # Update stages and images
         edit_instruction_handler(recipe, instructions, images, alt_texts)
-
-        print("these are the pulled Instructions: ", instructions)
-        print("Image names:", [image.filename for image in images])
+        edit_instruction_handler(recipe, instructions, images, alt_texts)
 
         #update_tags
         edit_tag_handler(recipe, tag_names)
-
         db.session.commit()
+
+        flash("Recipe has been updated")
 
     return render_template(
         'edit_recipe.html', 
@@ -258,6 +249,7 @@ def edit_recipe(recipe_id):
         recipes=recipes, 
         tag_dict={}
         )
+
 
 @app.route("/delete_recipe/<int:recipe_id>")
 def delete_recipe(recipe_id):
@@ -269,11 +261,8 @@ def delete_recipe(recipe_id):
         images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
             if image.public_id:
-                try:
-                    # Delete the image from Cloudinary using public_id
-                    cloudinary.uploader.destroy(image.public_id)
-                except cloudinary.exceptions.Error as e:
-                    print(f"Error deleting image {image.public_id}: {str(e)}")
+                # Delete the image from Cloudinary using public_id
+                cloudinary.uploader.destroy(image.public_id)
             db.session.delete(image)  # Delete image record from the database
         db.session.delete(stage)  # Delete stage record from the database
 

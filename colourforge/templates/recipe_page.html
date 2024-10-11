@@ -48,13 +48,20 @@
         <div class="modal-content">
           {% if stage.recipe_images %}
             {% for image in stage.recipe_images %}
-              <img src="{{ stage.recipe_images[0].image_url }}" alt="{{ recipe.stages[0].recipe_images[0].alt_text }}">
+              <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img">
             {% endfor %}
           {% else %}
-            <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+            <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img">
           {% endif %}
         </div>
         <div class="modal-footer">
+          {% if stage.recipe_images %}
+            {% for image in stage.recipe_images %}                
+              <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="LinkedIn - (Opens in a new tab)" rel="noopener">Open Full screen</A>
+            {% endfor %}
+          {% else %}
+              <a href ="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="LinkedIn - (Opens in a new tab)" rel="noopener">Open Full screen</A>
+          {% endif %}
           <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
         </div>
       </div>
@@ -63,43 +70,57 @@
       {% endfor %}
     </div>
     <div class="card-stacked">
-      <div class="card-content">
+      <div class="card-content preserve-whitespace">
         <p>{{ recipe.recipe_desc }}</p>
       </div>
     </div>
   </div>
 
   <!-- collapsible stages with modal for each stags image -->
-
   <div>
     <ul class="collapsible">
       {% for stage in recipe.stages %}
         <li>
-          <div class="collapsible-header"><i class="material-icons"></i>Stage: {{ stage.stage_num }}</div>
+          <div class="collapsible-header">
+            <i class="material-icons"></i>Stage: {{ stage.stage_num }}
+          </div>
           <div class="collapsible-body">
-            <span>{{ stage.instructions }}</span>
-              {% if stage.recipe_images %}
-                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
-                  <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
-                </a>
-              {% else %}
-                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
-                  <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
-                </a>
-              {% endif %}
-
-            <!-- modal structure -->
+            <div class="row">
+              <div class="col s12 m10 offset-m1 l8 preserve-whitespace">
+                <p>{{ stage.instructions }}</p>
+              </div>
+              <div class="col s12 m2 l4">
+                {% if stage.recipe_images %}
+                  <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                    <img class="activator responsive-img" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                  </a> 
+                {% else %}
+                  <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                    <img class="activator responsive-img" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                  </a>
+                {% endif %}
+              </div>
+            </div>
+    
+            <!-- Modal Structure -->
             <div id="modal{{ stage.stage_id }}" class="modal">
               <div class="modal-content">
                 {% if stage.recipe_images %}
                   {% for image in stage.recipe_images %}
-                    <img src="{{ stage.recipe_images[0].image_url }}" alt="{{ recipe.stages[0].recipe_images[0].alt_text }}">
+                    <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img">
                   {% endfor %}
                 {% else %}
-                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image">
+                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img">
                 {% endif %}
               </div>
               <div class="modal-footer">
+                {% if stage.recipe_images %}
+                  {% for image in stage.recipe_images %}                
+                    <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="LinkedIn - (Opens in a new tab)" rel="noopener">Open Full screen</A>
+                  {% endfor %}
+                {% else %}
+                    <a href ="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="LinkedIn - (Opens in a new tab)" rel="noopener">Open Full screen</A>
+                {% endif %}
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
               </div>
             </div>
@@ -107,6 +128,7 @@
         </li>
       {% endfor %}
     </ul>
+    
 
     <!-- back/edit/delete buttons -->
     <div>

@@ -1,4 +1,5 @@
 $(document).ready(function() {
+  
   // Set stageCount based on existing stages
   var stageCount = $('.multi-stage').length || 1;
 
