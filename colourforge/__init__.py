@@ -1,5 +1,5 @@
 import os
-from flask import Flask
+from flask import Flask, Blueprint
 from flask_sqlalchemy import SQLAlchemy
 import cloudinary
 import cloudinary.uploader
@@ -8,7 +8,9 @@ from cloudinary.utils import cloudinary_url
 if os.path.exists("env.py"):
     import env  # noqa
 
+
 app = Flask(__name__)
+
 
 # Add config - secret keys/DB details etc
 app.config["SECRET_KEY"] = os.environ.get("SECRET_KEY")
@@ -33,4 +35,10 @@ app.config["SENDGRID_API_KEY"] = os.environ.get("SENDGRID_API_KEY")
 
 db = SQLAlchemy(app)
 
-from colourforge import routes  # noqa
+from colourforge.routes import routes  # noqa
+# from colourforge import auth    # noqa
+
+app.register_blueprint(routes, url_prefix ='/')
+# app.register_blueprint(auth, url_prefix ='/')
+
+
