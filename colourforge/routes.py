@@ -8,7 +8,7 @@ from flask import (
     Blueprint
 )
 
-# Local Application Imports
+# Local Imports
 from colourforge import app, db, cloudinary, cloudinary_url
 from colourforge.models import (Recipes, 
                                 RecipeStages, 
@@ -26,7 +26,7 @@ from colourforge.helpers import (
 
 routes = Blueprint('routes', __name__)
 
-
+# Content rendering only routes
 @app.route("/")
 def home():
     recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
@@ -43,10 +43,7 @@ def recipes():
 @app.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
     recipe=Recipes.query.get_or_404(recipe_id)
-    referrer = request.referrer # changed because I was working off documentation 
-    # I found where referer was misspelled for legacy reasons and this annoyed me. 
-    # Found other, less irritating documentation which pointed to using this 
-    # approach instead. 
+    referrer = request.referrer 
 
     return render_template(
         'recipe_page.html', 
@@ -112,9 +109,7 @@ def edit_recipe(recipe_id):
 
         # Collect all delete_image flags
         delete_image_flags = {}
-        # Since stages are ordered, we can use the index to associate flags
         for idx, stage_id in enumerate(stage_ids):
-            # Stage numbers start at 1
             stage_num = idx + 1
             flag = request.form.get(f'delete_image_{stage_num}', 'false')
             delete_image_flags[stage_num] = flag.lower() == 'true'
@@ -132,7 +127,10 @@ def edit_recipe(recipe_id):
                 if stage:
                     stage.instructions = instruction
 
-                    # Handle image
+                    # Check if a new image is uploaded for this stage
+                    new_image = images[index] if index < len(images) else None
+                    is_new_image_uploaded = new_image and new_image.filename != ''
+
                     if stage.recipe_images:
                         image = stage.recipe_images[0]  # Assuming one image per stage
                         if delete_image_flags.get(stage.stage_num, False):
@@ -140,17 +138,19 @@ def edit_recipe(recipe_id):
                             if image.public_id:
                                 cloudinary.uploader.destroy(image.public_id)
                             db.session.delete(image)
-                            # Assign placeholder
-                            placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
-                            placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                            recipe_image = RecipeImages(
-                                stage_id=stage.stage_id,
-                                image_url=placeholder_url,
-                                thumbnail_url=placeholder_thumbnail,
-                                alt_text='No description provided',
-                                public_id=None
-                            )
-                            db.session.add(recipe_image)
+
+                            if not is_new_image_uploaded:
+                                # Assign placeholder only if no new image is uploaded
+                                placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
+                                placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
+                                recipe_image = RecipeImages(
+                                    stage_id=stage.stage_id,
+                                    image_url=placeholder_url,
+                                    thumbnail_url=placeholder_thumbnail,
+                                    alt_text='No description provided',
+                                    public_id=None
+                                )
+                                db.session.add(recipe_image)
                     else:
                         if not delete_image_flags.get(stage.stage_num, False):
                             # No existing image and not marked for deletion, assign placeholder
@@ -166,26 +166,25 @@ def edit_recipe(recipe_id):
                             db.session.add(recipe_image)
 
                     # Handle new image upload if provided
-                    if index < len(images):
-                        if images[index] and images[index].filename != '':
-                            # Upload new image
-                            image_url, thumbnail_url, public_id = upload_image(images[index])
-                            if image_url:
-                                # Delete the old image if exists
-                                if stage.recipe_images:
-                                    old_image = stage.recipe_images[0]
-                                    if old_image.public_id:
-                                        cloudinary.uploader.destroy(old_image.public_id)
-                                    db.session.delete(old_image)
-                                # Add the new image
-                                recipe_image = RecipeImages(
-                                    stage_id=stage.stage_id,
-                                    image_url=image_url,
-                                    thumbnail_url=thumbnail_url,
-                                    alt_text=alt_texts[index] or 'No description provided',
-                                    public_id=public_id
-                                )
-                                db.session.add(recipe_image)
+                    if is_new_image_uploaded:
+                        # Upload new image
+                        image_url, thumbnail_url, public_id = upload_image(new_image)
+                        if image_url:
+                            # Delete the old image if exists (already handled above if delete_image_flag is true)
+                            if stage.recipe_images:
+                                old_image = stage.recipe_images[0]
+                                if old_image.public_id:
+                                    cloudinary.uploader.destroy(old_image.public_id)
+                                db.session.delete(old_image)
+                            # Add the new image
+                            recipe_image = RecipeImages(
+                                stage_id=stage.stage_id,
+                                image_url=image_url,
+                                thumbnail_url=thumbnail_url,
+                                alt_text=alt_texts[index] or 'No description provided',
+                                public_id=public_id
+                            )
+                            db.session.add(recipe_image)
             else:
                 # New stage
                 new_stage = RecipeStages(
@@ -198,8 +197,9 @@ def edit_recipe(recipe_id):
 
                 # Handle image
                 if index < len(images):
-                    if images[index] and images[index].filename != '':
-                        image_url, thumbnail_url, public_id = upload_image(images[index])
+                    new_image = images[index]
+                    if new_image and new_image.filename != '':
+                        image_url, thumbnail_url, public_id = upload_image(new_image)
                         if image_url:
                             recipe_image = RecipeImages(
                                 stage_id=new_stage.stage_id,
@@ -239,8 +239,6 @@ def edit_recipe(recipe_id):
 
     else:
         # GET request: Render the edit form
-        # Get collection of existing tags as a variable and iterate through
-        # to create a dictionary to match how materialize is handling chips/tags.     
         all_tags = RecipeTags.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
