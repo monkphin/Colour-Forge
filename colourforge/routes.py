@@ -80,7 +80,7 @@ def add_recipe():
         #process tags
         tag_handler(recipe, tag_names)
 
-        flash("Recipe has been Added")
+        flash('Paint Recipe successfully added!', category='success')
 
         return redirect("recipes")
 

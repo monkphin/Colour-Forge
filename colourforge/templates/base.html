@@ -30,7 +30,7 @@
               <div class="input-field">
                 <input id="search" type="search" required>
                 <label class="label-icon" for="search"><i class="fas fa-search"></i></label>
-                <i class="material-icons">close</i>
+                <i class="fas fa-times"></i>
               </div>
             </form>
           </li>-->
@@ -53,7 +53,7 @@
               <div class="input-field">
                 <input id="search" type="search" required>
                 <label class="label-icon" for="search"><i class="fas fa-search"></i></label>
-                <i class="material-icons">close</i>
+                <i class="fas fa-times"></i>
               </div>
             </form>
           </li> -->
@@ -63,12 +63,20 @@
   <main class="container">
 
     <div class="container">
-      {% with messages = get_flashed_messages() %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-          {% for message in messages %}
-            <div class="card-panel teal lighten-2">
-              <span class="white-text">{{ message }}</span>
-            </div>
+          {%  for category, message in messages %}
+            {% if category == 'error' %}
+              <div class="card-panel red lighten-2 flash-message">
+                <span class="white-text">{{ message }}</span>
+                <a href="#!" class="close-flash right"><i class="white-text fas fa-times"></i></a>
+              </div>
+            {% else %}
+              <div class="card-panel green lighten-2 flash-message">
+                <span class="white-text">{{ message }}</span>
+                <a href="#!" class="close-flash right"><i class="white-text fas fa-times"></i></a>
+              </div>
+            {% endif %}
           {% endfor %}
         {% endif %}
       {% endwith %}

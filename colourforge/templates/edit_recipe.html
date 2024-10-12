@@ -6,8 +6,6 @@
 <div class="row card-panel grey lighten-5">
   <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe.recipe_id) }}" enctype="multipart/form-data">
 
-
-
     <div class="row">
       <div class="input-field col s12">
         <!-- Recipe Name field -->
@@ -37,7 +35,6 @@
               {% if tag.recipe_tag %}
                 <div class="chip">
                   {{ tag.recipe_tag.tag_name }}
-                  <i class="material-icons close">close</i>
                 </div>
               {% endif %}
             {% endfor %}

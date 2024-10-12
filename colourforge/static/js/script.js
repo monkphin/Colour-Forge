@@ -18,6 +18,9 @@ $(document).ready(function() {
   // Initialize Modal 
   $('.modal').modal();
 
+  // Initialize Tooltips
+  $('.tooltipped').tooltip({delay: 50});
+  
   // Disable submit button on add_recipe form to prevent button spam
   $('#addRecipe').on('submit', function() {
     $('#addRecipeButton').prop('disabled', true);
@@ -72,38 +75,41 @@ $(document).ready(function() {
     }
   });
 
-  // Initialize Materialize Chips
+  // Initialize Materialize Chips only if the element exists
   var chipElem = document.querySelector('.chips-autocomplete');
-  var chipInstance = M.Chips.init(chipElem, {
-    placeholder: 'Enter a tag',
-    secondaryPlaceholder: '+Tag',
-    autocompleteOptions: {
-      data: tags,  // Ensure 'tags' is defined in your script
-      limit: Infinity,
-      minLength: 1
-    },
-    onChipAdd: function(e, chip) {
-      // Replace the default close icon with your custom icon
-      const closeIcon = chip.querySelector('.material-icons');
-      if (closeIcon) {
-        closeIcon.innerHTML = 'close';  // Change the icon to 'close'
+  if (chipElem) {
+    var chipInstance = M.Chips.init(chipElem, {
+      placeholder: 'Enter a tag',
+      secondaryPlaceholder: '+Tag',
+      autocompleteOptions: {
+        data: tags, 
+        limit: Infinity,
+        minLength: 1
+      },
+      onChipAdd: function(e, chip) {
+        // Replace the default close icon with fa-times icon
+        const closeIcon = chip.querySelector('.material-icons');
+        if (closeIcon) {
+          closeIcon.classList.remove('material-icons');
+          closeIcon.classList.add('fas', 'fa-times');
+        }
+        updateTagsField();
+      },
+      onChipDelete: function(e, chip) {
+        updateTagsField();
       }
-      updateTagsField();
-    },
-    onChipDelete: function(e, chip) {
-      updateTagsField();
+    });
+
+    // Function to update the hidden input with tags
+    function updateTagsField() {
+      const instance = M.Chips.getInstance(chipElem);
+      const tagsData = instance.chipsData.map(chip => chip.tag).join(',');
+      document.querySelector('#tags_input').value = tagsData;
     }
-  });
 
-  // Function to update the hidden input with tags
-  function updateTagsField() {
-    const instance = M.Chips.getInstance(chipElem);
-    const tagsData = instance.chipsData.map(chip => chip.tag).join(',');
-    document.querySelector('#tags_input').value = tagsData;
+    // Populate 'tags_input' on page load
+    updateTagsField();
   }
-
-  // **New Addition**: Populate 'tags_input' on page load
-  updateTagsField();
 
   // Function to mark images for deletion and show file input
   $(document).on('click', '.delete_image_button', function() {
@@ -137,6 +143,24 @@ $(document).ready(function() {
 
     // Reset the delete flag to false
     $('input[name="delete_image_' + stageNum + '"]').val('false');
+  });
+
+  // Handle manual dismissal of flash messages
+  $('.close-flash').click(function(event) {
+    event.preventDefault(); 
+    $(this).closest('.flash-message').fadeOut('slow', function() {
+      $(this).remove(); 
+    });
+  });
+
+  // Handle auto-dismiss after 2 seconds (2000 milliseconds)
+  $('.flash-message').each(function() {
+    var $message = $(this);
+    setTimeout(function() {
+      $message.fadeOut('slow', function() {
+        $message.remove(); 
+      });
+    }, 2000); // 2 second
   });
 
 });
