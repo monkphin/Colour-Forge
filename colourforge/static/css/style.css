@@ -60,11 +60,11 @@ form {
     margin-right: 10px;
 }
 
+/* Preserves line breaks but collapses other whitespace */
 .preserve-whitespace {
-    white-space: pre-line; /* Preserves line breaks but collapses other whitespace */
+    white-space: pre-line; 
 }
 
-/* Had to overide default materialize CSS on accordians due to it not honouring longer text */
 .collapsible-body {
     padding: 16px;               
     box-sizing: border-box;      
@@ -79,7 +79,6 @@ form {
     align-items: center;
 
 }
-
 
 .collapsible-body .row {
     display: flex;

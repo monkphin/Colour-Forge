@@ -1,5 +1,5 @@
 $(document).ready(function() {
-  
+
   // Set stageCount based on existing stages
   var stageCount = $('.multi-stage').length || 1;
 
@@ -27,7 +27,11 @@ $(document).ready(function() {
   $(document).on('click', '.add_field', function() {
     stageCount++;  // Increment stage count
     var newStage = `
-      <div class="row multi-stage">
+      <div class="row multi-stage" data-stage-id="">
+        <!-- Hidden input for new stage (no ID) -->
+        <input type="hidden" name="stage_ids[]" value="">
+        <input type="hidden" name="stage_nums[]" value="${stageCount}">
+
         <div class="input-field col s7">
           <textarea id="instructions_${stageCount}" name="instructions[]" class="materialize-textarea input" required></textarea>
           <label for="instructions_${stageCount}">Stage ${stageCount} Instructions (required)</label>
@@ -46,10 +50,18 @@ $(document).ready(function() {
               <label for="image_desc_${stageCount}">Image Description</label>
             </div>
           </div>
+          <!-- Hidden input to track image deletion -->
+          <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
         </div>
       </div>
     `;
     $('.multi-stage:last').after(newStage);  // Insert after the last multi-stage
+
+    // Initialize Materialize Textareas and Labels for new elements
+    setTimeout(function() {
+      M.textareaAutoResize(document.querySelectorAll('textarea'));
+      M.updateTextFields();
+    }, 100);
   });
 
   // Remove the last added input field
@@ -62,7 +74,7 @@ $(document).ready(function() {
 
   // Initialize Materialize Chips
   var chipElem = document.querySelector('.chips-autocomplete');
-  M.Chips.init(chipElem, {
+  var chipInstance = M.Chips.init(chipElem, {
     placeholder: 'Enter a tag',
     secondaryPlaceholder: '+Tag',
     autocompleteOptions: {
@@ -74,7 +86,7 @@ $(document).ready(function() {
       // Replace the default close icon with your custom icon
       const closeIcon = chip.querySelector('.material-icons');
       if (closeIcon) {
-        closeIcon.innerHTML = 'X';  // Change the icon to 'X'
+        closeIcon.innerHTML = 'close';  // Change the icon to 'close'
       }
       updateTagsField();
     },
@@ -90,7 +102,10 @@ $(document).ready(function() {
     document.querySelector('#tags_input').value = tagsData;
   }
 
-  // Function to hide images/show fields to replace images
+  // **New Addition**: Populate 'tags_input' on page load
+  updateTagsField();
+
+  // Function to mark images for deletion and show file input
   $(document).on('click', '.delete_image_button', function() {
     var stageNum = $(this).attr('data-stage-num');
     var imageContainer = $('#image_container_' + stageNum);
@@ -102,9 +117,12 @@ $(document).ready(function() {
     if (fileInputContainer.length) {
       fileInputContainer.show();
     }
+
+    // Set the delete flag to true
+    $('input[name="delete_image_' + stageNum + '"]').val('true');
   });
 
-  // Function to unhide image if user changes their mind
+  // Function to unhide image if user cancels replacement
   $(document).on('click', '.cancel_replace_button', function() {
     var stageNum = $(this).attr('data-stage-num');
     var imageContainer = $('#image_container_' + stageNum);
@@ -116,5 +134,9 @@ $(document).ready(function() {
     if (fileInputContainer.length) {
       fileInputContainer.hide();
     }
+
+    // Reset the delete flag to false
+    $('input[name="delete_image_' + stageNum + '"]').val('false');
   });
+
 });
