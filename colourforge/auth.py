@@ -7,9 +7,7 @@ from flask import (
     url_for,
     Blueprint
 )
-
 from flask_login import login_required, current_user, login_user, logout_user
-
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local imports
@@ -17,7 +15,9 @@ from colourforge import db
 from colourforge.models import User
 from colourforge.seed import create_default_recipe
 
+
 auth = Blueprint('auth', __name__)
+
 
 @auth.route('/logout')
 @login_required

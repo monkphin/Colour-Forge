@@ -56,4 +56,7 @@ def load_user(user_id):
 
 # Blueprint routes
 from colourforge.routes import routes  # noqa
-from colourforge.auth import auth    # n
+from colourforge.auth import auth    # noqa
+
+app.register_blueprint(routes)
+app.register_blueprint(auth) 

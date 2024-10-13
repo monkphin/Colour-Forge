@@ -7,17 +7,18 @@ from flask import (
     url_for,
     Blueprint
 )
-
 from flask_login import login_required, current_user
 
 # Local Imports
 from colourforge import app, db, cloudinary, cloudinary_url
-from colourforge.models import (User, 
-                                Recipe, 
-                                RecipeStage, 
-                                RecipeImage, 
-                                RecipeTag, 
-                                EntityTag)
+from colourforge.models import (
+    User, 
+    Recipe, 
+    RecipeStage, 
+    RecipeImage, 
+    RecipeTag, 
+    EntityTag
+    )
 from colourforge.helpers import (
     recipe_handler,
     instruction_handler,
@@ -25,7 +26,6 @@ from colourforge.helpers import (
     tag_handler,
     edit_tag_handler
 )
-
 
 routes = Blueprint('routes', __name__)
 
