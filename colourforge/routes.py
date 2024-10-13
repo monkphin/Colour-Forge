@@ -32,7 +32,10 @@ routes = Blueprint('routes', __name__)
 # Content rendering only routes
 @routes.route("/", methods=['GET', 'POST'])
 def home():
-    recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
+    if current_user.is_authenticated:
+        recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
+    else:
+        recipes = None
     return render_template("home.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
