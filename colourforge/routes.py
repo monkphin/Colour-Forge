@@ -32,15 +32,14 @@ routes = Blueprint('routes', __name__)
 # Content rendering only routes
 @routes.route("/", methods=['GET', 'POST'])
 def home():
-    recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
+    recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
     return render_template("home.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
 @routes.route("/recipes")
 @login_required
 def recipes():
-    recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
-
+    recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
     return render_template("recipes.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
@@ -100,6 +99,12 @@ def add_recipe():
 @login_required
 def edit_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
+
+    # ensure user owns the recipe
+    if recipe.user_id != current_user.id:
+        flash("You do not have permission to edit this recipe.", category="error")
+        return redirect(url_for('routes.home'))
+
     recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
 
     if request.method == "POST":
@@ -256,6 +261,11 @@ def edit_recipe(recipe_id):
 @login_required
 def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
+
+    # ensure user owns the recipe
+    if recipe.user_id != current_user.id:
+        flash("You do not have permission to edit this recipe.", category="error")
+        return redirect(url_for('routes.home'))
 
     # Delete associated stages and images
     stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()

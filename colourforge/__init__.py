@@ -6,6 +6,7 @@ import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask_login import LoginManager
 
+
 if os.path.exists("env.py"):
     import env  # noqa
 
@@ -42,6 +43,7 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
+
 
 from colourforge.models import User
 

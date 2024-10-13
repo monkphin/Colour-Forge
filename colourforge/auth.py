@@ -48,7 +48,7 @@ def login():
             flash('User not found', category='error')
 
         # After flashing error messages, render login page again
-        return render_template('routes.home')  # Ensure 'login.html' exists
+        return render_template('home.html', user=current_user, tag_dict={}) 
     else:
         # For GET requests, render the login page
         return render_template('home.html', user=current_user, tag_dict={})
