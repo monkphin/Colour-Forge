@@ -250,7 +250,7 @@ def edit_recipe(recipe_id):
         db.session.commit()
 
         flash("Recipe has been updated")
-        return redirect(url_for('recipe_page', recipe_id=recipe.recipe_id))
+        return redirect(url_for('routes.recipe_page', recipe_id=recipe.recipe_id))
 
     else:
         # GET request: Render the edit form
