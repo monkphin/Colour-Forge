@@ -85,9 +85,12 @@ def register():
             new_user = User(email=email, username=username, password=generate_password_hash(password1, method='pbkdf2:sha512'))
             db.session.add(new_user)
             db.session.commit()
+
+            create_default_recipe(new_user)
+
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
+
             return redirect(url_for('routes.home'))
-            create_default_recipe(new_user)
 
     return render_template("register.html", user=current_user, tag_dict={})

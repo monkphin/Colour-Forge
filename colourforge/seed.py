@@ -5,8 +5,10 @@ def create_default_recipe(user):
     # Create a default recipe
     demo_recipe = Recipe(
         user=user,  # Automatically sets user_id
-        recipe_name='Demo Recipe',
-        recipe_desc='This is a demonstration recipe, to show a rough idea of possible uses'
+        recipe_name="Demo Recipe",
+        recipe_desc=("This is a demonstration recipe, to show a rough idea of possible uses. \r\n"
+                    "\r\n"
+                    "Images can be clicked on to see a larger copy, this will also allow you to open the full sized version of the image in a new window")
     )
     db.session.add(demo_recipe)
     db.session.flush()  # Get recipe_id
@@ -20,6 +22,7 @@ def create_default_recipe(user):
             "These will honour line breaks via the enter key. \r\n"
             "\r\n"
             "Images and descriptions are optional, though a placeholder will be added if no image is provided. \r\n"
+            "\r\n"
             "Such as with this stage."
         ),
         is_final_stage=False
@@ -69,9 +72,10 @@ def create_default_recipe(user):
         public_id='woumsfwwkgycjjqooe3g'
     )
     
-    demo_recipe.stages[0].images.append(image1)
-    demo_recipe.stages[1].images.append(image2)
-    demo_recipe.stages[2].images.append(image3)
+    # Corrected attribute access
+    demo_recipe.stages[0].recipe_images.append(image1)
+    demo_recipe.stages[1].recipe_images.append(image2)
+    demo_recipe.stages[2].recipe_images.append(image3)
 
     # Create or retrieve tags
     tags = ['These', 'Are', 'Tags', "They're", 'Used', 'For', 'Searching']
@@ -88,7 +92,7 @@ def create_default_recipe(user):
     for tag in tag_objects:
         entity_tag = EntityTag(
             recipe=demo_recipe,
-            tag=tag,
+            recipe_tag=tag,
             entity_type='recipe'
         )
         db.session.add(entity_tag)
