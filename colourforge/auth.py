@@ -15,6 +15,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Local imports
 from colourforge import db
 from colourforge.models import User
+from colourforge.seed import create_default_recipe
 
 auth = Blueprint('auth', __name__)
 
@@ -23,7 +24,7 @@ auth = Blueprint('auth', __name__)
 def logout():
     logout_user()
     flash('Logged out successfully!', category='success')
-    return redirect(url_for('auth.login'))
+    return redirect(url_for('routes.home'))
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -54,9 +55,6 @@ def login():
         return render_template('home.html', user=current_user, tag_dict={})
 
 
-
-
-
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -70,7 +68,12 @@ def register():
         print(f"Password1: {password1}")
         print(f"Password2: {password2}")
 
-        if len(username) < 4:
+        # Check to see if user exists
+        existing_user = User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first()
+
+        if existing_user:
+            flash('User already exists', category='error')
+        elif len(username) < 4:
             flash('Username must be at least four characters.', category='error')
         elif len(email) < 4: 
             flash('Email must be at least four characters.', category='error')
@@ -85,5 +88,6 @@ def register():
             login_user(new_user, remember=True)
             flash('Account created!', category='success')
             return redirect(url_for('routes.home'))
+            create_default_recipe(new_user)
 
     return render_template("register.html", user=current_user, tag_dict={})
