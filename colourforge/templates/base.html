@@ -22,7 +22,7 @@
           {% if user.is_authenticated %}
             <li><a href="{{ url_for('routes.home') }}">Home</a></li>
             <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
-            <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+            <li><a href="#">Account</a></li>
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             <li>
               <form>
@@ -43,19 +43,18 @@
     <!--Mobile Nav-->        
     <ul class="sidenav" id="mobile-demo">
         <div class="image-container">
-          <img class="site_logo" src={{ url_for('static', filename='images/logo.png') }}></img>
+          <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}">
         </div>   
         {% if user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
         <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
-        <li><a href="{{ url_for('auth.account') }}">Account</a></li>
-        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-        <li>
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Log Out</a></li>
+          <li>
             <form>
               <div class="input-field">
                 <input id="search" type="search" required>
                 <label class="label-icon" for="search"><i class="fas fa-times"></i>Search</label>
-
               </div>
             </form>
           </li>
@@ -97,7 +96,7 @@
     <div class="container">
       <div class="row">
         <div class="col l8 offset-l2 s12 center-align">
-          <ul class="inline-lists"> <!-- Ensure class matches the CSS -->
+          <ul class="inline-lists">
             <li><a class="grey-text text-lighten-3" href="https://facebook.com" target="_blank" aria-label="Facebook - (Opens in a new tab)" rel="noopener"><i class="fab fa-facebook-f"></i></a></li>
             <li><a class="grey-text text-lighten-3" href="https://twitter.com" target="_blank" aria-label="Twitter - (Opens in a new tab)" rel="noopener"><i class="fab fa-twitter"></i></a></li>
             <li><a class="grey-text text-lighten-3" href="https://instagram.com" target="_blank" aria-label="Instagram - (Opens in a new tab)" rel="noopener"><i class="fab fa-instagram"></i></a></li>
@@ -112,11 +111,15 @@
 
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-  <!--Found this to get tags working since they needed to be sent as a json object https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/ -->
+
   <script>
     var tags = {};
     {% if tag_dict is not none %}
       tags = {{ tag_dict | tojson }};
     {% endif %}
   </script>
-  <script src="{{ 
+
+  <script src="{{ url_for('static', filename='js/script.js') }}"></script>
+
+</body>
+</html>
