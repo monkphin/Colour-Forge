@@ -8,6 +8,8 @@ from flask import (
     Blueprint
 )
 
+from flask_login import login_required, current_user
+
 # Local Imports
 from colourforge import app, db, cloudinary, cloudinary_url
 from colourforge.models import (User, 
@@ -31,14 +33,14 @@ routes = Blueprint('routes', __name__)
 @app.route("/")
 def home():
     recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
-    return render_template("home.html", recipes=recipes, tag_dict={})
+    return render_template("home.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
 @app.route("/recipes")
 def recipes():
     recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
 
-    return render_template("recipes.html", recipes=recipes, tag_dict={})
+    return render_template("recipes.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
 @app.route("/recipe_page/<int:recipe_id>")
@@ -50,7 +52,8 @@ def recipe_page(recipe_id):
         'recipe_page.html', 
         recipe=recipe, 
         referrer=referrer, 
-        tag_dict={}
+        tag_dict={},
+        user=current_user
         )
 
 
@@ -88,7 +91,7 @@ def add_recipe():
         all_tags = RecipeTag.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
-        return render_template("add_recipe.html", tag_dict=tag_dict)
+        return render_template("add_recipe.html", tag_dict=tag_dict, user=current_user)
 
 
 @app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -243,7 +246,7 @@ def edit_recipe(recipe_id):
         all_tags = RecipeTag.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
-        return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict)
+        return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
 
 
 @app.route("/delete_recipe/<int:recipe_id>")
@@ -270,4 +273,4 @@ def delete_recipe(recipe_id):
 
     flash("Recipe has been deleted")
 
-    return redirect(url_for('recipes'))
+    return redirect(url_for('recipes'), user=current_user)

@@ -8,16 +8,13 @@ from flask import (
     Blueprint
 )
 
+from flask_login import login_required, current_user
+
 from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local imports
-from colourforge import app, db, cloudinary, cloudinary_url
-from colourforge.models import (User, 
-                                Recipe, 
-                                RecipeStage, 
-                                RecipeImage, 
-                                RecipeTag, 
-                                EntityTag)
+from colourforge import db
+from colourforge.models import User
 
 auth = Blueprint('auth', __name__)
 
@@ -59,4 +56,4 @@ def register():
             flash('Account created!', category='success')
             return redirect(url_for('home'))
 
-    return render_template("register.html")
+    return render_template("register.html", user=current_user)

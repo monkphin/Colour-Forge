@@ -19,21 +19,24 @@
         <a href="#!" class="brand-logo">Colour Forge</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
-          <li><a href="{{ url_for('home')}}">Home</a></li>
-          <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
-          <li><a href="#">Account</a></li>
-          <li><a href="#">Log Out</a></li>
-          <li><a href="{{ url_for('auth.register')}}">Register</a></li>
-          <li><a href="#">Log In</a></li>
-          <!--<li>
-            <form>
-              <div class="input-field">
-                <input id="search" type="search" required>
-                <label class="label-icon" for="search"><i class="fas fa-search"></i></label>
-                <i class="fas fa-times"></i>
-              </div>
-            </form>
-          </li>-->
+          {% if user.is_authenticated %}
+            <li><a href="{{ url_for('home')}}">Home</a></li>
+            <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+            <li><a href="#">Account</a></li>
+            <li><a href="#">Log Out</a></li>
+            <!--<li>
+              <form>
+                <div class="input-field">
+                  <input id="search" type="search" required>
+                  <label class="label-icon" for="search"><i class="fas fa-search"></i></label>
+                  <i class="fas fa-times"></i>
+                </div>
+              </form>
+            </li>-->
+          {% else %}
+            <li><a href="#">Log In</a></li>
+            <li><a href="{{ url_for('auth.register')}}">Register</a></li>
+          {% endif %}
         </ul>
       </div>
     </nav>
@@ -42,12 +45,11 @@
         <div class="image-container">
           <img class="site_logo" src={{ url_for('static', filename='images/logo.png') }}></img>
         </div>   
-        <li><a href="{{ url_for('home')}}">Home</a></li>
-        <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
-        <li><a href="#">Account</a></li>
-        <li><a href="#">Log Out</a></li>
-        <li><a href="{{ url_for('auth.register')}}">Register</a></li>
-        <li><a href="#">Log In</a></li>
+        {% if user.is_authenticated %}
+          <li><a href="{{ url_for('home')}}">Home</a></li>
+          <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+          <li><a href="#">Account</a></li>
+          <li><a href="#">Log Out</a></li>
           <!-- <li>
             <form>
               <div class="input-field">
@@ -57,6 +59,10 @@
               </div>
             </form>
           </li> -->
+        {% else %}
+          <li><a href="#">Log In</a></li>
+          <li><a href="{{ url_for('auth.register')}}">Register</a></li>
+        {% endif %}
     </ul>              
   </header>       
   
