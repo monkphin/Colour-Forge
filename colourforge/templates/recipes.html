@@ -20,7 +20,7 @@
               {% else %}
                 <p>You have no recipes currently, add one?</p>
               {% endif %}
-            <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
+            <a href="{{ url_for('routes.add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
           </div>
         </div>
       </div>
@@ -35,7 +35,7 @@
         {% for stage in recipe.stages %}
           {% if stage.is_final_stage %}
             {% if stage.recipe_images %}
-              <a href="{{ url_for('recipe_page', recipe_id=recipe.recipe_id) }}">
+              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
                 <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
               </a>
             {% else %}

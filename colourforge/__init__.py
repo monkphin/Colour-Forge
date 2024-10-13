@@ -4,6 +4,7 @@ from flask_sqlalchemy import SQLAlchemy
 import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
+from flask_login import LoginManager
 
 if os.path.exists("env.py"):
     import env  # noqa
@@ -33,8 +34,23 @@ cloudinary.config(
 # SendGrid config
 app.config["SENDGRID_API_KEY"] = os.environ.get("SENDGRID_API_KEY")
 
+
 db = SQLAlchemy(app)
 
+
+# Handle Logins
+login_manager = LoginManager()
+login_manager.login_view = 'auth.login'
+login_manager.init_app(app)
+
+from colourforge.models import User
+
+@login_manager.user_loader
+def load_user(user_id):
+    return User.query.get(int(user_id))
+
+
+# Blueprint routes
 from colourforge.routes import routes  # noqa
 from colourforge.auth import auth    # noqa
 

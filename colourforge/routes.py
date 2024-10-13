@@ -30,20 +30,21 @@ from colourforge.helpers import (
 routes = Blueprint('routes', __name__)
 
 # Content rendering only routes
-@app.route("/")
+@routes.route("/", methods=['GET', 'POST'])
 def home():
     recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
     return render_template("home.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
-@app.route("/recipes")
+@routes.route("/recipes")
+@login_required
 def recipes():
     recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
 
     return render_template("recipes.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
-@app.route("/recipe_page/<int:recipe_id>")
+@routes.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
     recipe=Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer 
@@ -58,7 +59,8 @@ def recipe_page(recipe_id):
 
 
 # Routes that render and write content 
-@app.route("/add_recipe", methods=["GET", "POST"])
+@routes.route("/add_recipe", methods=["GET", "POST"])
+@login_required
 def add_recipe():
     if request.method == "POST":    
 
@@ -94,7 +96,8 @@ def add_recipe():
         return render_template("add_recipe.html", tag_dict=tag_dict, user=current_user)
 
 
-@app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
+@routes.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
+@login_required
 def edit_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
     recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
@@ -249,7 +252,8 @@ def edit_recipe(recipe_id):
         return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
 
 
-@app.route("/delete_recipe/<int:recipe_id>")
+@routes.route("/delete_recipe/<int:recipe_id>")
+@login_required
 def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 

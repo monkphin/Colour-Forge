@@ -16,14 +16,14 @@
     <!--Desktop Nav-->
     <nav>
       <div class="nav-wrapper">
-        <a href="#!" class="brand-logo">Colour Forge</a>
+        <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
         <a href="#" data-target="mobile-demo" class="sidenav-trigger"><i class="material-icons">menu</i></a>
         <ul class="right hide-on-med-and-down">
           {% if user.is_authenticated %}
-            <li><a href="{{ url_for('home')}}">Home</a></li>
-            <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+            <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+            <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
             <li><a href="#">Account</a></li>
-            <li><a href="#">Log Out</a></li>
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             <!--<li>
               <form>
                 <div class="input-field">
@@ -46,8 +46,8 @@
           <img class="site_logo" src={{ url_for('static', filename='images/logo.png') }}></img>
         </div>   
         {% if user.is_authenticated %}
-          <li><a href="{{ url_for('home')}}">Home</a></li>
-          <li><a href="{{ url_for('recipes')}}">Recipes</a></li>
+        <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+        <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
           <li><a href="#">Account</a></li>
           <li><a href="#">Log Out</a></li>
           <!-- <li>
@@ -113,7 +113,12 @@
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
   <!--Found this to get tags working since they needed to be sent as a json object https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/ -->
-
+  <script>
+    var tags = {};
+    {% if tag_dict is not none %}
+      tags = {{ tag_dict | tojson }};
+    {% endif %}
+  </script>
   <script src="{{ url_for('static', filename='js/script.js') }}"></script>
   
 

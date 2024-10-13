@@ -7,8 +7,8 @@ class User(db.Model, UserMixin):
     __tablename__ = 'users'
     
     # schema for the users model
-    user_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(100), unique=True, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
@@ -17,7 +17,7 @@ class User(db.Model, UserMixin):
 
     def __repr__(self):
         # __repr__ to represent itself in the form of a string
-        return f"<User {self.user_name}>"
+        return f"<User {self.username}>"
 
 
 class Recipe(db.Model):
@@ -26,7 +26,7 @@ class Recipe(db.Model):
 
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     recipe_name = db.Column(db.String(55), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 

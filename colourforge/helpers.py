@@ -1,5 +1,6 @@
 from flask import request
 from colourforge import app, db, cloudinary, cloudinary_url
+from flask_login import current_user
 from colourforge.models import (Recipe, 
                                 RecipeStage, 
                                 RecipeImage, 
@@ -10,6 +11,7 @@ from colourforge.models import (Recipe,
 
 def recipe_handler(form_data):
     recipe = Recipe(
+        user_id=current_user.id,
         recipe_name=request.form.get('recipe_name'),
         recipe_desc=request.form.get('recipe_desc'),
     )

@@ -33,7 +33,7 @@
           <div class="card-content">
             <h2 class="card-title">Add Recipe</h2>
             <p>Add a new paint recipe</p>
-            <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
+            <a href="{{ url_for('routes.add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
           </div>
         </div>
       </div>
@@ -45,7 +45,7 @@
     <div class="carousel">
       {% if recipes %}
         {% for recipe in recipes[:6] %}
-          <a class="carousel-item" href="{{ url_for('recipe_page', recipe_id=recipe.recipe_id) }}">
+          <a class="carousel-item" href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
             <div class="card recipe-cards">
               <div class="card-image waves-effect waves-block waves-light">
                 {% for stage in recipe.stages %}
@@ -67,39 +67,39 @@
       {% else %}
       <div class="card-content">
         <h4 class="card-title">You have no recipes currently, add one?</h4>
-        <a href="{{ url_for('add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
+        <a href="{{ url_for('routes.add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
       </div>
       {% endif %}
     </div>
   </div>
 
-{% else %}
+  {% else %}
 
-  <!--Not Logged In Display-->
+  <!-- Not Logged In Display -->
   <div class="image-container">
-    <img class="site_logo" src={{ url_for('static', filename='images/logo.png') }}></img>
+      <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="Site Logo">
   </div>
 
   <div class="row">
-  <form class="col s12">
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="username" type="text" minlength="5" maxlength="55" type="text" class="validate" required>
-        <label for="username">Username or Email Address</label>
-      </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <input id="password1" type="password" minlength="7" maxlength="100" type="text" class="validate" required>
-        <label for="password1">Enter Password</label>
-      </div>
-    </div>
-    <button class="btn waves-effect waves-light" type="submit" name="action">Login
-      <i class="material-icons right"></i>
-    </button>
-  </form>
+      <form class="col s12" method="POST" action="{{ url_for('auth.login') }}">
+          <div class="row">
+              <div class="input-field col s12">
+                  <input id="login" type="text" name="login" minlength="5" maxlength="55" class="validate" required>
+                  <label for="login">Username or Email Address</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="input-field col s12">
+                  <input id="password" type="password" name="password" minlength="7" maxlength="100" class="validate" required>
+                  <label for="password">Enter Password</label>
+              </div>
+          </div>
+          <button class="btn waves-effect waves-light" type="submit" name="action">Login
+              <i class="material-icons right"></i>
+          </button>
+      </form>
   </div>
 
-  {% endif %}
+{% endif %}
 
 {% endblock %}
