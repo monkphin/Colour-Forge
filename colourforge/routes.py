@@ -10,11 +10,12 @@ from flask import (
 
 # Local Imports
 from colourforge import app, db, cloudinary, cloudinary_url
-from colourforge.models import (Recipes, 
-                                RecipeStages, 
-                                RecipeImages, 
-                                RecipeTags, 
-                                EntityTags)
+from colourforge.models import (User, 
+                                Recipe, 
+                                RecipeStage, 
+                                RecipeImage, 
+                                RecipeTag, 
+                                EntityTag)
 from colourforge.helpers import (
     recipe_handler,
     instruction_handler,
@@ -29,20 +30,20 @@ routes = Blueprint('routes', __name__)
 # Content rendering only routes
 @app.route("/")
 def home():
-    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+    recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
     return render_template("home.html", recipes=recipes, tag_dict={})
 
 
 @app.route("/recipes")
 def recipes():
-    recipes = list(Recipes.query.order_by(Recipes.recipe_name).all())
+    recipes = list(Recipe.query.order_by(Recipe.recipe_name).all())
 
     return render_template("recipes.html", recipes=recipes, tag_dict={})
 
 
 @app.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
-    recipe=Recipes.query.get_or_404(recipe_id)
+    recipe=Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer 
 
     return render_template(
@@ -84,7 +85,7 @@ def add_recipe():
     else:
         # Get collection of existing tags as a variable and iterate through
         # to create a dictionary to match how materialize is handling chips/tags.     
-        all_tags = RecipeTags.query.all()
+        all_tags = RecipeTag.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
         return render_template("add_recipe.html", tag_dict=tag_dict)
@@ -92,8 +93,8 @@ def add_recipe():
 
 @app.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
 def edit_recipe(recipe_id):
-    recipe = Recipes.query.get_or_404(recipe_id)
-    recipes = list(Recipes.query.order_by(Recipes.recipe_id).all())
+    recipe = Recipe.query.get_or_404(recipe_id)
+    recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
 
     if request.method == "POST":
         recipe.recipe_name = request.form.get('recipe_name')
@@ -123,7 +124,7 @@ def edit_recipe(recipe_id):
             if index < len(stage_ids) and stage_ids[index]:
                 # Existing stage
                 stage_id = stage_ids[index]
-                stage = RecipeStages.query.get(stage_id)
+                stage = RecipeStage.query.get(stage_id)
                 if stage:
                     stage.instructions = instruction
 
@@ -143,7 +144,7 @@ def edit_recipe(recipe_id):
                                 # Assign placeholder only if no new image is uploaded
                                 placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
                                 placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                                recipe_image = RecipeImages(
+                                recipe_image = RecipeImage(
                                     stage_id=stage.stage_id,
                                     image_url=placeholder_url,
                                     thumbnail_url=placeholder_thumbnail,
@@ -156,7 +157,7 @@ def edit_recipe(recipe_id):
                             # No existing image and not marked for deletion, assign placeholder
                             placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
                             placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                            recipe_image = RecipeImages(
+                            recipe_image = RecipeImage(
                                 stage_id=stage.stage_id,
                                 image_url=placeholder_url,
                                 thumbnail_url=placeholder_thumbnail,
@@ -177,7 +178,7 @@ def edit_recipe(recipe_id):
                                     cloudinary.uploader.destroy(old_image.public_id)
                                 db.session.delete(old_image)
                             # Add the new image
-                            recipe_image = RecipeImages(
+                            recipe_image = RecipeImage(
                                 stage_id=stage.stage_id,
                                 image_url=image_url,
                                 thumbnail_url=thumbnail_url,
@@ -187,7 +188,7 @@ def edit_recipe(recipe_id):
                             db.session.add(recipe_image)
             else:
                 # New stage
-                new_stage = RecipeStages(
+                new_stage = RecipeStage(
                     recipe=recipe,
                     stage_num=index + 1,  # Temporary assignment; will be corrected below
                     instructions=instruction
@@ -201,7 +202,7 @@ def edit_recipe(recipe_id):
                     if new_image and new_image.filename != '':
                         image_url, thumbnail_url, public_id = upload_image(new_image)
                         if image_url:
-                            recipe_image = RecipeImages(
+                            recipe_image = RecipeImage(
                                 stage_id=new_stage.stage_id,
                                 image_url=image_url,
                                 thumbnail_url=thumbnail_url,
@@ -213,7 +214,7 @@ def edit_recipe(recipe_id):
                         # Assign placeholder
                         placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
                         placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                        recipe_image = RecipeImages(
+                        recipe_image = RecipeImage(
                             stage_id=new_stage.stage_id,
                             image_url=placeholder_url,
                             thumbnail_url=placeholder_thumbnail,
@@ -223,7 +224,7 @@ def edit_recipe(recipe_id):
                         db.session.add(recipe_image)
 
         # After processing all stages, reassign stage_num to ensure sequential order
-        all_stages = RecipeStages.query.filter_by(recipe_id=recipe.recipe_id).order_by(RecipeStages.stage_num).all()
+        all_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).order_by(RecipeStage.stage_num).all()
         for idx, stage in enumerate(all_stages, start=1):
             stage.stage_num = idx
 
@@ -239,7 +240,7 @@ def edit_recipe(recipe_id):
 
     else:
         # GET request: Render the edit form
-        all_tags = RecipeTags.query.all()
+        all_tags = RecipeTag.query.all()
         tag_dict = {tag.tag_name: None for tag in all_tags}
 
         return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict)
@@ -247,12 +248,12 @@ def edit_recipe(recipe_id):
 
 @app.route("/delete_recipe/<int:recipe_id>")
 def delete_recipe(recipe_id):
-    recipe = Recipes.query.get_or_404(recipe_id)
+    recipe = Recipe.query.get_or_404(recipe_id)
 
     # Delete associated stages and images
-    stages = RecipeStages.query.filter_by(recipe_id=recipe.recipe_id).all()
+    stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
     for stage in stages:
-        images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
+        images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
             if image.public_id:
                 # Delete the image from Cloudinary using public_id
@@ -261,7 +262,7 @@ def delete_recipe(recipe_id):
         db.session.delete(stage)  # Delete stage record from the database
 
     # Delete associated tags
-    EntityTags.query.filter_by(recipe_id=recipe.recipe_id).delete()
+    EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
 
     # Delete the recipe itself
     db.session.delete(recipe)

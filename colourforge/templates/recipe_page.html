@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% block title %}Recipes{% endblock %}
+
 {% block content %}
 
 <div class="row">
@@ -11,8 +14,8 @@
       <!-- stage tags -->
       <div class="card-content">
         Tags:
-          {% if recipe.tags %}
-            {% for tag in recipe.tags %}
+          {% if recipe.entity_tags %}
+            {% for tag in recipe.entity_tags %}
               {% if tag.recipe_tag %}
                 <div class="chip">
                   {{ tag.recipe_tag.tag_name }}   

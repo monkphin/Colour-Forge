@@ -1,16 +1,11 @@
-from colourforge import db
-from colourforge import app
+from colourforge import db, app
 from sqlalchemy import text
 
 def reset_database():
     """Drop all tables and recreate them."""
     with app.app_context():
-        # Drop the tables using text() for raw SQL execution
-        db.session.execute(text('DROP TABLE IF EXISTS recipes, recipe_stages, entity_tags, recipe_images, recipe_tags CASCADE;'))
-        db.session.commit()
-
-        # Drop the recipes table last
-        db.session.execute(text('DROP TABLE IF EXISTS recipes CASCADE;'))
+        # Drop the tables using raw SQL execution
+        db.session.execute(text('DROP TABLE IF EXISTS entity_tags, recipe_tags, recipe_images, recipe_stages, recipes, users CASCADE;'))
         db.session.commit()
         
         print("Dropped all tables with CASCADE.")

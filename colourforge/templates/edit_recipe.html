@@ -1,127 +1,137 @@
-{% extends "base.html" %}
-{% block content %}
+  {% extends "base.html" %}
 
-<h2>Edit Recipe</h2>
+  {% block title %}Edit Recipe{% endblock %} 
 
-<div class="row card-panel grey lighten-5">
-  <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe.recipe_id) }}" enctype="multipart/form-data">
+  {% block content %}
 
-    <div class="row">
-      <div class="input-field col s12">
-        <!-- Recipe Name field -->
-        <input id="recipe_name" name="recipe_name" minlength="5" maxlength="55" type="text" class="validate" value="{{ recipe.recipe_name }}" required>
-        <label for="recipe_name">Recipe Name (required)</label>
+  <h2>Edit Recipe</h2>
+
+  <div class="row card-panel grey lighten-5">
+    <form class="col s12" method="POST" action="{{ url_for('edit_recipe', recipe_id=recipe.recipe_id) }}" enctype="multipart/form-data">
+
+      <div class="row">
+        <div class="input-field col s12">
+          <!-- Recipe Name field -->
+          <input id="recipe_name" name="recipe_name" minlength="5" maxlength="55" type="text" class="validate" value="{{ recipe.recipe_name }}" required>
+          <label for="recipe_name">Recipe Name (required)</label>
+        </div>
       </div>
-    </div>
 
-    <div class="row">
-      <div class="input-field col s12">
-        <!-- Recipe Description field -->
-        <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required>{{ recipe.recipe_desc }}</textarea>
-        <label for="recipe_desc">Recipe Description (required)</label>
+      <div class="row">
+        <div class="input-field col s12">
+          <!-- Recipe Description field -->
+          <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required>{{ recipe.recipe_desc }}</textarea>
+          <label for="recipe_desc">Recipe Description (required)</label>
+        </div>
       </div>
-    </div>
 
-    <!-- Tags field -->
-    <div class="row">
-      <div class="col s6">
-        <p>Searchable Tags</p>
-        <p>(Optional, press enter for each tag)</p>
+      <!-- Tags field -->
+      <div class="row">
+        <div class="col s6">
+          <p>Searchable Tags</p>
+          <p>(Optional, press enter for each tag)</p>
+        </div>
+        <div class="col s6">
+          <div class="chips chips-autocomplete">
+            {% if recipe.entity_tags %}
+              {% for tag in recipe.entity_tags %}
+                {% if tag.recipe_tag %}
+                  <div class="chip">
+                    {{ tag.recipe_tag.tag_name }}
+                  </div>
+                {% endif %}
+              {% endfor %}
+            {% endif %}
+          </div>
+          <input type="hidden" name="tags" id="tags_input">
+        </div>
       </div>
-      <div class="col s6">
-        <div class="chips chips-autocomplete">
-          {% if recipe.tags %}
-            {% for tag in recipe.tags %}
-              {% if tag.recipe_tag %}
-                <div class="chip">
-                  {{ tag.recipe_tag.tag_name }}
-                </div>
-              {% endif %}
-            {% endfor %}
+
+      <!-- Stages for Instructions -->
+      <div class="row">
+        <h5>Recipe Stages</h5>
+        <hr>
+        {% for stage in recipe.stages %}
+        <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
+          <!-- Hidden input to track existing stage IDs -->
+          <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}">
+          <input type="hidden" name="stage_nums[]" value="{{ stage.stage_num }}">
+
+          <!-- Instruction Field -->
+          <div class="input-field col s7">
+            <textarea id="instructions_{{ stage.stage_num }}" name="instructions[]" class="materialize-textarea" required>{{ stage.instructions }}</textarea>
+            <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
+          </div>
+
+          <!-- Image Container or File Input Container -->
+          {% if stage.recipe_images %}
+            <!-- Existing Image Container -->
+            <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
+              <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img">
+              <p>{{ stage.recipe_images[0].alt_text }}</p>
+              <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
+              <!-- Hidden input to track image ID and deletion flag -->
+              <input type="hidden" name="image_ids[]" value="{{ stage.recipe_images[0].image_id }}">
+              <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag">
+            </div>
+          {% else %}
+            <!-- Placeholder Image Container -->
+            <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
+              <img src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png" alt="No image available" class="responsive-img">
+              <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
+              <!-- Hidden input to track image ID and deletion flag -->
+              <input type="hidden" name="image_ids[]" value="">
+              <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag">
+            </div>
           {% endif %}
-        </div>
-        <input type="hidden" name="tags" id="tags_input">
-      </div>
-    </div>
 
-    <!-- Stages for Instructions -->
-    <div class="row">
-      <h5>Recipe Stages</h5>
-      <hr>
-      {% for stage in recipe.stages %}
-      <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
-        <!-- Hidden input to track existing stage IDs -->
-        <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}">
-        <input type="hidden" name="stage_nums[]" value="{{ stage.stage_num }}">
-
-        <!-- Instruction Field -->
-        <div class="input-field col s7">
-          <textarea id="instructions_{{ stage.stage_num }}" name="instructions[]" class="materialize-textarea" required>{{ stage.instructions }}</textarea>
-          <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
-        </div>
-
-        <!-- Image Container or File Input Container -->
-        {% if stage.recipe_images %}
-          <!-- Existing Image Container -->
-          <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
-            <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img">
-            <p>{{ stage.recipe_images[0].alt_text }}</p>
-            <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
-            <!-- Hidden input to track image ID and deletion flag -->
-            <input type="hidden" name="image_ids[]" value="{{ stage.recipe_images[0].image_id }}">
-            <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag">
-          </div>
-        {% else %}
-          <!-- Placeholder Image Container -->
-          <div id="image_container_{{ stage.stage_num }}" class="col s5 center-align">
-            <img src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png" alt="No image available" class="responsive-img">
-            <button type="button" class="delete_image_button btn red lighten-1" data-stage-num="{{ stage.stage_num }}">Delete Image</button>
-            <!-- Hidden input to track image ID and deletion flag -->
-            <input type="hidden" name="image_ids[]" value="">
-            <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag">
-          </div>
-        {% endif %}
-
-        <!-- File Input Container (Hidden on load) -->
-        <div id="file_input_container_{{ stage.stage_num }}" class="col s5" style="display: none;">
-          <div class="file-field input-field">
-            <div class="btn">
-              <span>Upload New Image</span>
-              <input type="file" name="images[]" accept="image/*">
+          <!-- File Input Container (Hidden on load) -->
+          <div id="file_input_container_{{ stage.stage_num }}" class="col s5" style="display: none;">
+            <div class="file-field input-field">
+              <div class="btn">
+                <span>Upload New Image</span>
+                <input type="file" name="images[]" accept="image/*">
+              </div>
+              <div class="file-path-wrapper">
+                <input class="file-path validate" type="text" placeholder="Stage {{ stage.stage_num }} image">
+              </div>
+              <!-- Alt Text Field -->
+              <div class="input-field">
+                <textarea id="image_desc_{{ stage.stage_num }}" name="image_desc[]" class="materialize-textarea"></textarea>
+                <label for="image_desc_{{ stage.stage_num }}">Image Description</label>
+              </div>
+              <button type="button" class="cancel_replace_button btn grey lighten-1" data-stage-num="{{ stage.stage_num }}">Cancel</button>
             </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" placeholder="Stage {{ stage.stage_num }} image">
-            </div>
-            <!-- Alt Text Field -->
-            <div class="input-field">
-              <textarea id="image_desc_{{ stage.stage_num }}" name="image_desc[]" class="materialize-textarea"></textarea>
-              <label for="image_desc_{{ stage.stage_num }}">Image Description</label>
-            </div>
-            <button type="button" class="cancel_replace_button btn grey lighten-1" data-stage-num="{{ stage.stage_num }}">Cancel</button>
           </div>
         </div>
-      </div>
-      {% endfor %}
+        {% endfor %}
 
-      <!-- Buttons to handle adding/deleting rows -->
-      <div class="row">
-        <div class="col s12 center-align">
-          <button type="button" class="add_field btn">Add Stage</button>
-          <button type="button" class="remove_field btn">Remove Stage</button>
+        <!-- Buttons to handle adding/deleting rows -->
+        <div class="row">
+          <div class="col s12 center-align">
+            <button type="button" class="add_field btn">Add Stage</button>
+            <button type="button" class="remove_field btn">Remove Stage</button>
+          </div>
         </div>
-      </div>
 
-      <!-- Button to submit the recipe -->
-      <div class="row">
-        <div class="col s12 center-align">
-          <button type="submit" class="btn-small light-blue darken-1">Save Edited Recipe</button>
+        <!-- Button to submit the recipe -->
+        <div class="row">
+          <div class="col s12 center-align">
+            <button type="submit" class="btn-small light-blue darken-1">Save Edited Recipe</button>
+          </div>
         </div>
+
       </div>
 
-    </div>
+    </form>
+  </div>
 
-  </form>
-</div>
+  <!-- moved this from base.html to pages that it directly imacts due to issues with routes.  -->
+  <script>
+    var tags = {};
+    {% if tag_dict is not none %}
+      tags = {{ tag_dict | tojson }};
+    {% endif %}
+  </script>
 
-
-{% endblock %}
+  {% endblock %}

@@ -1,45 +1,44 @@
 from colourforge import db
+from flask_login import UserMixin
 
 
-"""
-class User(db.Model):
+class User(db.Model, UserMixin):
     # Explicitly set the table name
-    __tablename__ = 'user'
+    __tablename__ = 'users'
     
-    # schema for the users modal
+    # schema for the users model
     user_id = db.Column(db.Integer, primary_key=True)
-    user_name = db.Column(db.String(255), unique=True, nullable=False)
-    email = db.Column(db.String(100), unique=True, nullable=False)
+    user_name = db.Column(db.String(100), unique=True, nullable=False)
+    email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
 
     # Relationship to the Recipes table (one-to-many relationship)
-    recipes = db.relationship("Recipes", backref="user", cascade="all, delete", lazy=True)
+    recipes = db.relationship("Recipe", backref="user", cascade="all, delete", lazy=True)
 
     def __repr__(self):
         # __repr__ to represent itself in the form of a string
-        return f"<User {self.user_name}>
-"""
+        return f"<User {self.user_name}>"
 
 
-class Recipes(db.Model):
+class Recipe(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipes'
 
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
-    # user_id = db.Column(db.Integer, db.ForeignKey('user.user_id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id', ondelete='CASCADE'), nullable=False)
     recipe_name = db.Column(db.String(55), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 
     # Relationship to other models
     stages = db.relationship(
-        'RecipeStages', 
+        'RecipeStage', 
         backref='recipe', 
         lazy=True, 
         cascade="all, delete-orphan"
         )
-    tags = db.relationship(
-        'EntityTags', 
+    entity_tags = db.relationship(
+        'EntityTag', 
         backref='recipe', 
         lazy=True,  
         cascade="all, delete-orphan"
@@ -49,11 +48,11 @@ class Recipes(db.Model):
         return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>" 
 
 
-class RecipeStages(db.Model):
+class RecipeStage(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_stages'
 
-    # schema for the recipe_stages modal
+    # schema for the recipe_stages model
     stage_id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(
         db.Integer, 
@@ -67,7 +66,7 @@ class RecipeStages(db.Model):
     is_final_stage = db.Column(db.Boolean, default=False)
 
     recipe_images = db.relationship(
-        'RecipeImages', 
+        'RecipeImage', 
         backref='stage', 
         lazy=True,  
         cascade="all, delete-orphan"
@@ -77,11 +76,11 @@ class RecipeStages(db.Model):
         return f"<Stage {self.stage_num}: {self.instructions[:50]}...>"
 
 
-class RecipeImages(db.Model):
+class RecipeImage(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_images'
 
-    # schema for the recipe_images modal
+    # schema for the recipe_images model
     image_id = db.Column(db.Integer, primary_key=True)
     stage_id = db.Column(
         db.Integer, 
@@ -99,11 +98,11 @@ class RecipeImages(db.Model):
         return f"<Image {self.image_url}>"
 
 
-class RecipeTags(db.Model):
+class RecipeTag(db.Model):
     # Explicitly set the table name
     __tablename__ = 'recipe_tags'
 
-    # schema for the recipe_tags modal
+    # schema for the recipe_tags model
     tag_id = db.Column(db.Integer, primary_key=True)
     tag_name = db.Column(db.String(100), unique=True, nullable=True)
 
@@ -111,11 +110,11 @@ class RecipeTags(db.Model):
         return f"<Tag {self.tag_name}>"
 
 
-class EntityTags(db.Model):
+class EntityTag(db.Model):
     # Explicitly set the table name
     __tablename__ = 'entity_tags'
 
-    # schema for the entity_tags modal
+    # schema for the entity_tags model
     recipe_id = db.Column(
         db.Integer, 
         db.ForeignKey(
@@ -133,7 +132,7 @@ class EntityTags(db.Model):
         )
     entity_type = db.Column(db.String(50), nullable=False)
     
-    recipe_tag = db.relationship("RecipeTags", backref="entity_tags")
+    recipe_tag = db.relationship("RecipeTag", backref="entity_tags")
 
     def __repr__(self):
         return (

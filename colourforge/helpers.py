@@ -1,15 +1,15 @@
 from flask import request
 from colourforge import app, db, cloudinary, cloudinary_url
-from colourforge.models import (Recipes, 
-                                RecipeStages, 
-                                RecipeImages, 
-                                RecipeTags, 
-                                EntityTags
+from colourforge.models import (Recipe, 
+                                RecipeStage, 
+                                RecipeImage, 
+                                RecipeTag, 
+                                EntityTag
                                 )
 
 
 def recipe_handler(form_data):
-    recipe = Recipes(
+    recipe = Recipe(
         recipe_name=request.form.get('recipe_name'),
         recipe_desc=request.form.get('recipe_desc'),
     )
@@ -65,7 +65,7 @@ def instruction_handler(recipe, instructions, image_files, alt_texts):
         is_final_stage = (instruction == instructions[-1])
 
         # Create Recipe Stage entry in Database
-        recipe_stage = RecipeStages (
+        recipe_stage = RecipeStage (
             recipe = recipe,
             stage_num = stage_num,
             instructions = instruction,
@@ -75,7 +75,7 @@ def instruction_handler(recipe, instructions, image_files, alt_texts):
         db.session.add(recipe_stage)
         db.session.flush() 
         
-        recipe_image = RecipeImages(
+        recipe_image = RecipeImage(
             stage_id = recipe_stage.stage_id,
             image_url = image_url,
             thumbnail_url = thumbnail_url,
@@ -90,11 +90,11 @@ def instruction_handler(recipe, instructions, image_files, alt_texts):
 
 def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
     # fetch existing stages/images
-    existing_stages = RecipeStages.query.filter_by(recipe_id=recipe.recipe_id).all()
+    existing_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
 
     # Delete existing stages and images
     for stage in existing_stages:
-        images = RecipeImages.query.filter_by(stage_id=stage.stage_id).all()
+        images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
             if image.public_id:
                 cloudinary.uploader.destroy(image.public_id)
@@ -111,22 +111,22 @@ def tag_handler(recipe, tag_names):
         for tag_name in tag_names:
             tag_name = tag_name.strip()
             if tag_name:
-                tag = RecipeTags.query.filter_by(tag_name=tag_name).first()
+                tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
 
                 if not tag:
-                    tag = RecipeTags(tag_name=tag_name)
+                    tag = RecipeTag(tag_name=tag_name)
                     db.session.add(tag)
                     # Do not commit here to batch transactions
 
                 # Check if the tag is already associated with this recipe
-                existing_tag = EntityTags.query.filter_by(
+                existing_tag = EntityTag.query.filter_by(
                     recipe_id=recipe.recipe_id, 
                     tag_id=tag.tag_id
                 ).first()
                 
                 if not existing_tag and tag:
                     # Associate the tag with the recipe
-                    entity_tag = EntityTags(
+                    entity_tag = EntityTag(
                         recipe_id=recipe.recipe_id, 
                         tag_id=tag.tag_id, 
                         entity_type='recipe'
@@ -138,7 +138,7 @@ def tag_handler(recipe, tag_names):
 def edit_tag_handler(recipe, tag_names):
     if tag_names is not None:
         # Remove existing tags
-        EntityTags.query.filter_by(recipe_id=recipe.recipe_id).delete()
+        EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
         db.session.commit()
 
         # Add new tags using existing tag_handler

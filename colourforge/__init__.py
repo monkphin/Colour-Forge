@@ -36,9 +36,9 @@ app.config["SENDGRID_API_KEY"] = os.environ.get("SENDGRID_API_KEY")
 db = SQLAlchemy(app)
 
 from colourforge.routes import routes  # noqa
-# from colourforge import auth    # noqa
+from colourforge.auth import auth    # noqa
 
 app.register_blueprint(routes, url_prefix ='/')
-# app.register_blueprint(auth, url_prefix ='/')
+app.register_blueprint(auth, url_prefix ='/')
 
 

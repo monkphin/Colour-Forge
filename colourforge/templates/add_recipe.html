@@ -1,4 +1,7 @@
 {% extends "base.html" %}
+
+{% block title %}Add New Recipe{% endblock %} 
+
 {% block content %}
 
 <h2 class="center-align">Add Recipe</h2>
@@ -75,5 +78,13 @@
 
   </form>
 </div>
+
+  <!-- moved this from base.html to pages that it directly imacts due to issues with routes.  -->
+  <script>
+    var tags = {};
+    {% if tag_dict is not none %}
+      tags = {{ tag_dict | tojson }};
+    {% endif %}
+  </script>
 
 {% endblock %}
