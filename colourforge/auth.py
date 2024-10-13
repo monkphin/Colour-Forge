@@ -94,3 +94,7 @@ def register():
             return redirect(url_for('routes.home'))
 
     return render_template("register.html", user=current_user, tag_dict={})
+
+@auth.route('/account', methods=['GET', 'POST'])
+def account():
+    return render_template('account.html', user=current_user, tag_dict={})

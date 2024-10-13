@@ -5,7 +5,7 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask_login import LoginManager
-
+from mailjet_rest import Client
 
 if os.path.exists("env.py"):
     import env  # noqa
@@ -32,8 +32,10 @@ cloudinary.config(
     api_secret=os.environ.get("CLOUDINARY_API_SECRET")
 )
 
-# SendGrid config
-app.config["SENDGRID_API_KEY"] = os.environ.get("SENDGRID_API_KEY")
+# Mailjet config
+api_key = os.environ.get('MJ_APIKEY_PUBLIC')
+api_secret = os.environ.get('MJ_APIKEY_PRIVATE')
+mailjet = Client(auth=(api_key, api_secret))
 
 
 db = SQLAlchemy(app)

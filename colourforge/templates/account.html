@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+
+{% block title %}Account{% endblock %}
+
+{% block content %}
+
+<div class="row">
+  <div class="col s12 center-align">
+
+    <!-- stage title -->
+    <h2 class="card-title">{{ user.username }}'s Account</h2>
+    <div class="card-stacked">
+      <h3>Edit account details</h3>
+      <p>email address: {{ user.email }}</p>
+      <button class="btn">Change Email</button>
+      <button class="btn">Reset Password</button>
+      <button class="btn red">Delete Account</button>
+    </div>
+
+
+
+{% endblock %}
