@@ -90,7 +90,7 @@ def toggle_admin(user_id):
 
     user = User.query.get_or_404(user_id)
 
-    # Make sure the admin isnt demoting themselves
+    # Make sure the admin isn't demoting themselves
     if user.id == current_user.id:
         flash("You cannot demote your own account, please message another admin to do this", category="error")
         return redirect(url_for('admin.admin_dash'))
@@ -100,7 +100,7 @@ def toggle_admin(user_id):
         db.session.commit()
         flash('User is no longer an admin!', category='success')
     else:
-        user.is_admin == True
+        user.is_admin = True
         db.session.commit()
         flash('User has been promoted to an admin!', category='success')
 
@@ -118,7 +118,7 @@ def delete_account(user_id):
     # Pull user details to be deleted. 
     user = User.query.get_or_404(user_id)
 
-    # Make sure the admin isnt deleting themselves
+    # Make sure the admin isn't deleting themselves
     if user.id == current_user.id:
         flash("You cannot delete your own account, please message another admin to do this", category="error")
         return redirect(url_for('admin.admin_dash'))
