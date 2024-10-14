@@ -15,26 +15,25 @@
 
           <h6>Change Email</h6>
           <!-- Form to change email -->
-          <form method="POST" action="{{ url_for('auth.change_email', user_id=user.id) }}">
+          <form action="{{ url_for('auth.change_email') }}" method="POST">
             <div class="input-field col s12">
-              <input id="email-{{ user.id }}" type="email" name="email" minlength="5" maxlength="55" class="validate" required>
-              <label for="email-{{ user.id }}">Email Address</label>
+              <input id="email-{{ user.id }}" type="email" name="email" minlength="5" maxlength="55" class="validate">
+              <label for="email-{{ user.id }}">New Email Address</label>
             </div>
             <button type="submit" class="btn">Change Email</button>
           </form>
-
           <!-- Form to reset password -->
           <h6>Change Password</h6>
           <form method="POST" action="{{ url_for('auth.reset_password', user_id=user.id) }}">
             <div class="row">
               <div class="input-field col s12">
-                <input id="password1-{{ user.id }}" type="password" name="password1" minlength="7" maxlength="100" class="validate" required>
+                <input id="password1-{{ user.id }}" type="password" name="password1" minlength="7" maxlength="100" class="validate">
                 <label for="password1-{{ user.id }}">Enter Password</label>
               </div>
             </div>
             <div class="row">
               <div class="input-field col s12">
-                <input id="password2-{{ user.id }}" type="password" name="password2" minlength="7" maxlength="100" class="validate" required>
+                <input id="password2-{{ user.id }}" type="password" name="password2" minlength="7" maxlength="100" class="validate">
                 <label for="password2-{{ user.id }}">Confirm Password</label>
               </div>
             </div>

@@ -57,9 +57,13 @@ def load_user(user_id):
 # Blueprint routes
 from colourforge.routes import routes  # noqa
 from colourforge.auth import auth    # noqa
+from colourforge.admin import admin    # noqa
+
 
 app.register_blueprint(routes)
 app.register_blueprint(auth) 
+app.register_blueprint(admin) 
+
 
 # Global 404 error handler
 @app.errorhandler(404)

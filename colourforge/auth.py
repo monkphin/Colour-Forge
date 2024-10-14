@@ -35,7 +35,7 @@ def login():
        
         if not user or not password:
             flash('Please enter both username/email and password', category='error')
-            return render_template('routes.home')
+            return redirect(url_for('routes.home'))
 
         user = User.query.filter_by(email=user).first() or User.query.filter_by(username=user).first()
         if user:
@@ -92,27 +92,73 @@ def register():
     return render_template("register.html", user=current_user, tag_dict={})
 
 @auth.route('/account', methods=['GET', 'POST'])
+@login_required
 def account():
     return render_template("account.html", user=current_user, tag_dict={})
 
 
 @auth.route('/admin', methods=['GET', 'POST'])
+@login_required
 def admin():
     users = User.query.all()
-    print(users)
     return render_template("admin.html", user=current_user, users=users, tag_dict={})
 
 
 @auth.route('/change_email', methods=['GET', 'POST'])
+@login_required
 def change_email():
-    pass
+    if request.method == 'POST':
+        new_email = request.form.get('email')
+
+        if User.query.filter_by(email=new_email).first():
+            flash('This email address is already in use', category='error')
+        else:
+            current_user.email = new_email
+            db.session.commit()
+            flash('Your email has been successfully changed', category='success')
+
+        return redirect(url_for('auth.account', user=current_user, tag_dict={}))
+
+    return render_template('account.html', user=current_user, tag_dict={})
 
 
 @auth.route('/reset_password', methods=['GET', 'POST'])
+@login_required
 def reset_password():
-    pass
+    if request.method == 'POST':
+        password1 = request.form.get('password1')
+        password2 = request.form.get('password2')
+        current_password_hash = current_user.password
+
+        if password1 != password2: 
+            flash('Passwords don\'t match!', category='error')
+        elif check_password_hash(current_password_hash, password1):
+            flash('Your new password cannot be the same as your current password', category='error')
+        elif len(password1) <7:
+            flash('Password must be at least 7 characters.', category='error')
+        else:
+            password = generate_password_hash(password1, method='pbkdf2:sha512')
+            current_user.password = password
+            db.session.commit()
+            flash('Your password has been successfully changed', category='success')
+
+            return redirect(url_for('auth.account', user=current_user, tag_dict={}))
+        
+        return render_template('account.html', user=current_user, tag_dict={})
+
+    return render_template('account.html', user=current_user, tag_dict={})
 
 
 @auth.route('/delete_account', methods=['GET', 'POST'])
+@login_required
 def delete_account():
-    pass
+    if request.method == 'POST':
+        user = current_user
+        db.session.delete(user)  
+        db.session.commit()
+
+        flash('Your account has been deleted', category='success')
+        logout_user()
+        return redirect(url_for('routes.home', tag_dict={}))
+    
+    return render_template('account.html', user=current_user, tag_dict={})
