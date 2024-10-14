@@ -12,7 +12,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 
 # Local imports
 from colourforge import db
-from colourforge.models import User
+from colourforge.models import User, Recipe
 from colourforge.seed import create_default_recipe
 
 
@@ -130,3 +130,11 @@ def delete_account(user_id):
     flash(f'Account for {user.username} has been deleted.', category='success')
 
     return redirect(url_for('admin.admin_dash'))
+
+@admin.route('/see_recipes', methods=['GET', 'POST'])
+@login_required
+def see_recipes():
+    recipes = Recipe.query.all()
+    return render_template("see_recipes.html", user=current_user, recipes=recipes, tag_dict={})   
+
+
