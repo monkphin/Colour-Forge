@@ -65,3 +65,9 @@ app.register_blueprint(auth)
 @app.errorhandler(404)
 def page_not_found(error):
     return render_template('404.html'), 404
+
+
+# Global 500 error handler
+@app.errorhandler(500)
+def special_exception_handler(error):
+    return render_template('500.html'), 500
