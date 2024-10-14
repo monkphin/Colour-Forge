@@ -100,10 +100,24 @@ def register():
 def account():
     return render_template("account.html", user=current_user, tag_dict={})
 
-@auth.route('/delete_account', methods=['GET', 'POST'])
-def delete_account():
-    pass
 
 @auth.route('/admin', methods=['GET', 'POST'])
 def admin():
+    users = User.query.all()
+    print(users)
+    return render_template("admin.html", user=current_user, users=users, tag_dict={})
+
+
+@auth.route('/change_email', methods=['GET', 'POST'])
+def change_email():
+    pass
+
+
+@auth.route('/reset_password', methods=['GET', 'POST'])
+def reset_password():
+    pass
+
+
+@auth.route('/delete_account', methods=['GET', 'POST'])
+def delete_account():
     pass

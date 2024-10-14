@@ -4,21 +4,47 @@
 
 {% block content %}
 
-<div class="row">
-  <div class="col s12 center-align">
-    
-    <h2 class="card-title">{{ user.username }}'s Account</h2>
-    <div class="card-stacked">
-      <h3>User accounts</h3>
-      <p>Username: {{ user.username }}</p>
-      <p>email: {{ user.email }}</p>
-      <p>Password: add form here</p>
-      <button class="btn">Change Email</button>
-      <button class="btn">Reset Password</button>
-      <button class="btn red">Delete Account</button>
+<h3>User accounts</h3>
+{% for user in users %}
+  <div class="card-stacked">
+    <p>Username: {{ user.username }}</p>
+    <p>Email: {{ user.email }}</p>
+
+<!-- Form to change email -->
+<form method="POST" action="{{ url_for('auth.change_email', user_id=user.id) }}">
+  <div class="input-field col s12">
+    <input id="email" type="email" name="email" minlength="5" maxlength="55" type="text" class="validate" required>
+    <label for="email">Email Address</label>
+  </div>
+  <button type="submit" class="btn">Change Email</button>
+</form>
+
+<!-- Form to reset password -->
+<form method="POST" action="{{ url_for('auth.reset_password', user_id=user.id) }}">
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="password1" type="password" name="password1" minlength="7" maxlength="100" type="text" class="validate" required>
+      <label for="password1">Enter Password</label>
     </div>
+  </div>
+  <div class="row">
+    <div class="input-field col s12">
+      <input id="password2" type="password" name="password2" minlength="7" maxlength="100" type="text" class="validate" required>
+      <label for="password2">Confirm Password</label>
+    </div>
+  </div>
+  <button type="submit" class="btn">Reset Password</button>
+</form>
+
+
+<!-- Form to delete account -->
+<form method="POST" action="{{ url_for('auth.delete_account', user_id=user.id) }}">
+  <button type="submit" class="btn red">Delete Account</button>
+</form>
 
   </div>
-</div
+  <hr>
+{% endfor %}
+
 
 {% endblock %}
