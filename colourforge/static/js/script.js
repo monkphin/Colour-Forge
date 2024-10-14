@@ -34,21 +34,6 @@ $(document).ready(function() {
     searchInput.value = ''; // Clear the input field when it loses focus
   });
 
-  const passwordField = document.getElementById("password");
-  const togglePassword = document.querySelector(".password-toggle-icon i");
-  
-  togglePassword.addEventListener("click", function () {
-    if (passwordField.type === "password") {
-      passwordField.type = "text";
-      togglePassword.classList.remove("fa-eye");
-      togglePassword.classList.add("fa-eye-slash");
-    } else {
-      passwordField.type = "password";
-      togglePassword.classList.remove("fa-eye-slash");
-      togglePassword.classList.add("fa-eye");
-    }
-  });
-
   // Dynamically add new input field after the last input
   $(document).on('click', '.add_field', function() {
     stageCount++;  // Increment stage count

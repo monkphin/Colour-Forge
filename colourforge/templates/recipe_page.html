@@ -75,6 +75,7 @@
     <div class="card-stacked">
       <div class="card-content preserve-whitespace">
         <p>{{ recipe.recipe_desc }}</p>
+        <p class="right-align grey-text">Created by: {{ recipe.user.username }}</p>
       </div>
     </div>
   </div>
@@ -136,9 +137,11 @@
     <!-- back/edit/delete buttons -->
     <div>
       {% if user.is_authenticated %}
-        <a href="{{ referrer }}" class="btn blue ">Back</a>
-        <a href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn green accent-4">Edit</a>
-        <a href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}" class="btn red">Delete</a>
+        {% if user.id == recipe.user.id or current_user.is_admin %}
+          <a href="{{ referrer }}" class="btn blue ">Back</a>
+          <a href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn green accent-4">Edit</a>
+          <a href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}" class="btn red">Delete</a>
+        {% endif %}
       {% endif %}
 
     </div>
