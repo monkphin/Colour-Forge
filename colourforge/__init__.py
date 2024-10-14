@@ -1,5 +1,5 @@
 import os
-from flask import Flask, Blueprint
+from flask import Flask, Blueprint, render_template
 from flask_sqlalchemy import SQLAlchemy
 import cloudinary
 import cloudinary.uploader
@@ -60,3 +60,8 @@ from colourforge.auth import auth    # noqa
 
 app.register_blueprint(routes)
 app.register_blueprint(auth) 
+
+# Global 404 error handler
+@app.errorhandler(404)
+def page_not_found(error):
+    return render_template('404.html'), 404
