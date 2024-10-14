@@ -24,7 +24,7 @@
             <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
             <li><a href="{{ url_for('auth.account')}}">Account</a></li>
             {% if current_user.is_admin %}
-            <li><a href="{{ url_for('auth.admin')}}">Admin</a></li>
+            <li><a href="{{ url_for('admin.admin_dash')}}">Admin</a></li>
             {% endif %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             <li>
@@ -51,7 +51,7 @@
         <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
         <li><a href="{{ url_for('auth.account')}}">Account</a></li>
         {% if current_user.is_admin %}
-        <li><a href="{{ url_for('auth.admin')}}">Admin</a></li>
+        <li><a href="{{ url_for('admin.admin_dash')}}">Admin</a></li>
         {% endif %}
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
         <li>

@@ -27,34 +27,6 @@ def logout():
     return redirect(url_for('routes.home'))
 
 
-@auth.route('/login', methods=['GET', 'POST'])
-def login():
-    if request.method == 'POST':
-        user = request.form.get('login')
-        password = request.form.get('password')
-       
-        if not user or not password:
-            flash('Please enter both username/email and password', category='error')
-            return redirect(url_for('routes.home'))
-
-        user = User.query.filter_by(email=user).first() or User.query.filter_by(username=user).first()
-        if user:
-            if check_password_hash(user.password, password):
-                login_user(user, remember=True)
-                flash('Successfully Logged in!', category='success')
-                return redirect(url_for('routes.home'))
-            else:
-                flash('Incorrect password, try again', category='error')
-        else:
-            flash('User not found', category='error')
-
-        # After flashing error messages, render login page again
-        return redirect(url_for('routes.home'))
-    else:
-        # For GET requests, render the login page
-        return redirect(url_for('routes.home'))
-
-
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
@@ -89,6 +61,34 @@ def register():
             return redirect(url_for('routes.home'))
 
     return render_template("register.html", user=current_user, tag_dict={})
+
+
+@auth.route('/login', methods=['GET', 'POST'])
+def login():
+    if request.method == 'POST':
+        user = request.form.get('login')
+        password = request.form.get('password')
+       
+        if not user or not password:
+            flash('Please enter both username/email and password', category='error')
+            return redirect(url_for('routes.home'))
+
+        user = User.query.filter_by(email=user).first() or User.query.filter_by(username=user).first()
+        if user:
+            if check_password_hash(user.password, password):
+                login_user(user, remember=True)
+                flash('Successfully Logged in!', category='success')
+                return redirect(url_for('routes.home'))
+            else:
+                flash('Incorrect password, try again', category='error')
+        else:
+            flash('User not found', category='error')
+
+        # After flashing error messages, render login page again
+        return redirect(url_for('routes.home'))
+    else:
+        # For GET requests, render the login page
+        return redirect(url_for('routes.home'))
 
 
 @auth.route('/account', methods=['GET', 'POST'])
