@@ -63,11 +63,6 @@ def register():
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
 
-        print(f"Username: {username}")
-        print(f"Email: {email}")
-        print(f"Password1: {password1}")
-        print(f"Password2: {password2}")
-
         # Check to see if user exists
         existing_user = User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first()
 

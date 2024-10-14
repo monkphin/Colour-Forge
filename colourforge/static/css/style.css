@@ -91,10 +91,34 @@ form {
     margin-left: 16px;
 }
 
+/* Specific to Navbar Search Fields */
+.navbar-search {
+    padding-left: 0 !important;
+    padding-right: 40px !important;
+}
+
+/* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
+.navbar-search::placeholder {
+    color: white; /* Replace with your desired color for desktop/general */
+    opacity: 1;
+}
+
+/* Input Text Style When Focused (Desktop and General) */
+.navbar-search:focus {
+    color: #000000; /* User-typed text color when the navbar input is focused */
+}
+
+/* Mobile Specific Styles */
 @media (max-width: 600px) {
+    /* Ensure proper layout of collapsible rows */
     .collapsible-body .row {
         flex-direction: column;
         align-items: flex-start;
     }
 
+    /* Placeholder Text Style When Input is Focused (Mobile) */
+    .mobile-search::placeholder {
+        color: #555555; /* Replace with your desired color for mobile-specific placeholder */
+        opacity: 1; /* Optional: Makes sure the color is fully opaque */
+    }
 }

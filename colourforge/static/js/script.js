@@ -26,6 +26,14 @@ $(document).ready(function() {
     $('#addRecipeButton').prop('disabled', true);
   });
 
+  // Reset contents of search boxes when user clicks away
+  const searchInput = document.getElementById('search');
+    
+  // Add an event listener for the blur event
+  searchInput.addEventListener('blur', function() {
+    searchInput.value = ''; // Clear the input field when it loses focus
+  });
+
   // Dynamically add new input field after the last input
   $(document).on('click', '.add_field', function() {
     stageCount++;  // Increment stage count
