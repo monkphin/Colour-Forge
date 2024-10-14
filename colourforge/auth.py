@@ -100,3 +100,10 @@ def register():
 def account():
     return render_template("account.html", user=current_user, tag_dict={})
 
+@auth.route('/delete_account', methods=['GET', 'POST'])
+def delete_account():
+    pass
+
+@auth.route('/admin', methods=['GET', 'POST'])
+def admin():
+    pass

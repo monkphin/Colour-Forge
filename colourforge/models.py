@@ -11,6 +11,7 @@ class User(db.Model, UserMixin):
     username = db.Column(db.String(100), unique=True, nullable=False)
     email = db.Column(db.String(150), unique=True, nullable=False)
     password = db.Column(db.String(255), nullable=False)
+    is_admin = db.Column(db.Boolean, default=False)
 
     # Relationship to the Recipes table (one-to-many relationship)
     recipes = db.relationship("Recipe", backref="user", cascade="all, delete", lazy=True)
