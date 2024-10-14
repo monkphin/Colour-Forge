@@ -26,61 +26,107 @@ def admin_dash():
     return render_template("admin.html", user=current_user, users=users, tag_dict={})
 
 
-@admin.route('/change_email', methods=['GET', 'POST'])
+@admin.route('/change_email/<int:user_id>', methods=['POST'])
 @login_required
-def change_email():
-    if request.method == 'POST':
-        new_email = request.form.get('email')
+def change_email(user_id):
+    # Make sure current user is an admin.
+    if not current_user.is_admin:
+        flash("Unauthorized access.", category="error")
+        return redirect(url_for('routes.home'))
 
-        if User.query.filter_by(email=new_email).first():
-            flash('This email address is already in use', category='error')
-        else:
-            current_user.email = new_email
-            db.session.commit()
-            flash('Your email has been successfully changed', category='success')
+    user = User.query.get_or_404(user_id)
 
-        return redirect(url_for('auth.account', user=current_user, tag_dict={}))
-
-    return render_template('account.html', user=current_user, tag_dict={})
-
-
-@admin.route('/reset_password', methods=['GET', 'POST'])
-@login_required
-def reset_password():
-    if request.method == 'POST':
-        password1 = request.form.get('password1')
-        password2 = request.form.get('password2')
-        current_password_hash = current_user.password
-
-        if password1 != password2: 
-            flash('Passwords don\'t match!', category='error')
-        elif check_password_hash(current_password_hash, password1):
-            flash('Your new password cannot be the same as your current password', category='error')
-        elif len(password1) <7:
-            flash('Password must be at least 7 characters.', category='error')
-        else:
-            password = generate_password_hash(password1, method='pbkdf2:sha512')
-            current_user.password = password
-            db.session.commit()
-            flash('Your password has been successfully changed', category='success')
-
-            return redirect(url_for('auth.account', user=current_user, tag_dict={}))
-        
-        return render_template('account.html', user=current_user, tag_dict={})
-
-    return render_template('account.html', user=current_user, tag_dict={})
-
-
-@admin.route('/delete_account', methods=['GET', 'POST'])
-@login_required
-def delete_account():
-    if request.method == 'POST':
-        user = current_user
-        db.session.delete(user)  
+    new_email = request.form.get('email')
+    if new_email:
+        user.email = new_email
         db.session.commit()
+        flash('Email has been successfully updated!', category='success')
+    else: 
+        flash('There was an issue with updating the email',category='error')
 
-        flash('Your account has been deleted', category='success')
-        logout_user()
-        return redirect(url_for('routes.home', tag_dict={}))
+    return redirect(url_for('admin.admin_dash'))
+
+
+@admin.route('/reset_password/<int:user_id>', methods=['POST'])
+@login_required
+def reset_password(user_id):
+    # Make sure current user is an admin.
+    if not current_user.is_admin:
+        flash("Unauthorized access.", category="error")
+        return redirect(url_for('routes.home'))
     
-    return render_template('account.html', user=current_user, tag_dict={})
+    user = User.query.get_or_404(user_id)
+
+    password1 = request.form.get('password1')
+    password2 = request.form.get('password2')
+    current_password_hash = user.password
+    
+    
+    if not password1 or not password2: 
+        flash('Both password fields are required', category='error')
+    elif password1 != password2:
+        flash('Passwords don\'t match!', category='error')
+    elif len(password1) <7:
+        flash('Password must be at least 7 characters.', category='error')
+    elif check_password_hash(current_password_hash, password1):
+        flash('Your new password cannot be the same as your current password', category='error')
+    else:
+        user.password = generate_password_hash(password1, method='pbkdf2:sha512')
+        db.session.commit()
+        flash('Your password has been successfully changed', category='success')
+
+        return redirect(url_for('admin.admin_dash'))
+    
+    return redirect(url_for('admin.admin_dash'))
+
+
+@admin.route('/toggle_admin/<int:user_id>', methods=['POST'])
+@login_required
+def toggle_admin(user_id):
+        # Make sure current user is an admin.
+    if not current_user.is_admin:
+        flash("Unauthorized access.", category="error")
+        return redirect(url_for('routes.home'))
+
+    user = User.query.get_or_404(user_id)
+
+    # Make sure the admin isnt demoting themselves
+    if user.id == current_user.id:
+        flash("You cannot demote your own account, please message another admin to do this", category="error")
+        return redirect(url_for('admin.admin_dash'))
+
+    if user.is_admin:
+        user.is_admin = False
+        db.session.commit()
+        flash('User is no longer an admin!', category='success')
+    else:
+        user.is_admin == True
+        db.session.commit()
+        flash('User has been promoted to an admin!', category='success')
+
+    return redirect(url_for('admin.admin_dash'))
+                    
+
+@admin.route('/delete_account/<int:user_id>', methods=['POST'])
+@login_required
+def delete_account(user_id):
+    # Make sure current user is an admin.
+    if not current_user.is_admin:
+        flash("Unauthorized access.", category="error")
+        return redirect(url_for('routes.home'))
+    
+    # Pull user details to be deleted. 
+    user = User.query.get_or_404(user_id)
+
+    # Make sure the admin isnt deleting themselves
+    if user.id == current_user.id:
+        flash("You cannot delete your own account, please message another admin to do this", category="error")
+        return redirect(url_for('admin.admin_dash'))
+
+    # Delete user. 
+    db.session.delete(user)
+    db.session.commit()
+
+    flash(f'Account for {user.username} has been deleted.', category='success')
+
+    return redirect(url_for('admin.admin_dash'))

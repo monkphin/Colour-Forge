@@ -91,6 +91,10 @@ form {
     margin-left: 16px;
 }
 
+.admin-text {
+    margin-right: 10px;
+}
+
 /* Specific to Navbar Search Fields */
 .navbar-search {
     padding-left: 0 !important;
