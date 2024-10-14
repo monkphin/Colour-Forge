@@ -49,10 +49,10 @@ def login():
             flash('User not found', category='error')
 
         # After flashing error messages, render login page again
-        return render_template('home.html', user=current_user, tag_dict={}) 
+        return redirect(url_for('routes.home'))
     else:
         # For GET requests, render the login page
-        return render_template('home.html', user=current_user, tag_dict={})
+        return redirect(url_for('routes.home'))
 
 
 @auth.route('/register', methods=['GET', 'POST'])
@@ -88,20 +88,13 @@ def register():
 
             return redirect(url_for('routes.home'))
 
-
     return render_template("register.html", user=current_user, tag_dict={})
+
 
 @auth.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
     return render_template("account.html", user=current_user, tag_dict={})
-
-
-@auth.route('/admin', methods=['GET', 'POST'])
-@login_required
-def admin():
-    users = User.query.all()
-    return render_template("admin.html", user=current_user, users=users, tag_dict={})
 
 
 @auth.route('/change_email', methods=['GET', 'POST'])
@@ -117,9 +110,9 @@ def change_email():
             db.session.commit()
             flash('Your email has been successfully changed', category='success')
 
-        return redirect(url_for('auth.account', user=current_user, tag_dict={}))
+        return redirect(url_for('auth.account'))
 
-    return render_template('account.html', user=current_user, tag_dict={})
+    return render_template("account.html", user=current_user, tag_dict={})
 
 
 @auth.route('/reset_password', methods=['GET', 'POST'])
@@ -142,11 +135,11 @@ def reset_password():
             db.session.commit()
             flash('Your password has been successfully changed', category='success')
 
-            return redirect(url_for('auth.account', user=current_user, tag_dict={}))
+            return redirect(url_for('auth.account'))
         
-        return render_template('account.html', user=current_user, tag_dict={})
+        return redirect(url_for('auth.account'))
 
-    return render_template('account.html', user=current_user, tag_dict={})
+    return render_template("account.html", user=current_user, tag_dict={})
 
 
 @auth.route('/delete_account', methods=['GET', 'POST'])
@@ -161,4 +154,4 @@ def delete_account():
         logout_user()
         return redirect(url_for('routes.home', tag_dict={}))
     
-    return render_template('account.html', user=current_user, tag_dict={})
+    return redirect(url_for('auth.account'))
