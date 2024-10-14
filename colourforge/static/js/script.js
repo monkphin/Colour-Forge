@@ -26,6 +26,9 @@ $(document).ready(function() {
     $('#addRecipeButton').prop('disabled', true);
   });
 
+  // Dropdown menu activator
+  $(".dropdown-trigger").dropdown();
+
   // Reset contents of search boxes when user clicks away
   const searchInput = document.getElementById('search');
     
