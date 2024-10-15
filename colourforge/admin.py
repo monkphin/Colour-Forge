@@ -22,6 +22,12 @@ admin = Blueprint('admin', __name__)
 @admin.route('/admin_dash', methods=['GET', 'POST'])
 @login_required
 def admin_dash():
+    """
+    Renders the admin dashboard page, with a list of all users and their details
+    
+    Returns:
+        Response: The rendered admin dashboard page.
+    """
     users = User.query.all()
     return render_template("admin.html", user=current_user, users=users, tag_dict={})
 
@@ -29,6 +35,15 @@ def admin_dash():
 @admin.route('/change_email/<int:user_id>', methods=['POST'])
 @login_required
 def change_email(user_id):
+    """
+    Change the email of a selected user on the admin page.
+    
+    Args:
+        user_id (int): The ID of the user to change the email of.
+
+    Returns:
+        Response: Redirects the user to the admin dashboard.
+    """
     # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -50,6 +65,15 @@ def change_email(user_id):
 @admin.route('/reset_password/<int:user_id>', methods=['POST'])
 @login_required
 def reset_password(user_id):
+    """
+    Reset the password of a selected user on the admin page.
+
+    Args:
+        user_id (int): The ID of the user to reset the password of.
+
+    Returns:
+        Response: Redirects the user to the admin dashboard.
+    """
     # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -83,6 +107,12 @@ def reset_password(user_id):
 @admin.route('/toggle_admin/<int:user_id>', methods=['POST'])
 @login_required
 def toggle_admin(user_id):
+    """
+    A toggle to set a specific user as an admin or not.
+
+    Args:
+        user_id (int): The ID of the user to toggle admin status of.
+    """
         # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -110,6 +140,15 @@ def toggle_admin(user_id):
 @admin.route('/delete_account/<int:user_id>', methods=['POST'])
 @login_required
 def delete_account(user_id):
+    """
+    Delete a specified user account from the admin dashboard.
+
+    Args:
+        user_id (int): The ID of the user to delete.
+
+    Returns:
+        Response: Redirects the user to the admin dashboard.
+    """
     # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -134,6 +173,12 @@ def delete_account(user_id):
 @admin.route('/see_recipes', methods=['GET', 'POST'])
 @login_required
 def see_recipes():
+    """
+    Renders the admin level recipes page, with a list of all recipes and their details
+
+    Returns:
+        Response: The rendered admin recipes page.
+    """
     recipes = Recipe.query.all()
     return render_template("see_recipes.html", user=current_user, recipes=recipes, tag_dict={})   
 

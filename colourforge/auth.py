@@ -22,6 +22,12 @@ auth = Blueprint('auth', __name__)
 @auth.route('/logout')
 @login_required
 def logout():
+    """
+    Logs the user out and redirects them to the home page.
+
+    Returns:
+        Response: Redirects the logged out user to the home page.
+    """
     logout_user()
     flash('Logged out successfully!', category='success')
     return redirect(url_for('routes.home'))
@@ -29,6 +35,15 @@ def logout():
 
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
+    """
+    Registers a new user account and logs them in on a POST request.
+    Otherwise, renders the register page.
+    If the user already exists, or the form data is invalid, the user is redirected to the register page.
+    
+
+    Returns:
+        Response: The rendered register page.
+    """
     if request.method == 'POST':
         username = request.form.get('username').strip()
         email = request.form.get('email').strip()
@@ -65,6 +80,13 @@ def register():
 
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
+    """
+    Logs the user in on a POST request. This shares the same page as the home page.
+    Renders the home page on a GET request.
+
+    Returns:
+        Response: The rendered home page.
+    """
     if request.method == 'POST':
         user = request.form.get('login')
         password = request.form.get('password')
@@ -94,12 +116,25 @@ def login():
 @auth.route('/account', methods=['GET', 'POST'])
 @login_required
 def account():
+    """
+    Renders the account page.
+
+    Returns:
+        Renders: The account page.
+    """
     return render_template("account.html", user=current_user, tag_dict={})
 
 
 @auth.route('/change_email', methods=['GET', 'POST'])
 @login_required
 def change_email():
+    """
+    Changes the user's email address on a POST request from the account page. 
+    If the email is already in use, the user is redirected to the account page with an error message.
+
+    Returns:
+        Render: The account page.
+    """
     if request.method == 'POST':
         new_email = request.form.get('email')
 
@@ -118,6 +153,15 @@ def change_email():
 @auth.route('/reset_password', methods=['GET', 'POST'])
 @login_required
 def reset_password():
+    """
+    Resets the user's password on a POST request from the account page.
+    If the passwords don't match, the user is redirected to the account page with an error message.
+    If the new password is the same as the current password, the user is redirected to the account page with an error message.
+    If the password is less than 7 characters, the user is redirected to the account page with an error message.
+    
+    Returns:
+        Response: Redirects the user to the account page.
+    """
     if request.method == 'POST':
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
@@ -145,6 +189,13 @@ def reset_password():
 @auth.route('/delete_account', methods=['GET', 'POST'])
 @login_required
 def delete_account():
+    """
+    Deletes the user's account on a POST request from the account page.
+    This flashes a success message and logs the user out before redirecting them to the home page.
+
+    Returns:
+        Response: Redirects the user to the home page.
+    """
     if request.method == 'POST':
         user = current_user
         db.session.delete(user)  

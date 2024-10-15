@@ -10,9 +10,8 @@ from flask import (
 from flask_login import login_required, current_user
 
 # Local Imports
-from colourforge import app, db, cloudinary, cloudinary_url
+from colourforge import db, cloudinary
 from colourforge.models import (
-    User, 
     Recipe, 
     RecipeStage, 
     RecipeImage, 
@@ -24,7 +23,7 @@ from colourforge.helpers import (
     instruction_handler,
     upload_image,
     tag_handler,
-    edit_tag_handler
+    handle_recipe_edit_post,
 )
 
 routes = Blueprint('routes', __name__)
@@ -32,6 +31,12 @@ routes = Blueprint('routes', __name__)
 # Content rendering only routes
 @routes.route("/", methods=['GET', 'POST'])
 def home():
+    """
+    Renders the home page with a list of recipes if the user is logged in.
+
+    Returns:
+        Response: The rendered home page.
+    """
     if current_user.is_authenticated:
         recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
     else:
@@ -42,28 +47,45 @@ def home():
 @routes.route("/recipes")
 @login_required
 def recipes():
+    """
+    Renders the recipes page with a list of recipes for the current user.
+
+    Returns:
+        Response : The rendered recipes page.
+    """
     recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
     return render_template("recipes.html", recipes=recipes, tag_dict={}, user=current_user)
 
 
 @routes.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
+    """
+    Renders the recipe page for the specified recipe.
+
+    Args:
+        recipe_id (int): The ID of the recipe to display.
+
+    Returns:
+        Response: The rendered recipe page.
+    """
     recipe=Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer 
 
-    return render_template(
-        'recipe_page.html', 
-        recipe=recipe, 
-        referrer=referrer, 
-        tag_dict={},
-        user=current_user
-        )
+    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, tag_dict={}, user=current_user)
 
 
 # Routes that render and write content 
 @routes.route("/add_recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
+    """
+    Renders the add recipe page and handles the creation of a new recipe.
+    Handles the addition of new recipes, stages, and images to the DB when a POST
+    request is made. Otherwise, renders the form.
+
+    Returns:
+        Response: The rendered add recipe form page.
+    """
     if request.method == "POST":    
 
         # Create recipe in DB
@@ -101,168 +123,51 @@ def add_recipe():
 @routes.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
 @login_required
 def edit_recipe(recipe_id):
+    """
+    Handles the editing of an existing recipe.
+    POST request types will update the recipe, stages, and images in the DB.
+    Otherwise this renders the form.
+
+    Args:
+        recipe_id (int): The ID of the recipe to edit.
+
+    Returns:
+        Response: The rendered edit recipe form page or a redirect response after successful editing.
+    """
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    # ensure user owns the recipe
+    # Ensure user owns the recipe
     if recipe.user_id != current_user.id:
         flash("You do not have permission to edit this recipe.", category="error")
         return redirect(url_for('routes.home'))
 
-    recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
-
+    # Handle POST request
     if request.method == "POST":
-        recipe.recipe_name = request.form.get('recipe_name')
-        recipe.recipe_desc = request.form.get('recipe_desc')
-
-        # Initialize variables from form data
-        instructions = request.form.getlist('instructions[]')
-        images = request.files.getlist('images[]')
-        alt_texts = request.form.getlist('image_desc[]')
-        tag_names_str = request.form.get('tags', '')
-        tag_names = [tag.strip() for tag in tag_names_str.split(',') if tag.strip()]
-        stage_ids = request.form.getlist('stage_ids[]')
-
-        # Collect all delete_image flags
-        delete_image_flags = {}
-        for idx, stage_id in enumerate(stage_ids):
-            stage_num = idx + 1
-            flag = request.form.get(f'delete_image_{stage_num}', 'false')
-            delete_image_flags[stage_num] = flag.lower() == 'true'
-
-        # Process tags
-        edit_tag_handler(recipe, tag_names)
-
-        # Process stages and images
-        for index, instruction in enumerate(instructions):
-            # Determine if this is an existing stage or a new one
-            if index < len(stage_ids) and stage_ids[index]:
-                # Existing stage
-                stage_id = stage_ids[index]
-                stage = RecipeStage.query.get(stage_id)
-                if stage:
-                    stage.instructions = instruction
-
-                    # Check if a new image is uploaded for this stage
-                    new_image = images[index] if index < len(images) else None
-                    is_new_image_uploaded = new_image and new_image.filename != ''
-
-                    if stage.recipe_images:
-                        image = stage.recipe_images[0]  # Assuming one image per stage
-                        if delete_image_flags.get(stage.stage_num, False):
-                            # Delete the existing image
-                            if image.public_id:
-                                cloudinary.uploader.destroy(image.public_id)
-                            db.session.delete(image)
-
-                            if not is_new_image_uploaded:
-                                # Assign placeholder only if no new image is uploaded
-                                placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
-                                placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                                recipe_image = RecipeImage(
-                                    stage_id=stage.stage_id,
-                                    image_url=placeholder_url,
-                                    thumbnail_url=placeholder_thumbnail,
-                                    alt_text='No description provided',
-                                    public_id=None
-                                )
-                                db.session.add(recipe_image)
-                    else:
-                        if not delete_image_flags.get(stage.stage_num, False):
-                            # No existing image and not marked for deletion, assign placeholder
-                            placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
-                            placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                            recipe_image = RecipeImage(
-                                stage_id=stage.stage_id,
-                                image_url=placeholder_url,
-                                thumbnail_url=placeholder_thumbnail,
-                                alt_text='No description provided',
-                                public_id=None
-                            )
-                            db.session.add(recipe_image)
-
-                    # Handle new image upload if provided
-                    if is_new_image_uploaded:
-                        # Upload new image
-                        image_url, thumbnail_url, public_id = upload_image(new_image)
-                        if image_url:
-                            # Delete the old image if exists (already handled above if delete_image_flag is true)
-                            if stage.recipe_images:
-                                old_image = stage.recipe_images[0]
-                                if old_image.public_id:
-                                    cloudinary.uploader.destroy(old_image.public_id)
-                                db.session.delete(old_image)
-                            # Add the new image
-                            recipe_image = RecipeImage(
-                                stage_id=stage.stage_id,
-                                image_url=image_url,
-                                thumbnail_url=thumbnail_url,
-                                alt_text=alt_texts[index] or 'No description provided',
-                                public_id=public_id
-                            )
-                            db.session.add(recipe_image)
-            else:
-                # New stage
-                new_stage = RecipeStage(
-                    recipe=recipe,
-                    stage_num=index + 1,  # Temporary assignment; will be corrected below
-                    instructions=instruction
-                )
-                db.session.add(new_stage)
-                db.session.flush()  # To get the stage_id
-
-                # Handle image
-                if index < len(images):
-                    new_image = images[index]
-                    if new_image and new_image.filename != '':
-                        image_url, thumbnail_url, public_id = upload_image(new_image)
-                        if image_url:
-                            recipe_image = RecipeImage(
-                                stage_id=new_stage.stage_id,
-                                image_url=image_url,
-                                thumbnail_url=thumbnail_url,
-                                alt_text=alt_texts[index] or 'No description provided',
-                                public_id=public_id
-                            )
-                            db.session.add(recipe_image)
-                    else:
-                        # Assign placeholder
-                        placeholder_url = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png'
-                        placeholder_thumbnail = 'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png'
-                        recipe_image = RecipeImage(
-                            stage_id=new_stage.stage_id,
-                            image_url=placeholder_url,
-                            thumbnail_url=placeholder_thumbnail,
-                            alt_text='No description provided',
-                            public_id=None
-                        )
-                        db.session.add(recipe_image)
-
-        # After processing all stages, reassign stage_num to ensure sequential order
-        all_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).order_by(RecipeStage.stage_num).all()
-        for idx, stage in enumerate(all_stages, start=1):
-            stage.stage_num = idx
-
-        # Update the is_last_stage flag based on the updated stage_num
-        total_stages = len(all_stages)
-        for idx, stage in enumerate(all_stages, start=1):
-            stage.is_final_stage = (idx == total_stages)
-
-        db.session.commit()
-
+        handle_recipe_edit_post(recipe)
         flash("Recipe has been updated")
         return redirect(url_for('routes.recipe_page', recipe_id=recipe.recipe_id))
 
-    else:
-        # GET request: Render the edit form
-        all_tags = RecipeTag.query.all()
-        tag_dict = {tag.tag_name: None for tag in all_tags}
+    # Handle GET request
+    recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
+    all_tags = RecipeTag.query.all()
+    tag_dict = {tag.tag_name: None for tag in all_tags}
+    return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
 
-        return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
 
 
 @routes.route("/delete_recipe/<int:recipe_id>")
 @login_required
 def delete_recipe(recipe_id):
+    """
+    Handles recipe deletion. 
+    This route will delete the recipe, stages, images, and tags associated with the recipe.
+
+    Args:
+        recipe_id (int): The ID of the recipe to delete.
+
+    Returns:
+        Response: Redirects to the recipes page after deletion.
+    """
     recipe = Recipe.query.get_or_404(recipe_id)
 
     # ensure user owns the recipe
@@ -290,4 +195,4 @@ def delete_recipe(recipe_id):
 
     flash("Recipe has been deleted")
 
-    return redirect(url_for('recipes'), user=current_user)
+    return redirect(url_for('routes.recipes'))
