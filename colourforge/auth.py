@@ -75,7 +75,7 @@ def register():
 
             return redirect(url_for('routes.home'))
 
-    return render_template("register.html", user=current_user, tag_dict={})
+    return render_template("register.html", user=current_user)
 
 
 @auth.route('/login', methods=['GET', 'POST'])
@@ -122,7 +122,7 @@ def account():
     Returns:
         Renders: The account page.
     """
-    return render_template("account.html", user=current_user, tag_dict={})
+    return render_template("account.html", user=current_user)
 
 
 @auth.route('/change_email', methods=['GET', 'POST'])
@@ -147,7 +147,7 @@ def change_email():
 
         return redirect(url_for('auth.account'))
 
-    return render_template("account.html", user=current_user, tag_dict={})
+    return render_template("account.html", user=current_user)
 
 
 @auth.route('/reset_password', methods=['GET', 'POST'])
@@ -183,7 +183,7 @@ def reset_password():
         
         return redirect(url_for('auth.account'))
 
-    return render_template("account.html", user=current_user, tag_dict={})
+    return render_template("account.html", user=current_user)
 
 
 @auth.route('/delete_account', methods=['GET', 'POST'])
@@ -203,6 +203,6 @@ def delete_account():
 
         flash('Your account has been deleted', category='success')
         logout_user()
-        return redirect(url_for('routes.home', tag_dict={}))
+        return redirect(url_for('routes.home'))
     
     return redirect(url_for('auth.account'))

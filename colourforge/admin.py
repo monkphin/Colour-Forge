@@ -13,7 +13,6 @@ from werkzeug.security import generate_password_hash, check_password_hash
 # Local imports
 from colourforge import db
 from colourforge.models import User, Recipe
-from colourforge.seed import create_default_recipe
 
 
 admin = Blueprint('admin', __name__)
@@ -29,7 +28,7 @@ def admin_dash():
         Response: The rendered admin dashboard page.
     """
     users = User.query.all()
-    return render_template("admin.html", user=current_user, users=users, tag_dict={})
+    return render_template("admin.html", user=current_user, users=users)
 
 
 @admin.route('/change_email/<int:user_id>', methods=['POST'])
@@ -180,6 +179,6 @@ def see_recipes():
         Response: The rendered admin recipes page.
     """
     recipes = Recipe.query.all()
-    return render_template("see_recipes.html", user=current_user, recipes=recipes, tag_dict={})   
+    return render_template("see_recipes.html", user=current_user, recipes=recipes)   
 
 

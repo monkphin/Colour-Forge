@@ -23,7 +23,6 @@ from colourforge.models import (
 from colourforge.helpers import (
     recipe_handler,
     instruction_handler,
-    upload_image,
     tag_handler,
     handle_recipe_edit_post,
 )
@@ -43,7 +42,7 @@ def home():
         recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
     else:
         recipes = None
-    return render_template("home.html", recipes=recipes, tag_dict={}, user=current_user)
+    return render_template("home.html", recipes=recipes, user=current_user)
 
 
 @routes.route("/recipes")
@@ -56,7 +55,7 @@ def recipes():
         Response : The rendered recipes page.
     """
     recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
-    return render_template("recipes.html", recipes=recipes, tag_dict={}, user=current_user)
+    return render_template("recipes.html", recipes=recipes, user=current_user)
 
 
 @routes.route("/recipe_page/<int:recipe_id>")
@@ -73,7 +72,7 @@ def recipe_page(recipe_id):
     recipe=Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer 
 
-    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, tag_dict={}, user=current_user)
+    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, user=current_user)
 
 
 # Routes that render and write content 
@@ -111,15 +110,7 @@ def add_recipe():
 
         flash('Paint Recipe successfully added!', category='success')
 
-        return redirect("recipes")
-
-    else:
-        # Get collection of existing tags as a variable and iterate through
-        # to create a dictionary to match how materialize is handling chips/tags.     
-        all_tags = RecipeTag.query.all()
-        tag_dict = {tag.tag_name: None for tag in all_tags}
-
-        return render_template("add_recipe.html", tag_dict=tag_dict, user=current_user)
+        return redirect("recipes")   
 
 
 @routes.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -151,12 +142,11 @@ def edit_recipe(recipe_id):
 
     # Handle GET request
     recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
-    all_tags = RecipeTag.query.all()
-    tag_dict = {tag.tag_name: None for tag in all_tags}
-    return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
+    return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, user=current_user)
 
 
 @routes.route("/tags/autocomplete", methods=["GET"])
+@login_required
 def autocomplete_tags():
     """
     Provides a list of all available tags for autocomplete purposes.
