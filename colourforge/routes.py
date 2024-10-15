@@ -5,8 +5,10 @@ from flask import (
     request, 
     redirect, 
     url_for,
-    Blueprint
+    Blueprint,
+    jsonify
 )
+
 from flask_login import login_required, current_user
 
 # Local Imports
@@ -153,6 +155,15 @@ def edit_recipe(recipe_id):
     tag_dict = {tag.tag_name: None for tag in all_tags}
     return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, tag_dict=tag_dict, user=current_user)
 
+
+@routes.route("/tags/autocomplete", methods=["GET"])
+def autocomplete_tags():
+    """
+    Provides a list of all available tags for autocomplete purposes.
+    """
+    tags = RecipeTag.query.all()
+    tag_names = [tag.tag_name for tag in tags]
+    return jsonify(tag_names)
 
 
 @routes.route("/delete_recipe/<int:recipe_id>")

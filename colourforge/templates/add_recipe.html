@@ -22,15 +22,10 @@
         <textarea id="recipe_desc" name="recipe_desc" class="materialize-textarea" required></textarea>
         <label for="recipe_desc">Recipe Description (required)</label>
       </div>
-      <div class="row">
-        <div class="col s6">
-          <p>Searchable Tags</p>
-          <p>(Optional, press enter for each tag)</p>
-        </div>
-        <div class="col s6">
-          <div class="chips chips-autocomplete"></div>
-          <input type="hidden" name="tags" id="tags_input">
-        </div>
+      <!-- Tags field -->
+      <div class="input-field col s12">
+        <input type="text" id="tags_input" name="tags">
+        <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
     </div>
       <h5>Recipe Stages</h5>

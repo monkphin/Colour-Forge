@@ -16,6 +16,7 @@
    "workbench.colorTheme": "Visual Studio Dark",
    "terminal.integrated.gpuAcceleration": "canvas",
    "cSpell.words": [
+      "Awesomeplete",
       "backref",
       "Caliban",
       "CLOUDINARY",
@@ -29,6 +30,7 @@
       "Greenshade",
       "Heroku",
       "Jinja",
+      "jsonify",
       "Mailjet",
       "materialtags",
       "nums",

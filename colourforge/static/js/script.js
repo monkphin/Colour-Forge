@@ -8,14 +8,14 @@ $(document).ready(function() {
 
   // Initialize carousel for home page.
   $('.carousel').carousel({
-    fullWidth: false,  
+    fullWidth: false,
     indicators: false
   });
 
   // Initialize Accordion for recipes.
   $('.collapsible').collapsible();
 
-  // Initialize Modal dialogues for image pop outs and  defensive deletion.
+  // Initialize Modal dialogues for image pop outs and defensive deletion.
   $('.modal').modal();
  
   // Disable submit button on add_recipe form to prevent button spamming.
@@ -23,14 +23,12 @@ $(document).ready(function() {
     $('#addRecipeButton').prop('disabled', true);
   });
 
-  // Materialize drop down activator for admin menu.
-  $(".dropdown-trigger").dropdown();
+  // Materialize dropdown activator for admin menu.
+  $('.dropdown-trigger').dropdown();
 
   // Reset contents of search boxes when user clicks away (using blur event)
-  const searchInput = document.getElementById('search');
-    
-  searchInput.addEventListener('blur', function() {
-    searchInput.value = ''; // Clear the input field when it loses focus
+  $('#search').on('blur', function() {
+    $(this).val(''); // Clear the input field when it loses focus
   });
 
   // Dynamically add new stage input field when add stage button clicked
@@ -82,42 +80,6 @@ $(document).ready(function() {
     }
   });
 
-  // Initialize Materialize Chips for autocomplete tags.
-  var chipElem = document.querySelector('.chips-autocomplete');
-  if (chipElem) {
-    var chipInstance = M.Chips.init(chipElem, {
-      placeholder: 'Enter a tag',
-      secondaryPlaceholder: '+Tag',
-      autocompleteOptions: {
-        data: tags, 
-        limit: Infinity,
-        minLength: 1
-      },
-      onChipAdd: function(e, chip) {
-        // Replace the default close icon with fa-times icon.
-        const closeIcon = chip.querySelector('.material-icons');
-        if (closeIcon) {
-          closeIcon.classList.remove('material-icons');
-          closeIcon.classList.add('fas', 'fa-times');
-        }
-        updateTagsField();
-      },
-      onChipDelete: function(e, chip) {
-        updateTagsField();
-      }
-    });
-
-    // Function to update the hidden input with all tag values.
-    function updateTagsField() {
-      const instance = M.Chips.getInstance(chipElem);
-      const tagsData = instance.chipsData.map(chip => chip.tag).join(',');
-      document.querySelector('#tags_input').value = tagsData;
-    }
-
-    // Populate hidden 'tags_input' on page load
-    updateTagsField();
-  }
-
   // Function to mark images for deletion and show file input.
   $(document).on('click', '.delete_image_button', function() {
     var stageNum = $(this).attr('data-stage-num');
@@ -168,7 +130,36 @@ $(document).ready(function() {
       $message.fadeOut('slow', function() {
         $message.remove(); 
       });
-    }, 2000); // 2 second
+    }, 2000); // 2 seconds
   });
+
+  // Fetch existing tags for autocomplete
+  const inputField = $('#tags_input');
+  const tagsUrl = inputField.data('url');
+
+  if (inputField.length) {
+    $.ajax({
+      url: tagsUrl,
+      method: 'GET',
+      success: function(tags) {
+        new Awesomplete(inputField[0], {
+          list: tags,
+          minChars: 1,
+          maxItems: 10,
+          autoFirst: true,
+          filter: function (text, input) {
+            return Awesomplete.FILTER_CONTAINS(text, input.match(/[^,]*$/)[0]);
+          },
+          replace: function (text) {
+            const before = this.input.value.match(/^.+,\s*|/)[0];
+            this.input.value = before + text + ", ";
+          }
+        });
+      },
+      error: function(error) {
+        console.error('Error fetching tags:', error);
+      }
+    });
+  }
 
 });

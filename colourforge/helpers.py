@@ -79,7 +79,7 @@ def tag_handler(recipe, tag_names):
             tag_name = tag_name.strip()
             if tag_name:
                 tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
-
+ 
                 if not tag:
                     tag = RecipeTag(tag_name=tag_name)
                     db.session.add(tag)
@@ -105,19 +105,45 @@ def tag_handler(recipe, tag_names):
 
 def edit_tag_handler(recipe, tag_names):
     """
-    Handles editing tags for a recipe by removing existing tags and adding new ones.
-    
+    Handles editing tags for a recipe by adding new tags and removing those that are not in the updated tag list.
+
     Args:
         recipe (Recipe): The recipe object whose tags are being edited.
         tag_names (list): A list of new tag names to be associated with the recipe.
     """
-    if tag_names is not None:
-        # Remove existing tags
-        EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
-        db.session.commit()
+    # Retrieve current tags associated with the recipe
+    current_tags = EntityTag.query.filter_by(recipe_id=recipe.recipe_id).all()
+    current_tag_names = {tag.recipe_tag.tag_name for tag in current_tags if tag.recipe_tag}
 
-        # Add new tags using existing tag_handler
-        tag_handler(recipe, tag_names)
+    # Determine tags to be added and removed
+    new_tag_names = set(tag_names)
+    tags_to_remove = current_tag_names - new_tag_names
+    tags_to_add = new_tag_names - current_tag_names
+
+    # Remove tags that are no longer needed
+    for tag_name in tags_to_remove:
+        tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
+        if tag:
+            entity_tag = EntityTag.query.filter_by(recipe_id=recipe.recipe_id, tag_id=tag.tag_id).first()
+            if entity_tag:
+                db.session.delete(entity_tag)
+
+    # Add new tags
+    for tag_name in tags_to_add:
+        tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
+        if not tag:
+            tag = RecipeTag(tag_name=tag_name)
+            db.session.add(tag)
+            db.session.flush()  # Ensure tag ID is available immediately
+
+        # Create the association between the recipe and the tag
+        entity_tag = EntityTag(recipe_id=recipe.recipe_id, tag_id=tag.tag_id, entity_type='recipe')
+        db.session.add(entity_tag)
+
+    db.session.commit()
+
+
+
 
 # Image handlers
 
