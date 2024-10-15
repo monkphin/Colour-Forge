@@ -5,7 +5,7 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask_login import LoginManager
-from mailjet_rest import Client
+from flask_mail import Mail
 
 if os.path.exists("env.py"):
     import env  # noqa
@@ -25,6 +25,16 @@ else:
         uri = uri.replace("postgres://", "postgresql://", 1)
     app.config["SQLALCHEMY_DATABASE_URI"] = uri  # Use the modified URI
 
+
+# gmail config
+app.config.update(
+    mail_server=os.environ.get("MAIL_SERVER"),
+    mail_port=int(os.environ.get("MAIL_PORT")),
+    mail_username=os.environ.get("MAIL_USERNAME"),
+    mail_password=os.environ.get("MAIL_PASSWORD")   
+)
+
+
 # Cloudinary config
 cloudinary.config(
     cloud_name=os.environ.get("CLOUDINARY_CLOUD_NAME"),
@@ -32,12 +42,8 @@ cloudinary.config(
     api_secret=os.environ.get("CLOUDINARY_API_SECRET")
 )
 
-# Mailjet config
-api_key = os.environ.get('MJ_APIKEY_PUBLIC')
-api_secret = os.environ.get('MJ_APIKEY_PRIVATE')
-mailjet = Client(auth=(api_key, api_secret))
-
-
+# Init extensions
+mail = Mail(app)
 db = SQLAlchemy(app)
 
 
@@ -45,7 +51,6 @@ db = SQLAlchemy(app)
 login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
-
 
 from colourforge.models import User
 
