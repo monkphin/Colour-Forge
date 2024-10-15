@@ -24,7 +24,7 @@
       </div>
       <!-- Tags field -->
       <div class="input-field col s12">
-        <input type="text" id="tags_input" name="tags">
+        <input type="text" id="tags_input" name="tags" data-url="{{ url_for('routes.autocomplete_tags') }}">
         <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
     </div>
@@ -73,8 +73,5 @@
 
   </form>
 </div>
-
-  <!-- moved this from base.html to pages that it directly imacts due to issues with routes.  -->
-
 
 {% endblock %}
