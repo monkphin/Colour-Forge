@@ -92,7 +92,10 @@ def reset_password(user_id):
     elif len(password1) <7:
         flash('Password must be at least 7 characters.', category='error')
     elif check_password_hash(current_password_hash, password1):
-        flash('Your new password cannot be the same as your current password', category='error')
+        flash(
+            'The new password cannot be the same as the current password', 
+            category='error'
+            )
     else:
         user.password = generate_password_hash(password1, method='pbkdf2:sha512')
         db.session.commit()
@@ -121,7 +124,11 @@ def toggle_admin(user_id):
 
     # Make sure the admin isn't demoting themselves
     if user.id == current_user.id:
-        flash("You cannot demote your own account, please message another admin to do this", category="error")
+        flash(
+            "You cannot demote your own account, "
+             "please message another admin to do this", 
+            category="error"
+            )
         return redirect(url_for('admin.admin_dash'))
 
     if user.is_admin:
@@ -158,7 +165,11 @@ def delete_account(user_id):
 
     # Make sure the admin isn't deleting themselves
     if user.id == current_user.id:
-        flash("You cannot delete your own account, please message another admin to do this", category="error")
+        flash(
+            "You cannot delete your own account, "
+            "please message another admin to do this", 
+            category="error"
+            )
         return redirect(url_for('admin.admin_dash'))
 
     # Delete user. 
@@ -173,7 +184,8 @@ def delete_account(user_id):
 @login_required
 def see_recipes():
     """
-    Renders the admin level recipes page, with a list of all recipes and their details
+    Renders the admin level recipes page, with a list of all recipes and their 
+    details
 
     Returns:
         Response: The rendered admin recipes page.

@@ -1,128 +1,129 @@
-*, *::before, *::after {
-    box-sizing: border-box;
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
 }
 
 body {
-    display: flex;
-    min-height: 100vh;
-    flex-direction: column;
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
 }
 
 main {
-    flex: 1 0 auto;
+  flex: 1 0 auto;
 }
 
 img {
-    padding: 10px;
+  padding: 10px;
 }
 
 .image-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    padding: 50px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 50px;
 }
 
 .site-logo {
-    max-width: 100%;
+  max-width: 100%;
 }
 
 .carousel-container {
-    justify-content: center;
-    align-items: center;
+  justify-content: center;
+  align-items: center;
 }
 
 .carousel-title {
-    align-items: center;
+  align-items: center;
 }
 
 form {
-    padding: 20px;
-  }
-  
-  input {
-    width: 100%;
-    margin-bottom: 5px;
-  }
+  padding: 20px;
+}
 
- .col.s4.m4.recipe-cards {
-    min-height: 5000px;
-    max-height: 5000px;
-  }
+input {
+  width: 100%;
+  margin-bottom: 5px;
+}
 
-  .inline-lists {
-    display: flex;
-    list-style-type: none;
-    justify-content: center;
+.col.s4.m4.recipe-cards {
+  min-height: 5000px;
+  max-height: 5000px;
+}
+
+.inline-lists {
+  display: flex;
+  list-style-type: none;
+  justify-content: center;
 }
 
 .inline-lists li {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 /* Preserves line breaks but collapses other whitespace */
 .preserve-whitespace {
-    white-space: pre-line; 
+  white-space: pre-line;
 }
 
 .collapsible-body {
-    padding: 16px;               
-    box-sizing: border-box;      
-    overflow-wrap: break-word;   
-    word-wrap: break-word;
-    word-break: break-word;
-    white-space: normal;         
-    overflow: hidden;
+  padding: 16px;
+  box-sizing: border-box;
+  overflow-wrap: break-word;
+  word-wrap: break-word;
+  word-break: break-word;
+  white-space: normal;
+  overflow: hidden;
 }
 
 .collapsible-body img {
-    align-items: center;
-
+  align-items: center;
 }
 
 .collapsible-body .row {
-    display: flex;
-    align-items: center;
+  display: flex;
+  align-items: center;
 }
 
 .collapsible-body img {
-    max-width: 100%;
-    height: auto;
-    margin-left: 16px;
+  max-width: 100%;
+  height: auto;
+  margin-left: 16px;
 }
 
 .admin-text {
-    margin-right: 10px;
+  margin-right: 10px;
 }
 
 /* Specific to Navbar Search Fields */
 .navbar-search {
-    padding-left: 0 !important;
-    padding-right: 40px !important;
+  padding-left: 0 !important;
+  padding-right: 40px !important;
 }
 
 /* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
 .navbar-search::placeholder {
-    color: white; /* Replace with your desired color for desktop/general */
-    opacity: 1;
+  color: white; /* Replace with your desired color for desktop/general */
+  opacity: 1;
 }
 
 /* Input Text Style When Focused (Desktop and General) */
 .navbar-search:focus {
-    color: #000000; /* User-typed text color when the navbar input is focused */
+  color: #000000; /* User-typed text color when the navbar input is focused */
 }
 
 /* Mobile Specific Styles */
 @media (max-width: 600px) {
-    /* Ensure proper layout of collapsible rows */
-    .collapsible-body .row {
-        flex-direction: column;
-        align-items: flex-start;
-    }
+  /* Ensure proper layout of collapsible rows */
+  .collapsible-body .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
 
-    /* Placeholder Text Style When Input is Focused (Mobile) */
-    .mobile-search::placeholder {
-        color: #555555; /* Replace with your desired color for mobile-specific placeholder */
-        opacity: 1; /* Optional: Makes sure the color is fully opaque */
-    }
+  /* Placeholder Text Style When Input is Focused (Mobile) */
+  .mobile-search::placeholder {
+    color: #555555; /* Replace with your desired color for mobile-specific placeholder */
+    opacity: 1; /* Optional: Makes sure the color is fully opaque */
+  }
 }

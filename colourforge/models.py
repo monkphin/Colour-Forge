@@ -14,7 +14,11 @@ class User(db.Model, UserMixin):
     is_admin = db.Column(db.Boolean, default=False)
 
     # Relationship to the Recipes table (one-to-many relationship)
-    recipes = db.relationship("Recipe", backref="user", cascade="all, delete", lazy=True)
+    recipes = db.relationship(
+        "Recipe", 
+        backref="user", 
+        cascade="all, delete", 
+        lazy=True)
 
     def __repr__(self):
         # __repr__ to represent itself in the form of a string
@@ -27,7 +31,8 @@ class Recipe(db.Model):
 
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+    user_id = db.Column(
+        db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
     recipe_name = db.Column(db.String(55), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 

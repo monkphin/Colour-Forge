@@ -38,7 +38,8 @@ def register():
     """
     Registers a new user account and logs them in on a POST request.
     Otherwise, renders the register page.
-    If the user already exists, or the form data is invalid, the user is redirected to the register page.
+    If the user already exists, or the form data is invalid, the user is 
+    redirected to the register page.
     
 
     Returns:
@@ -51,7 +52,8 @@ def register():
         password2 = request.form.get('password2')
 
         # Check to see if user exists
-        existing_user = User.query.filter_by(username=username).first() or User.query.filter_by(email=email).first()
+        existing_user = User.query.filter_by(
+            username=username).first() or User.query.filter_by(email=email).first()
 
         if existing_user:
             flash('User already exists', category='error')
@@ -64,7 +66,14 @@ def register():
         elif len(password1) <7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            new_user = User(email=email, username=username, password=generate_password_hash(password1, method='pbkdf2:sha512'))
+            new_user = User(
+                email=email, 
+                username=username, 
+                password=generate_password_hash(
+                    password1, 
+                    method='pbkdf2:sha512'
+                    )
+                )
             db.session.add(new_user)
             db.session.commit()
 
@@ -95,7 +104,8 @@ def login():
             flash('Please enter both username/email and password', category='error')
             return redirect(url_for('routes.home'))
 
-        user = User.query.filter_by(email=user).first() or User.query.filter_by(username=user).first()
+        user = User.query.filter_by(
+            email=user).first() or User.query.filter_by(username=user).first()
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
@@ -130,7 +140,8 @@ def account():
 def change_email():
     """
     Changes the user's email address on a POST request from the account page. 
-    If the email is already in use, the user is redirected to the account page with an error message.
+    If the email is already in use, the user is redirected to the account 
+    page with an error message.
 
     Returns:
         Render: The account page.
@@ -155,9 +166,11 @@ def change_email():
 def reset_password():
     """
     Resets the user's password on a POST request from the account page.
-    If the passwords don't match, the user is redirected to the account page with an error message.
-    If the new password is the same as the current password, the user is redirected to the account page with an error message.
-    If the password is less than 7 characters, the user is redirected to the account page with an error message.
+    If the passwords don't match, the user is redirected to the account page 
+    with an error message. If the new password is the same as the current 
+    password, the user is redirected to the account page with an error message.
+    If the password is less than 7 characters, the user is redirected to the 
+    account page with an error message.
     
     Returns:
         Response: Redirects the user to the account page.
@@ -170,7 +183,10 @@ def reset_password():
         if password1 != password2: 
             flash('Passwords don\'t match!', category='error')
         elif check_password_hash(current_password_hash, password1):
-            flash('Your new password cannot be the same as your current password', category='error')
+            flash(
+                'Your new password cannot be the same as your current password', 
+                category='error'
+                )
         elif len(password1) <7:
             flash('Password must be at least 7 characters.', category='error')
         else:
@@ -191,7 +207,8 @@ def reset_password():
 def delete_account():
     """
     Deletes the user's account on a POST request from the account page.
-    This flashes a success message and logs the user out before redirecting them to the home page.
+    This flashes a success message and logs the user out before redirecting 
+    them to the home page.
 
     Returns:
         Response: Redirects the user to the home page.

@@ -1,28 +1,35 @@
-{% extends "base.html" %}
-
-{% block title %}Account{% endblock %}
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Account{% endblock %} {% block
+content %}
 
 <div class="row">
   <!-- Column for the Heading -->
   <div class="col s6">
     <h3>All User Recipes</h3>
   </div>
-  
+
   <!-- Column for the Search Form -->
   <div class="col s6">
     <form>
       <div class="row">
         <!-- Input Field Column -->
         <div class="input-field col s8">
-          <input id="search" type="text" class="validate" placeholder="Search..." required>
+          <input
+            id="search"
+            type="text"
+            class="validate"
+            placeholder="Search..."
+            required />
           <label for="search">Search</label>
         </div>
-        
+
         <!-- Button Column -->
-        <div class="input-field col s4" style="margin-top: 20px;">
-          <button class="waves-effect waves-light btn-small indigo" type="submit" name="action">Search</button>
+        <div class="input-field col s4" style="margin-top: 20px">
+          <button
+            class="waves-effect waves-light btn-small indigo"
+            type="submit"
+            name="action">
+            Search
+          </button>
         </div>
       </div>
     </form>
@@ -31,17 +38,15 @@
 
 <div class="row">
   {% for recipe in recipes %}
-    <div class="col s12 m6">
-      <div class="card">
-        <div class="card-content">
-          <span class="card-title">Recipe Details</span>
-          <p>Recipe Name: {{ recipe.recipe_name }}</p>
-          <p>Created By: {{ recipe.user }}</p>
-
-
-        </div>
+  <div class="col s12 m6">
+    <div class="card">
+      <div class="card-content">
+        <span class="card-title">Recipe Details</span>
+        <p>Recipe Name: {{ recipe.recipe_name }}</p>
+        <p>Created By: {{ recipe.user }}</p>
       </div>
     </div>
+  </div>
   {% endfor %}
 </div>
 

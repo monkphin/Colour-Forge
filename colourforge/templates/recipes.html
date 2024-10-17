@@ -1,29 +1,32 @@
-{% extends "base.html" %}
-
-{% block title %}Recipes{% endblock %} 
-
-{% block content %}
+{% extends "base.html" %} {% block title %}Recipes{% endblock %} {% block
+content %}
 
 <div class="row">
   <div class="col s12 center-align">
     <h2>Recipes</h2>
 
     <div class="card horizontal small-card">
-        <div class="card-image">
-          <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe">
-        </div>
-        <div class="card-stacked">
-          <div class="card-content">
-            <h2 class="card-title">Add Recipe</h2>
-              {% if recipes %}
-                <p>Add a new paint recipe to help guide you in future projects</p>
-              {% else %}
-                <p>You have no recipes currently, add one?</p>
-              {% endif %}
-            <a href="{{ url_for('routes.add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
-          </div>
+      <div class="card-image">
+        <img
+          src="{{ url_for('static', filename='images/palette.png') }}"
+          alt="Add Recipe" />
+      </div>
+      <div class="card-stacked">
+        <div class="card-content">
+          <h2 class="card-title">Add Recipe</h2>
+          {% if recipes %}
+          <p>Add a new paint recipe to help guide you in future projects</p>
+          {% else %}
+          <p>You have no recipes currently, add one?</p>
+          {% endif %}
+          <a
+            href="{{ url_for('routes.add_recipe') }}"
+            class="btn-small light-blue"
+            >Add Recipe</a
+          >
         </div>
       </div>
+    </div>
   </div>
 </div>
 
@@ -32,30 +35,40 @@
   <div class="col s6 m4 recipe-cards">
     <div class="card">
       <div class="card-image waves-effect waves-block waves-light">
-        {% for stage in recipe.stages %}
-          {% if stage.is_final_stage %}
-            {% if stage.recipe_images %}
-              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
-              </a>
-            {% else %}
-              <img class="activator" src="{{ url_for('static', filename='images/placeholder.png')}}" alt="placeholder image">
-            {% endif %} 
-          {% endif %}  
-        {% endfor %}
-        </div>
-        <div class="card-content">
-          <h5><span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span></h5>
-          <p><span class="activator grey-text text-darken-4"><i class="fas fa-expand-arrows-alt"> Recipe Description</i></span></p>
-        </div>
-        <div class="card-reveal">
-          <span class="card-title grey-text text-darken-4"><i class="fas fa-times"> Close</i></span>
-          <p>{{ recipe.recipe_desc }}</p>
-        </div>
+        {% for stage in recipe.stages %} {% if stage.is_final_stage %} {% if
+        stage.recipe_images %}
+        <a
+          href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+          <img
+            src="{{ stage.recipe_images[0].thumbnail_url }}"
+            alt="{{ stage.recipe_images[0].alt_text }}" />
+        </a>
+        {% else %}
+        <img
+          class="activator"
+          src="{{ url_for('static', filename='images/placeholder.png')}}"
+          alt="placeholder image" />
+        {% endif %} {% endif %} {% endfor %}
+      </div>
+      <div class="card-content">
+        <h5>
+          <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
+        </h5>
+        <p>
+          <span class="activator grey-text text-darken-4"
+            ><i class="fas fa-expand-arrows-alt"> Recipe Description</i></span
+          >
+        </p>
+      </div>
+      <div class="card-reveal">
+        <span class="card-title grey-text text-darken-4"
+          ><i class="fas fa-times"> Close</i></span
+        >
+        <p>{{ recipe.recipe_desc }}</p>
       </div>
     </div>
+  </div>
   {% endfor %}
 </div>
-
 
 {% endblock %}

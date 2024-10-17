@@ -39,7 +39,8 @@ def home():
         Response: The rendered home page.
     """
     if current_user.is_authenticated:
-        recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
+        recipes = Recipe.query.filter_by(
+            user_id=current_user.id).order_by(Recipe.recipe_name).all()
     else:
         recipes = None
     return render_template("home.html", recipes=recipes, user=current_user)
@@ -54,7 +55,8 @@ def recipes():
     Returns:
         Response : The rendered recipes page.
     """
-    recipes = Recipe.query.filter_by(user_id=current_user.id).order_by(Recipe.recipe_name).all()
+    recipes = Recipe.query.filter_by(
+        user_id=current_user.id).order_by(Recipe.recipe_name).all()
     return render_template("recipes.html", recipes=recipes, user=current_user)
 
 
@@ -72,7 +74,12 @@ def recipe_page(recipe_id):
     recipe=Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer 
 
-    return render_template('recipe_page.html', recipe=recipe, referrer=referrer, user=current_user)
+    return render_template(
+        'recipe_page.html',
+         recipe=recipe, 
+         referrer=referrer, 
+         user=current_user
+         )
 
 
 # Routes that render and write content 
@@ -111,6 +118,8 @@ def add_recipe():
         flash('Paint Recipe successfully added!', category='success')
 
         return redirect("recipes")   
+    
+    return render_template('add_recipe.html')
 
 
 @routes.route("/edit_recipe/<int:recipe_id>", methods=["GET", "POST"])
@@ -125,24 +134,34 @@ def edit_recipe(recipe_id):
         recipe_id (int): The ID of the recipe to edit.
 
     Returns:
-        Response: The rendered edit recipe form page or a redirect response after successful editing.
+        Response: The rendered edit recipe form page or a redirect response 
+        after successful editing.
     """
     recipe = Recipe.query.get_or_404(recipe_id)
 
     # Ensure user owns the recipe
     if recipe.user_id != current_user.id:
-        flash("You do not have permission to edit this recipe.", category="error")
+        flash(
+            "You do not have permission to edit this recipe.", category="error")
         return redirect(url_for('routes.home'))
 
     # Handle POST request
     if request.method == "POST":
         handle_recipe_edit_post(recipe)
         flash("Recipe has been updated")
-        return redirect(url_for('routes.recipe_page', recipe_id=recipe.recipe_id))
+        return redirect(url_for(
+            'routes.recipe_page', 
+            recipe_id=recipe.recipe_id)
+            )
 
     # Handle GET request
     recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
-    return render_template("edit_recipe.html", recipe=recipe, recipes=recipes, user=current_user)
+    return render_template(
+        "edit_recipe.html", 
+        recipe=recipe, 
+        recipes=recipes, 
+        user=current_user
+        )
 
 
 @routes.route("/tags/autocomplete", methods=["GET"])
@@ -155,13 +174,17 @@ def autocomplete_tags():
     tag_names = [tag.tag_name for tag in tags]
     return jsonify(tag_names)
 
+@routes.route('/search', methods=['GET'])
+def search():
+    pass
 
 @routes.route("/delete_recipe/<int:recipe_id>")
 @login_required
 def delete_recipe(recipe_id):
     """
     Handles recipe deletion. 
-    This route will delete the recipe, stages, images, and tags associated with the recipe.
+    This route will delete the recipe, stages, images, and tags associated with 
+    the recipe.
 
     Args:
         recipe_id (int): The ID of the recipe to delete.

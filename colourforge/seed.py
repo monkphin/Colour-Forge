@@ -59,24 +59,36 @@ def create_default_recipe(user):
     # Create recipe images
     image1 = RecipeImage(
         stage=stage1,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',
-        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png',
+        image_url=
+        'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/'
+        'placeholder.png',
+        thumbnail_url=
+        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+        'c_fill,h_200,w_200/placeholder.png',
         alt_text='Placeholder Image',
         public_id=None
     )
     
     image2 = RecipeImage(
         stage=stage2,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728736766/srth5pc5nisq66mph7ng.jpg',
-        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/srth5pc5nisq66mph7ng.jpg',
+        image_url=
+        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+        'v1728736766/srth5pc5nisq66mph7ng.jpg',
+        thumbnail_url=
+        'http://res.cloudinary.com/dlmbpbtfx/image/upload/'
+        'c_fill,h_200,w_200/srth5pc5nisq66mph7ng.jpg',
         alt_text='Fafnir Ran Conversion',
         public_id='srth5pc5nisq66mph7ng'
     )
     
     image3 = RecipeImage(
         stage=stage3,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728736767/woumsfwwkgycjjqooe3g.jpg',
-        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/woumsfwwkgycjjqooe3g.jpg',
+        image_url=
+        'https://res.cloudinary.com/dlmbpbtfx/image/upload/'
+        'v1728736767/woumsfwwkgycjjqooe3g.jpg',
+        thumbnail_url=
+        'http://res.cloudinary.com/dlmbpbtfx/image/upload/'
+        'c_fill,h_200,w_200/woumsfwwkgycjjqooe3g.jpg',
         alt_text=None,
         public_id='woumsfwwkgycjjqooe3g'
     )
