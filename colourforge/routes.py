@@ -174,9 +174,34 @@ def autocomplete_tags():
     tag_names = [tag.tag_name for tag in tags]
     return jsonify(tag_names)
 
+
 @routes.route('/search', methods=['GET'])
 def search():
-    pass
+    """
+    Handles the search functionality by allowing users to search for recipes by tags.
+
+    Returns:
+        Response: Renders the search results page with a list of recipes.
+    """
+    search = request.args.get('search')
+    if not search:
+        flash("Please enter a search term.", category="error")
+        return redirect(url_for('routes.home'))
+    
+    # Find all tags that match the query
+    matching_tags = RecipeTag.query.filter(RecipeTag.tag_name.ilike(f"%{search}%")).all()
+
+    # Find all recipes that match the tags. 
+    matching_recipes = []
+    for tag in matching_tags:
+        entity_tags = EntityTag.query.filter_by(tag_id=tag.tag_id).all()
+        for entity_tag in entity_tags:
+            recipe = Recipe.query.get(entity_tag.recipe_id)
+            if recipe and recipe.user_id == current_user.id and recipe not in matching_recipes:
+                matching_recipes.append(recipe)
+
+    return render_template('recipe_search_results.html', recipes=matching_recipes, search=search)
+
 
 @routes.route("/delete_recipe/<int:recipe_id>")
 @login_required
