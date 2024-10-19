@@ -149,7 +149,7 @@ def edit_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
     # Ensure user owns the recipe
-    if recipe.user_id != current_user.id:
+    if recipe.user_id != current_user.id and not current_user.is_admin:
         flash(
             "You do not have permission to edit this recipe.",
             category="error"
@@ -245,9 +245,9 @@ def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
     # ensure user owns the recipe
-    if recipe.user_id != current_user.id:
+    if recipe.user_id != current_user.id and not current_user.is_admin:
         flash(
-            "You do not have permission to edit this recipe.",
+            "You do not have permission to delete this recipe.",
             category="error"
         )
         return redirect(url_for('routes.home'))

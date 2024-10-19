@@ -34,8 +34,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // init Modal
   var elems = document.querySelectorAll(".modal");
-  var instances = M.Modal.init(elems);
-
+  var instances = M.Modal.init(elems, {
+    opacity: 0.5,
+    inDuration: 300,
+    outDuration: 200
+  });
   //init dropdown - Commenting out since I'm not sure I want to use this 
   //var elems = document.querySelectorAll(".dropdown-trigger");
   //var instances = M.Dropdown.init(elems);

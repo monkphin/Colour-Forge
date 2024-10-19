@@ -95,8 +95,8 @@
   <!-- Not Logged In Display -->
 
   <div class="carousel-container col s12 center-align">
+    <h3 class="carousel-title center-align mb-small">Our Members Paint Recipes</h3>
     <div class="carousel">
-      <h3 class="carousel-title">Our Members Paint Recipes</h3>
         {% for recipe in recipes[:12] %}
         <a
           class="carousel-item"
@@ -120,9 +120,11 @@
               {% endfor %}
             </div>
             <div class="card-content">
-              <span class="grey-text text-darken-4"
-                >{{ recipe.recipe_name }}</span
-              >
+              <span class="grey-text text-darken-4">
+                <p>{{ recipe.recipe_name }}</p>
+                <p class="grey-text text-darken-1">Author: {{ recipe.user.username }}</p>
+              </span>
+
             </div>
           </div>
         </a>

@@ -1,207 +1,209 @@
-{% extends "base.html" %} 
-{% block title %}Recipes{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Recipes{% endblock %}
 {% block content %}
 
 <div class="row">
   <div class="col s12 center-align">
-    <!-- stage title -->
+    <!-- Stage Title -->
     <h2 class="card-title">{{ recipe.recipe_name }}</h2>
+    
+    <!-- Stage Tags -->
     <div class="card-stacked">
-      <!-- stage tags -->
       <div class="card-content">
-        Tags: {% if recipe.entity_tags %} {% for tag in recipe.entity_tags %} {%
-        if tag.recipe_tag %}
-        <div class="chip">{{ tag.recipe_tag.tag_name }}</div>
+        Tags:
+        {% if recipe.entity_tags %}
+          {% for tag in recipe.entity_tags %}
+            {% if tag.recipe_tag %}
+              <div class="chip">{{ tag.recipe_tag.tag_name }}</div>
+            {% else %}
+              <p>No Tags</p>
+            {% endif %}
+          {% endfor %}
         {% else %}
-        <p>No Tags</p>
-        {% endif %} {% endfor %} {% else %}
-        <p>No Tags</p>
+          <p>No Tags</p>
         {% endif %}
       </div>
     </div>
 
-    <!-- stage desc and image  -->
+    <!-- Stage Description and Image -->
     <div class="card horizontal small-card">
       <div class="card-image">
-        <!-- Display last stage image as the recipes image, to show the end result. -->
-        {% for stage in recipe.stages %} {% if stage.is_final_stage %} {% if
-        stage.recipe_images %}
-        <a
-          class="waves-effect waves-light modal-trigger"
-          href="#modal{{ stage.stage_id }}">
-          <img
-            class="activator"
-            src="{{ stage.recipe_images[0].thumbnail_url }}"
-            alt="{{ stage.recipe_images[0].alt_text }}" />
-        </a>
-        {% else %}
-        <a
-          class="waves-effect waves-light modal-trigger"
-          href="#modal{{ stage.stage_id }}">
-          <img
-            class="activator"
-            src="{{ url_for('static', filename='images/placeholder.png') }}"
-            alt="placeholder image" />
-        </a>
-        {% endif %}
-
-        <!-- modal structure -->
-        <div id="modal{{ stage.stage_id }}" class="modal">
-          <div class="modal-content">
-            {% if stage.recipe_images %} {% for image in stage.recipe_images %}
-            <img
-              src="{{ image.image_url }}"
-              alt="{{ image.alt_text }}"
-              class="responsive-img" />
-            {% endfor %} {% else %}
-            <img
-              src="{{ url_for('static', filename='images/placeholder.png') }}"
-              alt="placeholder image"
-              class="responsive-img" />
+        <!-- Display last stage image as the recipe's image -->
+        {% for stage in recipe.stages %}
+          {% if stage.is_final_stage %}
+            {% if stage.recipe_images %}
+              <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" />
+              </a>
+            {% else %}
+              <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" />
+              </a>
             {% endif %}
-          </div>
-          <div class="modal-footer">
-            {% if stage.recipe_images %} {% for image in stage.recipe_images %}
-            <a
-              href="{{ image.image_url }}"
-              class="waves-effect waves-green btn-flat"
-              target="_blank"
-              aria-label="LinkedIn - (Opens in a new tab)"
-              rel="noopener"
-              >Open Full screen</a
-            >
-            {% endfor %} {% else %}
-            <a
-              href="{{ url_for('static', filename='images/placeholder.png') }}"
-              class="waves-effect waves-green btn-flat"
-              target="_blank"
-              aria-label="LinkedIn - (Opens in a new tab)"
-              rel="noopener"
-              >Open Full screen</a
-            >
-            {% endif %}
-            <a href="#!" class="modal-close waves-effect waves-green btn-flat"
-              >Close</a
-            >
-          </div>
-        </div>
 
-        {% endif %} {% endfor %}
+            <!-- Image Modal Structure -->
+            <div id="modal{{ stage.stage_id }}" class="modal">
+              <div class="modal-content">
+                {% if stage.recipe_images %}
+                  {% for image in stage.recipe_images %}
+                    <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img" />
+                  {% endfor %}
+                {% else %}
+                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img" />
+                {% endif %}
+              </div>
+              <div class="modal-footer">
+                {% if stage.recipe_images %}
+                  {% for image in stage.recipe_images %}
+                    <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                  {% endfor %}
+                {% else %}
+                  <a href="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                {% endif %}
+                <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+              </div>
+            </div>
+          {% endif %}
+        {% endfor %}
       </div>
+      
+      <!-- Recipe Description -->
       <div class="card-stacked">
         <div class="card-content preserve-whitespace">
-          <p class="right-align grey-text">
-            Created by: {{ recipe.user.username }}
-          </p>
+          <p class="right-align grey-text">Created by: {{ recipe.user.username }}</p>
           <p>{{ recipe.recipe_desc }}</p>
         </div>
       </div>
     </div>
 
-    <!-- collapsible stages with modal for each stags image -->
+    <!-- Collapsible Stages with Modals for Each Stage's Image -->
     <div>
       <ul class="collapsible">
         {% for stage in recipe.stages %}
-        <li>
-          <div class="collapsible-header">
-            <i class="fas fa-caret-right"></i>Stage: {{ stage.stage_num }} 
-          </div>
-          <div class="collapsible-body">
-            <div class="row">
-              <div class="col s12 m10 offset-m1 l8 preserve-whitespace">
-                <p>{{ stage.instructions }}</p>
-              </div>
-              <div class="col s12 m2 l4">
-                {% if stage.recipe_images %}
-                <a
-                  class="waves-effect waves-light modal-trigger"
-                  href="#modal{{ stage.stage_id }}">
-                  <img
-                    class="activator responsive-img"
-                    src="{{ stage.recipe_images[0].thumbnail_url }}"
-                    alt="{{ stage.recipe_images[0].alt_text }}" />
-                </a>
-                {% else %}
-                <a
-                  class="waves-effect waves-light modal-trigger"
-                  href="#modal{{ stage.stage_id }}">
-                  <img
-                    class="activator responsive-img"
-                    src="{{ url_for('static', filename='images/placeholder.png') }}"
-                    alt="placeholder image" />
-                </a>
-                {% endif %}
-              </div>
+          <li>
+            <div class="collapsible-header">
+              <i class="fas fa-caret-right"></i> Stage: {{ stage.stage_num }}
             </div>
+            <div class="collapsible-body">
+              <div class="row">
+                <div class="col s12 m10 offset-m1 l8 preserve-whitespace">
+                  <p>{{ stage.instructions }}</p>
+                </div>
+                <div class="col s12 m2 l4">
+                  {% if stage.recipe_images %}
+                    <a class="waves-effect waves-light modal-trigger" href="#modal-stage{{ stage.stage_id }}">
+                      <img class="activator responsive-img" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" />
+                    </a>
+                  {% else %}
+                    <a class="waves-effect waves-light modal-trigger" href="#modal-stage{{ stage.stage_id }}">
+                      <img class="activator responsive-img" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" />
+                    </a>
+                  {% endif %}
+                </div>
+              </div>
 
-            <!-- Modal Structure -->
-            <div id="modal{{ stage.stage_id }}" class="modal">
-              <div class="modal-content">
-                {% if stage.recipe_images %} {% for image in stage.recipe_images
-                %}
-                <img
-                  src="{{ image.image_url }}"
-                  alt="{{ image.alt_text }}"
-                  class="responsive-img" />
-                {% endfor %} {% else %}
-                <img
-                  src="{{ url_for('static', filename='images/placeholder.png') }}"
-                  alt="placeholder image"
-                  class="responsive-img" />
-                {% endif %}
-              </div>
-              <div class="modal-footer">
-                {% if stage.recipe_images %} {% for image in stage.recipe_images
-                %}
-                <a
-                  href="{{ image.image_url }}"
-                  class="waves-effect waves-green btn-flat"
-                  target="_blank"
-                  aria-label="LinkedIn - (Opens in a new tab)"
-                  rel="noopener"
-                  >Open Full screen</a
-                >
-                {% endfor %} {% else %}
-                <a
-                  href="{{ url_for('static', filename='images/placeholder.png') }}"
-                  class="waves-effect waves-green btn-flat"
-                  target="_blank"
-                  aria-label="LinkedIn - (Opens in a new tab)"
-                  rel="noopener"
-                  >Open Full screen</a
-                >
-                {% endif %}
-                <a
-                  href="#!"
-                  class="modal-close waves-effect waves-green btn-flat"
-                  >Close</a
-                >
+              <!-- Stage Image Modal Structure -->
+              <div id="modal-stage{{ stage.stage_id }}" class="modal">
+                <div class="modal-content">
+                  {% if stage.recipe_images %}
+                    {% for image in stage.recipe_images %}
+                      <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img" />
+                    {% endfor %}
+                  {% else %}
+                    <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img" />
+                  {% endif %}
+                </div>
+                <div class="modal-footer">
+                  {% if stage.recipe_images %}
+                    {% for image in stage.recipe_images %}
+                      <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                    {% endfor %}
+                  {% else %}
+                    <a href="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                  {% endif %}
+                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                </div>
               </div>
             </div>
-          </div>
-        </li>
+          </li>
         {% endfor %}
       </ul>
 
-      <!-- back/edit/delete buttons -->
+      <!-- Back/Edit/Delete Buttons -->
       <div>
-        {% if user.is_authenticated %} {% if user.id == recipe.user.id or
-        current_user.is_admin %}
+        <!-- Back Button -->
         <a href="{{ referrer }}" class="btn blue">Back</a>
-        <a
-          href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-          class="btn green accent-4"
-          >Edit</a
-        >
-        <a
-          href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}"
-          class="btn red"
-          >Delete</a
-        >
-        {% endif %} {% endif %}
+        {% if user.is_authenticated %}
+          {% if user.id == recipe.user.id or current_user.is_admin %}
+            <!-- Edit Button -->
+            {% if current_user.is_admin %}
+              {% if recipe.user.id != current_user.id %}
+                <!-- Admin Editing Another User's Recipe: Show Modal Trigger -->
+                <button
+                  id="modalEdit-{{ recipe.recipe_id }}"
+                  class="btn green accent-4 modal-trigger"
+                  type="button"
+                  data-target="modal-edit-{{ recipe.recipe_id }}">
+                  Edit Recipe
+                </button>
+              {% else %}
+                <!-- Admin Editing Their Own Recipe: Direct Edit Link -->
+                <a href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn green accent-4">Edit</a>
+              {% endif %}
+            {% else %}
+              <!-- Regular User Editing Their Own Recipe: Direct Edit Link -->
+              <a href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn green accent-4">Edit</a>
+            {% endif %}
+            
+            <!-- Delete Button -->
+            <button
+              id="modalDelete-{{ recipe.recipe_id }}"
+              class="btn red modal-trigger"
+              type="button"
+              data-target="modal-delete-{{ recipe.recipe_id }}">
+              Delete Recipe
+            </button>
+          {% endif %}
+        {% endif %}
       </div>
     </div>
 
-    {% endblock %}
-  </div>
-</div>
+    <!-- Delete Confirmation Modal -->
+    <div id="modal-delete-{{ recipe.recipe_id }}" class="modal">
+      <div class="modal-content">
+        <h4>Confirm Recipe Deletion!</h4>
+        <p>Are you sure you want to delete this recipe?</p>
+        {% if current_user.is_admin and recipe.user.id != current_user.id %}
+          <div class="red">
+            <p class="red">WARNING!</p>
+            <p>This recipe belongs to: {{ recipe.user.username }}</p>
+            <p>Are you sure you want to delete it?</p>
+          </div>
+        {% endif %}
+      </div>
+      <div class="modal-footer">
+        <button class="modal-close btn green" type="button">Cancel</button>
+        <a href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}" class="btn red">Delete</a>
+      </div>
+    </div>
+
+    <!-- Edit Confirmation Modal (Only for Admins Editing Others' Recipes) -->
+    {% if current_user.is_admin and recipe.user.id != current_user.id %}
+      <div id="modal-edit-{{ recipe.recipe_id }}" class="modal">
+        <div class="modal-content">
+          <h4>Confirm Recipe Edit!</h4>
+          <p>Are you sure you want to edit this recipe?</p>
+          <div class="red">
+            <p class="red">WARNING!</p>
+            <p>This recipe belongs to: {{ recipe.user.username }}</p>
+            <p>Are you sure you want to edit it?</p>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button class="modal-close btn green" type="button">Cancel</button>
+          <a href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}" class="btn blue">Edit</a>
+        </div>
+      </div>
+    {% endif %}
+
+{% endblock %}

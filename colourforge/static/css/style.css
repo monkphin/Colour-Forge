@@ -113,16 +113,6 @@ input {
   color: #000000; /* User-typed text color when the navbar input is focused */
 }
 
-/* Initially, the icon is pointing right (default state) */
-.collapsible-header .fas {
-  transition: transform 0.3s ease; /* Smooth transition */
-}
-
-/* When the collapsible is active (open), rotate the icon downwards */
-.collapsible-header.active .fas {
-  transform: rotate(90deg); /* Rotate 90 degrees to look like caret-down */
-}
-
 /* Mobile Specific Styles */
 @media (max-width: 600px) {
   /* Ensure proper layout of collapsible rows */
