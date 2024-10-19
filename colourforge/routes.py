@@ -43,7 +43,7 @@ def home():
         recipes = Recipe.query.filter_by(
             user_id=current_user.id).order_by(Recipe.recipe_name).all()
     else:
-        recipes = None
+        recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
     return render_template("home.html", recipes=recipes, user=current_user)
 
 

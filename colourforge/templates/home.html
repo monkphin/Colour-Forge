@@ -85,51 +85,63 @@
       {% endif %}
     </div>
   </div>
+</div>
+
 
   {% else %}
 
   <!-- Not Logged In Display -->
-  <div class="image-container">
-    <img
-      class="site_logo"
-      src="{{ url_for('static', filename='images/logo.png') }}"
-      alt="Site Logo" />
+
+  <div class="carousel-container col s12 center-align">
+    <h3 class="carousel-title">Our Members Paint Recipes</h3>
+    <p>Click one to view</p>
+    <div class="carousel">
+        {% for recipe in recipes[:6] %}
+        <a
+          class="carousel-item"
+          href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+          <div class="card recipe-cards">
+            <div class="card-image waves-effect waves-block waves-light">
+              {% for stage in recipe.stages %} 
+              {% if stage.is_final_stage %} {% if
+              stage.recipe_images %}
+              <img
+                class="activator"
+                src="{{ stage.recipe_images[0].thumbnail_url }}"
+                alt="{{ stage.recipe_images[0].alt_text }}" />
+              {% else %}
+              <img
+                class="activator"
+                src="{{ url_for('static', filename='images/placeholder.png') }}"
+                alt="placeholder image" />
+              {% endif %} 
+              {% endif %} 
+              {% endfor %}
+            </div>
+            <div class="card-content">
+              <span class="grey-text text-darken-4"
+                >{{ recipe.recipe_name }}</span
+              >
+            </div>
+          </div>
+        </a>
+        {% endfor %} 
+    </div>
   </div>
+
 
   <div class="row">
-    <form class="col s12" method="POST" action="{{ url_for('auth.login') }}">
-      <div class="row">
-        <div class="input-field col s12">
-          <input
-            id="login"
-            type="text"
-            name="login"
-            minlength="5"
-            maxlength="55"
-            class="validate"
-            required />
-          <label for="login">Username or Email Address</label>
-        </div>
-      </div>
-      <div class="row">
-        <div class="input-field col s12">
-          <input
-            id="password"
-            type="password"
-            name="password"
-            minlength="7"
-            maxlength="100"
-            class="validate"
-            required />
-          <label for="password">Enter Password</label>
-        </div>
-      </div>
+    <div class="col s6  right-align">
       <button class="btn waves-effect waves-light" type="submit" name="action">
         Login
-        <i class="material-icons right"></i>
       </button>
-    </form>
+    </div>
+    <div class="col s6  left-align">
+      <button class="btn waves-effect waves-light" type="button" name="action">
+        Register
+      </button>
+    </div>
   </div>
 
-  {% endif %} {% endblock %}
-</div>
+  {% endif %} 
+  {% endblock %}

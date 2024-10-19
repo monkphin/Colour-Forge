@@ -120,7 +120,7 @@ def login():
         return redirect(url_for('routes.home'))
     else:
         # For GET requests, render the login page
-        return redirect(url_for('routes.home'))
+        return render_template("login.html")
 
 
 @auth.route('/account', methods=['GET', 'POST'])
@@ -200,6 +200,12 @@ def reset_password():
         return redirect(url_for('auth.account'))
 
     return render_template("account.html", user=current_user)
+
+
+@auth.route('//reset_password_request', methods=['GET', 'POST'])
+def reset_password_request():
+
+    return render_template("password_reset.html")
 
 
 @auth.route('/delete_account', methods=['GET', 'POST'])
