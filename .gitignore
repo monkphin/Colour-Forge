@@ -9,3 +9,4 @@ node_modules/
 cloudinary_python.txtsendgrid.env
 sendgrid.env
 testmail.py
+reset_db.py
