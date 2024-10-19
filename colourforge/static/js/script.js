@@ -13,9 +13,24 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   var instances = M.Carousel.init(elems, options);
 
-  //init collapsible for accordion
+  // Init Materialize Collapsible
   var elems = document.querySelectorAll(".collapsible");
-  var instances = M.Collapsible.init(elems);
+  var instances = M.Collapsible.init(elems, {
+    onOpenStart: function (el) {
+      // Add 'active' class to the header when the collapsible opens
+      var header = el.querySelector('.collapsible-header');
+      if (header) {
+        header.classList.add('active');
+      }
+    },
+    onCloseStart: function (el) {
+      // Remove 'active' class from the header when the collapsible closes
+      var header = el.querySelector('.collapsible-header');
+      if (header) {
+        header.classList.remove('active');
+      }
+    }
+  });
 
   // init Modal
   var elems = document.querySelectorAll(".modal");

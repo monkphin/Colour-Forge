@@ -45,9 +45,9 @@
   </div>
 
   <div class="carousel-container col s12 center-align">
-    <h3 class="carousel-title">Your recipes</h3>
+    <h3 class="carousel-title">Member recipes</h3>
     <div class="carousel">
-      {% if recipes %} {% for recipe in recipes[:6] %}
+    {% for recipe in recipes[:6] %}
       <a
         class="carousel-item"
         href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
@@ -73,16 +73,7 @@
           </div>
         </div>
       </a>
-      {% endfor %} {% else %}
-      <div class="card-content">
-        <h4 class="card-title">You have no recipes currently, add one?</h4>
-        <a
-          href="{{ url_for('routes.add_recipe') }}"
-          class="btn-small light-blue"
-          >Add Recipe</a
-        >
-      </div>
-      {% endif %}
+      {% endfor %}
     </div>
   </div>
 </div>

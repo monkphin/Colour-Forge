@@ -34,17 +34,25 @@ routes = Blueprint('routes', __name__)
 @routes.route("/", methods=['GET', 'POST'])
 def home():
     """
-    Renders the home page with a list of recipes if the user is logged in.
+    Renders the home page with a list of recipes.
 
     Returns:
         Response: The rendered home page.
     """
     if current_user.is_authenticated:
-        recipes = Recipe.query.filter_by(
-            user_id=current_user.id).order_by(Recipe.recipe_name).all()
+        # Get recipes not created by the current user
+        recipes = (
+            Recipe.query
+            .filter(Recipe.user_id != current_user.id)
+            .order_by(Recipe.recipe_name)
+            .all()
+        )
     else:
-        recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
+        # Get all recipes (or handle as per your requirements)
+        recipes = Recipe.query.order_by(Recipe.recipe_name).all()
+
     return render_template("home.html", recipes=recipes, user=current_user)
+
 
 
 @routes.route("/recipes")
