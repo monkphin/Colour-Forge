@@ -44,39 +44,50 @@
     </div>
   </div>
 
-  <div class="carousel-container col s12 center-align">
-    <h3 class="carousel-title">Member recipes</h3>
-    <div class="carousel">
-    {% for recipe in recipes[:6] %}
-      <a
-        class="carousel-item"
-        href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-        <div class="card recipe-cards">
-          <div class="card-image waves-effect waves-block waves-light">
-            {% for stage in recipe.stages %} {% if stage.is_final_stage %} {% if
-            stage.recipe_images %}
-            <img
-              class="activator"
-              src="{{ stage.recipe_images[0].thumbnail_url }}"
-              alt="{{ stage.recipe_images[0].alt_text }}" />
-            {% else %}
-            <img
-              class="activator"
-              src="{{ url_for('static', filename='images/placeholder.png') }}"
-              alt="placeholder image" />
-            {% endif %} {% endif %} {% endfor %}
-          </div>
-          <div class="card-content">
-            <span class="grey-text text-darken-4"
-              >{{ recipe.recipe_name }}</span
-            >
-          </div>
+  <h3 class="center-align">Member recipes</h3>
+  <div class="row">
+    {% for recipe in recipes %}
+    <div class="col s6 m4 recipe-cards">
+      <div class="card">
+        <div class="card-image waves-effect waves-block waves-light">
+          {% for stage in recipe.stages %} 
+            {% if stage.is_final_stage %} 
+              {% if stage.recipe_images %}
+                <a
+                  href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                  <img
+                    src="{{ stage.recipe_images[0].thumbnail_url }}"
+                    alt="{{ stage.recipe_images[0].alt_text }}" />
+                </a>
+              {% else %}
+                <img
+                  class="activator"
+                  src="{{ url_for('static', filename='images/placeholder.png')}}"
+                  alt="placeholder image" />
+              {% endif %}
+            {% endif %} 
+          {% endfor %}
         </div>
-      </a>
-      {% endfor %}
+        <div class="card-content">
+          <h5>
+            <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
+          </h5>
+          <p>
+            <span class="activator grey-text text-darken-4"
+              ><i class="fas fa-expand-arrows-alt"> Recipe Description</i></span
+            >
+          </p>
+        </div>
+        <div class="card-reveal">
+          <span class="card-title grey-text text-darken-4"
+            ><i class="fas fa-times"> Close</i></span
+          >
+          <p>{{ recipe.recipe_desc }}</p>
+        </div>
+      </div>
     </div>
+    {% endfor %}
   </div>
-</div>
 
 
   {% else %}
@@ -84,29 +95,28 @@
   <!-- Not Logged In Display -->
 
   <div class="carousel-container col s12 center-align">
-    <h3 class="carousel-title">Our Members Paint Recipes</h3>
-    <p>Click one to view</p>
     <div class="carousel">
-        {% for recipe in recipes[:6] %}
+      <h3 class="carousel-title">Our Members Paint Recipes</h3>
+        {% for recipe in recipes[:12] %}
         <a
           class="carousel-item"
           href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
           <div class="card recipe-cards">
             <div class="card-image waves-effect waves-block waves-light">
               {% for stage in recipe.stages %} 
-              {% if stage.is_final_stage %} {% if
-              stage.recipe_images %}
-              <img
-                class="activator"
-                src="{{ stage.recipe_images[0].thumbnail_url }}"
-                alt="{{ stage.recipe_images[0].alt_text }}" />
-              {% else %}
-              <img
-                class="activator"
-                src="{{ url_for('static', filename='images/placeholder.png') }}"
-                alt="placeholder image" />
-              {% endif %} 
-              {% endif %} 
+                {% if stage.is_final_stage %} 
+                  {% if stage.recipe_images %}
+                    <img
+                      class="activator"
+                      src="{{ stage.recipe_images[0].thumbnail_url }}"
+                      alt="{{ stage.recipe_images[0].alt_text }}" />
+                  {% else %}
+                    <img
+                      class="activator"
+                      src="{{ url_for('static', filename='images/placeholder.png') }}"
+                      alt="placeholder image" />
+                  {% endif %} 
+                {% endif %} 
               {% endfor %}
             </div>
             <div class="card-content">
@@ -120,6 +130,7 @@
     </div>
   </div>
 
+  <h4 class="center-align">Join Us</h4>
 
   <div class="row">
     <div class="col s6  right-align">
