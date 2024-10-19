@@ -5,7 +5,8 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask_login import LoginManager
-from flask_mail import Mail
+from flask_mail import Mail, Message
+
 
 if os.path.exists("env.py"):
     import env  # noqa
@@ -27,13 +28,13 @@ else:
 
 
 # gmail config
-app.config.update(
-    mail_server=os.environ.get("MAIL_SERVER"),
-    mail_port=int(os.environ.get("MAIL_PORT")),
-    mail_username=os.environ.get("MAIL_USERNAME"),
-    mail_password=os.environ.get("MAIL_PASSWORD")   
-)
-
+app.config['MAIL_SERVER'] = os.environ.get("MAIL_SERVER")
+app.config['MAIL_PORT'] = os.environ.get("MAIL_PORT")
+app.config['MAIL_USERNAME'] = os.environ.get("MAIL_USERNAME")
+app.config['MAIL_PASSWORD'] = os.environ.get("MAIL_PASSWORD")
+app.config['MAIL_USE_TLS'] = True
+app.config['MAIL_USE_SSL'] = False
+app.config['MAIL_DEFAULT_SENDER'] = os.environ.get("MAIL_DEFAULT_SENDER")
 
 # Cloudinary config
 cloudinary.config(

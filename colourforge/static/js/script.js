@@ -113,7 +113,7 @@ document.addEventListener("DOMContentLoaded", function () {
     // Add an event listener to the form for the 'submit' event.
     form.addEventListener("submit", function (event) {
       // Select the submit button by its ID.
-      var submitButton = document.getElementById("addRecipeButton");
+      var submitButton = document.getElementById("submitButton");
       // Disable the submit button to prevent multiple submissions.
       if (submitButton) {
         submitButton.disabled = true;

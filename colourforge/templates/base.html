@@ -46,8 +46,8 @@
             </li> -->
             <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
             {% endif %}
-            
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
             <li>
               <form action="{{ url_for('routes.search') }}" method="GET">
                 <div class="input-field">
@@ -64,6 +64,7 @@
             {% else %}
             <li><a href="{{ url_for('routes.home') }}">Log In</a></li>
             <li><a href="{{ url_for('auth.register')}}">Register</a></li>
+            <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
             {% endif %}
           </ul>
           <!-- menu items for drop down 

@@ -26,6 +26,7 @@ from colourforge.helpers import (
     tag_handler,
     handle_recipe_edit_post,
 )
+from colourforge.mail import contact_form
 
 routes = Blueprint('routes', __name__)
 
@@ -64,6 +65,7 @@ def recipes():
 def recipe_page(recipe_id):
     """
     Renders the recipe page for the specified recipe.
+    This is visible to none registered users to allow for recipe sharing. 
 
     Args:
         recipe_id (int): The ID of the recipe to display.
@@ -176,6 +178,7 @@ def autocomplete_tags():
 
 
 @routes.route('/search', methods=['GET'])
+@login_required
 def search():
     """
     Handles the search functionality by allowing users to search for recipes by tags.
@@ -245,3 +248,16 @@ def delete_recipe(recipe_id):
     flash("Recipe has been deleted")
 
     return redirect(url_for('routes.recipes'))
+
+
+@routes.route('/contact', methods=['GET', 'POST'])
+def contact():
+    if request.method == "POST":
+        sender_email = request.form.get('sender_email')
+        sender_name = request.form.get('sender_name')
+        subject = request.form.get('subject')
+        message_content = request.form.get('message_content')
+
+        contact_form(sender_email, sender_name, subject, message_content)
+
+    return render_template('contact.html')

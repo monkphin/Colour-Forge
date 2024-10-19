@@ -1,0 +1,39 @@
+{% extends "base.html" %} {% block title %}Contact Us{% endblock %} {% block
+content %}
+
+
+<div class="row">
+  <h2>Contact us</h2>
+  <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">   
+
+    <div class="row">
+      <div class="input-field col s6">
+        <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
+        <label for="email">Email</label>
+      </div>
+      <div class="input-field col s6">
+        <input placeholder="Your Name" id="name" type="text" name="sender_name" class="validate">
+        <label for="name">Name</label>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="input-field col s12">
+        <input placeholder="Email Subject" id="subject" type="text" name="subject" class="validate">
+        <label for="subject">Email Subject</label>
+      </div>
+      <div class="input-field col s12">
+        <textarea id="textarea1" class="materialize-textarea" name="message_content"></textarea>
+        <label for="textarea1">Your Message</label>
+      </div>
+    </div>
+
+    <button class="btn waves-effect waves-light" id="submitButton" type="submit" name="action">
+      Submit
+    </button>
+
+  </form>
+</div>
+      
+
+{% endblock %}

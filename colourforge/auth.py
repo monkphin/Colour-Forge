@@ -14,6 +14,7 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from colourforge import db
 from colourforge.models import User
 from colourforge.seed import create_default_recipe
+from colourforge.mail import welcome_email, account_deletion
 
 
 auth = Blueprint('auth', __name__)
@@ -78,10 +79,9 @@ def register():
             db.session.commit()
 
             create_default_recipe(new_user)
-
             login_user(new_user, remember=True)
+            welcome_email(new_user.email)    
             flash('Account created!', category='success')
-
             return redirect(url_for('routes.home'))
 
     return render_template("register.html", user=current_user)
@@ -97,15 +97,15 @@ def login():
         Response: The rendered home page.
     """
     if request.method == 'POST':
-        user = request.form.get('login')
+        user_input = request.form.get('login')
         password = request.form.get('password')
        
-        if not user or not password:
+        if not user_input or not password:
             flash('Please enter both username/email and password', category='error')
             return redirect(url_for('routes.home'))
 
         user = User.query.filter_by(
-            email=user).first() or User.query.filter_by(username=user).first()
+            email=user_input).first() or User.query.filter_by(username=user_input).first()
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
@@ -215,6 +215,7 @@ def delete_account():
     """
     if request.method == 'POST':
         user = current_user
+        account_deletion(current_user.email)
         db.session.delete(user)  
         db.session.commit()
 
