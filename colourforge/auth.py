@@ -63,7 +63,7 @@ def register():
             flash(
                 'Username must be at least four characters.',
                 category='error'
-            )
+                )
         elif len(email) < 4:
             flash('Email must be at least four characters.', category='error')
         elif password1 != password2:
@@ -109,7 +109,7 @@ def login():
             flash(
                 'Please enter both username/email and password',
                 category='error'
-            )
+                )
             return redirect(url_for('routes.home'))
 
         user = User.query.filter_by(email=user_input).first()
@@ -157,14 +157,30 @@ def change_email():
     """
     if request.method == 'POST':
         new_email = request.form.get('email')
+        password = request.form.get('password-email')
 
-        if User.query.filter_by(email=new_email).first():
+        if new_email == '':
+            flash('Please enter the new email address to change this.',
+                  category='error'
+                  )
+        elif password == '':
+            flash('Please enter your current password to change your email.',
+                  category='error'
+                  )
+        elif not check_password_hash(current_user.password, password):
+            flash('Incorrect password, try again', category='error')
+        elif User.query.filter_by(email=new_email).first():
             flash('This email address is already in use', category='error')
+        elif new_email == current_user.email:
+            flash(
+                'The new email address must be different from the current one.',
+                category='error'
+            )
         else:
             current_user.email = new_email
             db.session.commit()
             flash(
-                'Your email has been successfully changed',
+                'Your email has been successfully changed.',
                 category='success'
             )
 
@@ -190,24 +206,30 @@ def reset_password():
     if request.method == 'POST':
         password1 = request.form.get('password1')
         password2 = request.form.get('password2')
+        current_password = request.form.get('password-reset')
         current_password_hash = current_user.password
 
-        if password1 != password2:
-            flash('Passwords don\'t match!', category='error')
+        if current_password == '':
+            flash('Please enter your current password to change your password.',
+                  category='error'
+                  )
+        elif not check_password_hash(current_user.password, current_password):
+            flash('Incorrect current password, try again', category='error')
+        elif password1 != password2:
+            flash('New passwords don\'t match!', category='error')
         elif check_password_hash(current_password_hash, password1):
-            flash(
-                """
-                Your new password cannot be the same as your current password
-                """,
-                category='error'
-                )
+            flash("""
+                  Your new password cannot be the same as your current password.
+                  """,
+                  category='error'
+                  )
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
             password = generate_password_hash(
-                password1,
-                method='pbkdf2:sha512'
-            )
+                                              password1,
+                                              method='pbkdf2:sha512'
+                                              )
             current_user.password = password
             db.session.commit()
             flash(
@@ -222,7 +244,7 @@ def reset_password():
     return render_template("account.html", user=current_user)
 
 
-@auth.route('//reset_password_request', methods=['GET', 'POST'])
+@auth.route('/reset_password_request', methods=['GET', 'POST'])
 def reset_password_request():
 
     return render_template("password_reset.html")
@@ -239,14 +261,26 @@ def delete_account():
     Returns:
         Response: Redirects the user to the home page.
     """
-    if request.method == 'POST':
-        user = current_user
-        account_deletion(current_user.email)
-        db.session.delete(user)
-        db.session.commit()
 
-        flash('Your account has been deleted', category='success')
-        logout_user()
-        return redirect(url_for('routes.home'))
+    if request.method == 'POST':
+        current_password = request.form.get('password-delete')
+        
+        if current_password == '':
+            flash('Please enter your current password to delete your account.',
+                  category='error'
+                  )
+        elif not check_password_hash(current_user.password, current_password):
+            flash('Incorrect current password, try again', category='error')
+            return redirect(url_for('auth.account'))
+        else:
+            # Proceed to delete account only if password is correct
+            user = current_user
+            account_deletion(current_user.email)
+            db.session.delete(user)
+            db.session.commit()
+
+            flash('Your account has been deleted.', category='success')
+            logout_user()
+            return redirect(url_for('routes.home'))
 
     return redirect(url_for('auth.account'))

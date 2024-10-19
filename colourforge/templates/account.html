@@ -1,5 +1,6 @@
-{% extends "base.html" %} {% block title %}Account{% endblock %} {% block
-content %}
+{% extends "base.html" %}
+{% block title %}Account{% endblock %}
+{% block content %}
 
 <div class="row">
   <div class="col s12">
@@ -9,8 +10,8 @@ content %}
 
         <p>Email: {{ user.email }}</p>
 
+        <!-- Change Email Section -->
         <h6>Change Email</h6>
-        <!-- Form to change email -->
         <form action="{{ url_for('auth.change_email') }}" method="POST">
           <div class="input-field col s12">
             <input
@@ -22,14 +23,31 @@ content %}
               class="validate" />
             <label for="email-{{ user.id }}">New Email Address</label>
           </div>
-          <button type="submit" class="btn">Change Email</button>
+          <div class="input-field col s12">
+            <input
+              id="password-email-{{ user.id }}"
+              type="password"
+              name="password-email"
+              class="validate" />
+            <label for="password-email-{{ user.id }}">Please enter your password</label>
+          </div>
+          <button type="submit" id="submitChangeEmailButton" class="btn">Change Email</button>
         </form>
-        <!-- Form to reset password -->
+
+        <!-- Change Password Section -->
         <h6>Change Password</h6>
         <form
           method="POST"
           action="{{ url_for('auth.reset_password', user_id=user.id) }}">
           <div class="row">
+            <div class="input-field col s12">
+              <input
+                id="password-reset-{{ user.id }}"
+                type="password"
+                name="password-reset"
+                class="validate" />
+              <label for="password-reset-{{ user.id }}">Please enter your current password</label>
+            </div>
             <div class="input-field col s12">
               <input
                 id="password1-{{ user.id }}"
@@ -38,7 +56,7 @@ content %}
                 minlength="7"
                 maxlength="100"
                 class="validate" />
-              <label for="password1-{{ user.id }}">Enter Password</label>
+              <label for="password1-{{ user.id }}">New Password</label>
             </div>
           </div>
           <div class="row">
@@ -50,21 +68,58 @@ content %}
                 minlength="7"
                 maxlength="100"
                 class="validate" />
-              <label for="password2-{{ user.id }}">Confirm Password</label>
+              <label for="password2-{{ user.id }}">Confirm New Password</label>
             </div>
           </div>
-          <button type="submit" class="btn">Reset Password</button>
+          <button type="submit" id="submitResetPasswordButton" class="btn">Reset Password</button>
         </form>
 
-        <!-- Form to delete account -->
+        <!-- Delete Account Section -->
+        <h6>Delete Account</h6>
         <form
+          id="delete-account-form-{{ user.id }}"
           method="POST"
           action="{{ url_for('auth.delete_account', user_id=user.id) }}">
-          <button type="submit" class="btn red">Delete Account</button>
+          <div class="input-field col s12">
+            <input
+              id="password-delete-{{ user.id }}"
+              type="password"
+              name="password-delete"
+              class="validate" />
+            <label for="password-delete-{{ user.id }}">Please enter your password</label>
+          </div>
+          <button
+            id="modalDelete-{{ user.id }}"
+            class="btn red modal-trigger"
+            type="button"
+            data-target="modal1-{{ user.id }}">
+            Delete Account
+          </button>
         </form>
+
+        <!-- Modal Structure -->
+        <div id="modal1-{{ user.id }}" class="modal">
+          <div class="modal-content">
+            <h4>Confirm Account Deletion!</h4>
+            <p>Are you sure you want to delete your account?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-close btn green" type="button">Cancel</button>
+            <button type="submit" class="btn red" form="delete-account-form-{{ user.id }}">Delete</button>
+          </div>
+        </div>
+
       </div>
     </div>
   </div>
 </div>
+
+<!-- Modal Initialization Script -->
+<script>
+  document.addEventListener('DOMContentLoaded', function() {
+    var elems = document.querySelectorAll('.modal');
+    var instances = M.Modal.init(elems);
+  });
+</script>
 
 {% endblock %}

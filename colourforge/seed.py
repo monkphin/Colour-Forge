@@ -7,7 +7,7 @@ def create_default_recipe(user):
     demo_recipe = Recipe(
         user=user,  # Automatically sets user_id
         recipe_name="Demo Recipe",
-        recipe_desc=""""
+        recipe_desc="""
         This is a demonstration recipe, to show a rough idea of possible uses.
 
         Images can be clicked on to see a larger copy, this will also allow you
@@ -50,7 +50,7 @@ def create_default_recipe(user):
         the recipe should look like.
 
         Recipes can have a nearly infinite number of stages to allow for some
-        very complex recipes to be created."
+        very complex recipes to be created.
         """,
         is_final_stage=True
     )
@@ -83,7 +83,10 @@ def create_default_recipe(user):
         public_id='woumsfwwkgycjjqooe3g'
     )
 
-    # Corrected attribute access
+    # Add images to the session
+    db.session.add_all([image1, image2, image3])
+
+    # Associate images with stages
     demo_recipe.stages[0].recipe_images.append(image1)
     demo_recipe.stages[1].recipe_images.append(image2)
     demo_recipe.stages[2].recipe_images.append(image3)
