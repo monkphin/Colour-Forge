@@ -5,7 +5,7 @@ from flask_login import UserMixin
 class User(db.Model, UserMixin):
     # Explicitly set the table name
     __tablename__ = 'users'
-    
+
     # schema for the users model
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(100), unique=True, nullable=False)
@@ -15,9 +15,9 @@ class User(db.Model, UserMixin):
 
     # Relationship to the Recipes table (one-to-many relationship)
     recipes = db.relationship(
-        "Recipe", 
-        backref="user", 
-        cascade="all, delete", 
+        "Recipe",
+        backref="user",
+        cascade="all, delete",
         lazy=True)
 
     def __repr__(self):
@@ -32,26 +32,31 @@ class Recipe(db.Model):
     # Schema for the recipes model
     recipe_id = db.Column(db.Integer, primary_key=True)
     user_id = db.Column(
-        db.Integer, db.ForeignKey('users.id', ondelete='CASCADE'), nullable=False)
+        db.Integer, db.ForeignKey(
+            'users.id',
+            ondelete='CASCADE'
+        ),
+        nullable=False
+    )
     recipe_name = db.Column(db.String(55), nullable=False)
     recipe_desc = db.Column(db.Text, nullable=False)
 
     # Relationship to other models
     stages = db.relationship(
-        'RecipeStage', 
-        backref='recipe', 
-        lazy=True, 
+        'RecipeStage',
+        backref='recipe',
+        lazy=True,
         cascade="all, delete-orphan"
         )
     entity_tags = db.relationship(
-        'EntityTag', 
-        backref='recipe', 
-        lazy=True,  
+        'EntityTag',
+        backref='recipe',
+        lazy=True,
         cascade="all, delete-orphan"
         )
 
     def __repr__(self):
-        return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>" 
+        return f"<Recipe {self.recipe_name}: {self.recipe_desc[:50]}...>"
 
 
 class RecipeStage(db.Model):
@@ -61,20 +66,21 @@ class RecipeStage(db.Model):
     # schema for the recipe_stages model
     stage_id = db.Column(db.Integer, primary_key=True)
     recipe_id = db.Column(
-        db.Integer, 
+        db.Integer,
         db.ForeignKey(
-            "recipes.recipe_id", 
-            ondelete='CASCADE'), 
-            nullable=False
-        )
+            "recipes.recipe_id",
+            ondelete='CASCADE'
+        ),
+        nullable=False
+    )
     stage_num = db.Column(db.Integer, nullable=False)
     instructions = db.Column(db.Text, nullable=False)
     is_final_stage = db.Column(db.Boolean, default=False)
 
     recipe_images = db.relationship(
-        'RecipeImage', 
-        backref='stage', 
-        lazy=True,  
+        'RecipeImage',
+        backref='stage',
+        lazy=True,
         cascade="all, delete-orphan"
         )
 
@@ -89,11 +95,11 @@ class RecipeImage(db.Model):
     # schema for the recipe_images model
     image_id = db.Column(db.Integer, primary_key=True)
     stage_id = db.Column(
-        db.Integer, 
+        db.Integer,
         db.ForeignKey(
-            "recipe_stages.stage_id", 
+            "recipe_stages.stage_id",
             ondelete='CASCADE'
-            ), 
+            ),
         nullable=False)
     image_url = db.Column(db.String(255), nullable=True)
     thumbnail_url = db.Column(db.String(255), nullable=True)
@@ -122,22 +128,22 @@ class EntityTag(db.Model):
 
     # schema for the entity_tags model
     recipe_id = db.Column(
-        db.Integer, 
+        db.Integer,
         db.ForeignKey(
-            "recipes.recipe_id", 
+            "recipes.recipe_id",
             ondelete='CASCADE'
-            ), 
+            ),
         primary_key=True
         )
     tag_id = db.Column(
-        db.Integer, 
+        db.Integer,
         db.ForeignKey(
-            "recipe_tags.tag_id", 
-            ), 
+            "recipe_tags.tag_id",
+            ),
         primary_key=True
         )
     entity_type = db.Column(db.String(50), nullable=False)
-    
+
     recipe_tag = db.relationship("RecipeTag", backref="entity_tags")
 
     def __repr__(self):

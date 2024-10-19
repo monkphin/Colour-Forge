@@ -1,9 +1,9 @@
 # Third-Party Library Imports
 from flask import (
     flash,
-    render_template, 
-    request, 
-    redirect, 
+    render_template,
+    request,
+    redirect,
     url_for,
     Blueprint,
     jsonify
@@ -14,10 +14,10 @@ from flask_login import login_required, current_user
 # Local Imports
 from colourforge import db, cloudinary
 from colourforge.models import (
-    Recipe, 
-    RecipeStage, 
-    RecipeImage, 
-    RecipeTag, 
+    Recipe,
+    RecipeStage,
+    RecipeImage,
+    RecipeTag,
     EntityTag
     )
 from colourforge.helpers import (
@@ -30,7 +30,7 @@ from colourforge.mail import contact_form
 
 routes = Blueprint('routes', __name__)
 
-# Content rendering only routes
+
 @routes.route("/", methods=['GET', 'POST'])
 def home():
     """
@@ -65,7 +65,7 @@ def recipes():
 def recipe_page(recipe_id):
     """
     Renders the recipe page for the specified recipe.
-    This is visible to none registered users to allow for recipe sharing. 
+    This is visible to none registered users to allow for recipe sharing.
 
     Args:
         recipe_id (int): The ID of the recipe to display.
@@ -73,54 +73,53 @@ def recipe_page(recipe_id):
     Returns:
         Response: The rendered recipe page.
     """
-    recipe=Recipe.query.get_or_404(recipe_id)
-    referrer = request.referrer 
+    recipe = Recipe.query.get_or_404(recipe_id)
+    referrer = request.referrer
 
     return render_template(
         'recipe_page.html',
-         recipe=recipe, 
-         referrer=referrer, 
-         user=current_user
-         )
+        recipe=recipe,
+        referrer=referrer,
+        user=current_user
+    )
 
 
-# Routes that render and write content 
 @routes.route("/add_recipe", methods=["GET", "POST"])
 @login_required
 def add_recipe():
     """
     Renders the add recipe page and handles the creation of a new recipe.
-    Handles the addition of new recipes, stages, and images to the DB when a POST
-    request is made. Otherwise, renders the form.
+    Handles the addition of new recipes, stages, and images to the DB when a
+    POST request is made. Otherwise, renders the form.
 
     Returns:
         Response: The rendered add recipe form page.
     """
-    if request.method == "POST":    
+    if request.method == "POST":
 
         # Create recipe in DB
-        recipe = recipe_handler(request.form)    
+        recipe = recipe_handler(request.form)
 
-        # Init Variables 
+        # Init Variables
         instructions = request.form.getlist('instructions[]')
         image_files = request.files.getlist('images[]')
         alt_texts = request.form.getlist('image_desc[]')
-        #collect tags and convert to a string
+        # collect tags and convert to a string
         tag_names_str = request.form.get('tags', '')
         # split string at the comma to add one at a time to the db
-        tag_names = tag_names_str.split(',') 
+        tag_names = tag_names_str.split(',')
         stage_num = 1
 
-        #Process instructions and images
+        # Process instructions and images
         instruction_handler(recipe, instructions, image_files, alt_texts)
 
-        #process tags
+        # process tags
         tag_handler(recipe, tag_names)
 
         flash('Paint Recipe successfully added!', category='success')
 
-        return redirect("recipes")   
-    
+        return redirect("recipes")
+
     return render_template('add_recipe.html')
 
 
@@ -136,7 +135,7 @@ def edit_recipe(recipe_id):
         recipe_id (int): The ID of the recipe to edit.
 
     Returns:
-        Response: The rendered edit recipe form page or a redirect response 
+        Response: The rendered edit recipe form page or a redirect response
         after successful editing.
     """
     recipe = Recipe.query.get_or_404(recipe_id)
@@ -144,7 +143,9 @@ def edit_recipe(recipe_id):
     # Ensure user owns the recipe
     if recipe.user_id != current_user.id:
         flash(
-            "You do not have permission to edit this recipe.", category="error")
+            "You do not have permission to edit this recipe.",
+            category="error"
+            )
         return redirect(url_for('routes.home'))
 
     # Handle POST request
@@ -152,16 +153,16 @@ def edit_recipe(recipe_id):
         handle_recipe_edit_post(recipe)
         flash("Recipe has been updated")
         return redirect(url_for(
-            'routes.recipe_page', 
+            'routes.recipe_page',
             recipe_id=recipe.recipe_id)
             )
 
     # Handle GET request
     recipes = list(Recipe.query.order_by(Recipe.recipe_id).all())
     return render_template(
-        "edit_recipe.html", 
-        recipe=recipe, 
-        recipes=recipes, 
+        "edit_recipe.html",
+        recipe=recipe,
+        recipes=recipes,
         user=current_user
         )
 
@@ -181,7 +182,8 @@ def autocomplete_tags():
 @login_required
 def search():
     """
-    Handles the search functionality by allowing users to search for recipes by tags.
+    Handles the search functionality by allowing users to search for recipes
+    by tags.
 
     Returns:
         Response: Renders the search results page with a list of recipes.
@@ -190,28 +192,40 @@ def search():
     if not search:
         flash("Please enter a search term.", category="error")
         return redirect(url_for('routes.home'))
-    
-    # Find all tags that match the query
-    matching_tags = RecipeTag.query.filter(RecipeTag.tag_name.ilike(f"%{search}%")).all()
 
-    # Find all recipes that match the tags. 
+    # Find all tags that match the query
+    matching_tags = (
+        RecipeTag.query
+        .filter(RecipeTag.tag_name.ilike(f"%{search}%"))
+        .all()
+        )
+
+    # Find all recipes that match the tags.
     matching_recipes = []
     for tag in matching_tags:
         entity_tags = EntityTag.query.filter_by(tag_id=tag.tag_id).all()
         for entity_tag in entity_tags:
             recipe = Recipe.query.get(entity_tag.recipe_id)
-            if recipe and recipe.user_id == current_user.id and recipe not in matching_recipes:
+            if (
+                recipe
+                and recipe.user_id == current_user.id
+                and recipe not in matching_recipes
+            ):
                 matching_recipes.append(recipe)
 
-    return render_template('recipe_search_results.html', recipes=matching_recipes, search=search)
+    return render_template(
+        'recipe_search_results.html',
+        recipes=matching_recipes,
+        search=search
+    )
 
 
 @routes.route("/delete_recipe/<int:recipe_id>")
 @login_required
 def delete_recipe(recipe_id):
     """
-    Handles recipe deletion. 
-    This route will delete the recipe, stages, images, and tags associated with 
+    Handles recipe deletion.
+    This route will delete the recipe, stages, images, and tags associated with
     the recipe.
 
     Args:
@@ -224,7 +238,10 @@ def delete_recipe(recipe_id):
 
     # ensure user owns the recipe
     if recipe.user_id != current_user.id:
-        flash("You do not have permission to edit this recipe.", category="error")
+        flash(
+            "You do not have permission to edit this recipe.",
+            category="error"
+        )
         return redirect(url_for('routes.home'))
 
     # Delete associated stages and images

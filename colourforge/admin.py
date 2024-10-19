@@ -1,9 +1,9 @@
 # Third-Party Library Imports
 from flask import (
     flash,
-    render_template, 
-    request, 
-    redirect, 
+    render_template,
+    request,
+    redirect,
     url_for,
     Blueprint
 )
@@ -22,8 +22,9 @@ admin = Blueprint('admin', __name__)
 @login_required
 def admin_dash():
     """
-    Renders the admin dashboard page, with a list of all users and their details
-    
+    Renders the admin dashboard page, with a list of all users and their
+    details
+
     Returns:
         Response: The rendered admin dashboard page.
     """
@@ -36,7 +37,7 @@ def admin_dash():
 def change_email(user_id):
     """
     Change the email of a selected user on the admin page.
-    
+
     Args:
         user_id (int): The ID of the user to change the email of.
 
@@ -55,8 +56,8 @@ def change_email(user_id):
         user.email = new_email
         db.session.commit()
         flash('Email has been successfully updated!', category='success')
-    else: 
-        flash('There was an issue with updating the email',category='error')
+    else:
+        flash('There was an issue with updating the email', category='error')
 
     return redirect(url_for('admin.admin_dash'))
 
@@ -77,32 +78,37 @@ def reset_password(user_id):
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
         return redirect(url_for('routes.home'))
-    
+
     user = User.query.get_or_404(user_id)
 
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
     current_password_hash = user.password
-    
-    
-    if not password1 or not password2: 
+
+    if not password1 or not password2:
         flash('Both password fields are required', category='error')
     elif password1 != password2:
         flash('Passwords don\'t match!', category='error')
-    elif len(password1) <7:
+    elif len(password1) < 7:
         flash('Password must be at least 7 characters.', category='error')
     elif check_password_hash(current_password_hash, password1):
         flash(
-            'The new password cannot be the same as the current password', 
+            'The new password cannot be the same as the current password',
             category='error'
             )
     else:
-        user.password = generate_password_hash(password1, method='pbkdf2:sha512')
+        user.password = generate_password_hash(
+            password1,
+            method='pbkdf2:sha512'
+        )
         db.session.commit()
-        flash('Your password has been successfully changed', category='success')
+        flash(
+            'Your password has been successfully changed',
+            category='success'
+        )
 
         return redirect(url_for('admin.admin_dash'))
-    
+
     return redirect(url_for('admin.admin_dash'))
 
 
@@ -115,7 +121,7 @@ def toggle_admin(user_id):
     Args:
         user_id (int): The ID of the user to toggle admin status of.
     """
-        # Make sure current user is an admin.
+    # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
         return redirect(url_for('routes.home'))
@@ -126,7 +132,7 @@ def toggle_admin(user_id):
     if user.id == current_user.id:
         flash(
             "You cannot demote your own account, "
-             "please message another admin to do this", 
+            "please message another admin to do this",
             category="error"
             )
         return redirect(url_for('admin.admin_dash'))
@@ -141,7 +147,7 @@ def toggle_admin(user_id):
         flash('User has been promoted to an admin!', category='success')
 
     return redirect(url_for('admin.admin_dash'))
-                    
+
 
 @admin.route('/delete_account/<int:user_id>', methods=['POST'])
 @login_required
@@ -159,20 +165,20 @@ def delete_account(user_id):
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
         return redirect(url_for('routes.home'))
-    
-    # Pull user details to be deleted. 
+
+    # Pull user details to be deleted.
     user = User.query.get_or_404(user_id)
 
     # Make sure the admin isn't deleting themselves
     if user.id == current_user.id:
         flash(
             "You cannot delete your own account, "
-            "please message another admin to do this", 
+            "please message another admin to do this",
             category="error"
             )
         return redirect(url_for('admin.admin_dash'))
 
-    # Delete user. 
+    # Delete user.
     db.session.delete(user)
     db.session.commit()
 
@@ -180,17 +186,20 @@ def delete_account(user_id):
 
     return redirect(url_for('admin.admin_dash'))
 
+
 @admin.route('/see_recipes', methods=['GET', 'POST'])
 @login_required
 def see_recipes():
     """
-    Renders the admin level recipes page, with a list of all recipes and their 
+    Renders the admin level recipes page, with a list of all recipes and their
     details
 
     Returns:
         Response: The rendered admin recipes page.
     """
     recipes = Recipe.query.all()
-    return render_template("see_recipes.html", user=current_user, recipes=recipes)   
-
-
+    return render_template(
+        "see_recipes.html",
+        user=current_user,
+        recipes=recipes
+    )

@@ -1,9 +1,9 @@
 # Third-Party Library Imports
 from flask import (
     flash,
-    render_template, 
-    request, 
-    redirect, 
+    render_template,
+    request,
+    redirect,
     url_for,
     Blueprint
 )
@@ -39,9 +39,9 @@ def register():
     """
     Registers a new user account and logs them in on a POST request.
     Otherwise, renders the register page.
-    If the user already exists, or the form data is invalid, the user is 
+    If the user already exists, or the form data is invalid, the user is
     redirected to the register page.
-    
+
 
     Returns:
         Response: The rendered register page.
@@ -53,25 +53,29 @@ def register():
         password2 = request.form.get('password2')
 
         # Check to see if user exists
-        existing_user = User.query.filter_by(
-            username=username).first() or User.query.filter_by(email=email).first()
+        existing_user = User.query.filter_by(username=username).first()
+        if not existing_user:
+            existing_user = User.query.filter_by(email=email).first()
 
         if existing_user:
             flash('User already exists', category='error')
         elif len(username) < 4:
-            flash('Username must be at least four characters.', category='error')
-        elif len(email) < 4: 
+            flash(
+                'Username must be at least four characters.',
+                category='error'
+            )
+        elif len(email) < 4:
             flash('Email must be at least four characters.', category='error')
-        elif password1 != password2: 
+        elif password1 != password2:
             flash('Passwords don\'t match!', category='error')
-        elif len(password1) <7:
+        elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
             new_user = User(
-                email=email, 
-                username=username, 
+                email=email,
+                username=username,
                 password=generate_password_hash(
-                    password1, 
+                    password1,
                     method='pbkdf2:sha512'
                     )
                 )
@@ -80,7 +84,7 @@ def register():
 
             create_default_recipe(new_user)
             login_user(new_user, remember=True)
-            welcome_email(new_user.email)    
+            welcome_email(new_user.email)
             flash('Account created!', category='success')
             return redirect(url_for('routes.home'))
 
@@ -90,7 +94,8 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Logs the user in on a POST request. This shares the same page as the home page.
+    Logs the user in on a POST request. This shares the same page as the
+    home page.
     Renders the home page on a GET request.
 
     Returns:
@@ -99,13 +104,17 @@ def login():
     if request.method == 'POST':
         user_input = request.form.get('login')
         password = request.form.get('password')
-       
+
         if not user_input or not password:
-            flash('Please enter both username/email and password', category='error')
+            flash(
+                'Please enter both username/email and password',
+                category='error'
+            )
             return redirect(url_for('routes.home'))
 
-        user = User.query.filter_by(
-            email=user_input).first() or User.query.filter_by(username=user_input).first()
+        user = User.query.filter_by(email=user_input).first()
+        if not user:
+            user = User.query.filter_by(username=user_input).first()
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
@@ -139,8 +148,8 @@ def account():
 @login_required
 def change_email():
     """
-    Changes the user's email address on a POST request from the account page. 
-    If the email is already in use, the user is redirected to the account 
+    Changes the user's email address on a POST request from the account page.
+    If the email is already in use, the user is redirected to the account
     page with an error message.
 
     Returns:
@@ -154,7 +163,10 @@ def change_email():
         else:
             current_user.email = new_email
             db.session.commit()
-            flash('Your email has been successfully changed', category='success')
+            flash(
+                'Your email has been successfully changed',
+                category='success'
+            )
 
         return redirect(url_for('auth.account'))
 
@@ -166,12 +178,12 @@ def change_email():
 def reset_password():
     """
     Resets the user's password on a POST request from the account page.
-    If the passwords don't match, the user is redirected to the account page 
-    with an error message. If the new password is the same as the current 
+    If the passwords don't match, the user is redirected to the account page
+    with an error message. If the new password is the same as the current
     password, the user is redirected to the account page with an error message.
-    If the password is less than 7 characters, the user is redirected to the 
+    If the password is less than 7 characters, the user is redirected to the
     account page with an error message.
-    
+
     Returns:
         Response: Redirects the user to the account page.
     """
@@ -180,23 +192,31 @@ def reset_password():
         password2 = request.form.get('password2')
         current_password_hash = current_user.password
 
-        if password1 != password2: 
+        if password1 != password2:
             flash('Passwords don\'t match!', category='error')
         elif check_password_hash(current_password_hash, password1):
             flash(
-                'Your new password cannot be the same as your current password', 
+                """
+                Your new password cannot be the same as your current password
+                """,
                 category='error'
                 )
-        elif len(password1) <7:
+        elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
         else:
-            password = generate_password_hash(password1, method='pbkdf2:sha512')
+            password = generate_password_hash(
+                password1,
+                method='pbkdf2:sha512'
+            )
             current_user.password = password
             db.session.commit()
-            flash('Your password has been successfully changed', category='success')
+            flash(
+                'Your password has been successfully changed',
+                category='success'
+            )
 
             return redirect(url_for('auth.account'))
-        
+
         return redirect(url_for('auth.account'))
 
     return render_template("account.html", user=current_user)
@@ -213,7 +233,7 @@ def reset_password_request():
 def delete_account():
     """
     Deletes the user's account on a POST request from the account page.
-    This flashes a success message and logs the user out before redirecting 
+    This flashes a success message and logs the user out before redirecting
     them to the home page.
 
     Returns:
@@ -222,11 +242,11 @@ def delete_account():
     if request.method == 'POST':
         user = current_user
         account_deletion(current_user.email)
-        db.session.delete(user)  
+        db.session.delete(user)
         db.session.commit()
 
         flash('Your account has been deleted', category='success')
         logout_user()
         return redirect(url_for('routes.home'))
-    
+
     return redirect(url_for('auth.account'))

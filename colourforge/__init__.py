@@ -53,7 +53,10 @@ login_manager = LoginManager()
 login_manager.login_view = 'auth.login'
 login_manager.init_app(app)
 
+
+# Adding import to the top creates a loop, so have to import here
 from colourforge.models import User
+
 
 @login_manager.user_loader
 def load_user(user_id):
@@ -67,8 +70,8 @@ from colourforge.admin import admin    # noqa
 
 
 app.register_blueprint(routes)
-app.register_blueprint(auth) 
-app.register_blueprint(admin) 
+app.register_blueprint(auth)
+app.register_blueprint(admin)
 
 
 # Global 404 error handler
