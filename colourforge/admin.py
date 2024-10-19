@@ -187,9 +187,9 @@ def delete_account(user_id):
     return redirect(url_for('admin.admin_dash'))
 
 
-@admin.route('/see_recipes', methods=['GET', 'POST'])
+@admin.route('/recipe_admin', methods=['GET', 'POST'])
 @login_required
-def see_recipes():
+def recipe_admin():
     """
     Renders the admin level recipes page, with a list of all recipes and their
     details
@@ -199,7 +199,19 @@ def see_recipes():
     """
     recipes = Recipe.query.all()
     return render_template(
-        "see_recipes.html",
+        "recipe_admin.html",
         user=current_user,
         recipes=recipes
     )
+
+
+@admin.route('/user_search', methods=['GET'])
+@login_required
+def user_search():
+    pass
+
+
+@admin.route('/recipe_search', methods=['GET'])
+@login_required
+def recipe_search():
+    pass

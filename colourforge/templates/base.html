@@ -39,12 +39,11 @@
             <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
             <li><a href="{{ url_for('auth.account')}}">Account</a></li>
             {% if current_user.is_admin %}
-            <!-- <li>
-              <a class="dropdown-trigger" href="#!" data-target="dropdown1"
-                >Admin Panels</a
-              >
-            </li> -->
-            <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
+            <li>
+              <a class="dropdown-trigger" href="#!" data-target="dropdown1">
+                Admin Panels
+              </a>
+            </li>
             {% endif %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
@@ -67,13 +66,11 @@
             <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
             {% endif %}
           </ul>
-          <!-- menu items for drop down 
-          <ul id="dropdown1" class="dropdown-content">
+          <ul id='dropdown1' class='dropdown-content'>
             <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
-            <li>
-              <a href="{{ url_for('admin.see_recipes')}}">Recipe Admin</a>
-            </li>
-          </ul> -->
+            <li><a href="{{ url_for('admin.recipe_admin')}}">Recipe Admin</a></li>
+          </ul>
+
         </div>
       </nav>
       <!--Mobile Nav-->
@@ -89,7 +86,7 @@
         <li><a href="{{ url_for('auth.account')}}">Account</a></li>
         {% if current_user.is_admin %}
         <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
-        <li><a href="{{ url_for('admin.see_recipes')}}">Recipe Admin</a></li>
+        <li><a href="{{ url_for('admin.recipe_admin')}}">Recipe Admin</a></li>
         {% endif %}
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
         <li>

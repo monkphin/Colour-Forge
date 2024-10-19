@@ -41,9 +41,11 @@ content %}
   <div class="col s12 m6">
     <div class="card">
       <div class="card-content">
-        <span class="card-title">Recipe Details</span>
-        <p>Recipe Name: {{ recipe.recipe_name }}</p>
-        <p>Created By: {{ recipe.user }}</p>
+        <span class="card-title">{{ recipe.recipe_name }}</span>
+        <p>Created By: {{ recipe.user.username }}</p>
+      </div>
+      <div>
+      <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
       </div>
     </div>
   </div>

@@ -1,62 +1,57 @@
 document.addEventListener("DOMContentLoaded", function () {
-  // Materialise features
+  // Materialize features
 
   // init sidenav
-  var elems = document.querySelectorAll(".sidenav");
-  var instances = M.Sidenav.init(elems);
+  const sidenavElems = document.querySelectorAll(".sidenav");
+  const sidenavInstances = M.Sidenav.init(sidenavElems);
 
   // init carousel
-  var elems = document.querySelectorAll(".carousel");
-  var options = {
+  const carouselElems = document.querySelectorAll(".carousel");
+  const carouselOptions = {
     fullWidth: false,
     indicators: false,
   };
-  var instances = M.Carousel.init(elems, options);
+  const carouselInstances = M.Carousel.init(carouselElems, carouselOptions);
 
   // Init Materialize Collapsible
-  var elems = document.querySelectorAll(".collapsible");
-  var instances = M.Collapsible.init(elems, {
+  const collapsibleElems = document.querySelectorAll(".collapsible");
+  const collapsibleInstances = M.Collapsible.init(collapsibleElems, {
     onOpenStart: function (el) {
-      // Add 'active' class to the header when the collapsible opens
-      var header = el.querySelector('.collapsible-header');
+      const header = el.querySelector(".collapsible-header");
       if (header) {
-        header.classList.add('active');
+        header.classList.add("active");
       }
     },
     onCloseStart: function (el) {
-      // Remove 'active' class from the header when the collapsible closes
-      var header = el.querySelector('.collapsible-header');
+      const header = el.querySelector(".collapsible-header");
       if (header) {
-        header.classList.remove('active');
+        header.classList.remove("active");
       }
-    }
+    },
   });
 
   // init Modal
-  var elems = document.querySelectorAll(".modal");
-  var instances = M.Modal.init(elems, {
+  const modalElems = document.querySelectorAll(".modal");
+  const modalInstances = M.Modal.init(modalElems, {
     opacity: 0.5,
     inDuration: 300,
-    outDuration: 200
+    outDuration: 200,
   });
-  //init dropdown - Commenting out since I'm not sure I want to use this 
-  //var elems = document.querySelectorAll(".dropdown-trigger");
-  //var instances = M.Dropdown.init(elems);
+
+  //init dropdown - Commenting out since I'm not sure I want to use this
+  const dropdownElems = document.querySelectorAll(".dropdown-trigger");
+  const dropdownInstances = M.Dropdown.init(dropdownElems);
 
   // Custom JS
 
   // Set stageCount based on existing stages or default to 1 if none present.
-  // Set stageCount based on existing stages or default to 1 if none present.
-  var stageCount = document.querySelectorAll(".multi-stage").length || 1;
-
-  // Set stageCount based on existing stages or default to 1 if none present.
-  var stageCount = document.querySelectorAll(".multi-stage").length || 1;
+  let stageCount = document.querySelectorAll(".multi-stage").length || 1;
 
   // Dynamically add new stage input field when add stage button clicked
   document.addEventListener("click", function (event) {
     if (event.target.closest(".add_field")) {
       stageCount++; // Increment stage count
-      var newStage = `
+      const newStage = `
         <div class="row multi-stage" data-stage-id="">
           <!-- Hidden input for new stage (no ID) -->
           <input type="hidden" name="stage_ids[]" value="">
@@ -86,27 +81,25 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       `;
       // Insert after the previous stage.
-      var stages = document.querySelectorAll(".multi-stage");
-      var lastStage = stages[stages.length - 1];
+      const stages = document.querySelectorAll(".multi-stage");
+      const lastStage = stages[stages.length - 1];
 
       // Check if lastStage exists before inserting the new stage
       if (lastStage) {
         lastStage.insertAdjacentHTML("afterend", newStage);
       } else {
         // If no existing stages, append the new stage to a parent container
-        var container = document.querySelector(".stages-container"); // Ensure you have a parent container
+        const container = document.querySelector(".stages-container");
         container.insertAdjacentHTML("beforeend", newStage);
       }
 
       // Re-initialize Materialize Textareas and Labels for new elements when new stage added.
       setTimeout(function () {
-        // Select all textareas
-        var textareas = document.querySelectorAll("textarea");
+        const textareas = document.querySelectorAll("textarea");
         textareas.forEach(function (textarea) {
           M.textareaAutoResize(textarea);
         });
 
-        // Update text fields
         M.updateTextFields();
       }, 100);
     }
@@ -116,8 +109,8 @@ document.addEventListener("DOMContentLoaded", function () {
   document.addEventListener("click", function (event) {
     if (event.target.closest(".remove_field")) {
       if (stageCount > 1) {
-        var stages = document.querySelectorAll(".multi-stage");
-        var lastStage = stages[stages.length - 1];
+        const stages = document.querySelectorAll(".multi-stage");
+        const lastStage = stages[stages.length - 1];
         lastStage.parentNode.removeChild(lastStage);
         stageCount--;
       }
@@ -125,14 +118,11 @@ document.addEventListener("DOMContentLoaded", function () {
   });
 
   // Select the form element by its ID.
-  var form = document.getElementById("addRecipe");
+  const form = document.getElementById("addRecipe");
 
   if (form) {
-    // Add an event listener to the form for the 'submit' event.
     form.addEventListener("submit", function (event) {
-      // Select the submit button by its ID.
-      var submitButton = document.getElementById("submitButton");
-      // Disable the submit button to prevent multiple submissions.
+      const submitButton = document.getElementById("submitButton");
       if (submitButton) {
         submitButton.disabled = true;
       }
@@ -140,18 +130,15 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Reset contents of search boxes when user clicks away (using blur event)
-  // Select the input element by its ID.
-  var desktopSearchBox = document.getElementById("desktop-search");
-  var mobileSearchBox = document.getElementById("mobile-search");
+  const desktopSearchBox = document.getElementById("desktop-search");
+  const mobileSearchBox = document.getElementById("mobile-search");
 
-  // Add a blur event listener to the input field.
-  // for desktop
   if (desktopSearchBox) {
     desktopSearchBox.addEventListener("blur", function () {
       desktopSearchBox.value = "";
     });
   }
-  // for mobile
+
   if (mobileSearchBox) {
     mobileSearchBox.addEventListener("blur", function () {
       mobileSearchBox.value = "";
@@ -163,14 +150,9 @@ document.addEventListener("DOMContentLoaded", function () {
 document.addEventListener("click", function (event) {
   if (event.target.classList.contains("delete_image_button")) {
     const stageNum = event.target.getAttribute("data-stage-num");
-    const imageContainer = document.getElementById(
-      "image_container_" + stageNum
-    );
-    const fileInputContainer = document.getElementById(
-      "file_input_container_" + stageNum
-    );
+    const imageContainer = document.getElementById("image_container_" + stageNum);
+    const fileInputContainer = document.getElementById("file_input_container_" + stageNum);
 
-    // Hide existing image and show input fields/buttons for new image selection.
     if (imageContainer) {
       imageContainer.style.display = "none";
     }
@@ -178,10 +160,7 @@ document.addEventListener("click", function (event) {
       fileInputContainer.style.display = "block";
     }
 
-    // Set the hidden delete flag to true
-    const deleteInput = document.querySelector(
-      'input[name="delete_image_' + stageNum + '"]'
-    );
+    const deleteInput = document.querySelector('input[name="delete_image_' + stageNum + '"]');
     if (deleteInput) {
       deleteInput.value = "true";
     }
@@ -192,12 +171,8 @@ document.addEventListener("click", function (event) {
 document.addEventListener("click", function (event) {
   if (event.target.classList.contains("cancel_replace_button")) {
     const stageNum = event.target.getAttribute("data-stage-num");
-    const imageContainer = document.getElementById(
-      "image_container_" + stageNum
-    );
-    const fileInputContainer = document.getElementById(
-      "file_input_container_" + stageNum
-    );
+    const imageContainer = document.getElementById("image_container_" + stageNum);
+    const fileInputContainer = document.getElementById("file_input_container_" + stageNum);
 
     if (imageContainer) {
       imageContainer.style.display = "block";
@@ -206,10 +181,7 @@ document.addEventListener("click", function (event) {
       fileInputContainer.style.display = "none";
     }
 
-    // Reset the hidden delete flag to false
-    const deleteInput = document.querySelector(
-      'input[name="delete_image_' + stageNum + '"]'
-    );
+    const deleteInput = document.querySelector('input[name="delete_image_' + stageNum + '"]');
     if (deleteInput) {
       deleteInput.value = "false";
     }
@@ -220,26 +192,26 @@ document.addEventListener("click", function (event) {
 document.querySelectorAll(".close-flash").forEach(function (button) {
   button.addEventListener("click", function (event) {
     event.preventDefault();
-    let flashMessage = button.closest(".flash-message");
+    const flashMessage = button.closest(".flash-message");
     if (flashMessage) {
       flashMessage.style.transition = "opacity 0.6s ease";
       flashMessage.style.opacity = "0";
       setTimeout(function () {
         flashMessage.remove();
-      }, 600); // Match the 'slow' fade duration (600ms)
+      }, 600);
     }
   });
 });
 
-// Auto-dismiss alerts after 2 seconds (2000 milliseconds)
+// Auto-dismiss alerts after 2 seconds
 document.querySelectorAll(".flash-message").forEach(function (message) {
   setTimeout(function () {
     message.style.transition = "opacity 0.6s ease";
     message.style.opacity = "0";
     setTimeout(function () {
       message.remove();
-    }, 600); // Match the 'slow' fade duration (600ms)
-  }, 2000); // 2 seconds
+    }, 600);
+  }, 2000);
 });
 
 // Awesomeplete Tag handling
