@@ -144,12 +144,12 @@ The home page currently shows either a login page, or a specific landing page, w
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-homepage.png">
+<img src="docs/mobile-homepage.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-homepage.png">
+<img src="docs/desktop-homepage.png">
 </details>
 
 ### Side Menu
@@ -158,7 +158,7 @@ The side menu is specific to the mobile experience and will show either login/re
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-menu.png">
+<img src="docs/mobile-menu.png">
 </details>
 
 ### Registration Page
@@ -167,12 +167,12 @@ The registration page is accessible both from the home page and side bar when th
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-registration.png">
+<img src="docs/mobile-registration.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-registration.png">
+<img src="docs/desktop-registration.png">
 </details>
 
 ### Profile Pages
@@ -181,12 +181,12 @@ The profile page will allow the user to manage their profile as needed, requesti
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-user-profile.png">
+<img src="docs/mobile-user-profile.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-user-profile.png">
+<img src="docs/desktop-user-profile.png">
 </details>
 
 ### List Display Option for Library and Recipe Pages. 
@@ -195,12 +195,12 @@ I had a couple of ideas for how to present the items for both the library and re
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-lists.png">
+<img src="docs/mobile-lists.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-lists.png">
+<img src="docs/desktop-lists.png">
 </details>
 
 ### Cards Option for Library and Recipe Pages
@@ -209,12 +209,12 @@ The alternative to the list to show the user their library or recipes was to use
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-cards.png">
+<img src="docs/mobile-cards.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-cards.png">
+<img src="docs/desktop-cards.png">
 </details>
 
 ### Separate pages option for paint library
@@ -223,12 +223,12 @@ I had a couple of ideas for how to handle showing the individual paints for the 
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-paint-library-pages.png">
+<img src="docs/mobile-paint-library-pages.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-paint-library-pages.png">
+<img src="docs/desktop-paint-library-pages.png">
 </details>
 
 ### Modal option for paint library
@@ -237,12 +237,12 @@ The other option, which I think is more visually pleasing, but potentially more 
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-paint-library-modal.png">
+<img src="docs/mobile-paint-library-modal.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-paint-library-modal.png">
+<img src="docs/desktop-paint-library-modal.png">
 </details>
 
 ### Separate pages option for recipes
@@ -251,12 +251,12 @@ Much like with the paint library, I thought it would be worth while to mock up a
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-recipe-pages.png">
+<img src="docs/mobile-recipe-pages.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-recipe-pages.png">
+<img src="docs/desktop-recipe-pages.png">
 </details>
 
 ### Modal option for recipes
@@ -265,12 +265,12 @@ Much like with the paint library, I tested what this could look like containing 
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-recipe-modal.png">
+<img src="docs/mobile-recipe-modal.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-recipe-modal.png">
+<img src="docs/desktop-recipe-modal.png">
 </details>
 
 ### Custom 404
@@ -279,29 +279,29 @@ The custom 404 functions as a way of handling users who may end up in places tha
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/assets/mobile-404.png">
+<img src="docs/mobile-404.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/assets/desktop-404.png">
+<img src="docs/desktop-404.png">
 </details>
 
 ## ERD
 
 <details>
 <summary>3 Table ERD</summary>
-<img src="docs/assets/3-table-erd.png">
+<img src="docs/3-table-erd.png">
 </details>
 
 <details>
 <summary>4 Table ERD</summary>
-<img src="docs/assets/4-table-erd.png">
+<img src="docs/4-table-erd.png">
 </details>
 
 <details>
 <summary>Final Table ERD</summary>
-<img src="docs/assets/table-erd.png">
+<img src="docs/table-erd.png">
 </details>
 
 ## Schema
@@ -423,7 +423,7 @@ While working on getting edit functionality fully online I decided to publish th
 ### add recipe
 <details>
 <summary>basic functionality to write to the recipes table</summary>
-<img src="docs/assets/add_recipe_test.png">
+<img src="docs/add_recipe_test.png">
 
 Output of writing to the recipes table<br>
 
@@ -452,7 +452,7 @@ open_punch_bath_8981=> select * from recipes;<br>
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables</summary>
-<img src="docs/assets/add_recipe_test2.png">
+<img src="docs/add_recipe_test2.png">
 
 Recipe Name: This is a test of the recipe stages<br>
 Recipe Description: Testing to see if a single stage can be added OK<br>
@@ -489,7 +489,7 @@ open_punch_bath_8981=> select * from recipe_stages;
 
 <details>
 <summary>basic functionality to write to the recipes table and add multiple stages to the recipes_stages table</summary>
-<img src="docs/assets/add_recipe_test3.png">
+<img src="docs/add_recipe_test3.png">
 <br>
 Recipe Name: Testing adding 2 stages<br>
 Recipe Description: This is a test of 2 stages<br>
@@ -518,7 +518,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the Boolean</summary>
-<img src="docs/assets/add_recipe_test4.png">
+<img src="docs/add_recipe_test4.png">
 
 Recipe Name: Testing three stages with a final stage<br>
 Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. <br>
@@ -549,7 +549,7 @@ It seemed this assigned true to all stages, rather than just the last. This caus
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the new Boolean logic</summary>
-<img src="docs/assets/add_recipe_test5.png">
+<img src="docs/add_recipe_test5.png">
 <br>
 Recipe Name: Retest of multiple stages, with the new logic for the final stage added<br>
 Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image<br>
@@ -583,7 +583,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the fix Boolean logic</summary>
-<img src="docs/assets/add_recipe_test6.png">
+<img src="docs/add_recipe_test6.png">
 <br>
 Recipe Name: Test of adjusted logic for Bool handling<br>
 Recipe Description: THis is hopefully a final test for the adjusted Boolean logic<br>
@@ -623,7 +623,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
-<img src="docs/assets/add_recipe_test7.png">
+<img src="docs/add_recipe_test7.png">
 <br>
 Recipe Name: This is a test of adding the images to Cloudinary and the DB<br>
 Recipe Description: Testing of image upload for a single stage<br>
@@ -658,7 +658,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
-<img src="docs/assets/add_recipe_test8.png">
+<img src="docs/add_recipe_test8.png">
 <br>
 Recipe Name: This is a test of adding multiple images<br>
 Recipe Description: Will try for three images this time over 4 stages<br>
@@ -701,7 +701,7 @@ The above only seemed to add a single image of the several that were input. On i
 
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
-<img src="docs/assets/add_recipe_test9.png">
+<img src="docs/add_recipe_test9.png">
 <br>
 Recipe Name: Testing multiple image uploads<br>
 Recipe Description: This is a test<br>
@@ -741,8 +741,8 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 
 <details>
 <summary>Output of testing unexpected behaviours, such as not filling in all fields, forgetting to add alt-text (image description), forgetting to add an image, etc.</summary>
-<img src="docs/assets/add_recipe_test10.png">
-<img src="docs/assets/add_recipe_test10a.png">
+<img src="docs/add_recipe_test10.png">
+<img src="docs/add_recipe_test10a.png">
 <br>
 Recipe Name: Test of not adding data to all fields for multiple stages<br>
 Recipe Description: Some stages will have all fields filled. Some will not.<br>
@@ -793,7 +793,7 @@ The above test, while initially using 6 stages for testing, also let me test wha
 
 <details>
 <summary>Testing writing to all tables needed for adding a recipe, recipes, recipe_stages, recipe_images, recipe_tags and entity_tags  </summary>
-<img src="docs/assets/add_recipe_test11.png">
+<img src="docs/add_recipe_test11.png">
 <br>
 Recipe Name: Dark Angels Desaturated Power Armour<br>
 Recipe Description: This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour<br>
