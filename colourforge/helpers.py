@@ -11,11 +11,9 @@ from colourforge.models import (
 
 # Common variables.
 PLACEHOLDER_IMAGE_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/'
-    'placeholder.png')
+    'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png')
 PLACEHOLDER_THUMBNAIL_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/'
-    'placeholder.png')
+    'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png')
 
 
 def recipe_handler(form_data):
@@ -256,7 +254,7 @@ def instruction_handler(
         if not image_url:
             image_url = PLACEHOLDER_IMAGE_URL
             thumbnail_url = PLACEHOLDER_THUMBNAIL_URL
-            alt_text = 'Placeholder Image'
+            alt_text = 'Default Image'
             public_id = None
 
         # Determine if this is the last stage

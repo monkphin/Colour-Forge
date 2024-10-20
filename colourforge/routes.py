@@ -216,7 +216,6 @@ def search():
             recipe = Recipe.query.get(entity_tag.recipe_id)
             if (
                 recipe
-                and recipe.user_id == current_user.id
                 and recipe not in matching_recipes
             ):
                 matching_recipes.append(recipe)

@@ -37,7 +37,7 @@
               </a>
             {% else %}
               <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
-                <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" />
+                <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" />
               </a>
             {% endif %}
 
@@ -49,7 +49,7 @@
                     <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img" />
                   {% endfor %}
                 {% else %}
-                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img" />
+                  <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
                 {% endif %}
               </div>
               <div class="modal-footer">
@@ -58,7 +58,7 @@
                     <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
                   {% endfor %}
                 {% else %}
-                  <a href="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                  <a href="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
                 {% endif %}
                 <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
               </div>
@@ -96,7 +96,7 @@
                     </a>
                   {% else %}
                     <a class="waves-effect waves-light modal-trigger" href="#modal-stage{{ stage.stage_id }}">
-                      <img class="activator responsive-img" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" />
+                      <img class="activator responsive-img" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" />
                     </a>
                   {% endif %}
                 </div>
@@ -110,7 +110,7 @@
                       <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img" />
                     {% endfor %}
                   {% else %}
-                    <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="placeholder image" class="responsive-img" />
+                    <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
                   {% endif %}
                 </div>
                 <div class="modal-footer">
@@ -119,7 +119,7 @@
                       <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
                     {% endfor %}
                   {% else %}
-                    <a href="{{ url_for('static', filename='images/placeholder.png') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
+                    <a href="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">View Full Image</a>
                   {% endif %}
                   <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
                 </div>

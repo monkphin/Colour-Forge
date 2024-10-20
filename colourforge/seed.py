@@ -63,7 +63,7 @@ def create_default_recipe(user):
         stage=stage1,
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png',
-        alt_text='Placeholder Image',
+        alt_text='Default Image',
         public_id=None
     )
 
