@@ -1,70 +1,75 @@
-{% extends "base.html" %} 
-{% block title %}Register{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Register{% endblock %}
 {% block content %}
 
-<h2 class="center-align">Register</h2>
+  <h2 class="center-align">Register</h2>
 
-<div class="row">
-  <form class="col s12" method="POST" action="{{ url_for('auth.register') }}">
-    <div class="row">
-      <div class="input-field col s12">
-        <input
-          id="username"
-          type="text"
-          name="username"
-          minlength="5"
-          maxlength="55"
-          type="text"
-          class="validate"
-          required />
-        <label for="username">Username</label>
+  <div class="row">
+    <form class="col s12" method="POST" action="{{ url_for('auth.register') }}">
+      <div class="row">
+        <!-- Username Field -->
+        <div class="input-field col s12">
+          <input
+            id="username"
+            type="text"
+            name="username"
+            minlength="5"
+            maxlength="55"
+            class="validate"
+            required />
+          <label for="username">Username</label>
+        </div>
+
+        <!-- Email Address Field -->
+        <div class="input-field col s12">
+          <input
+            id="email"
+            type="email"
+            name="email"
+            minlength="5"
+            maxlength="55"
+            class="validate"
+            required />
+          <label for="email">Email Address</label>
+        </div>
       </div>
-      <div class="input-field col s12">
-        <input
-          id="email"
-          type="email"
-          name="email"
-          minlength="5"
-          maxlength="55"
-          type="text"
-          class="validate"
-          required />
-        <label for="email">Email Address</label>
+
+      <div class="row">
+        <!-- Password Field -->
+        <div class="input-field col s12">
+          <input
+            id="password1"
+            type="password"
+            name="password1"
+            minlength="7"
+            maxlength="100"
+            class="validate"
+            required />
+          <label for="password1">Enter Password</label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <input
-          id="password1"
-          type="password"
-          name="password1"
-          minlength="7"
-          maxlength="100"
-          type="text"
-          class="validate"
-          required />
-        <label for="password1">Enter Password</label>
+
+      <div class="row">
+        <!-- Confirm Password Field -->
+        <div class="input-field col s12">
+          <input
+            id="password2"
+            type="password"
+            name="password2"
+            minlength="7"
+            maxlength="100"
+            class="validate"
+            required />
+          <label for="password2">Confirm Password</label>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="input-field col s12">
-        <input
-          id="password2"
-          type="password"
-          name="password2"
-          minlength="7"
-          maxlength="100"
-          type="text"
-          class="validate"
-          required />
-        <label for="password2">Confirm Password</label>
-      </div>
-    </div>
-    <button class="btn waves-effect waves-light" id="submitButton" type="submit" name="action">
-      Submit
-      <i class="material-icons right"></i>
-    </button>
-  </form>
-</div>
+
+      <!-- Submit Button -->
+      <button class="btn waves-effect waves-light" id="submitButton" type="submit" name="action">
+        Submit
+        <i class="material-icons right"></i>
+      </button>
+    </form>
+  </div>
 
 {% endblock %}

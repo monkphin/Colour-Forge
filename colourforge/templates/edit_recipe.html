@@ -57,8 +57,8 @@
     <!-- Stages for Instructions -->
     <div class="row">
       {% for stage in recipe.stages %}
-      <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
       <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
+        <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
         <!-- Hidden input to track existing stage IDs -->
         <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}" />
         <input
@@ -92,10 +92,9 @@
             class="responsive-img" />
           <p>{{ stage.recipe_images[0].alt_text }}</p>
           <button
-            id="modalDelete-{{ user.id }}"
-            class="delete_image_button modal-trigger btn red lighten-1"
+            class="delete_image_button btn red lighten-1"
             type="button"
-            data-target="modal1-{{ user.id }}">
+            data-stage-num="{{ stage.stage_num }}">
             Delete Image
           </button>
           <!-- Hidden input to track image ID and deletion flag -->

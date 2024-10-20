@@ -1,5 +1,5 @@
-{% extends "base.html" %} 
-{% block title %}Add New Recipe{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Add New Recipe{% endblock %}
 {% block content %}
 
 <h2 class="center-align">Add Recipe</h2>
@@ -42,11 +42,10 @@
           id="tags_input"
           name="tags"
           data-url="{{ url_for('routes.autocomplete_tags') }}" />
-        <label for="tags_input"
-          >Searchable Tags (Optional, comma separated)</label
-        >
+        <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
     </div>
+
     <h5>Recipe Stages</h5>
     <hr />
     <!-- Initial Stage for Instructions and Images -->

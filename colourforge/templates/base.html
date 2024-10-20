@@ -8,18 +8,22 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous"
-      referrerpolicy="no-referrer" />
+      referrerpolicy="no-referrer"
+    />
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-      type="text/css" />
+      type="text/css"
+    />
     <link
       rel="stylesheet"
-      href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css" />
+      href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css"
+    />
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
-      type="text/css" />
+      type="text/css"
+    />
     <title>Colour Forge: {% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -27,26 +31,22 @@
       <!--Desktop Nav-->
       <nav>
         <div class="nav-wrapper">
-          <a href="{{ url_for('routes.home') }}" class="brand-logo"
-            >Colour Forge</a
-          >
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger"
-            ><i class="material-icons">menu</i></a
-          >
+          <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
+          <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+            <i class="material-icons">menu</i>
+          </a>
           <ul class="right hide-on-med-and-down">
             {% if current_user.is_authenticated %}
             <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-            <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
-            <li><a href="{{ url_for('auth.account')}}">Account</a></li>
+            <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
+            <li><a href="{{ url_for('auth.account') }}">Account</a></li>
             {% if current_user.is_admin %}
             <li>
-              <a class="dropdown-trigger" href="#!" data-target="dropdown1">
-                Admin Panels
-              </a>
+              <a class="dropdown-trigger" href="#!" data-target="dropdown1">Admin Panels</a>
             </li>
             {% endif %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-            <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
+            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
             <li>
               <form action="{{ url_for('routes.search') }}" method="GET">
                 <div class="input-field">
@@ -56,37 +56,35 @@
                     name="search"
                     placeholder="Search for Recipe Tags..."
                     class="navbar-search desktop-search"
-                    required />
+                    required
+                  />
                 </div>
               </form>
             </li>
             {% else %}
             <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-            <li><a href="{{ url_for('auth.register')}}">Register</a></li>
-            <li><a href="{{ url_for('routes.contact')}}">Contact Us</a></li>
+            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
             {% endif %}
           </ul>
-          <ul id='dropdown1' class='dropdown-content'>
-            <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
-            <li><a href="{{ url_for('admin.recipe_admin')}}">Recipe Admin</a></li>
+          <ul id="dropdown1" class="dropdown-content">
+            <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
+            <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
           </ul>
-
         </div>
       </nav>
       <!--Mobile Nav-->
       <ul class="sidenav" id="mobile-demo">
         <div class="image-container">
-          <img
-            class="site_logo"
-            src="{{ url_for('static', filename='images/logo.png') }}" />
+          <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" />
         </div>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-        <li><a href="{{ url_for('routes.recipes') }}">Recipes</a></li>
-        <li><a href="{{ url_for('auth.account')}}">Account</a></li>
+        <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
+        <li><a href="{{ url_for('auth.account') }}">Account</a></li>
         {% if current_user.is_admin %}
-        <li><a href="{{ url_for('admin.admin_dash')}}">User Admin</a></li>
-        <li><a href="{{ url_for('admin.recipe_admin')}}">Recipe Admin</a></li>
+        <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
+        <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
         {% endif %}
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
         <li>
@@ -96,41 +94,46 @@
                 type="search"
                 id="mobile-search"
                 name="search"
-                placeholder="Search for Receipe Tags..."
+                placeholder="Search for Recipe Tags..."
                 class="navbar-search mobile-search"
-                required />
+                required
+              />
             </div>
           </form>
         </li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-        <li><a href="{{ url_for('auth.register')}}">Register</a></li>
+        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
         {% endif %}
       </ul>
     </header>
 
     <main class="container">
       <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %} {% if
-        messages %} {% for category, message in messages %} {% if category ==
-        'error' %}
+        {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        {% for category, message in messages %}
+        {% if category == 'error' %}
         <div class="card-panel red lighten-2 flash-message">
           <span class="white-text">{{ message }}</span>
-          <a href="#!" class="close-flash right"
-            ><i class="white-text fas fa-times"></i
-          ></a>
+          <a href="#!" class="close-flash right">
+            <i class="white-text fas fa-times"></i>
+          </a>
         </div>
         {% else %}
         <div class="card-panel green lighten-2 flash-message">
           <span class="white-text">{{ message }}</span>
-          <a href="#!" class="close-flash right"
-            ><i class="white-text fas fa-times"></i
-          ></a>
+          <a href="#!" class="close-flash right">
+            <i class="white-text fas fa-times"></i>
+          </a>
         </div>
-        {% endif %} {% endfor %} {% endif %} {% endwith %}
+        {% endif %}
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
       </div>
 
-      {% block content %} {% endblock %}
+      {% block content %}{% endblock %}
     </main>
 
     <footer class="page-footer">
@@ -145,8 +148,9 @@
                   target="_blank"
                   aria-label="Facebook - (Opens in a new tab)"
                   rel="noopener"
-                  ><i class="fab fa-facebook-f"></i
-                ></a>
+                >
+                  <i class="fab fa-facebook-f"></i>
+                </a>
               </li>
               <li>
                 <a
@@ -155,8 +159,9 @@
                   target="_blank"
                   aria-label="Twitter - (Opens in a new tab)"
                   rel="noopener"
-                  ><i class="fab fa-twitter"></i
-                ></a>
+                >
+                  <i class="fab fa-twitter"></i>
+                </a>
               </li>
               <li>
                 <a
@@ -165,8 +170,9 @@
                   target="_blank"
                   aria-label="Instagram - (Opens in a new tab)"
                   rel="noopener"
-                  ><i class="fab fa-instagram"></i
-                ></a>
+                >
+                  <i class="fab fa-instagram"></i>
+                </a>
               </li>
               <li>
                 <a
@@ -175,8 +181,9 @@
                   target="_blank"
                   aria-label="LinkedIn - (Opens in a new tab)"
                   rel="noopener"
-                  ><i class="fab fa-linkedin-in"></i
-                ></a>
+                >
+                  <i class="fab fa-linkedin-in"></i>
+                </a>
               </li>
               <li>
                 <a
@@ -185,8 +192,9 @@
                   target="_blank"
                   aria-label="GitHub - (Opens in a new tab)"
                   rel="noopener"
-                  ><i class="fab fa-github"></i
-                ></a>
+                >
+                  <i class="fab fa-github"></i>
+                </a>
               </li>
             </ul>
           </div>

@@ -107,24 +107,16 @@ content %}
               justify-content: space-evenly;
             ">
             <!-- Switch -->
-            <form
-              method="POST"
-              action="{{ url_for('admin.toggle_admin', user_id=user.id) }}"
-              id="admin-toggle-form-{{ user.id }}">
+            <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" id="admin-toggle-form-{{ user.id }}">
               <div class="switch" style="display: flex; align-items: center">
                 <span style="margin-right: 10px">Admin:</span>
                 <label>
                   Off
                   <input
-                    type="checkbox"
-                    name="is_admin"
-                    {%
-                    if
-                    user.is_admin
-                    %}checked{%
-                    endif
-                    %}
-                    onchange="document.getElementById('admin-toggle-form-{{ user.id }}').submit();" />
+                  type="checkbox"
+                  name="is_admin"
+                  id="is_admin_{{ user.id }}"
+                  {% if user.is_admin %}checked{% endif %} />
                   <span class="lever"></span>
                   On
                 </label>

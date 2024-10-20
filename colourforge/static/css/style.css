@@ -47,9 +47,9 @@ input {
   margin-bottom: 5px;
 }
 
-.col.s4.m4.recipe-cards {
-  min-height: 500px;
-  max-height: 500px;
+.col.s6.m4.recipe-cards {
+  display: flex;
+  flex-direction: column;
 }
 
 .inline-lists {

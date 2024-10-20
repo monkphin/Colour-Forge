@@ -1,9 +1,8 @@
-{% extends "base.html" %} 
-{% block title %}Search Results{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Search Results{% endblock %}
 {% block content %}
 
   {% if recipes %}
-
     <div class="row">
       <!-- Column for the Heading -->
       <div class="col s6">
@@ -23,7 +22,7 @@
                 class="validate"
                 placeholder="Search for Recipe Names..."
                 required />
-              <label for="Recipe_search">Search</label>
+              <label for="recipe_search">Search</label>
             </div>
 
             <!-- Button Column -->
@@ -43,66 +42,84 @@
     <div class="row">
       {% for recipe in recipes %}
         {% if recipes|length > 1 %}
-        <div class="col s6">
-          <div class="card">
-            <div class="card-content">
-              <div class="row valign-wrapper">
-                <div class="col s12">
-                  <span class="card-title">{{ recipe.recipe_name }}</span>
-                  <p>Created By: {{ recipe.user.username }}</p>
+          <div class="col s6">
+            <div class="card">
+              <div class="card-content">
+                <div class="row valign-wrapper">
+                  <div class="col s12">
+                    <span class="card-title">{{ recipe.recipe_name }}</span>
+                    <p>Created By: {{ recipe.user.username }}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="row valign-wrapper">
-                <div class="col s8">
+                <div class="row valign-wrapper">
+                  <div class="col s8">
                     {% for stage in recipe.stages %}
                       {% if stage.is_final_stage %}
                         {% if stage.recipe_images %}
-                          <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img" />
+                          <img
+                            src="{{ stage.recipe_images[0].thumbnail_url }}"
+                            alt="{{ stage.recipe_images[0].alt_text }}"
+                            class="responsive-img" />
                         {% else %}
-                          <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
+                          <img
+                            src="{{ url_for('static', filename='images/placeholder.png') }}"
+                            alt="Default Image"
+                            class="responsive-img" />
                         {% endif %}
                       {% endif %}
                     {% endfor %}
-                </div>
-                <div class="col s4 center-align">
-                  <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+                  </div>
+                  <div class="col s4 center-align">
+                    <a
+                      href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}"
+                      class="btn">
+                      View
+                    </a>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>   
         {% else %}
-        <!-- Single search results should return a full width card for better visuals -->
-        <div class="col s12">
-          <div class="card">
-            <div class="card-content">
-              <div class="row valign-wrapper">
-                <div class="col s12">
-                  <span class="card-title">{{ recipe.recipe_name }}</span>
-                  <p>Created By: {{ recipe.user.username }}</p>
+          <!-- Single search results should return a full-width card for better visuals -->
+          <div class="col s12">
+            <div class="card">
+              <div class="card-content">
+                <div class="row valign-wrapper">
+                  <div class="col s12">
+                    <span class="card-title">{{ recipe.recipe_name }}</span>
+                    <p>Created By: {{ recipe.user.username }}</p>
+                  </div>
                 </div>
-              </div>
-              <div class="row valign-wrapper">
-                <div class="col s8">
+                <div class="row valign-wrapper">
+                  <div class="col s8">
                     {% for stage in recipe.stages %}
                       {% if stage.is_final_stage %}
                         {% if stage.recipe_images %}
-                          <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img" />
+                          <img
+                            src="{{ stage.recipe_images[0].thumbnail_url }}"
+                            alt="{{ stage.recipe_images[0].alt_text }}"
+                            class="responsive-img" />
                         {% else %}
-                          <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
+                          <img
+                            src="{{ url_for('static', filename='images/placeholder.png') }}"
+                            alt="Default Image"
+                            class="responsive-img" />
                         {% endif %}
                       {% endif %}
                     {% endfor %}
-                </div>
-                <div class="col s4 center-align">
-                  <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+                  </div>
+                  <div class="col s4 center-align">
+                    <a
+                      href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}"
+                      class="btn">
+                      View
+                    </a>
+                  </div>
                 </div>
               </div>
-
             </div>
           </div>
-        </div>
         {% endif %}
       {% endfor %}
     </div>
@@ -127,7 +144,7 @@
                 class="validate"
                 placeholder="Search for Recipe Names..."
                 required />
-              <label for="Recipe_search">Search</label>
+              <label for="recipe_search">Search</label>
             </div>
 
             <!-- Button Column -->
@@ -144,4 +161,5 @@
       </div>
     </div>
   {% endif %}
+
 {% endblock %}

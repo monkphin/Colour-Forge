@@ -248,3 +248,14 @@ document.addEventListener("DOMContentLoaded", function () {
       });
   }
 });
+
+// Ensure all admin toggles are captured
+document.querySelectorAll("input[type='checkbox'][id^='is_admin_']").forEach(function (checkbox) {
+  checkbox.addEventListener("change", function () {
+    const userId = this.id.split('_').pop(); // Extract the user ID from the element ID
+    const form = document.getElementById(`admin-toggle-form-${userId}`);
+    if (form) {
+      form.submit(); // Submit the form if it exists
+    }
+  });
+});

@@ -1,17 +1,23 @@
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-  integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-  crossorigin="anonymous" referrerpolicy="no-referrer">
+        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+        crossorigin="anonymous" referrerpolicy="no-referrer">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-  type="text/css">
+        type="text/css">
   <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-  <title>500 - Theirs been a problem!</title>
+  <title>500 - There's been a problem!</title>
+</head>
 <body>
-    <h1>Oops! Theirs been an issue</h1>
-    <p>Sorry, its not you, its us!</p>
-    <a href="{{ url_for('routes.home') }}">Return to Home</a>
+  <div class="container">
+    <h1 class="center-align">Oops! There's been an issue</h1>
+    <p class="center-align">Sorry, it's not you, it's us!</p>
+    <div class="center-align">
+      <a href="{{ url_for('routes.home') }}" class="btn light-blue darken-1">Return to Home</a>
+    </div>
+  </div>
 </body>
 </html>

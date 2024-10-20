@@ -69,10 +69,20 @@ def recipes():
 
     Returns:
         Response : The rendered recipes page.
-    """
+    """    
     recipes = Recipe.query.filter_by(
         user_id=current_user.id).order_by(Recipe.recipe_name).all()
-    return render_template("recipes.html", recipes=recipes, user=current_user)
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 6  # Recipes per page
+    total = len(recipes)
+    total_pages = ceil(total / per_page)
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_recipes = recipes[start:end]
+
+    return render_template("recipes.html", recipes=paginated_recipes, page=page, total_pages=total_pages, user=current_user)
 
 
 @routes.route("/recipe_page/<int:recipe_id>")

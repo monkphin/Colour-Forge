@@ -1,12 +1,11 @@
-{% extends "base.html" %} 
-{% block title %}Contact Us{% endblock %} 
+{% extends "base.html" %}
+{% block title %}Contact Us{% endblock %}
 {% block content %}
-
 
 <div class="row">
   <h2>Contact us</h2>
-  <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">   
-
+  <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
+    
     <div class="row">
       <div class="input-field col s6">
         <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
@@ -35,6 +34,5 @@
 
   </form>
 </div>
-      
 
 {% endblock %}
