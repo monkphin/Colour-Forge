@@ -23,18 +23,18 @@ def welcome_email(email_address, username):
 
     # Plain text body
     msg.body = f"""
-    Hey {username}, 
+    Hey {username},
 
     Welcome to Colourforge!
 
     Thank you for registering an account with us!
 
-    Don't worry, we just use your email for account messages like password resets
-    and will not spam you.
+    Don't worry, we just use your email for account messages like password
+    resets and will not spam you.
     We hate spam and junk emails as much as you do.
 
-    Thanks, 
-    The Colourforge Team 
+    Thanks,
+    The Colourforge Team
     """
 
     # HTML Email
@@ -47,7 +47,7 @@ def welcome_email(email_address, username):
             <p>Don't worry, we just use your email for account messages like
             password resets and will not spam you!</p>
             <p>Thanks,<br>
-            The Colourforge Team</> 
+            The Colourforge Team</>
         </body>
     </html>
     """
@@ -79,8 +79,8 @@ def account_deletion(email_address, username):
     Sorry to see you go.
     Your account has been successfully deleted.
 
-    Thanks, 
-    The Colourforge Team 
+    Thanks,
+    The Colourforge Team
     """
 
     # HTML Email
@@ -91,7 +91,7 @@ def account_deletion(email_address, username):
             <p>Sorry to see you go</p>
             <p>Your account has been successfully deleted.</p>
             <p>Thanks,<br>
-            The Colourforge Team</> 
+            The Colourforge Team</>
         </body>
     </html>
     """
@@ -122,12 +122,12 @@ def password_change(email_address, username):
 
     We wanted to inform you that your password was successfully changed.
 
-    If you initiated this change, no further action is needed. If you did not 
-    request a password change, please contact us using 
+    If you initiated this change, no further action is needed. If you did not
+    request a password change, please contact us using
     https://colourforge.co.uk/contact immediately to secure your account.
 
-    Thanks, 
-    The ColourForge Team 
+    Thanks,
+    The ColourForge Team
     """
 
     # HTML Email
@@ -135,14 +135,16 @@ def password_change(email_address, username):
     <html>
         <body>
             <p>Hi {username},</p>
-            <p>We wanted to inform you that your password was successfully 
+            <p>We wanted to inform you that your password was successfully
             changed.</p>
-            <p>If you initiated this change, no further action is needed. If you did 
-            not request a password change, please contact us immediately using the 
-            link below to secure your account:</p>
-            <p><a href="https://colourforge.co.uk/contact">Contact Support</a></p>
+            <p>If you initiated this change, no further action is needed. If
+            you did not request a password change, please contact us
+            immediately using the link below to secure your account:</p>
+            <p>
+              <a href="https://colourforge.co.uk/contact">Contact Support</a>
+            </p>
             <p>Thanks,<br>
-            The Colourforge Team</> 
+            The Colourforge Team</p>
         </body>
     </html>
     """
@@ -173,8 +175,8 @@ def email_change(email_address, old_email, username):
 
     We wanted to inform you that your email was successfully changed.
 
-    Thanks, 
-    The ColourForge Team 
+    Thanks,
+    The ColourForge Team
     """
 
     # HTML Email
@@ -182,10 +184,10 @@ def email_change(email_address, old_email, username):
     <html>
        <body>
             <p>Hi {username},</p>
-            <p>We wanted to inform you that your email was successfully 
+            <p>We wanted to inform you that your email was successfully
             changed</p>
             <p>Thanks,<br>
-            The Colourforge Team</> 
+            The Colourforge Team</>
         </body>
     </html>
 

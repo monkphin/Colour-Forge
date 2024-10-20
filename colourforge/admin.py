@@ -212,13 +212,19 @@ def user_search():
     if not search:
         flash("Please enter a search term.", category="error")
         return redirect(url_for('admin.admin_dash'))
-    
-    matching_users = User.query.filter(User.username.ilike(f"%{search}%")).all()
+
+    matching_users = User.query.filter(
+        User.username.ilike(f"%{search}%")
+    ).all()
 
     if not matching_users:
         flash("No users found that match your search", category="info")
 
-    return render_template('user_search_results.html', users=matching_users, search=search)
+    return render_template(
+        'user_search_results.html',
+        users=matching_users,
+        search=search
+    )
 
 
 @admin.route('/recipe_search', methods=['GET'])
@@ -228,10 +234,16 @@ def recipe_search():
     if not search:
         flash("Please enter a search term.", category="error")
         return redirect(url_for('admin.recipe_admin'))
-    
-    matching_recipes = Recipe.query.filter(Recipe.recipe_name.ilike(f"%{search}%")).all()
+
+    matching_recipes = Recipe.query.filter(
+        Recipe.recipe_name.ilike(f"%{search}%")
+    ).all()
 
     if not matching_recipes:
         flash("No recipes found that match your search", category="info")
 
-    return render_template('recipe_search_results.html', recipes=matching_recipes, search=search)
+    return render_template(
+        'recipe_search_results.html',
+        recipes=matching_recipes,
+        search=search
+    )

@@ -48,8 +48,8 @@ input {
 }
 
 .col.s4.m4.recipe-cards {
-  min-height: 5000px;
-  max-height: 5000px;
+  min-height: 500px;
+  max-height: 500px;
 }
 
 .inline-lists {

@@ -15,9 +15,9 @@ from colourforge import db
 from colourforge.models import User
 from colourforge.seed import create_default_recipe
 from colourforge.mail import (
-    welcome_email, 
-    account_deletion, 
-    email_change, 
+    welcome_email,
+    account_deletion,
+    email_change,
     password_change
 )
 
@@ -178,7 +178,8 @@ def change_email():
             flash('This email address is already in use', category='error')
         elif new_email == current_user.email:
             flash(
-                'The new email address must be different from the current one.',
+                """The new email address must be different from the current
+                one.""",
                 category='error'
             )
         else:
@@ -217,16 +218,18 @@ def reset_password():
         current_password_hash = current_user.password
 
         if current_password == '':
-            flash('Please enter your current password to change your password.',
-                  category='error'
-                  )
+            flash(
+                'Please enter your current password to change your password.',
+                category='error'
+            )
         elif not check_password_hash(current_user.password, current_password):
             flash('Incorrect current password, try again', category='error')
         elif password1 != password2:
             flash('New passwords don\'t match!', category='error')
         elif check_password_hash(current_password_hash, password1):
             flash("""
-                  Your new password cannot be the same as your current password.
+                  Your new password cannot be the same as your current
+                  password.
                   """,
                   category='error'
                   )
@@ -266,7 +269,7 @@ def delete_account():
 
     if request.method == 'POST':
         current_password = request.form.get('password-delete')
-        
+
         if current_password == '':
             flash('Please enter your current password to delete your account.',
                   category='error'
