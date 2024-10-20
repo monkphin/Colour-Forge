@@ -14,7 +14,12 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from colourforge import db
 from colourforge.models import User
 from colourforge.seed import create_default_recipe
-from colourforge.mail import welcome_email, account_deletion
+from colourforge.mail import (
+    welcome_email, 
+    account_deletion, 
+    email_change, 
+    password_change
+)
 
 
 auth = Blueprint('auth', __name__)
@@ -84,7 +89,7 @@ def register():
 
             create_default_recipe(new_user)
             login_user(new_user, remember=True)
-            welcome_email(new_user.email)
+            welcome_email(new_user.email, new_user.username)
             flash('Account created!', category='success')
             return redirect(url_for('routes.home'))
 
@@ -177,8 +182,10 @@ def change_email():
                 category='error'
             )
         else:
+            old_email = current_user.email
             current_user.email = new_email
             db.session.commit()
+            email_change(new_email, old_email, current_user.username)
             flash(
                 'Your email has been successfully changed.',
                 category='success'
@@ -232,6 +239,7 @@ def reset_password():
                                               )
             current_user.password = password
             db.session.commit()
+            password_change(current_user.email, current_user.username)
             flash(
                 'Your password has been successfully changed',
                 category='success'
@@ -275,7 +283,7 @@ def delete_account():
         else:
             # Proceed to delete account only if password is correct
             user = current_user
-            account_deletion(current_user.email)
+            account_deletion(current_user.email, current_user.username)
             db.session.delete(user)
             db.session.commit()
 
