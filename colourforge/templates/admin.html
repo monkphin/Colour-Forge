@@ -9,17 +9,18 @@ content %}
 
   <!-- Column for the Search Form -->
   <div class="col s6">
-    <form>
+    <form action="{{ url_for('admin.user_search') }}" method="GET">
       <div class="row">
         <!-- Input Field Column -->
         <div class="input-field col s8">
           <input
-            id="search"
+            id="user_search"
             type="text"
+            name="user_search"
             class="validate"
-            placeholder="Search..."
+            placeholder="Search for Username..."
             required />
-          <label for="search">Search</label>
+          <label for="user_search">Search</label>
         </div>
 
         <!-- Button Column -->

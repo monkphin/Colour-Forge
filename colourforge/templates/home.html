@@ -46,7 +46,7 @@
 
   <h3 class="center-align">Member recipes</h3>
   <div class="row">
-    {% for recipe in recipes[:6] %}
+    {% for recipe in recipes %}
     <div class="col s6 m4 recipe-cards">
       <div class="card">
         <div class="card-image waves-effect waves-block waves-light">
@@ -89,6 +89,29 @@
     {% endfor %}
   </div>
 
+  <!-- Pagination Controls -->
+  <ul class="pagination center-align">
+    {% if page > 1 %}
+      <li class="waves-effect"><a href="{{ url_for('routes.home', page=page-1) }}"><i class="fas fa-chevron-left"></i></a></li>
+    {% else %}
+      <li class="disabled"><a href="#!"><i class="fas fa-chevron-left"></i></a></li>
+    {% endif %}
+
+    {% for p in range(1, total_pages + 1) %}
+      {% if p == page %}
+        <li class="active"><a href="#">{{ p }}</a></li>
+      {% else %}
+        <li class="waves-effect"><a href="{{ url_for('routes.home', page=p)}}">{{ p }}</a></li>
+      {% endif %}
+    {% endfor %}
+
+    {% if page < total_pages %}
+      <li class="waves-effect"><a href="{{ url_for('routes.home', page=page+1) }}"><i class="fas fa-chevron-right"></i></a></li>
+    {% else %}
+      <li class="disabled"><a href="#!"><i class="fas fa-chevron-right"></i></a></li>
+    {% endif %}
+
+  </ul>
 
   {% else %}
 

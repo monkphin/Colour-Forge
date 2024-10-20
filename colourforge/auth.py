@@ -252,12 +252,6 @@ def reset_password():
     return render_template("account.html", user=current_user)
 
 
-@auth.route('/reset_password_request', methods=['GET', 'POST'])
-def reset_password_request():
-
-    return render_template("password_reset.html")
-
-
 @auth.route('/delete_account', methods=['GET', 'POST'])
 @login_required
 def delete_account():

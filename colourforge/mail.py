@@ -150,7 +150,7 @@ def password_change(email_address, username):
     mail.send(msg)
 
 
-def email_change(email_address, username):
+def email_change(email_address, old_email, username):
     """
     Sends a confirmation email to a user who has changed their email address.
 
@@ -164,7 +164,7 @@ def email_change(email_address, username):
     msg = Message(
         subject="Your email has been changed.",
         sender="noreply@colourforge.co.uk",
-        recipients=[email_address]
+        recipients=[email_address, old_email]
     )
 
     # Plain text body

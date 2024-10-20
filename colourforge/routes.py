@@ -10,6 +10,7 @@ from flask import (
 )
 
 from flask_login import login_required, current_user
+from math import ceil
 
 # Local Imports
 from colourforge import db, cloudinary
@@ -39,19 +40,26 @@ def home():
     Returns:
         Response: The rendered home page.
     """
-    if current_user.is_authenticated:
-        # Get recipes not created by the current user
-        recipes = (
-            Recipe.query
-            .filter(Recipe.user_id != current_user.id)
-            .order_by(Recipe.recipe_name)
-            .all()
-        )
-    else:
-        # Get all recipes (or handle as per your requirements)
-        recipes = Recipe.query.order_by(Recipe.recipe_name).all()
+    # Get all recipes
+    recipes = Recipe.query.order_by(Recipe.recipe_name).all()
 
-    return render_template("home.html", recipes=recipes, user=current_user)
+    page = request.args.get('page', 1, type=int)
+    per_page = 6 # Recipes per page
+    total = len(recipes)
+    total_pages = ceil(total / per_page)
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_recipes = recipes[start:end]
+
+
+    return render_template(
+        "home.html",
+        recipes=paginated_recipes,
+        page=page,
+        total_pages=total_pages,
+        user=current_user
+    )
 
 
 

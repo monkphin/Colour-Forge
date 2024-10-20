@@ -2,54 +2,146 @@
 {% block title %}Search Results{% endblock %} 
 {% block content %}
 
-<div class="row">
-  <div class="col s12 center-align">
-    <h2>Search Results for "{{ search }}"</h2>
+  {% if recipes %}
 
+    <div class="row">
+      <!-- Column for the Heading -->
+      <div class="col s6">
+        <h3>Search Results for "{{ search }}"</h3>
+      </div>
 
-{% if recipes %}
-<div class="row">
-  {% for recipe in recipes %}
-  <div class="col s6 m4 recipe-cards">
-    <div class="card">
-      <div class="card-image waves-effect waves-block waves-light">
-        {% for stage in recipe.stages %} {% if stage.is_final_stage %} {% if
-        stage.recipe_images %}
-        <a
-          href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-          <img
-            src="{{ stage.recipe_images[0].thumbnail_url }}"
-            alt="{{ stage.recipe_images[0].alt_text }}" />
-        </a>
-        {% else %}
-        <img
-          class="activator"
-          src="{{ url_for('static', filename='images/placeholder.png')}}"
-          alt="Deafault Image" />
-        {% endif %} {% endif %} {% endfor %}
-      </div>
-      <div class="card-content">
-        <h5>
-          <span class="grey-text text-darken-4">{{ recipe.recipe_name }}</span>
-        </h5>
-        <p>
-          <span class="activator grey-text text-darken-4"
-            ><i class="fas fa-expand-arrows-alt"> Recipe Description</i></span
-          >
-        </p>
-      </div>
-      <div class="card-reveal">
-        <span class="card-title grey-text text-darken-4"
-          ><i class="fas fa-times"> Close</i></span
-        >
-        <p>{{ recipe.recipe_desc }}</p>
+      <!-- Column for the Search Form -->
+      <div class="col s6">
+        <form action="{{ url_for('admin.recipe_search') }}" method="GET">
+          <div class="row">
+            <!-- Input Field Column -->
+            <div class="input-field col s8">
+              <input
+                id="recipe_search"
+                type="text"
+                name="recipe_search"
+                class="validate"
+                placeholder="Search for Recipe Names..."
+                required />
+              <label for="Recipe_search">Search</label>
+            </div>
+
+            <!-- Button Column -->
+            <div class="input-field col s4" style="margin-top: 20px">
+              <button
+                class="waves-effect waves-light btn-small indigo"
+                type="submit"
+                name="action">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
       </div>
     </div>
-  </div>
-  {% endfor %}
-</div>
 
-{% else %}
-  <p>No results found for "{{ search }}".</p>
-{% endif %}
+    <div class="row">
+      {% for recipe in recipes %}
+        {% if recipes|length > 1 %}
+        <div class="col s6">
+          <div class="card">
+            <div class="card-content">
+              <div class="row valign-wrapper">
+                <div class="col s12">
+                  <span class="card-title">{{ recipe.recipe_name }}</span>
+                  <p>Created By: {{ recipe.user.username }}</p>
+                </div>
+              </div>
+              <div class="row valign-wrapper">
+                <div class="col s8">
+                    {% for stage in recipe.stages %}
+                      {% if stage.is_final_stage %}
+                        {% if stage.recipe_images %}
+                          <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img" />
+                        {% else %}
+                          <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col s4 center-align">
+                  <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>   
+        {% else %}
+        <!-- Single search results should return a full width card for better visuals -->
+        <div class="col s12">
+          <div class="card">
+            <div class="card-content">
+              <div class="row valign-wrapper">
+                <div class="col s12">
+                  <span class="card-title">{{ recipe.recipe_name }}</span>
+                  <p>Created By: {{ recipe.user.username }}</p>
+                </div>
+              </div>
+              <div class="row valign-wrapper">
+                <div class="col s8">
+                    {% for stage in recipe.stages %}
+                      {% if stage.is_final_stage %}
+                        {% if stage.recipe_images %}
+                          <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img" />
+                        {% else %}
+                          <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                </div>
+                <div class="col s4 center-align">
+                  <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </div>
+        {% endif %}
+      {% endfor %}
+    </div>
+
+  {% else %}
+    <div class="row">
+      <!-- Column for the Heading -->
+      <div class="col s6">
+        <h3>No results found for "{{ search }}"</h3>
+      </div>
+
+      <!-- Column for the Search Form -->
+      <div class="col s6">
+        <form action="{{ url_for('admin.recipe_search') }}" method="GET">
+          <div class="row">
+            <!-- Input Field Column -->
+            <div class="input-field col s8">
+              <input
+                id="recipe_search"
+                type="text"
+                name="recipe_search"
+                class="validate"
+                placeholder="Search for Recipe Names..."
+                required />
+              <label for="Recipe_search">Search</label>
+            </div>
+
+            <!-- Button Column -->
+            <div class="input-field col s4" style="margin-top: 20px">
+              <button
+                class="waves-effect waves-light btn-small indigo"
+                type="submit"
+                name="action">
+                Search
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  {% endif %}
 {% endblock %}

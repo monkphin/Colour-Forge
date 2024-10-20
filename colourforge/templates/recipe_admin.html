@@ -1,5 +1,6 @@
-{% extends "base.html" %} {% block title %}Account{% endblock %} {% block
-content %}
+{% extends "base.html" %} 
+{% block title %}Account{% endblock %} 
+{% block content %}
 
 <div class="row">
   <!-- Column for the Heading -->
@@ -9,17 +10,18 @@ content %}
 
   <!-- Column for the Search Form -->
   <div class="col s6">
-    <form>
+    <form action="{{ url_for('admin.recipe_search') }}" method="GET">
       <div class="row">
         <!-- Input Field Column -->
         <div class="input-field col s8">
           <input
-            id="search"
+            id="recipe_search"
             type="text"
             class="validate"
-            placeholder="Search..."
+            name="recipe_search"
+            placeholder="Search Recipe Names..."
             required />
-          <label for="search">Search</label>
+          <label for="recipe_search">Search</label>
         </div>
 
         <!-- Button Column -->
@@ -38,17 +40,35 @@ content %}
 
 <div class="row">
   {% for recipe in recipes %}
-  <div class="col s12 m6">
-    <div class="card">
-      <div class="card-content">
-        <span class="card-title">{{ recipe.recipe_name }}</span>
-        <p>Created By: {{ recipe.user.username }}</p>
-      </div>
-      <div>
-      <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+    <div class="col s6">
+      <div class="card">
+        <div class="card-content">
+          <div class="row valign-wrapper">
+            <div class="col s12">
+              <span class="card-title">{{ recipe.recipe_name }}</span>
+              <p>Created By: {{ recipe.user.username }}</p>
+            </div>
+          </div>
+          <div class="row valign-wrapper">
+            <div class="col s8">
+                {% for stage in recipe.stages %}
+                  {% if stage.is_final_stage %}
+                    {% if stage.recipe_images %}
+                      <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" class="responsive-img" />
+                    {% else %}
+                      <img src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" class="responsive-img" />
+                    {% endif %}
+                  {% endif %}
+                {% endfor %}
+            </div>
+            <div class="col s4 center-align">
+              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="btn">View</a>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
-  </div>
   {% endfor %}
 </div>
 
