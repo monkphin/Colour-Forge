@@ -13,22 +13,24 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   const carouselInstances = M.Carousel.init(carouselElems, carouselOptions);
 
-  // Init Materialize Collapsible
-  const collapsibleElems = document.querySelectorAll(".collapsible");
-  const collapsibleInstances = M.Collapsible.init(collapsibleElems, {
-    onOpenStart: function (el) {
-      const header = el.querySelector(".collapsible-header");
-      if (header) {
-        header.classList.add("active");
+    // Init Materialize Collapsible
+    var elems = document.querySelectorAll(".collapsible");
+    var instances = M.Collapsible.init(elems, {
+      onOpenStart: function (el) {
+        // Add 'active' class to the header when the collapsible opens
+        var header = el.querySelector('.collapsible-header');
+        if (header) {
+          header.classList.add('active');
+        }
+      },
+      onCloseStart: function (el) {
+        // Remove 'active' class from the header when the collapsible closes
+        var header = el.querySelector('.collapsible-header');
+        if (header) {
+          header.classList.remove('active');
+        }
       }
-    },
-    onCloseStart: function (el) {
-      const header = el.querySelector(".collapsible-header");
-      if (header) {
-        header.classList.remove("active");
-      }
-    },
-  });
+    });
 
   // init Modal
   const modalElems = document.querySelectorAll(".modal");

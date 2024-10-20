@@ -92,6 +92,15 @@ input {
   margin-left: 16px;
 }
 
+/* Initially, the icon is pointing right (default state) */
+.collapsible-header .fas {
+  transition: transform 0.3s ease; /* Smooth transition */
+}
+/* When the collapsible is active (open), rotate the icon downwards */
+.collapsible-header.active .fas {
+  transform: rotate(90deg); /* Rotate 90 degrees to look like caret-down */
+}
+
 .admin-text {
   margin-right: 10px;
 }
