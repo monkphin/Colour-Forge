@@ -7,7 +7,7 @@ def create_default_recipe(user):
     demo_recipe = Recipe(
         user=user,  # Automatically sets user_id
         recipe_name="Demo Recipe",
-        recipe_desc="""
+        recipe_desc=f"""
         This is a demonstration recipe, to show a rough idea of possible uses.
 
         Images can be clicked on to see a larger copy, this will also allow you
@@ -20,7 +20,7 @@ def create_default_recipe(user):
     # Create recipe stages
     stage1 = RecipeStage(
         stage_num=1,
-        instructions="""
+        instructions=f"""
         Your basic instructions should go here.
 
         These will honour line breaks via the enter key.
@@ -35,7 +35,7 @@ def create_default_recipe(user):
 
     stage2 = RecipeStage(
         stage_num=2,
-        instructions="""
+        instructions=f"""
         This stage has a user uploaded image with the image description being
         used as the images alt text.
         """,
@@ -44,7 +44,7 @@ def create_default_recipe(user):
 
     stage3 = RecipeStage(
         stage_num=3,
-        instructions="""
+        instructions=f"""
         This is the final stage, as such its image will function as the
         placeholder for the recipe - ideally showing what the end results of
         the recipe should look like.
