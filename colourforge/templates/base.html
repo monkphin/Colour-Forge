@@ -9,21 +9,21 @@
       integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
       crossorigin="anonymous"
       referrerpolicy="no-referrer"
-    />
+    >
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
       type="text/css"
-    />
+    >
     <link
       rel="stylesheet"
       href="https://cdnjs.cloudflare.com/ajax/libs/awesomplete/1.1.5/awesomplete.min.css"
-    />
+    >
     <link
       rel="stylesheet"
       href="{{ url_for('static', filename='css/style.css') }}"
       type="text/css"
-    />
+    >
     <title>Colour Forge: {% block title %}{% endblock %}</title>
   </head>
   <body>
@@ -47,9 +47,9 @@
             {% endif %}
             <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
             <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
-            <li>
+            <li class="input-field">
               <form action="{{ url_for('routes.search') }}" method="GET">
-                <div class="input-field">
+                
                   <input
                     type="search"
                     id="desktop-search"
@@ -58,7 +58,7 @@
                     class="navbar-search desktop-search"
                     required
                   />
-                </div>
+                
               </form>
             </li>
             {% else %}
@@ -76,7 +76,7 @@
       <!--Mobile Nav-->
       <ul class="sidenav" id="mobile-demo">
         <div class="image-container">
-          <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" />
+          <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" >
         </div>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
