@@ -33,7 +33,7 @@
           <!-- Button Column -->
           <div class="input-field col s4" style="margin-top: 20px">
             <button
-              class="waves-effect waves-light btn-small indigo"
+              class="waves-effect waves-light btn-small blue darken-4"
               type="submit"
               name="action">
               Search
@@ -70,7 +70,7 @@
                       required >
                     <label for="email-{{ user.id }}">Email Address</label>
                   </div>
-                  <button type="submit" class="btn">Change Email</button>
+                  <button type="submit" class="btn green darken-4">Change Email</button>
                 </form>
 
                 <!-- Form to Reset Password -->
@@ -103,7 +103,7 @@
                       <label for="password2-{{ user.id }}">Confirm Password</label>
                     </div>
                   </div>
-                  <button type="submit" class="btn">Reset Password</button>
+                  <button type="submit" class="btn green darken-4">Reset Password</button>
                 </form>
 
                 <!-- Form to Delete Account and Admin Toggle -->
@@ -129,7 +129,7 @@
                     </form>
                     <!-- Delete Account Button -->
                     <form method="POST" action="{{ url_for('admin.delete_account', user_id=user.id) }}">
-                      <button type="submit" class="btn red">Delete Account</button>
+                      <button type="submit" class="btn red darken-4">Delete Account</button>
                     </form>
                   </div>
                 </div>
@@ -217,17 +217,39 @@
                       </div>
                     </form>
                     <!-- Delete Account Button -->
-                    <form method="POST" action="{{ url_for('admin.delete_account', user_id=user.id) }}">
-                      <button type="submit" class="btn red">Delete Account</button>
-                    </form>
+                    <button
+                    id="modalDelete-{{ user.id }}"
+                    class="btn red darken-4 modal-trigger"
+                    type="button"
+                    data-target="modal-delete-{{ user.id }}">
+                    Delete Recipe
+                  </button>
                   </div>
                 </div>
               </div>
             </div>
           </div>
         {% endif %}
+        
+          <!-- Delete Confirmation Modal -->
+          <div id="modal-delete-{{ user.id }}" class="modal">
+            <div class="modal-content">
+              <div class="red warning-message">
+                <i class="fas fa-exclamation-triangle"></i><h4>Confirm User Deletion!</h4>
+                <p>Are you sure you want to delete this user?</p>
+              </div>  
+            </div>
+            <div class="modal-footer">
+              <button class="modal-close btn green darken-4" type="button">Cancel</button>
+              <a
+                href="{{ url_for('admin.delete_account', user_id=user.id) }}" class="btn red darken-4">
+                Delete
+              </a>
+            </div>
+          </div>
+
       {% endfor %}
     </div>
   {% endif %}
-  
+
 {% endblock %}

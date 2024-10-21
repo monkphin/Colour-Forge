@@ -3,7 +3,13 @@
 {% block content %}
 
 <div class="row">
-  <h2>Contact us</h2>
+  <h1 class="center-align">Contact us</h1>
+  <div class="image-container">
+    <img
+      class="site_logo"
+      src="{{ url_for('static', filename='images/logo.png') }}"
+      alt="Site Logo" >
+  </div>
   <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
     
     <div class="row">

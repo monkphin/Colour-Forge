@@ -1,14 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-
-  <div class="image-container">
-    <img
-      class="site_logo"
-      src="{{ url_for('static', filename='images/logo.png') }}"
-      alt="Site Logo" >
-  </div>
-
+<h1 class="center-align">Login</h1>
+<div class="image-container">
+  <img
+    class="site_logo"
+    src="{{ url_for('static', filename='images/logo.png') }}"
+    alt="Site Logo" >
+</div>
   <div class="row">
     <form class="col s12" method="POST" action="{{ url_for('auth.login') }}">
       <div class="row">

@@ -28,7 +28,7 @@
   </head>
   <body>
     <header>
-      
+
       <!--Desktop Nav-->
       <nav>
         <div class="nav-wrapper">
@@ -59,6 +59,7 @@
                     required
                   >
               </form>
+              <label for="desktop-search" class="hidden">Search for Recipe Tags...</label>
             </li>
             {% else %}
             <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
@@ -98,6 +99,7 @@
               >
             </div>
           </form>
+          <label for="mobile-search" class="hidden">Search for Recipe Tags...</label>
         </li>
         {% else %}
         <li><a href="{{ url_for('auth.login') }}">Log In</a></li>

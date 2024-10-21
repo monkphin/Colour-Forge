@@ -86,7 +86,7 @@
                       View Full Image
                     </a>
                   {% endif %}
-                  <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                  <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
                 </div>
               </div>
             {% endif %}
@@ -173,7 +173,7 @@
                         View Full Image
                       </a>
                     {% endif %}
-                    <a href="#!" class="modal-close waves-effect waves-green btn-flat">Close</a>
+                    <a href="#!" class="modal-close waves-effect waves-green darken-4 btn-flat">Close</a>
                   </div>
                 </div>
               </div>
@@ -184,7 +184,7 @@
         <!-- Back/Edit/Delete Buttons -->
         <div>
           <!-- Back Button -->
-          <a href="{{ referrer }}" class="btn blue">Back</a>
+          <a href="{{ referrer }}" class="btn indigo">Back</a>
           {% if user.is_authenticated %}
             {% if user.id == recipe.user.id or current_user.is_admin %}
               <!-- Edit Button -->
@@ -193,7 +193,7 @@
                   <!-- Admin Editing Another User's Recipe: Show Modal Trigger -->
                   <button
                     id="modalEdit-{{ recipe.recipe_id }}"
-                    class="btn green accent-4 modal-trigger"
+                    class="btn green darken-4 modal-trigger"
                     type="button"
                     data-target="modal-edit-{{ recipe.recipe_id }}">
                     Edit Recipe
@@ -202,7 +202,7 @@
                   <!-- Admin Editing Their Own Recipe: Direct Edit Link -->
                   <a
                     href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-                    class="btn green accent-4">
+                    class="btn green darken-1">
                     Edit
                   </a>
                 {% endif %}
@@ -210,7 +210,7 @@
                 <!-- Regular User Editing Their Own Recipe: Direct Edit Link -->
                 <a
                   href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-                  class="btn green accent-4">
+                  class="btn green darken-4">
                   Edit
                 </a>
               {% endif %}
@@ -218,7 +218,7 @@
               <!-- Delete Button -->
               <button
                 id="modalDelete-{{ recipe.recipe_id }}"
-                class="btn red modal-trigger"
+                class="btn red darken-4 modal-trigger"
                 type="button"
                 data-target="modal-delete-{{ recipe.recipe_id }}">
                 Delete Recipe
@@ -234,18 +234,18 @@
           <h4>Confirm Recipe Deletion!</h4>
           <p>Are you sure you want to delete this recipe?</p>
           {% if current_user.is_admin and recipe.user.id != current_user.id %}
-            <div class="red">
-              <p class="red">WARNING!</p>
+            <div class="red warning-message">
+              <p class="warning-title"><i class="fas fa-exclamation-triangle"></i> WARNING!</p>
               <p>This recipe belongs to: {{ recipe.user.username }}</p>
               <p>Are you sure you want to delete it?</p>
             </div>
           {% endif %}
         </div>
         <div class="modal-footer">
-          <button class="modal-close btn green" type="button">Cancel</button>
+          <button class="modal-close btn green darken-4" type="button">Cancel</button>
           <a
             href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}"
-            class="btn red">
+            class="btn red darken-4">
             Delete
           </a>
         </div>
@@ -257,17 +257,17 @@
           <div class="modal-content">
             <h4>Confirm Recipe Edit!</h4>
             <p>Are you sure you want to edit this recipe?</p>
-            <div class="red">
-              <p class="red">WARNING!</p>
+            <div class="red warning-message">
+              <p class="warning-title"><i class="fas fa-exclamation-triangle"></i> WARNING!</p>
               <p>This recipe belongs to: {{ recipe.user.username }}</p>
               <p>Are you sure you want to edit it?</p>
             </div>
           </div>
           <div class="modal-footer">
-            <button class="modal-close btn green" type="button">Cancel</button>
+            <button class="modal-close btn green darken-4" type="button">Cancel</button>
             <a
               href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-              class="btn blue">
+              class="btn blue darken-4">
               Edit
             </a>
           </div>

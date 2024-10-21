@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
+
 *,
 *::before,
 *::after {
@@ -5,6 +7,7 @@
 }
 
 body {
+  font-family: poppins;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -16,6 +19,27 @@ main {
 
 img {
   padding: 10px;
+}
+
+.nav-wrapper,
+.page-footer {
+  font-family: rubik;
+  background-color: #992d38 !important;
+}
+
+nav {
+  background-color: #992d38 !important;
+}
+
+.hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0, 0, 0, 0);
+  overflow: hidden;
 }
 
 .image-container {
@@ -105,6 +129,34 @@ input {
 
 .admin-text {
   margin-right: 10px;
+}
+
+.warning-message {
+  background-color: #FFB5BD; /* Soft pinkish red background */
+  color: #ffffff; /* Darker red text for contrast */
+  border: 3px solid #B71C1C; /* Bold red border */
+  padding: 20px; /* Add padding to create space */
+  border-radius: 8px; /* Smooth the edges */
+  font-size: 1.2rem; /* Increase font size for readability */
+  text-align: center; /* Center align the text */
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow to make it pop */
+}
+
+.warning-title {
+  font-size: 1.5rem; /* Make the "WARNING!" text larger */
+  font-weight: bold; /* Bold the title */
+}
+
+.warning-title i {
+  margin-right: 8px; /* Space between icon and text */
+}
+
+.warning-message p {
+  margin: 10px 0;
+}
+
+.warning-message strong {
+  color: #ffffff; /* Stronger red for emphasis */
 }
 
 /* Specific to Navbar Search Fields */

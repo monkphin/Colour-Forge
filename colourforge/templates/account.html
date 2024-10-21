@@ -31,7 +31,7 @@
               class="validate" >
             <label for="password-email-{{ user.id }}">Please enter your password</label>
           </div>
-          <button type="submit" id="submitChangeEmailButton" class="btn">Change Email</button>
+          <button type="submit" id="submitChangeEmailButton" class="btn teal darken-2">Change Email</button>
         </form>
 
         <!-- Change Password Section -->
@@ -71,7 +71,7 @@
               <label for="password2-{{ user.id }}">Confirm New Password</label>
             </div>
           </div>
-          <button type="submit" id="submitResetPasswordButton" class="btn">Reset Password</button>
+          <button type="submit" id="submitResetPasswordButton" class="btn teal darken-2">Reset Password</button>
         </form>
 
         <!-- Delete Account Section -->
@@ -90,7 +90,7 @@
           </div>
           <button
             id="modalDelete-{{ user.id }}"
-            class="btn red modal-trigger"
+            class="btn red darken-4 modal-trigger"
             type="button"
             data-target="modal1-{{ user.id }}">
             Delete Account
@@ -104,8 +104,8 @@
             <p>Are you sure you want to delete your account?</p>
           </div>
           <div class="modal-footer">
-            <button class="modal-close btn green" type="button">Cancel</button>
-            <button type="submit" class="btn red" form="delete-account-form-{{ user.id }}">Delete</button>
+            <button class="modal-close btn green darken-4" type="button">Cancel</button>
+            <button type="submit" class="btn red darken-4" form="delete-account-form-{{ user.id }}">Delete</button>
           </div>
         </div>
 

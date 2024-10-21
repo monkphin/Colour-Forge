@@ -18,7 +18,7 @@
             {% else %}
               <p>You have no recipes currently, add one?</p>
             {% endif %}
-            <a href="{{ url_for('routes.add_recipe') }}" class="btn-small light-blue">Add Recipe</a>
+            <a href="{{ url_for('routes.add_recipe') }}" class="btn-small indigo">Add Recipe</a>
           </div>
         </div>
       </div>
@@ -27,7 +27,7 @@
   </div>
 
   <!-- Member Recipes Section -->
-  <h3 class="center-align">Member Recipes</h3>
+  <h1 class="center-align">My Recipes</h1>
   <div class="row">
     {% for recipe in recipes %}
       <div class="col s6 m4 recipe-cards">
