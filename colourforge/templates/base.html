@@ -28,6 +28,7 @@
   </head>
   <body>
     <header>
+      
       <!--Desktop Nav-->
       <nav>
         <div class="nav-wrapper">
@@ -49,7 +50,6 @@
             <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
             <li class="input-field">
               <form action="{{ url_for('routes.search') }}" method="GET">
-                
                   <input
                     type="search"
                     id="desktop-search"
@@ -58,7 +58,6 @@
                     class="navbar-search desktop-search"
                     required
                   >
-                
               </form>
             </li>
             {% else %}
@@ -73,11 +72,10 @@
           </ul>
         </div>
       </nav>
+
       <!--Mobile Nav-->
-      <div class="image-container">
-      </div>
       <ul class="sidenav" id="mobile-demo">
-        <li><img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" ></li>
+        <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" ></li>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
         <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
