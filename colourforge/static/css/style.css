@@ -1,5 +1,3 @@
-@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
-
 *,
 *::before,
 *::after {
@@ -7,7 +5,6 @@
 }
 
 body {
-  font-family: poppins;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
@@ -19,27 +16,6 @@ main {
 
 img {
   padding: 10px;
-}
-
-.nav-wrapper,
-.page-footer {
-  font-family: rubik;
-  background-color: #992d38 !important;
-}
-
-nav {
-  background-color: #992d38 !important;
-}
-
-.hidden {
-  position: absolute;
-  width: 1px;
-  height: 1px;
-  margin: -1px;
-  padding: 0;
-  border: 0;
-  clip: rect(0, 0, 0, 0);
-  overflow: hidden;
 }
 
 .image-container {
@@ -74,7 +50,6 @@ input {
 .col.s6.m4.recipe-cards {
   display: flex;
   flex-direction: column;
-  height: 380px;
 }
 
 .inline-lists {
@@ -119,49 +94,17 @@ input {
 
 /* Initial state of the caret icon */
 .caret-icon {
-  transition: transform 0.3s ease; 
-  display: inline-block; 
+  transition: transform 0.3s ease; /* Smooth transition */
+  display: inline-block; /* Ensure it can be rotated */
 }
 
 /* Rotate the caret icon when the header is active (opened) */
 .collapsible-header.active .caret-icon {
-  transform: rotate(90deg); 
+  transform: rotate(90deg); /* Adjust rotation as needed */
 }
 
 .admin-text {
   margin-right: 10px;
-}
-
-.pagination li.active {
-  background-color: #b71c1c;
-}
-
-.warning-message {
-  background-color: #FFB5BD; 
-  color: #ffffff; 
-  border: 3px solid #B71C1C; 
-  padding: 20px; 
-  border-radius: 8px; 
-  font-size: 1.2rem; 
-  text-align: center; 
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
-}
-
-.warning-title {
-  font-size: 1.5rem; 
-  font-weight: bold; 
-}
-
-.warning-title i {
-  margin-right: 8px; 
-}
-
-.warning-message p {
-  margin: 10px 0;
-}
-
-.warning-message strong {
-  color: #ffffff; 
 }
 
 /* Specific to Navbar Search Fields */
@@ -172,13 +115,13 @@ input {
 
 /* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
 .navbar-search::placeholder {
-  color: white; 
+  color: white; /* Replace with your desired color for desktop/general */
   opacity: 1;
 }
 
 /* Input Text Style When Focused (Desktop and General) */
 .navbar-search:focus {
-  color: #000000; 
+  color: #000000; /* User-typed text color when the navbar input is focused */
 }
 
 /* Mobile Specific Styles */
@@ -191,7 +134,7 @@ input {
 
   /* Placeholder Text Style When Input is Focused (Mobile) */
   .mobile-search::placeholder {
-    color: #555555; 
-    opacity: 1; 
+    color: #555555; /* Replace with your desired color for mobile-specific placeholder */
+    opacity: 1; /* Optional: Makes sure the color is fully opaque */
   }
 }

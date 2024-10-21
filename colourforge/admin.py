@@ -9,6 +9,7 @@ from flask import (
 )
 from flask_login import login_required, current_user, login_user, logout_user
 from werkzeug.security import generate_password_hash, check_password_hash
+from math import ceil
 
 # Local imports
 from colourforge import db
@@ -198,10 +199,22 @@ def recipe_admin():
         Response: The rendered admin recipes page.
     """
     recipes = Recipe.query.all()
+
+    page = request.args.get('page', 1, type=int)
+    per_page = 6  # Recipes per page
+    total = len(recipes)
+    total_pages = ceil(total / per_page)
+
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_recipes = recipes[start:end]
+
     return render_template(
-        "recipe_admin.html",
-        user=current_user,
-        recipes=recipes
+        "recipe_admin.html", 
+        recipes=paginated_recipes, 
+        page=page, 
+        total_pages=total_pages, 
+        user=current_user
     )
 
 

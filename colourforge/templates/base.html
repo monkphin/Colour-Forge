@@ -33,7 +33,7 @@
       <nav>
         <div class="nav-wrapper">
           <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
-          <a href="#" data-target="mobile-demo" class="sidenav-trigger">
+          <a href="#" data-target="mobile-nav" class="sidenav-trigger">
             <i class="material-icons">menu</i>
           </a>
           <ul class="right hide-on-med-and-down">
@@ -75,7 +75,7 @@
       </nav>
 
       <!--Mobile Nav-->
-      <ul class="sidenav" id="mobile-demo">
+      <ul class="sidenav" id="mobile-nav">
         <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" ></li>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
