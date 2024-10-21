@@ -21,7 +21,7 @@
                 name="recipe_search"
                 class="validate"
                 placeholder="Search for Recipe Names..."
-                required />
+                required >
               <label for="recipe_search">Search</label>
             </div>
 
@@ -59,12 +59,12 @@
                           <img
                             src="{{ stage.recipe_images[0].thumbnail_url }}"
                             alt="{{ stage.recipe_images[0].alt_text }}"
-                            class="responsive-img" />
+                            class="responsive-img" >
                         {% else %}
                           <img
                             src="{{ url_for('static', filename='images/placeholder.png') }}"
                             alt="Default Image"
-                            class="responsive-img" />
+                            class="responsive-img" >
                         {% endif %}
                       {% endif %}
                     {% endfor %}
@@ -99,12 +99,12 @@
                           <img
                             src="{{ stage.recipe_images[0].thumbnail_url }}"
                             alt="{{ stage.recipe_images[0].alt_text }}"
-                            class="responsive-img" />
+                            class="responsive-img" >
                         {% else %}
                           <img
                             src="{{ url_for('static', filename='images/placeholder.png') }}"
                             alt="Default Image"
-                            class="responsive-img" />
+                            class="responsive-img" >
                         {% endif %}
                       {% endif %}
                     {% endfor %}
@@ -143,7 +143,7 @@
                 name="recipe_search"
                 class="validate"
                 placeholder="Search for Recipe Names..."
-                required />
+                required >
               <label for="recipe_search">Search</label>
             </div>
 

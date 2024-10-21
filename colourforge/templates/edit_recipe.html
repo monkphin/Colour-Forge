@@ -22,7 +22,7 @@
           type="text"
           class="validate"
           value="{{ recipe.recipe_name }}"
-          required />
+          required >
         <label for="recipe_name">Recipe Name (required)</label>
       </div>
     </div>
@@ -49,7 +49,7 @@
           id="tags_input"
           name="tags"
           data-url="{{ url_for('routes.autocomplete_tags') }}"
-          value="{% if recipe.entity_tags %}{{ recipe.entity_tags | selectattr('recipe_tag') | map(attribute='recipe_tag.tag_name') | join(', ') }}{% endif %}" />
+          value="{% if recipe.entity_tags %}{{ recipe.entity_tags | selectattr('recipe_tag') | map(attribute='recipe_tag.tag_name') | join(', ') }}{% endif %}" >
         <label for="tags_input">Tags (Optional, comma separated)</label>
       </div>
     </div>
@@ -60,11 +60,11 @@
       <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
         <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
         <!-- Hidden input to track existing stage IDs -->
-        <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}" />
+        <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}" >
         <input
           type="hidden"
           name="stage_nums[]"
-          value="{{ stage.stage_num }}" />
+          value="{{ stage.stage_num }}" >
 
         <!-- Instruction Field -->
         <div class="input-field col s7">
@@ -89,7 +89,7 @@
           <img
             src="{{ stage.recipe_images[0].thumbnail_url }}"
             alt="{{ stage.recipe_images[0].alt_text }}"
-            class="responsive-img" />
+            class="responsive-img" >
           <p>{{ stage.recipe_images[0].alt_text }}</p>
           <button
             class="delete_image_button btn red lighten-1"
@@ -101,12 +101,12 @@
           <input
             type="hidden"
             name="image_ids[]"
-            value="{{ stage.recipe_images[0].image_id }}" />
+            value="{{ stage.recipe_images[0].image_id }}" >
           <input
             type="hidden"
             name="delete_image_{{ stage.stage_num }}"
             value="false"
-            class="delete_image_flag" />
+            class="delete_image_flag" >
         </div>
         {% else %}
         <!-- Placeholder Image Container -->
@@ -116,7 +116,7 @@
           <img
             src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png"
             alt="Default Image"
-            class="responsive-img" />
+            class="responsive-img" >
           <button
             type="button"
             class="delete_image_button btn red lighten-1"
@@ -124,12 +124,12 @@
             Delete Image
           </button>
           <!-- Hidden input to track image ID and deletion flag -->
-          <input type="hidden" name="image_ids[]" value="" />
+          <input type="hidden" name="image_ids[]" value="" >
           <input
             type="hidden"
             name="delete_image_{{ stage.stage_num }}"
             value="false"
-            class="delete_image_flag" />
+            class="delete_image_flag" >
         </div>
         {% endif %}
 
@@ -141,13 +141,13 @@
           <div class="file-field input-field">
             <div class="btn">
               <span>Upload New Image</span>
-              <input type="file" name="images[]" accept="image/*" />
+              <input type="file" name="images[]" accept="image/*" >
             </div>
             <div class="file-path-wrapper">
               <input
                 class="file-path validate"
                 type="text"
-                placeholder="Stage {{ stage.stage_num }} image" />
+                placeholder="Stage {{ stage.stage_num }} image" >
             </div>
             <!-- Alt Text Field -->
             <div class="input-field">

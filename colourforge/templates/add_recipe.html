@@ -20,7 +20,7 @@
           maxlength="55"
           type="text"
           class="validate"
-          required />
+          required >
         <label for="recipe_name">Recipe Name (required)</label>
       </div>
     </div>
@@ -41,13 +41,13 @@
           type="text"
           id="tags_input"
           name="tags"
-          data-url="{{ url_for('routes.autocomplete_tags') }}" />
+          data-url="{{ url_for('routes.autocomplete_tags') }}" >
         <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
     </div>
 
     <h5>Recipe Stages</h5>
-    <hr />
+    <hr >
     <!-- Initial Stage for Instructions and Images -->
     <div class="row multi-stage">
       <!-- Instructions Textarea -->
@@ -64,13 +64,13 @@
         <div class="file-field input-field">
           <div class="btn">
             <span>Add Image</span>
-            <input type="file" name="images[]" accept="image/*" />
+            <input type="file" name="images[]" accept="image/*" >
           </div>
           <div class="file-path-wrapper">
             <input
               class="file-path validate"
               type="text"
-              placeholder="Stage 1 image" />
+              placeholder="Stage 1 image" >
           </div>
           <!-- Alt Text Field -->
           <div class="input-field">

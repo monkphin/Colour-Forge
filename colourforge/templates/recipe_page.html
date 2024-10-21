@@ -36,14 +36,14 @@
                   <img
                     class="activator"
                     src="{{ stage.recipe_images[0].thumbnail_url }}"
-                    alt="{{ stage.recipe_images[0].alt_text }}" />
+                    alt="{{ stage.recipe_images[0].alt_text }}" >
                 </a>
               {% else %}
                 <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
                   <img
                     class="activator"
                     src="{{ url_for('static', filename='images/placeholder.png') }}"
-                    alt="Default Image" />
+                    alt="Default Image" >
                 </a>
               {% endif %}
 
@@ -55,13 +55,13 @@
                       <img
                         src="{{ image.image_url }}"
                         alt="{{ image.alt_text }}"
-                        class="responsive-img" />
+                        class="responsive-img" >
                     {% endfor %}
                   {% else %}
                     <img
                       src="{{ url_for('static', filename='images/placeholder.png') }}"
                       alt="Default Image"
-                      class="responsive-img" />
+                      class="responsive-img" >
                   {% endif %}
                 </div>
                 <div class="modal-footer">
@@ -121,14 +121,14 @@
                         <img
                           class="activator responsive-img"
                           src="{{ stage.recipe_images[0].thumbnail_url }}"
-                          alt="{{ stage.recipe_images[0].alt_text }}" />
+                          alt="{{ stage.recipe_images[0].alt_text }}" >
                       </a>
                     {% else %}
                       <a class="waves-effect waves-light modal-trigger" href="#modal-stage{{ stage.stage_id }}">
                         <img
                           class="activator responsive-img"
                           src="{{ url_for('static', filename='images/placeholder.png') }}"
-                          alt="Default Image" />
+                          alt="Default Image" >
                       </a>
                     {% endif %}
                   </div>
@@ -142,13 +142,13 @@
                         <img
                           src="{{ image.image_url }}"
                           alt="{{ image.alt_text }}"
-                          class="responsive-img" />
+                          class="responsive-img" >
                       {% endfor %}
                     {% else %}
                       <img
                         src="{{ url_for('static', filename='images/placeholder.png') }}"
                         alt="Default Image"
-                        class="responsive-img" />
+                        class="responsive-img" >
                     {% endif %}
                   </div>
                   <div class="modal-footer">

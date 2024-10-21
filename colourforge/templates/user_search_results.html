@@ -26,7 +26,7 @@
               name="user_search"
               class="validate"
               placeholder="Search for Username..."
-              required />
+              required >
             <label for="user_search">Search</label>
           </div>
 
@@ -67,7 +67,7 @@
                       minlength="5"
                       maxlength="55"
                       class="validate"
-                      required />
+                      required >
                     <label for="email-{{ user.id }}">Email Address</label>
                   </div>
                   <button type="submit" class="btn">Change Email</button>
@@ -86,7 +86,7 @@
                         minlength="7"
                         maxlength="100"
                         class="validate"
-                        required />
+                        required >
                       <label for="password1-{{ user.id }}">Enter Password</label>
                     </div>
                   </div>
@@ -99,7 +99,7 @@
                         minlength="7"
                         maxlength="100"
                         class="validate"
-                        required />
+                        required >
                       <label for="password2-{{ user.id }}">Confirm Password</label>
                     </div>
                   </div>
@@ -121,7 +121,7 @@
                             type="checkbox"
                             name="is_admin"
                             id="is_admin_{{ user.id }}"
-                            {% if user.is_admin %}checked{% endif %} />
+                            {% if user.is_admin %}checked{% endif %} >
                           <span class="lever"></span>
                           On
                         </label>
@@ -156,7 +156,7 @@
                       minlength="5"
                       maxlength="55"
                       class="validate"
-                      required />
+                      required >
                     <label for="email-{{ user.id }}">Email Address</label>
                   </div>
                   <button type="submit" class="btn">Change Email</button>
@@ -175,7 +175,7 @@
                         minlength="7"
                         maxlength="100"
                         class="validate"
-                        required />
+                        required >
                       <label for="password1-{{ user.id }}">Enter Password</label>
                     </div>
                   </div>
@@ -188,7 +188,7 @@
                         minlength="7"
                         maxlength="100"
                         class="validate"
-                        required />
+                        required >
                       <label for="password2-{{ user.id }}">Confirm Password</label>
                     </div>
                   </div>
@@ -210,7 +210,7 @@
                             type="checkbox"
                             name="is_admin"
                             id="is_admin_{{ user.id }}"
-                            {% if user.is_admin %}checked{% endif %} />
+                            {% if user.is_admin %}checked{% endif %} >
                           <span class="lever"></span>
                           On
                         </label>
