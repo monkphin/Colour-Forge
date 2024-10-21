@@ -74,6 +74,7 @@ input {
 .col.s6.m4.recipe-cards {
   display: flex;
   flex-direction: column;
+  height: 380px;
 }
 
 .inline-lists {
