@@ -118,37 +118,41 @@ input {
 
 /* Initial state of the caret icon */
 .caret-icon {
-  transition: transform 0.3s ease; /* Smooth transition */
-  display: inline-block; /* Ensure it can be rotated */
+  transition: transform 0.3s ease; 
+  display: inline-block; 
 }
 
 /* Rotate the caret icon when the header is active (opened) */
 .collapsible-header.active .caret-icon {
-  transform: rotate(90deg); /* Adjust rotation as needed */
+  transform: rotate(90deg); 
 }
 
 .admin-text {
   margin-right: 10px;
 }
 
+.pagination li.active {
+  background-color: #b71c1c;
+}
+
 .warning-message {
-  background-color: #FFB5BD; /* Soft pinkish red background */
-  color: #ffffff; /* Darker red text for contrast */
-  border: 3px solid #B71C1C; /* Bold red border */
-  padding: 20px; /* Add padding to create space */
-  border-radius: 8px; /* Smooth the edges */
-  font-size: 1.2rem; /* Increase font size for readability */
-  text-align: center; /* Center align the text */
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); /* Add shadow to make it pop */
+  background-color: #FFB5BD; 
+  color: #ffffff; 
+  border: 3px solid #B71C1C; 
+  padding: 20px; 
+  border-radius: 8px; 
+  font-size: 1.2rem; 
+  text-align: center; 
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
 .warning-title {
-  font-size: 1.5rem; /* Make the "WARNING!" text larger */
-  font-weight: bold; /* Bold the title */
+  font-size: 1.5rem; 
+  font-weight: bold; 
 }
 
 .warning-title i {
-  margin-right: 8px; /* Space between icon and text */
+  margin-right: 8px; 
 }
 
 .warning-message p {
@@ -156,7 +160,7 @@ input {
 }
 
 .warning-message strong {
-  color: #ffffff; /* Stronger red for emphasis */
+  color: #ffffff; 
 }
 
 /* Specific to Navbar Search Fields */
@@ -167,13 +171,13 @@ input {
 
 /* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
 .navbar-search::placeholder {
-  color: white; /* Replace with your desired color for desktop/general */
+  color: white; 
   opacity: 1;
 }
 
 /* Input Text Style When Focused (Desktop and General) */
 .navbar-search:focus {
-  color: #000000; /* User-typed text color when the navbar input is focused */
+  color: #000000; 
 }
 
 /* Mobile Specific Styles */
@@ -186,7 +190,7 @@ input {
 
   /* Placeholder Text Style When Input is Focused (Mobile) */
   .mobile-search::placeholder {
-    color: #555555; /* Replace with your desired color for mobile-specific placeholder */
-    opacity: 1; /* Optional: Makes sure the color is fully opaque */
+    color: #555555; 
+    opacity: 1; 
   }
 }
