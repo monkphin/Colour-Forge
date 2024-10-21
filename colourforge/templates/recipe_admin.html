@@ -42,39 +42,33 @@
     {% for recipe in recipes %}
       <div class="col s6">
         <div class="card">
+          <div class="card-image waves-effect waves-block waves-light">
+            {% for stage in recipe.stages %}
+              {% if stage.is_final_stage %}
+                {% if stage.recipe_images %}
+                  <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                    <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
+                  </a>
+                {% else %}
+                  <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" >
+                {% endif %}
+              {% endif %}
+            {% endfor %}
+          </div>
           <div class="card-content">
-            <div class="row valign-wrapper">
-              <div class="col s12">
-                <span class="card-title">{{ recipe.recipe_name }}</span>
-                <p>Created By: {{ recipe.user.username }}</p>
-              </div>
-            </div>
-            <div class="row valign-wrapper">
-              <div class="col s8">
-                {% for stage in recipe.stages %}
-                  {% if stage.is_final_stage %}
-                    {% if stage.recipe_images %}
-                      <img
-                        src="{{ stage.recipe_images[0].thumbnail_url }}"
-                        alt="{{ stage.recipe_images[0].alt_text }}"
-                        class="responsive-img" >
-                    {% else %}
-                      <img
-                        src="{{ url_for('static', filename='images/placeholder.png') }}"
-                        alt="Default Image"
-                        class="responsive-img" >
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <div class="col s4 center-align">
-                <a
-                  href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}"
-                  class="btn teal darken-2">
-                  View
-                </a>
-              </div>
-            </div>
+            <p class="grey-text text-darken-4">{{ recipe.recipe_name }}</p>
+            <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
+            <p>
+              <span class="activator grey-text text-darken-4">
+                <i class="fas fa-caret-up"> Recipe Description</i>
+              </span>
+            </p>
+          </div>
+          <div class="card-reveal">
+            <span class="card-title grey-text text-darken-4">
+              <i class="fas fa-caret-down"> Close</i>
+            </span>
+            <p>{{ recipe.recipe_desc }}</p>
           </div>
         </div>
       </div>

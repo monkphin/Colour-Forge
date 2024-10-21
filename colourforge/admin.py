@@ -221,7 +221,7 @@ def user_search():
         flash("No users found that match your search", category="info")
 
     return render_template(
-        'user_search_results.html',
+        'admin_user_search_results.html',
         users=matching_users,
         search=search
     )
@@ -243,7 +243,7 @@ def recipe_search():
         flash("No recipes found that match your search", category="info")
 
     return render_template(
-        'recipe_search_results.html',
+        'admin_recipe_search_results.html',
         recipes=matching_recipes,
         search=search
     )

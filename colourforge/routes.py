@@ -237,7 +237,7 @@ def search():
                 matching_recipes.append(recipe)
 
     return render_template(
-        'recipe_search_results.html',
+        'tag_search_results.html',
         recipes=matching_recipes,
         search=search
     )
