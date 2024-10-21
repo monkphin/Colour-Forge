@@ -74,10 +74,10 @@
         </div>
       </nav>
       <!--Mobile Nav-->
+      <div class="image-container">
+        <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" >
+      </div>
       <ul class="sidenav" id="mobile-demo">
-        <div class="image-container">
-          <img class="site_logo" src="{{ url_for('static', filename='images/logo.png') }}" alt="site logo" >
-        </div>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
         <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
