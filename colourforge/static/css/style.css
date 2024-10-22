@@ -12,6 +12,12 @@
   box-sizing: border-box;
 }
 
+::placeholder {
+  color: #333;
+  opacity: 1;
+}
+
+
 /* Set default font and layout for body */
 body {
   font-family: 'Poppins', sans-serif;
@@ -67,12 +73,20 @@ nav {
    Navigation Styles
    ============================================================= */
 
+/* Adjust brand logo */
+.brand-logo {
+  font-size: 1.8rem;
+  padding-left: 15px;
+}
+
 /* Navbar Links */
 nav ul a {
   font-size: 1em;
   color: #ffffff;
   transition: color 0.3s ease, background-color 0.3s ease;
   border-radius: 4px;
+  padding-left: 10px;
+  padding-right: 10px;
 }
 
 /* Hover effect for navbar links */
@@ -389,42 +403,42 @@ nav ul a:active {
    Navbar Search Styles
    ============================================================= */
 
-/* Navbar Search Input */
-.navbar-search {
-  font-size: 1em;
-  height: auto;
-  border-radius: 4px;
-  width: 100%;
-  box-sizing: border-box;
-  padding-left: 0 !important;
-  padding-right: 40px !important;
+/* Style the search form within dropdowns */
+.dropdown-content .search-form {
+  padding: 10px;        
+  background-color: #992d38; 
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); 
+  width: 500px;
 }
 
-/* Placeholder Text Style for Navbar Search Fields */
-.navbar-search::placeholder {
+/* Style the input field */
+.dropdown-content .search-form input[type="search"] {
+  width: 100%;  
+  color: #000;
+  padding: 8px 10px 8px 10px; 
+  border: 1px solid #000; 
+  border-radius: 4px; 
+  background-color: #fff; 
+  box-sizing: border-box; 
   font-size: 1em;
-  color: #ffffff; 
-  opacity: 1;
 }
 
-/* Input Text Style When Focused */
-.navbar-search:focus {
-  font-size: 1em;
-  color: #000000; 
+.dropdown-content .search-form .fa-times:hover {
+  color: #000;
+}
+
+/* Optional: Adjust the label color for better visibility */
+.dropdown-content .search-form label {
+  color: #333;
 }
 
 /* =============================================================
    Search Form Styles
    ============================================================= */
 
-/* Button Column in Search Form */
-.button-col {
-  margin-top: 20px;
-}
-
   /* Placeholder Text Style When Input is Focused (Mobile) */
   .mobile-search::placeholder {
-    color: #555555; 
+    color: #000000; 
     opacity: 1; 
   }
 

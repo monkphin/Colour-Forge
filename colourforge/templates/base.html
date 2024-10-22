@@ -29,50 +29,63 @@
   <body>
     <header>
 
-      <!--Desktop Nav-->
-      <nav>
-        <div class="nav-wrapper">
-          <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
-          <a href="#" data-target="mobile-nav" class="sidenav-trigger">
-            <i class="material-icons">menu</i>
-          </a>
-          <ul class="right hide-on-med-and-down">
-            {% if current_user.is_authenticated %}
-            <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-            <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
-            <li><a href="{{ url_for('auth.account') }}">Account</a></li>
-            {% if current_user.is_admin %}
-            <li>
-              <a class="dropdown-trigger" href="#!" data-target="dropdown1">Admin Panels</a>
-            </li>
-            {% endif %}
-            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
-            <li class="input-field">
-              <form action="{{ url_for('routes.search') }}" method="GET">
-                  <input
-                    type="search"
-                    id="desktop-search"
-                    name="search"
-                    placeholder="Search for Recipe Tags..."
-                    class="navbar-search desktop-search"
-                    required
-                  >
-              </form>
-              <label for="desktop-search" class="hidden">Search for Recipe Tags...</label>
-            </li>
-            {% else %}
-            <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
-            {% endif %}
-          </ul>
-          <ul id="dropdown1" class="dropdown-content">
-            <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
-            <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
-          </ul>
-        </div>
-      </nav>
+ <!-- Desktop Nav -->
+<nav>
+  <div class="nav-wrapper">
+    <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
+    <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+      <i class="fas fa-bars"></i>
+    </a>
+    <ul class="right hide-on-med-and-down">
+      {% if current_user.is_authenticated %}
+      <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+      <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
+      <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+      {% if current_user.is_admin %}
+      <li>
+        <a class="dropdown-trigger" href="#!" data-target="dropdown1">Admin Panels</a>
+      </li>
+      {% endif %}
+      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+      <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+      
+      <!-- Search Dropdown Trigger -->
+      <li>
+        <a class="dropdown-trigger" href="#!" data-target="search-dropdown">Search</a>
+      </li>
+      {% else %}
+      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+      <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+      {% endif %}
+    </ul>
+    
+    <!-- Existing Dropdown for Admin Panels -->
+    <ul id="dropdown1" class="dropdown-content">
+      <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
+      <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
+    </ul>
+    
+    <!-- Search Dropdown Content -->
+    <ul id="search-dropdown" class="dropdown-content">
+      <li>
+        <form action="{{ url_for('routes.search') }}" method="GET" class="search-form">
+          <div class="input-field">
+            <input
+              type="search"
+              id="dropdown-search"
+              name="search"
+              placeholder="Search for Recipe Tags..."
+              required
+              autocomplete="off"
+            >
+            <label for="dropdown-search" class="active">Search for Recipe Tags...</label>
+          </div>
+        </form>
+      </li>
+    </ul>
+  </div>
+</nav>
 
       <!--Mobile Nav-->
       <ul class="sidenav" id="mobile-nav">
@@ -86,6 +99,7 @@
         <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
         {% endif %}
         <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+        <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
         <li>
           <form action="{{ url_for('routes.search') }}" method="GET">
             <div class="input-field">
@@ -104,6 +118,7 @@
         {% else %}
         <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
         <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+        <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
         {% endif %}
       </ul>
     </header>

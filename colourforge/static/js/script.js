@@ -40,9 +40,13 @@ document.addEventListener("DOMContentLoaded", function () {
     outDuration: 200,
   });
 
-  //init dropdown - Commenting out since I'm not sure I want to use this
-  const dropdownElems = document.querySelectorAll(".dropdown-trigger");
-  const dropdownInstances = M.Dropdown.init(dropdownElems);
+  //init dropdown
+  var dropdownElems = document.querySelectorAll('.dropdown-trigger');
+  M.Dropdown.init(dropdownElems, {
+    constrainWidth: false,
+    coverTrigger: false,
+    closeOnClick: false 
+  });
 
   // Custom JS
 
@@ -132,14 +136,7 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 
   // Reset contents of search boxes when user clicks away (using blur event)
-  const desktopSearchBox = document.getElementById("desktop-search");
   const mobileSearchBox = document.getElementById("mobile-search");
-
-  if (desktopSearchBox) {
-    desktopSearchBox.addEventListener("blur", function () {
-      desktopSearchBox.value = "";
-    });
-  }
 
   if (mobileSearchBox) {
     mobileSearchBox.addEventListener("blur", function () {
