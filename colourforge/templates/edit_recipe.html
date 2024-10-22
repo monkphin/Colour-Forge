@@ -4,16 +4,18 @@
 
 <h2>Edit Recipe</h2>
 
-<div class="row card-panel grey lighten-5">
+<!-- Scrollable Form Container -->
+<div class="row card-panel grey lighten-5 form-scrollable">
   <form
     class="col s12"
     method="POST"
     action="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
     enctype="multipart/form-data">
     <h5>Recipe Details</h5>
+    
+    <!-- Recipe Name -->
     <div class="row">
       <div class="input-field col s12">
-        <!-- Recipe Name field -->
         <input
           id="recipe_name"
           name="recipe_name"
@@ -27,21 +29,19 @@
       </div>
     </div>
 
+    <!-- Recipe Description -->
     <div class="row">
       <div class="input-field col s12">
-        <!-- Recipe Description field -->
         <textarea
           id="recipe_desc"
           name="recipe_desc"
           class="materialize-textarea"
-          required>
-{{ recipe.recipe_desc }}</textarea
-        >
+          required>{{ recipe.recipe_desc }}</textarea>
         <label for="recipe_desc">Recipe Description (required)</label>
       </div>
     </div>
 
-    <!-- Tags field -->
+    <!-- Tags -->
     <div class="row">
       <div class="input-field col s12">
         <input
@@ -59,12 +59,10 @@
       {% for stage in recipe.stages %}
       <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
         <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
-        <!-- Hidden input to track existing stage IDs -->
+        
+        <!-- Hidden Inputs -->
         <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}" >
-        <input
-          type="hidden"
-          name="stage_nums[]"
-          value="{{ stage.stage_num }}" >
+        <input type="hidden" name="stage_nums[]" value="{{ stage.stage_num }}" >
 
         <!-- Instruction Field -->
         <div class="input-field col s12 m7">
@@ -72,20 +70,14 @@
             id="instructions_{{ stage.stage_num }}"
             name="instructions[]"
             class="materialize-textarea"
-            required>
-{{ stage.instructions }}</textarea
-          >
-          <label for="instructions_{{ stage.stage_num }}"
-            >Stage {{ stage.stage_num }} Instructions (required)</label
-          >
+            required>{{ stage.instructions }}</textarea>
+          <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
         </div>
 
         <!-- Image Container or File Input Container -->
         {% if stage.recipe_images %}
         <!-- Existing Image Container -->
-        <div
-          id="image_container_{{ stage.stage_num }}"
-          class="col s12 m5 center-align">
+        <div id="image_container_{{ stage.stage_num }}" class="col s12 m5 center-align">
           <img
             src="{{ stage.recipe_images[0].thumbnail_url }}"
             alt="{{ stage.recipe_images[0].alt_text }}"
@@ -97,22 +89,13 @@
             data-stage-num="{{ stage.stage_num }}">
             Delete Image
           </button>
-          <!-- Hidden input to track image ID and deletion flag -->
-          <input
-            type="hidden"
-            name="image_ids[]"
-            value="{{ stage.recipe_images[0].image_id }}" >
-          <input
-            type="hidden"
-            name="delete_image_{{ stage.stage_num }}"
-            value="false"
-            class="delete_image_flag" >
+          <!-- Hidden Inputs -->
+          <input type="hidden" name="image_ids[]" value="{{ stage.recipe_images[0].image_id }}" >
+          <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag" >
         </div>
         {% else %}
         <!-- Placeholder Image Container -->
-        <div
-          id="image_container_{{ stage.stage_num }}"
-          class="col s12 m5 center-align">
+        <div id="image_container_{{ stage.stage_num }}" class="col s12 m5 center-align">
           <img
             src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-mid.webp"
             alt="Default Image"
@@ -123,31 +106,21 @@
             data-stage-num="{{ stage.stage_num }}">
             Delete Image
           </button>
-          <!-- Hidden input to track image ID and deletion flag -->
+          <!-- Hidden Inputs -->
           <input type="hidden" name="image_ids[]" value="" >
-          <input
-            type="hidden"
-            name="delete_image_{{ stage.stage_num }}"
-            value="false"
-            class="delete_image_flag" >
+          <input type="hidden" name="delete_image_{{ stage.stage_num }}" value="false" class="delete_image_flag" >
         </div>
         {% endif %}
 
         <!-- File Input Container (Hidden on load) -->
-        <div
-          id="file_input_container_{{ stage.stage_num }}"
-          class="col s12 m5"
-          style="display: none">
+        <div id="file_input_container_{{ stage.stage_num }}" class="col s12 m5" style="display: none">
           <div class="file-field input-field">
             <div class="btn">
               <span>Upload New Image</span>
               <input type="file" name="images[]" accept="image/*" >
             </div>
             <div class="file-path-wrapper">
-              <input
-                class="file-path validate"
-                type="text"
-                placeholder="Stage {{ stage.stage_num }} image" >
+              <input class="file-path validate" type="text" placeholder="Stage {{ stage.stage_num }} image" >
             </div>
             <!-- Alt Text Field -->
             <div class="input-field">
@@ -155,9 +128,7 @@
                 id="image_desc_{{ stage.stage_num }}"
                 name="image_desc[]"
                 class="materialize-textarea"></textarea>
-              <label for="image_desc_{{ stage.stage_num }}"
-                >Image Description</label
-              >
+              <label for="image_desc_{{ stage.stage_num }}">Image Description</label>
             </div>
             <button
               type="button"
@@ -178,7 +149,7 @@
         </div>
       </div>
 
-      <!-- Button to submit the recipe -->
+      <!-- Submit Button -->
       <div class="row">
         <div class="col s12 center-align">
           <button
@@ -191,16 +162,17 @@
       </div>
     </div>
   </form>
-  <!-- Modal Structure -->
-  <div id="modal1-{{ user.id }}" class="modal">
-    <div class="modal-content">
-      <h4>Confirm Account Deletion!</h4>
-      <p>Are you sure you want to delete your account?</p>
-    </div>
-    <div class="modal-footer">
-      <button class="modal-close btn green" type="button">Cancel</button>
-      <button type="submit" class="btn red" form="delete-account-form-{{ user.id }}">Delete</button>
-    </div>
+</div>
+
+<!-- Modal Structure -->
+<div id="modal1-{{ user.id }}" class="modal">
+  <div class="modal-content">
+    <h4>Confirm Account Deletion!</h4>
+    <p>Are you sure you want to delete your account?</p>
+  </div>
+  <div class="modal-footer">
+    <button class="modal-close btn green" type="button">Cancel</button>
+    <button type="submit" class="btn red" form="delete-account-form-{{ user.id }}">Delete</button>
   </div>
 </div>
 

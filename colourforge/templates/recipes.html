@@ -24,7 +24,7 @@
 
   <!-- Member Recipes Section -->
   <h1 class="center-align">My Recipes</h1>
-  <div class="row recipe-card-row">
+  <div class="row">
     {% for recipe in recipes %}
       <div class="col s12 m6 l4 recipe-cards">
         <div class="card">
@@ -33,10 +33,10 @@
               {% if stage.is_final_stage %}
                 {% if stage.recipe_images %}
                   <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                    <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" />
+                    <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
                   </a>
                 {% else %}
-                  <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" />
+                  <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
                 {% endif %}
               {% endif %}
             {% endfor %}

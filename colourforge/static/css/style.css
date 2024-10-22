@@ -1,85 +1,73 @@
+/* Import Google Fonts */
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 
+/* =============================================================
+   Base Styles
+   ============================================================= */
 
+/* Apply box-sizing to all elements and pseudo-elements */
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
+/* Set default font and layout for body */
 body {
-  font-family: poppins;
+  font-family: 'Poppins', sans-serif;
   display: flex;
   min-height: 100vh;
   flex-direction: column;
 }
 
-/* Ensure the card column has enough height */
-.card {
-  min-height: 200px; 
-}
-
-.recipe-card-img {
-  object-fit: cover;  
-  max-height: 200px;  
-  width: 100%; 
-}
-
+/* Main Content Area */
 main {
   flex: 1 0 auto;
 }
 
+/* General Image Styling */
 img {
   padding: 10px;
 }
 
-.btn-large {
-  margin-top: 15px;
- }
+/* Form Elements */
+form {
+  padding: 20px;
+}
 
+/* Input Fields */
+input {
+  width: 100%;
+  margin-bottom: 5px;
+}
+
+/* Fonts for headings */
+h1, h2, h3, h4, h5 h6 {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* =============================================================
+   Layout Components
+   ============================================================= */
+
+/* Navigation Bar */
 nav {
   background-color: #992d38 !important;
 }
 
-/* Footer Links */
-.page-footer a {
-  color: #ffffff; /* Default white text */
-  transition: color 0.3s ease, background-color 0.3s ease;
-  padding: 10px 15px;
-  border-radius: 4px;
-  text-decoration: none;
-}
-
-/* Hover effect for footer links */
-.page-footer a:hover {
-  color: #ffffff;
-  background-color: #6d1b1b; /* Darker red for hover */
-  font-weight: bold;
-  text-decoration: none;
-}
-
-/* Active link for footer */
-.page-footer a.active {
-  background-color: #b71c1c;
-  color: #ffffff;
-  font-weight: bold;
-  text-decoration: underline;
-}
-
-/* On click state for footer */
-.page-footer a:active {
-  background-color: #6d1b1b;
-  color: #ffffff;
-  font-weight: bold;
-}
-
+/* Navigation Wrapper and Footer Styling */
 .nav-wrapper,
 .page-footer {
-  font-family: rubik;
+  font-family: 'Rubik', sans-serif;
   background-color: #992d38 !important;
   font-size: 1.5em;
 }
 
+/* =============================================================
+   Navigation Styles
+   ============================================================= */
+
+/* Navbar Links */
 nav ul a {
   font-size: 1em;
   color: #ffffff;
@@ -87,10 +75,10 @@ nav ul a {
   border-radius: 4px;
 }
 
-/* Hover effect for navbar */
+/* Hover effect for navbar links */
 nav ul a:hover {
   color: #ffffff;
-  background-color: #6d1b1b; /* Darker red for hover */
+  background-color: #6d1b1b;
   font-weight: bold;
   text-decoration: none;
 }
@@ -103,13 +91,54 @@ nav ul a.active {
   text-decoration: underline;
 }
 
-/* On click state for navbar */
+/* On click state for navbar links */
 nav ul a:active {
   background-color: #6d1b1b;
   color: #ffffff;
   font-weight: bold;
 }
 
+/* =============================================================
+   Footer Styles
+   ============================================================= */
+
+/* Footer Links */
+.page-footer a {
+  color: #ffffff; 
+  transition: color 0.3s ease, background-color 0.3s ease;
+  padding: 10px 15px;
+  border-radius: 4px;
+  text-decoration: none;
+}
+
+/* Hover effect for footer links */
+.page-footer a:hover {
+  color: #ffffff;
+  background-color: #6d1b1b; 
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Active link for footer */
+.page-footer a.active {
+  background-color: #b71c1c;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* On click state for footer links */
+.page-footer a:active {
+  background-color: #6d1b1b;
+  color: #ffffff;
+  font-weight: bold;
+}
+
+/* =============================================================
+   General Layout Components
+   ============================================================= */
+
+/* Image Container */
 .image-container {
   display: flex;
   justify-content: center;
@@ -117,14 +146,21 @@ nav ul a:active {
   padding: 50px;
 }
 
+/* Site Logo */
 .site-logo {
   max-width: 100%;
 }
 
+/* Pagination Active State */
 .pagination li.active {
   background-color: #b71c1c;
 }
 
+/* =============================================================
+   Warning Message Styles
+   ============================================================= */
+
+/* Warning Message */
 .warning-message {
   background-color: #FFB5BD; 
   color: #ffffff; 
@@ -136,62 +172,130 @@ nav ul a:active {
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); 
 }
 
+/* Warning Message Title */
 .warning-title {
   font-size: 1.5rem; 
   font-weight: bold; 
 }
 
+/* Icon in Warning Title */
 .warning-title i {
   margin-right: 8px; 
 }
 
+/* Paragraphs in Warning Message */
 .warning-message p {
   margin: 10px 0;
 }
 
+/* Strong Text in Warning Message */
 .warning-message strong {
   color: #ffffff; 
 }
 
+/* Modal Warning Message Styles */
+.warning-message.modal {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: #ffebee;
+  color: #c62828;
+}
 
+/* Add space between the icon and text in the modal */
+.warning-message.modal i {
+  margin-right: 10px;
+}
+
+/* =============================================================
+   Carousel Styles
+   ============================================================= */
+
+/* Carousel Container */
 .carousel-container {
   justify-content: center;
   align-items: center;
 }
 
+/* Carousel Title */
 .carousel-title {
   align-items: center;
 }
 
-form {
-  padding: 20px;
+/* =============================================================
+   Button Styles
+   ============================================================= */
+
+/* Large Button */
+.btn-large {
+  margin-top: 15px;
 }
 
-input {
-  width: 100%;
-  margin-bottom: 5px;
+/* =============================================================
+   Recipe Card Styles
+   ============================================================= */
+
+/* Ensure the card column has enough height */
+.card {
+  min-height: 200px; 
 }
 
-.col.s6.m4.recipe-cards {
+/* Recipe Card Image */
+.recipe-card-img {
+  object-fit: cover;  
+  max-height: 200px;  
+  width: 100%; 
+}
+
+/* Recipe Cards Container */
+.recipe-cards .card {
   display: flex;
   flex-direction: column;
+  height: 100%; 
 }
 
+/* Recipe Card Image Section */
+.recipe-cards .card-image {
+  flex: 0 0 40%; 
+  overflow: hidden;
+}
+
+/* Recipe Card Content Section */
+.recipe-cards .card-content {
+  flex: 1; 
+  overflow: auto; 
+}
+
+/* =============================================================
+   List Styles
+   ============================================================= */
+
+/* Inline Lists */
 .inline-lists {
   display: flex;
   list-style-type: none;
   justify-content: center;
 }
 
+/* List Items in Inline Lists */
 .inline-lists li {
   margin-right: 10px;
 }
 
-/* Preserves line breaks but collapses other whitespace */
+/* =============================================================
+   Text Formatting
+   ============================================================= */
+
+/* Preserve Whitespace */
 .preserve-whitespace {
   white-space: pre-line;
 }
 
+/* =============================================================
+   Collapsible Components
+   ============================================================= */
+
+/* Collapsible Body */
 .collapsible-body {
   padding: 16px;
   box-sizing: border-box;
@@ -202,6 +306,36 @@ input {
   overflow: hidden;
 }
 
+  /* Ensure proper layout of collapsible rows */
+  .collapsible-body .row {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+/* Collapsible Body Images */
+.collapsible-body img {
+  align-items: center;
+  max-width: 100%;
+  height: auto;
+  margin-left: 16px;
+}
+
+/* Caret Icon */
+.caret-icon {
+  transition: transform 0.3s ease; 
+  display: inline-block; 
+}
+
+/* Rotate Caret Icon when Active */
+.collapsible-header.active .caret-icon {
+  transform: rotate(90deg); 
+}
+
+/* =============================================================
+   Utility Classes
+   ============================================================= */
+
+/* Hidden Elements */
 .hidden {
   position: absolute;
   width: 1px;
@@ -213,37 +347,49 @@ input {
   overflow: hidden;
 }
 
-.collapsible-body img {
-  align-items: center;
-}
+/* =============================================================
+   Admin Panel Styles
+   ============================================================= */
 
-.collapsible-body .row {
-  display: flex;
-  align-items: center;
-}
-
-.collapsible-body img {
-  max-width: 100%;
-  height: auto;
-  margin-left: 16px;
-}
-
-/* Initial state of the caret icon */
-.caret-icon {
-  transition: transform 0.3s ease; 
-  display: inline-block; 
-}
-
-/* Rotate the caret icon when the header is active (opened) */
-.collapsible-header.active .caret-icon {
-  transform: rotate(90deg); 
-}
-
+/* Admin Text */
 .admin-text {
   margin-right: 10px;
 }
 
-/* Specific to Navbar Search Fields */
+/* Admin Delete Wrap Container */
+.admin-delete-wrap {
+  display: flex; /* Make it a flex container */
+  flex-direction: column; /* Stack items vertically by default (mobile-first) */
+  align-items: center; /* Center items horizontally */
+  gap: 10px; /* Space between items */
+}
+
+/* Add spacing between admin delete wrap divs */
+.admin-delete-wrap > * {
+  margin-bottom: 10px;
+}
+
+.admin-switch {
+  display: flex;
+  align-items: center;
+}
+
+/* Admin Switch Layout */
+.admin-switch {
+  display: flex;
+  align-items: center;
+}
+
+/* Label Next to Admin Toggle */
+.switch-label {
+  margin-right: 10px;
+}
+
+/* =============================================================
+   Navbar Search Styles
+   ============================================================= */
+
+/* Navbar Search Input */
 .navbar-search {
   font-size: 1em;
   height: auto;
@@ -254,96 +400,27 @@ input {
   padding-right: 40px !important;
 }
 
-/* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
+/* Placeholder Text Style for Navbar Search Fields */
 .navbar-search::placeholder {
   font-size: 1em;
   color: #ffffff; 
   opacity: 1;
 }
 
-/* Input Text Style When Focused (Desktop and General) */
+/* Input Text Style When Focused */
 .navbar-search:focus {
   font-size: 1em;
   color: #000000; 
 }
 
-  /* Add margin to the button column in the search form */
-  .button-col {
-    margin-top: 20px;
-  }
+/* =============================================================
+   Search Form Styles
+   ============================================================= */
 
-  /* Flex styles for admin delete toggle and delete button */
-  .admin-delete-wrap {
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
-
-  /* Admin switch layout */
-  .admin-switch {
-    display: flex;
-    align-items: center;
-  }
-
-  /* Label next to the admin toggle */
-  .switch-label {
-    margin-right: 10px;
-  }
-
-  /* Media Query for smaller screens */
-  @media only screen and (max-width: 600px) {
-    /* Stack delete and admin toggle vertically on small screens */
-    .admin-delete-wrap {
-      flex-direction: column;
-    }
-
-    /* Add spacing between stacked elements */
-    .admin-delete-wrap div {
-      margin-bottom: 10px;
-    }
-  }
-
-  /* Modal warning message styles */
-  .warning-message {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 20px;
-    background-color: #ffebee;
-    color: #c62828;
-  }
-
-  /* Add space between the icon and text in the modal */
-  .warning-message i {
-    margin-right: 10px;
-  }
-  
-/* Flexbox to vertically align image and text on larger screens */
-.card-row {
-  display: flex;
-  align-items: center;
+/* Button Column in Search Form */
+.button-col {
+  margin-top: 20px;
 }
-
-/* Flexbox to vertically center content in the description column */
-.card-description {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-}
-
-/* Center-align the main recipe description text */
-.recipe-description-text {
-  text-align: center;
-}
-
-
-/* Mobile Specific Styles */
-@media (max-width: 600px) {
-  /* Ensure proper layout of collapsible rows */
-  .collapsible-body .row {
-    flex-direction: column;
-    align-items: flex-start;
-  }
 
   /* Placeholder Text Style When Input is Focused (Mobile) */
   .mobile-search::placeholder {
@@ -351,19 +428,100 @@ input {
     opacity: 1; 
   }
 
+/* =============================================================
+   Recipe Description Styles
+   ============================================================= */
+
+ /* Adjust card row layout */
+ .card-row {
+  display: block;
+}
+
+/* Adjust card description layout */
+.card-description {
+  display: block;
+  justify-content: flex-start;
+}
+
+/* Center-align the main recipe description text */
+.recipe-description-text {
+  text-align: center;
+}
+
+/* =============================================================
+   Scrollable text fields
+   ============================================================= */
+
+/* Scrollable Text Area */
+.scrollable-textarea {
+  max-height: 150px;
+  overflow-y: auto; 
+  resize: vertical; 
+}
+
+/* Optional: Customize Scrollbar for WebKit Browsers */
+.scrollable-textarea::-webkit-scrollbar {
+  width: 6px;
+}
+
+.scrollable-textarea::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 3px;
+}
+
+.scrollable-textarea::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 3px;
+}
+
+.scrollable-textarea::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}
+
+.scrollable-textarea {
+  max-height: 200px;
+  overflow-y: auto;
+  resize: vertical;
+}
+
+
+/* =============================================================
+   Media Queries
+   ============================================================= */
+
+/* Styles for screens above 600px */
+@media only screen and (min-width: 600px) {
+
+  /* Flexbox to vertically align image and text on larger screens */
   .card-row {
-    display: block;
+    display: flex;
+    align-items: center;
   }
 
+  /* Collapsible Body Rows */
+  .collapsible-body .row {
+    display: flex;
+    align-items: center;
+  }
+
+
+  /* Flexbox to vertically center content in the description column */
   .card-description {
-    display: block;
-    justify-content: flex-start;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
   }
 
+  /* Arrange items horizontally on larger screens */
   .admin-delete-wrap {
-    flex-direction: column !important;
+    flex-direction: row; /* Change to row on larger screens */
+    justify-content: flex-start; /* Align items to the start */
+    gap: 20px; /* Increased space between items */
   }
-  .admin-delete-wrap div {
-    margin-bottom: 10px; /* Adds some spacing between the two */
+  
+  /* Optional: Adjust alignment if needed */
+  .admin-delete-wrap .admin-switch,
+  .admin-delete-wrap .delete-button {
+    align-items: center;
   }
 }
