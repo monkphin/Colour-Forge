@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // init sidenav
   const sidenavElems = document.querySelectorAll(".sidenav");
-  const sidenavInstances = M.Sidenav.init(sidenavElems);
+  const sidenavInstances = M.Sidenav.init(sidenavElems, draggable = true);
 
   // init carousel
   const carouselElems = document.querySelectorAll(".carousel");
