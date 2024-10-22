@@ -85,30 +85,32 @@
     </div>
 
   {% else %}
-    <div class="row">
-      <!-- Column for the Heading -->
-      <div class="col s6">
-        <h3>No results found for "{{ search }}"</h3>
-      </div>
+  <div class="row center-align">
+    <!-- Column for the Heading -->
+    <div class="col s12">
+      <h3>No results found for "{{ search }}"</h3>
+    </div>
+
 
       <!-- Column for the Search Form -->
-      <div class="col s6">
-        <form action="{{ url_for('admin.recipe_search') }}" method="GET">
+      <div class="col s12">
+        <form action="{{ url_for('routes.search') }}" method="GET">
           <div class="row">
             <!-- Input Field Column -->
-            <div class="input-field col s8">
+            <div class="input-field col s12 m8">
               <input
-                id="recipe_search"
-                type="text"
-                name="recipe_search"
-                class="validate"
-                placeholder="Search for Recipe Names..."
-                required >
-              <label for="recipe_search">Search</label>
+                type="search"
+                id="search"
+                name="search"
+                placeholder="Search for Recipe Tags..."
+                required
+                autocomplete="off"
+              >
+              <label for="search" class="active">Search for Recipe Tags...</label>
             </div>
 
             <!-- Button Column -->
-            <div class="input-field col s4" style="margin-top: 20px">
+            <div class="input-field col s12 m4 inline-search-button">
               <button
                 class="waves-effect waves-light btn-small blue darken-4"
                 type="submit"

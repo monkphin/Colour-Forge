@@ -262,6 +262,10 @@ nav ul a:active {
   margin-top: 15px;
 }
 
+.inline-search-button {
+   margin-top: 15px;
+}
+
 /* =============================================================
    Recipe Card Styles
    ============================================================= */
@@ -478,6 +482,14 @@ nav ul a:active {
 .recipe-description-text {
   text-align: center;
 }
+
+/* =============================================================
+   Text fields
+   ============================================================= */
+
+.file-input-container {
+   display: none
+  }
 
 /* =============================================================
    Scrollable text fields
