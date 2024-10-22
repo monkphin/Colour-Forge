@@ -26,7 +26,7 @@
         <div class="col s6 m6 large">
           <div class="card horizontal small-card">
             <div class="card-image">
-              <img src="{{ url_for('static', filename='images/palette.png') }}" alt="Add Recipe" >
+              <img src="{{ url_for('static', filename='images/palette.webp') }}" alt="Add Recipe" >
             </div>
             <div class="card-stacked">
               <div class="card-content">
@@ -54,7 +54,7 @@
                       <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
                     </a>
                   {% else %}
-                    <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image" >
+                    <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
                   {% endif %}
                 {% endif %}
               {% endfor %}
@@ -138,7 +138,7 @@
                     {% if stage.recipe_images %}
                       <img class="activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
                     {% else %}
-                      <img class="activator" src="{{ url_for('static', filename='images/placeholder.png') }}" alt="Default Image">
+                      <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
                     {% endif %}
                   {% endif %}
                 {% endfor %}

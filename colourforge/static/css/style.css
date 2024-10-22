@@ -35,6 +35,32 @@ nav {
 
 nav ul a {
   font-size: 1em;
+  color: #ffffff;
+  transition: color 0.3s ease, background-color 0.3s ease;
+  border-radius: 4px;
+}
+
+/* Hover effect for navbar */
+nav ul a:hover {
+  color: #ffffff;
+  background-color: #6d1b1b; /* Darker red for hover */
+  font-weight: bold;
+  text-decoration: none;
+}
+
+/* Active link for navbar */
+nav ul a.active {
+  background-color: #b71c1c;
+  color: #ffffff;
+  font-weight: bold;
+  text-decoration: underline;
+}
+
+/* On click state for navbar */
+nav ul a:active {
+  background-color: #6d1b1b;
+  color: #ffffff;
+  font-weight: bold;
 }
 
 .image-container {
@@ -172,18 +198,25 @@ input {
 
 /* Specific to Navbar Search Fields */
 .navbar-search {
+  font-size: 1em;
+  height: auto;
+  border-radius: 4px;
+  width: 100%;
+  box-sizing: border-box;
   padding-left: 0 !important;
   padding-right: 40px !important;
 }
 
 /* Placeholder Text Style for Navbar Search Fields (Desktop and General) */
 .navbar-search::placeholder {
-  color: white; 
+  font-size: 1em;
+  color: #ffffff; 
   opacity: 1;
 }
 
 /* Input Text Style When Focused (Desktop and General) */
 .navbar-search:focus {
+  font-size: 1em;
   color: #000000; 
 }
 
