@@ -484,7 +484,6 @@ nav ul a:active {
   resize: vertical;
 }
 
-
 /* =============================================================
    Media Queries
    ============================================================= */
@@ -503,7 +502,6 @@ nav ul a:active {
     display: flex;
     align-items: center;
   }
-
 
   /* Flexbox to vertically center content in the description column */
   .card-description {
