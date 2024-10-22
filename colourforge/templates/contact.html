@@ -2,43 +2,45 @@
 {% block title %}Contact Us{% endblock %}
 {% block content %}
 
-<div class="row">
-  <h1 class="center-align">Contact us</h1>
-  <div class="image-container">
-    <img
-      class="site_logo"
-      src="{{ url_for('static', filename='images/colour-logo-small.webp') }}"
-      alt="Site Logo" >
+<div class="container">
+  <div class="row">
+    <h1 class="center-align">Contact us</h1>
+    <div class="image-container">
+      <img
+        class="site_logo responsive-img"
+        src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}"
+        alt="Site Logo">
+    </div>
+    <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
+      
+      <div class="row">
+        <div class="input-field col s12 m6"> 
+          <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
+          <label for="email">Email</label>
+        </div>
+        <div class="input-field col s12 m6"> 
+          <input placeholder="Your Name" id="name" type="text" name="sender_name" class="validate">
+          <label for="name">Name</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="input-field col s12">
+          <input placeholder="Email Subject" id="subject" type="text" name="subject" class="validate">
+          <label for="subject">Email Subject</label>
+        </div>
+        <div class="input-field col s12">
+          <textarea id="textarea1" class="materialize-textarea" name="message_content"></textarea>
+          <label for="textarea1">Your Message</label>
+        </div>
+      </div>
+
+      <button class="btn waves-effect waves-light teal darken-2" id="submitButton" type="submit" name="action">
+        Submit
+      </button>
+
+    </form>
   </div>
-  <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
-    
-    <div class="row">
-      <div class="input-field col s6">
-        <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
-        <label for="email">Email</label>
-      </div>
-      <div class="input-field col s6">
-        <input placeholder="Your Name" id="name" type="text" name="sender_name" class="validate">
-        <label for="name">Name</label>
-      </div>
-    </div>
-
-    <div class="row">
-      <div class="input-field col s12">
-        <input placeholder="Email Subject" id="subject" type="text" name="subject" class="validate">
-        <label for="subject">Email Subject</label>
-      </div>
-      <div class="input-field col s12">
-        <textarea id="textarea1" class="materialize-textarea" name="message_content"></textarea>
-        <label for="textarea1">Your Message</label>
-      </div>
-    </div>
-
-    <button class="btn waves-effect waves-light teal darken-2" id="submitButton" type="submit" name="action">
-      Submit
-    </button>
-
-  </form>
 </div>
 
 {% endblock %}
