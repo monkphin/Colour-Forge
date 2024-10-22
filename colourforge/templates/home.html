@@ -129,7 +129,7 @@
     <div class="carousel-container col s12 center-align">
       <h1 class="carousel-title center-align mb-small">Our Members Paint Recipes</h1>
       <div class="carousel">
-        {% for recipe in recipes[:12] %}
+        {% for recipe in recipes[:6] %}
           <a class="carousel-item" href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
             <div class="card recipe-cards">
               <div class="card-image waves-effect waves-block waves-light">
@@ -159,12 +159,12 @@
     <h2 class="center-align">Join Us</h2>
     <div class="row">
       <div class="col s6 right-align">
-        <a href="{{ url_for('auth.login') }}" class="btn waves-effect waves-light">
+        <a href="{{ url_for('auth.login') }}" class="btn waves-effect teal darken-2 waves-light">
           Login
         </a>
       </div>
       <div class="col s6 left-align">
-        <a href="{{ url_for('auth.register') }}" class="btn waves-effect waves-light">
+        <a href="{{ url_for('auth.register') }}" class="btn waves-effect teal darken-2 waves-light">
         Register
       </a>
       </div>

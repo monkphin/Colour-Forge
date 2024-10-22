@@ -22,14 +22,19 @@ img {
   padding: 10px;
 }
 
+nav {
+  background-color: #992d38 !important;
+}
+
 .nav-wrapper,
 .page-footer {
   font-family: rubik;
   background-color: #992d38 !important;
+  font-size: 1.5em;
 }
 
-nav {
-  background-color: #992d38 !important;
+nav ul a {
+  font-size: 1em;
 }
 
 .image-container {
