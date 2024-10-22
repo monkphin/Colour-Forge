@@ -267,6 +267,76 @@ input {
   color: #000000; 
 }
 
+  /* Add margin to the button column in the search form */
+  .button-col {
+    margin-top: 20px;
+  }
+
+  /* Flex styles for admin delete toggle and delete button */
+  .admin-delete-wrap {
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
+
+  /* Admin switch layout */
+  .admin-switch {
+    display: flex;
+    align-items: center;
+  }
+
+  /* Label next to the admin toggle */
+  .switch-label {
+    margin-right: 10px;
+  }
+
+  /* Media Query for smaller screens */
+  @media only screen and (max-width: 600px) {
+    /* Stack delete and admin toggle vertically on small screens */
+    .admin-delete-wrap {
+      flex-direction: column;
+    }
+
+    /* Add spacing between stacked elements */
+    .admin-delete-wrap div {
+      margin-bottom: 10px;
+    }
+  }
+
+  /* Modal warning message styles */
+  .warning-message {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+    background-color: #ffebee;
+    color: #c62828;
+  }
+
+  /* Add space between the icon and text in the modal */
+  .warning-message i {
+    margin-right: 10px;
+  }
+  
+/* Flexbox to vertically align image and text on larger screens */
+.card-row {
+  display: flex;
+  align-items: center;
+}
+
+/* Flexbox to vertically center content in the description column */
+.card-description {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+/* Center-align the main recipe description text */
+.recipe-description-text {
+  text-align: center;
+}
+
+
 /* Mobile Specific Styles */
 @media (max-width: 600px) {
   /* Ensure proper layout of collapsible rows */
@@ -279,5 +349,21 @@ input {
   .mobile-search::placeholder {
     color: #555555; 
     opacity: 1; 
+  }
+
+  .card-row {
+    display: block;
+  }
+
+  .card-description {
+    display: block;
+    justify-content: flex-start;
+  }
+
+  .admin-delete-wrap {
+    flex-direction: column !important;
+  }
+  .admin-delete-wrap div {
+    margin-bottom: 10px; /* Adds some spacing between the two */
   }
 }

@@ -4,7 +4,7 @@
 
   <div class="row">
     <!-- Column for the Heading -->
-    <div class="col s6">
+    <div class="col s12 m6">
       <h4>
         {% if users and users|length > 0 %}
           Search Results for "{{ search }}"
@@ -15,7 +15,7 @@
     </div>
 
     <!-- Column for the Search Form -->
-    <div class="col s6">
+    <div class="col s12 m6">
       <form action="{{ url_for('admin.user_search') }}" method="GET">
         <div class="row">
           <!-- Input Field Column -->
@@ -195,35 +195,42 @@
                   <button type="submit" class="btn">Reset Password</button>
                 </form>
 
-                <!-- Form to Delete Account and Admin Toggle -->
+                <!-- Form to delete account and admin toggle -->
                 <div class="row">
-                  <div
-                    class="col s12 center-align valign-wrapper"
-                    style="display: flex; align-items: center; justify-content: space-evenly;">
-                    <!-- Admin Toggle Switch -->
-                    <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" id="admin-toggle-form-{{ user.id }}">
-                      <div class="switch" style="display: flex; align-items: center">
-                        <span style="margin-right: 10px">Admin:</span>
-                        <label>
-                          Off
-                          <input
-                            type="checkbox"
-                            name="is_admin"
-                            id="is_admin_{{ user.id }}"
-                            {% if user.is_admin %}checked{% endif %} >
-                          <span class="lever"></span>
-                          On
-                        </label>
+                  <div class="center-align valign-wrapper admin-delete-wrap">
+                    <!-- Switch -->
+                    <div class="row">
+                      <div class="col s12 m6">
+                        <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" id="admin-toggle-form-{{ user.id }}">
+                          <div class="switch admin-switch">
+                            <span class="switch-label">Admin:</span>
+                            <label>
+                              Off
+                              <input
+                              type="checkbox"
+                              name="is_admin"
+                              id="is_admin_{{ user.id }}"
+                              {% if user.is_admin %}checked{% endif %}>
+                              <span class="lever"></span>
+                              On
+                            </label>
+                          </div>
+                        </form>
                       </div>
-                    </form>
+                    </div>
+
                     <!-- Delete Account Button -->
-                    <button
-                    id="modalDelete-{{ user.id }}"
-                    class="btn red darken-4 modal-trigger"
-                    type="button"
-                    data-target="modal-delete-{{ user.id }}">
-                    Delete Recipe
-                  </button>
+                    <div class="row">
+                      <div class="col s12 m6">
+                        <button
+                          id="modalDelete-{{ user.id }}"
+                          class="btn red darken-4 modal-trigger"
+                          type="button"
+                          data-target="modal-delete-{{ user.id }}">
+                          Delete User
+                        </button>
+                      </div>
+                    </div>
                   </div>
                 </div>
               </div>

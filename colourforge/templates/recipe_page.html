@@ -25,79 +25,63 @@
         </div>
       </div>
 
-      <!-- Stage Description and Image -->
-      <div class="card horizontal small-card">
-        <div class="card-image">
-          <!-- Display last stage image as the recipe's image -->
-          {% for stage in recipe.stages %}
-            {% if stage.is_final_stage %}
-              {% if stage.recipe_images %}
-                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
-                  <img
-                    class="activator"
-                    src="{{ stage.recipe_images[0].thumbnail_url }}"
-                    alt="{{ stage.recipe_images[0].alt_text }}" >
-                </a>
-              {% else %}
-                <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
-                  <img
-                    class="activator"
-                    src="{{ url_for('static', filename='images/placeholder-mid.webp') }}"
-                    alt="Default Image" >
-                </a>
-              {% endif %}
-
-              <!-- Image Modal Structure -->
-              <div id="modal{{ stage.stage_id }}" class="modal">
-                <div class="modal-content">
+      <!-- Final image and description -->
+      <div class="card">
+        <div class="row card-row">
+          <!-- Image and Modal -->
+          <div class="col s12 m6">
+            <div class="card-image">
+              <!-- Display last stage image as the recipe's image -->
+              {% for stage in recipe.stages %}
+                {% if stage.is_final_stage %}
                   {% if stage.recipe_images %}
-                    {% for image in stage.recipe_images %}
-                      <img
-                        src="{{ image.image_url }}"
-                        alt="{{ image.alt_text }}"
-                        class="responsive-img" >
-                    {% endfor %}
+                    <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                      <img class="responsive-img recipe-card-img activator" src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}">
+                    </a>
                   {% else %}
-                    <img
-                      src="{{ url_for('static', filename='images/placeholder-mid.webp') }}"
-                      alt="Default Image"
-                      class="responsive-img" >
-                  {% endif %}
-                </div>
-                <div class="modal-footer">
-                  {% if stage.recipe_images %}
-                    {% for image in stage.recipe_images %}
-                      <a
-                        href="{{ image.image_url }}"
-                        class="waves-effect waves-green btn-flat"
-                        target="_blank"
-                        aria-label="View Full Image"
-                        rel="noopener">
-                        View Full Image
-                      </a>
-                    {% endfor %}
-                  {% else %}
-                    <a
-                      href="{{ url_for('static', filename='images/placeholder-mid.webp') }}"
-                      class="waves-effect waves-green btn-flat"
-                      target="_blank"
-                      aria-label="View Full Image"
-                      rel="noopener">
-                      View Full Image
+                    <a class="waves-effect waves-light modal-trigger" href="#modal{{ stage.stage_id }}">
+                      <img class="responsive-img recipe-card-img activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
                     </a>
                   {% endif %}
-                  <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
-                </div>
+                  <!-- Image Modal Structure -->
+                  <div id="modal{{ stage.stage_id }}" class="modal">
+                    <div class="modal-content">
+                      {% if stage.recipe_images %}
+                        {% for image in stage.recipe_images %}
+                          <img src="{{ image.image_url }}" alt="{{ image.alt_text }}" class="responsive-img">
+                        {% endfor %}
+                      {% else %}
+                        <img src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" class="responsive-img">
+                      {% endif %}
+                    </div>
+                    <div class="modal-footer">
+                      {% if stage.recipe_images %}
+                        {% for image in stage.recipe_images %}
+                          <a href="{{ image.image_url }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">
+                            View Full Image
+                          </a>
+                        {% endfor %}
+                      {% else %}
+                        <a href="{{ url_for('static', filename='images/placeholder-mid.webp') }}" class="waves-effect waves-green btn-flat" target="_blank" aria-label="View Full Image" rel="noopener">
+                          View Full Image
+                        </a>
+                      {% endif %}
+                      <a href="#!" class="modal-close waves-effect waves-red btn-flat">Close</a>
+                    </div>
+                  </div>
+                {% endif %}
+              {% endfor %}
+            </div>
+          </div>
+      
+          <!-- Description -->
+          <div class="col s12 m6 card-description">
+            <div class="card-stacked">
+              <div class="card-content preserve-whitespace">
+                <p class="right-align grey-text">Created by: {{ recipe.user.username }}</p>
+                <p class="recipe-description-text">{{ recipe.recipe_desc }}</p> <!-- Centered main text -->
               </div>
-            {% endif %}
-          {% endfor %}
-        </div>
-        
-        <!-- Recipe Description -->
-        <div class="card-stacked">
-          <div class="card-content preserve-whitespace">
-            <p class="right-align grey-text">Created by: {{ recipe.user.username }}</p>
-            <p>{{ recipe.recipe_desc }}</p>
+            </div>
           </div>
         </div>
       </div>

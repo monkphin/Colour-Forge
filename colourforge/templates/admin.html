@@ -5,12 +5,12 @@
 {% block content %}
 <div class="row">
   <!-- Column for the Heading -->
-  <div class="col s6">
+  <div class="col s12 m6">
     <h3>User Accounts</h3>
   </div>
 
   <!-- Column for the Search Form -->
-  <div class="col s6">
+  <div class="col s12 m6">
     <form action="{{ url_for('admin.user_search') }}" method="GET">
       <div class="row">
         <!-- Input Field Column -->
@@ -27,7 +27,7 @@
         </div>
 
         <!-- Button Column -->
-        <div class="input-field col s4" style="margin-top: 20px">
+        <div class="input-field col s4 button-col">
           <button
             class="waves-effect waves-light btn-small blue darken-4"
             type="submit"
@@ -105,40 +105,46 @@
 
         <!-- Form to delete account and admin toggle -->
         <div class="row">
-          <div
-            class="col s12 center-align valign-wrapper"
-            style="display: flex; align-items: center; justify-content: space-evenly;">
+          <div class="center-align valign-wrapper admin-delete-wrap">
             <!-- Switch -->
-            <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" id="admin-toggle-form-{{ user.id }}">
-              <div class="switch" style="display: flex; align-items: center">
-                <span style="margin-right: 10px">Admin:</span>
-                <label>
-                  Off
-                  <input
-                  type="checkbox"
-                  name="is_admin"
-                  id="is_admin_{{ user.id }}"
-                  {% if user.is_admin %}checked{% endif %}
-                  >
-                  <span class="lever"></span>
-                  On
-                </label>
+            <div class="row">
+              <div class="col s12 m6">
+                <form method="POST" action="{{ url_for('admin.toggle_admin', user_id=user.id) }}" id="admin-toggle-form-{{ user.id }}">
+                  <div class="switch admin-switch">
+                    <span class="switch-label">Admin:</span>
+                    <label>
+                      Off
+                      <input
+                      type="checkbox"
+                      name="is_admin"
+                      id="is_admin_{{ user.id }}"
+                      {% if user.is_admin %}checked{% endif %}>
+                      <span class="lever"></span>
+                      On
+                    </label>
+                  </div>
+                </form>
               </div>
-            </form>
+            </div>
 
             <!-- Delete Account Button -->
-            <button
-              id="modalDelete-{{ user.id }}"
-              class="btn red darken-4 modal-trigger"
-              type="button"
-              data-target="modal-delete-{{ user.id }}">
-              Delete User
-            </button>
+            <div class="row">
+              <div class="col s12 m6">
+                <button
+                  id="modalDelete-{{ user.id }}"
+                  class="btn red darken-4 modal-trigger"
+                  type="button"
+                  data-target="modal-delete-{{ user.id }}">
+                  Delete User
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
     </div>
   </div>
+
   <!-- Delete Confirmation Modal -->
   <div id="modal-delete-{{ user.id }}" class="modal">
     <div class="modal-content">

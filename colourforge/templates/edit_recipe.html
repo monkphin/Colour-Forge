@@ -67,7 +67,7 @@
           value="{{ stage.stage_num }}" >
 
         <!-- Instruction Field -->
-        <div class="input-field col s7">
+        <div class="input-field col s12 m7">
           <textarea
             id="instructions_{{ stage.stage_num }}"
             name="instructions[]"
@@ -85,7 +85,7 @@
         <!-- Existing Image Container -->
         <div
           id="image_container_{{ stage.stage_num }}"
-          class="col s5 center-align">
+          class="col s12 m5 center-align">
           <img
             src="{{ stage.recipe_images[0].thumbnail_url }}"
             alt="{{ stage.recipe_images[0].alt_text }}"
@@ -112,7 +112,7 @@
         <!-- Placeholder Image Container -->
         <div
           id="image_container_{{ stage.stage_num }}"
-          class="col s5 center-align">
+          class="col s12 m5 center-align">
           <img
             src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-mid.webp"
             alt="Default Image"
@@ -136,7 +136,7 @@
         <!-- File Input Container (Hidden on load) -->
         <div
           id="file_input_container_{{ stage.stage_num }}"
-          class="col s5"
+          class="col s12 m5"
           style="display: none">
           <div class="file-field input-field">
             <div class="btn">
