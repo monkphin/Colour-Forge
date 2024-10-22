@@ -12,9 +12,16 @@
   box-sizing: border-box;
 }
 
-::placeholder {
+::placeholder, 
+input::placeholder,
+textarea::placeholder {
   color: #333;
   opacity: 1;
+}
+
+label {
+  color: #333 !important;
+  font-family: 'Poppins', sans-serif;
 }
 
 
@@ -52,6 +59,13 @@ h1, h2, h3, h4, h5 h6 {
   font-family: 'Roboto', sans-serif;
 }
 
+/* =============================================================
+   Awesomeplete styles
+   ============================================================= */
+
+.awesomplete {
+    display: unset;
+}
 /* =============================================================
    Layout Components
    ============================================================= */
