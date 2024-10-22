@@ -76,7 +76,7 @@
 
       <!--Mobile Nav-->
       <ul class="sidenav" id="mobile-nav">
-        <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/logo-small.webp') }}" alt="site logo" ></li>
+        <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/colour-logo-small.webp') }}" alt="site logo" ></li>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
         <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
