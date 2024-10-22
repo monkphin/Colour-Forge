@@ -54,16 +54,16 @@
               {% endfor %}
             </div>
             <div class="card-content">
-              <p class="grey-text text-darken-4">{{ recipe.recipe_name }}</p>
+              <h4 class="grey-text text-darken-4">{{ recipe.recipe_name }}</h4>
               <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
               <p>
-                <span class="activator grey-text text-darken-4">
+                <span class="activator card-title">
                   <i class="fas fa-caret-up"> Recipe Description</i>
                 </span>
               </p>
             </div>
             <div class="card-reveal">
-              <span class="card-title grey-text text-darken-4">
+              <span class="card-title">
                 <i class="fas fa-caret-down"> Close</i>
               </span>
               <p>{{ recipe.recipe_desc }}</p>
