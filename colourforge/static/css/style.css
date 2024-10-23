@@ -25,7 +25,7 @@ label {
 }
 
 nav .brand-logo {
-  padding-left: 5px !important;
+  font-size: 1em;
 }
 
 /* Set default font and layout for body */
@@ -39,6 +39,7 @@ body {
 /* Main Content Area */
 main {
   flex: 1 0 auto;
+  max-width: 70% !important;
 }
 
 /* General Image Styling */
@@ -578,38 +579,14 @@ nav ul a:active {
    Media Queries
    ============================================================= */
 
-/* Styles for screens above 600px */
-@media only screen and (min-width: 600px) {
-
-  /* Flexbox to vertically align image and text on larger screens */
-  .card-row {
-    display: flex;
-    align-items: center;
+@media (min-width: 358px) { 
+  nav .brand-logo {
+    font-size: 1.25em;
   }
-
-  /* Collapsible Body Rows */
-  .collapsible-body .row {
-    display: flex;
-    align-items: center;
-  }
-
-  /* Flexbox to vertically center content in the description column */
-  .card-description {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-  }
-
-  /* Arrange items horizontally on larger screens */
-  .admin-delete-wrap {
-    flex-direction: row; /* Change to row on larger screens */
-    justify-content: flex-start; /* Align items to the start */
-    gap: 20px; /* Increased space between items */
-  }
+}
   
-  /* Optional: Adjust alignment if needed */
-  .admin-delete-wrap .admin-switch,
-  .admin-delete-wrap .delete-button {
-    align-items: center;
+@media (min-width: 992px) {
+  nav .brand-logo {
+    padding-left: 5px !important;
   }
 }
