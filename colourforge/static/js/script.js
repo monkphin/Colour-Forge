@@ -60,6 +60,18 @@ document.addEventListener("DOMContentLoaded", function () {
     customTextarea.addEventListener('input', autoResize); // Auto-resize on input
     autoResize(); // Trigger resize for initial content
   }
+  
+  // Prevent Enter key submitting forms. 
+  const contactForm = document.querySelector('form'); 
+
+  if (contactForm) {
+    contactForm.addEventListener('keydown', function(event) {
+      if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+        event.preventDefault();
+        return false;
+      }
+    });
+  }
 
   // Set stageCount based on existing stages or default to 1 if none present.
   let stageCount = document.querySelectorAll(".multi-stage").length || 1;
@@ -69,33 +81,44 @@ document.addEventListener("DOMContentLoaded", function () {
     if (event.target.closest(".add_field")) {
       stageCount++; // Increment stage count
       const newStage = `
-        <div class="row multi-stage" data-stage-id="">
-          <!-- Hidden input for new stage (no ID) -->
-          <input type="hidden" name="stage_ids[]" value="">
-          <input type="hidden" name="stage_nums[]" value="${stageCount}">
+      <div class="row multi-stage" data-stage-id="">
+        <!-- Hidden input for new stage (no ID) -->
+        <input type="hidden" name="stage_ids[]" value="">
+        <input type="hidden" name="stage_nums[]" value="${stageCount}">
 
-          <div class="input-field col s7">
-            <textarea id="instructions_${stageCount}" name="instructions[]" class="materialize-textarea input" required></textarea>
-            <label for="instructions_${stageCount}">Stage ${stageCount} Instructions (required)</label>
-          </div>
-          <div class="col s5">
-            <div class="file-field input-field">
-              <div class="btn">
-                <span>Add Image</span>
-                <input type="file" name="images[]" accept="image/*">
-              </div>
-              <div class="file-path-wrapper">
-                <input class="file-path validate" type="text" placeholder="Stage ${stageCount} image">
-              </div>
-              <div class="input-field">
-                <textarea id="image_desc_${stageCount}" name="image_desc[]" class="materialize-textarea"></textarea>
-                <label for="image_desc_${stageCount}">Image Description</label>
-              </div>
-            </div>
-            <!-- Hidden input to track image deletion -->
-            <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
-          </div>
+        <!-- Instructions Textarea -->
+        <h6 class="center-align">Recipe Stage ${stageCount}</h6>
+        <div class="input-field custom-textarea-field col s12 m7">
+          <textarea
+            id="instructions_${stageCount}"
+            class="custom-textarea"
+            name="instructions[]"
+            placeholder="Stage ${stageCount} Instructions (required)"
+            rows="4"
+            required></textarea>
+          <label for="instructions_${stageCount}">Stage ${stageCount} Instructions (required)</label>
         </div>
+
+        <!-- Image Upload Handling -->
+        <div class="col s12 m5">
+          <div class="file-field input-field">
+            <div class="btn teal darken-2">
+              <span>Add Image</span>
+              <input type="file" name="images[]" accept="image/*">
+            </div>
+            <div class="file-path-wrapper">
+              <input class="file-path validate" type="text" placeholder="Stage ${stageCount} image">
+            </div>
+            <!-- Alt Text Field -->
+            <div class="input-field">
+              <input id="image_desc_${stageCount}" name="image_desc[]" type="text" class="validate">
+              <label for="image_desc_${stageCount}">Image Description</label>
+            </div>
+          </div>
+          <!-- Hidden input to track image deletion -->
+          <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
+        </div>
+      </div>
       `;
       // Insert after the previous stage.
       const stages = document.querySelectorAll(".multi-stage");

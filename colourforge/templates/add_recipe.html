@@ -27,14 +27,11 @@
 
     <!-- Recipe Description Field and Tags -->
     <div class="row">
-      <div class="input-field col s12">
-        <textarea
-          id="recipe_desc"
-          name="recipe_desc"
-          class="materialize-textarea"
-          required></textarea>
-        <label for="recipe_desc">Recipe Description (required)</label>
-      </div>
+      <div class="input-field custom-textarea-field col s12">
+        <textarea id="recipe_desc" class="custom-textarea" name="recipe_desc" placeholder="Recipe Description (required)" rows="4" required></textarea>
+        <label for="custom_textarea">Recipe Description (required)</label>
+    </div>
+
       <!-- Tags field -->
       <div class="input-field col s12">
         <input
@@ -46,17 +43,12 @@
       </div>
     </div>
 
-    <h5>Recipe Stages</h5>
-    <hr >
     <!-- Initial Stage for Instructions and Images -->
     <div class="row multi-stage">
       <!-- Instructions Textarea -->
-      <div class="input-field col s12 m7">
-        <textarea
-          id="instructions_1"
-          name="instructions[]"
-          class="materialize-textarea input"
-          required></textarea>
+      <h6 class="center-align">Recipe Stage 1</h6>
+      <div class="input-field custom-textarea-field col s12 m7">
+        <textarea id="instructions_1" class="custom-textarea" name="instructions[]" placeholder="Stage 1 Instructions (required)" rows="4" required></textarea>
         <label for="instructions_1">Stage 1 Instructions (required)</label>
       </div>
       <!-- Image Upload Handling -->
@@ -74,10 +66,11 @@
           </div>
           <!-- Alt Text Field -->
           <div class="input-field">
-            <textarea
+            <input
               id="image_desc_1"
               name="image_desc[]"
-              class="materialize-textarea"></textarea>
+              type="text"
+              class="validate">
             <label for="image_desc_1">Image Description</label>
           </div>
         </div>
