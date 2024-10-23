@@ -38,7 +38,7 @@ document.addEventListener("DOMContentLoaded", function () {
     outDuration: 200,
   });
 
-  //init dropdown
+  // init dropdown
   var dropdownElems = document.querySelectorAll('.dropdown-trigger');
   M.Dropdown.init(dropdownElems, {
     constrainWidth: false,
@@ -48,20 +48,28 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // Custom JS
 
-  // Auto-resize custom textarea
-  const customTextarea = document.getElementById('custom_textarea');
-  
-  if (customTextarea) {
-    function autoResize() {
-      customTextarea.style.height = 'auto'; // Reset height to auto to shrink
-      customTextarea.style.height = customTextarea.scrollHeight + 'px'; // Set height based on content
-    }
+  // Auto-resize custom textareas
+  const autoResizeTextarea = () => {
+    const textareas = document.querySelectorAll('.custom-textarea'); // Target all custom textareas
 
-    customTextarea.addEventListener('input', autoResize); // Auto-resize on input
-    autoResize(); // Trigger resize for initial content
-  }
-  
-  // Prevent Enter key submitting forms. 
+    textareas.forEach(function (textarea) {
+      // Resize the textarea based on its content
+      function autoResize() {
+        textarea.style.height = 'auto'; // Reset height to auto to shrink if needed
+        textarea.style.height = textarea.scrollHeight + 'px'; // Set height based on content
+      }
+
+      // Auto-resize on input event
+      textarea.addEventListener('input', autoResize);
+      
+      // Trigger initial resize in case there's pre-filled content
+      autoResize();
+    });
+  };
+
+  autoResizeTextarea(); // Run auto-resize on initial load
+
+  // Prevent Enter key from submitting forms.
   const contactForm = document.querySelector('form'); 
 
   if (contactForm) {
@@ -120,7 +128,7 @@ document.addEventListener("DOMContentLoaded", function () {
         </div>
       </div>
       `;
-      // Insert after the previous stage.
+      
       const stages = document.querySelectorAll(".multi-stage");
       const lastStage = stages[stages.length - 1];
 
@@ -135,13 +143,11 @@ document.addEventListener("DOMContentLoaded", function () {
 
       // Re-initialize Materialize Textareas and Labels for new elements when new stage added.
       setTimeout(function () {
-        const textareas = document.querySelectorAll("textarea");
-        textareas.forEach(function (textarea) {
-          M.textareaAutoResize(textarea);
-        });
-
         M.updateTextFields();
       }, 100);
+
+      // Re-apply auto-resize to any new textareas that are added
+      autoResizeTextarea();
     }
   });
 

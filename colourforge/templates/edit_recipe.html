@@ -31,17 +31,11 @@
 
     <!-- Recipe Description -->
     <div class="row">
-      <div class="input-field col s12">
+      <div class="input-field custom-textarea-field col s12">
         <textarea id="recipe_desc" name="recipe_desc" class="custom-textarea" rows="6" required>{{ recipe.recipe_desc }}</textarea>
         <label for="recipe_desc">Recipe Description (required)</label>
       </div>
     </div>
-
-    <div class="row">
-      <div class="input-field custom-textarea-field col s12">
-        <label for="custom_textarea">Recipe Description (required)</label>
-    </div>
-
 
     <!-- Tags -->
     <div class="row">
@@ -61,13 +55,14 @@
       {% for stage in recipe.stages %}
       <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
         <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
+        <br>
         
         <!-- Hidden Inputs -->
         <input type="hidden" name="stage_ids[]" value="{{ stage.stage_id }}" >
         <input type="hidden" name="stage_nums[]" value="{{ stage.stage_num }}" >
 
         <!-- Instruction Field -->
-        <div class="input-field col s12 m7">
+        <div class="input-field custom-textarea-field col s12 m7">
           <textarea id="instructions_{{ stage.stage_num }}" name="instructions[]" class="custom-textarea" rows="6" required>{{ stage.instructions }}</textarea>
           <label for="instructions_{{ stage.stage_num }}">Stage {{ stage.stage_num }} Instructions (required)</label>
         </div>
@@ -122,7 +117,7 @@
             </div>
             <!-- Alt Text Field -->
             <div class="input-field">
-              <textarea id="image_desc_{{ stage.stage_num }}" name="image_desc[]" class="custom-textarea"></textarea>
+              <input id="image_desc_{{ stage.stage_num }}" name="image_desc[]" type="text" class="validate">
               <label for="image_desc_{{ stage.stage_num }}">Image Description</label>
             </div>
             <button
