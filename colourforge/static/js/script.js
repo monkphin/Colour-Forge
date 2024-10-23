@@ -3,7 +3,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
   // init sidenav
   const sidenavElems = document.querySelectorAll(".sidenav");
-  const sidenavInstances = M.Sidenav.init(sidenavElems, draggable = true);
+  const sidenavInstances = M.Sidenav.init(sidenavElems, { draggable: true });
 
   // init carousel
   const carouselElems = document.querySelectorAll(".carousel");
@@ -13,24 +13,22 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   const carouselInstances = M.Carousel.init(carouselElems, carouselOptions);
 
-    // Init Materialize Collapsible
-    var elems = document.querySelectorAll(".collapsible");
-    var instances = M.Collapsible.init(elems, {
-      onOpenStart: function (el) {
-        // Add 'active' class to the header when the collapsible opens
-        var header = el.querySelector('.collapsible-header');
-        if (header) {
-          header.classList.add('active');
-        }
-      },
-      onCloseStart: function (el) {
-        // Remove 'active' class from the header when the collapsible closes
-        var header = el.querySelector('.collapsible-header');
-        if (header) {
-          header.classList.remove('active');
-        }
+  // Init Materialize Collapsible
+  var elems = document.querySelectorAll(".collapsible");
+  var instances = M.Collapsible.init(elems, {
+    onOpenStart: function (el) {
+      var header = el.querySelector('.collapsible-header');
+      if (header) {
+        header.classList.add('active');
       }
-    });
+    },
+    onCloseStart: function (el) {
+      var header = el.querySelector('.collapsible-header');
+      if (header) {
+        header.classList.remove('active');
+      }
+    }
+  });
 
   // init Modal
   const modalElems = document.querySelectorAll(".modal");
@@ -45,10 +43,23 @@ document.addEventListener("DOMContentLoaded", function () {
   M.Dropdown.init(dropdownElems, {
     constrainWidth: false,
     coverTrigger: false,
-    closeOnClick: false 
+    closeOnClick: false
   });
 
   // Custom JS
+
+  // Auto-resize custom textarea
+  const customTextarea = document.getElementById('custom_textarea');
+  
+  if (customTextarea) {
+    function autoResize() {
+      customTextarea.style.height = 'auto'; // Reset height to auto to shrink
+      customTextarea.style.height = customTextarea.scrollHeight + 'px'; // Set height based on content
+    }
+
+    customTextarea.addEventListener('input', autoResize); // Auto-resize on input
+    autoResize(); // Trigger resize for initial content
+  }
 
   // Set stageCount based on existing stages or default to 1 if none present.
   let stageCount = document.querySelectorAll(".multi-stage").length || 1;

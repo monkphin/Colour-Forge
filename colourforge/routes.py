@@ -298,6 +298,23 @@ def contact():
         subject = request.form.get('subject')
         message_content = request.form.get('message_content')
 
-        contact_form(sender_email, sender_name, subject, message_content)
+        if not message_content:
+            flash('Please fill in the message content.', category='error')
+            return redirect(url_for('contact_page'))
+        elif not subject:
+            flash('Please fill in the subject field', category='error')
+            return redirect(url_for('contact_page'))
+        elif not sender_name:
+            flash('Please provide a name.', 'error')
+            return redirect(url_for('contact_page'))
+        elif not sender_email:
+            flash('Please provide your email address.', category='error')
+            return redirect(url_for('contact_page'))
+        else:
+            contact_form(sender_email, sender_name, subject, message_content)    
+            flash("""
+                  Your message has been sent successfully!, 
+                  someone will be in touch soon.""", category='success')
+            return redirect(url_for('contact_page'))
 
     return render_template('contact.html')
