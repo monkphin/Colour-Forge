@@ -29,67 +29,67 @@
   <body>
     <header>
 
- <!-- Desktop Nav -->
-<nav>
-  <div class="nav-wrapper">
-    <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
-    <a href="#" data-target="mobile-nav" class="sidenav-trigger">
-      <i class="fas fa-bars"></i>
-    </a>
-    <ul class="right hide-on-med-and-down">
-      {% if current_user.is_authenticated %}
-      <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-      <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
-      <li><a href="{{ url_for('auth.account') }}">Account</a></li>
-      {% if current_user.is_admin %}
-      <li>
-        <a class="dropdown-trigger" href="#!" data-target="dropdown1">Admin Panels</a>
-      </li>
-      {% endif %}
-      <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-      <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+      <!-- Desktop Nav -->
+      <nav>
+        <div class="nav-wrapper">
+          <a href="{{ url_for('routes.home') }}" class="brand-logo">Colour Forge</a>
+          <a href="#" data-target="mobile-nav" class="sidenav-trigger">
+            <i class="fas fa-bars"></i>
+          </a>
+          <ul class="right hide-on-med-and-down">
+            {% if current_user.is_authenticated %}
+            <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+            <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
+            <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+            {% if current_user.is_admin %}
+            <li>
+              <a class="dropdown-trigger" href="#!" data-target="dropdown1">Admin Panels</a>
+            </li>
+            {% endif %}
+            <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
+            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+            
+            <!-- Search Dropdown Trigger -->
+            <li>
+              <a class="dropdown-trigger" href="#!" data-target="search-dropdown">Search</a>
+            </li>
+            {% else %}
+            <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
+            <li><a href="{{ url_for('auth.register') }}">Register</a></li>
+            <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+            {% endif %}
+          </ul>
+          
+          <!-- Existing Dropdown for Admin Panels -->
+          <ul id="dropdown1" class="dropdown-content">
+            <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
+            <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
+          </ul>
+          
+          <!-- Search Dropdown Content -->
+          <ul id="search-dropdown" class="dropdown-content">
+            <li>
+              <form action="{{ url_for('routes.search') }}" method="GET" class="search-form">
+                <div class="input-field">
+                  <input
+                    type="search"
+                    id="dropdown-search"
+                    name="search"
+                    placeholder="Search for Recipe Tags..."
+                    required
+                    autocomplete="off"
+                  >
+                  <label for="dropdown-search" class="hidden">Search for Recipe Tags...</label>
+                </div>
+              </form>
+            </li>
+          </ul>
+        </div>
+      </nav>
       
-      <!-- Search Dropdown Trigger -->
-      <li>
-        <a class="dropdown-trigger" href="#!" data-target="search-dropdown">Search</a>
-      </li>
-      {% else %}
-      <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-      <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-      <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
-      {% endif %}
-    </ul>
-    
-    <!-- Existing Dropdown for Admin Panels -->
-    <ul id="dropdown1" class="dropdown-content">
-      <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
-      <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
-    </ul>
-    
-    <!-- Search Dropdown Content -->
-    <ul id="search-dropdown" class="dropdown-content">
-      <li>
-        <form action="{{ url_for('routes.search') }}" method="GET" class="search-form">
-          <div class="input-field">
-            <input
-              type="search"
-              id="dropdown-search"
-              name="search"
-              placeholder="Search for Recipe Tags..."
-              required
-              autocomplete="off"
-            >
-            <label for="dropdown-search" class="hidden">Search for Recipe Tags...</label>
-          </div>
-        </form>
-      </li>
-    </ul>
-  </div>
-</nav>
-
-      <!--Mobile Nav-->
+      <!-- Mobile Nav-->
       <ul class="sidenav" id="mobile-nav">
-        <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}" alt="site logo" ></li>
+        <li class="image-container"><img class="site-logo" src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}" alt="site logo" ></li>
         {% if current_user.is_authenticated %}
         <li><a href="{{ url_for('routes.home') }}">Home</a></li>
         <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
@@ -125,30 +125,19 @@
     </header>
 
     <main class="container">
-      <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
+      {% with messages = get_flashed_messages(with_categories=true) %}
         {% if messages %}
-        {% for category, message in messages %}
-        {% if category == 'error' %}
-        <div class="card-panel red lighten-2 flash-message">
-          <span class="white-text">{{ message }}</span>
-          <a href="#!" class="close-flash right">
-            <i class="white-text fas fa-times"></i>
-          </a>
-        </div>
-        {% else %}
-        <div class="card-panel green lighten-2 flash-message">
-          <span class="white-text">{{ message }}</span>
-          <a href="#!" class="close-flash right">
-            <i class="white-text fas fa-times"></i>
-          </a>
-        </div>
+          {% for category, message in messages %}
+            <div class="card-panel {% if category == 'error' %}red lighten-2{% else %}green lighten-2{% endif %} flash-message">
+              <span class="white-text">{{ message }}</span>
+              <a href="#!" class="close-flash right">
+                <i class="white-text fas fa-times"></i>
+              </a>
+            </div>
+          {% endfor %}
         {% endif %}
-        {% endfor %}
-        {% endif %}
-        {% endwith %}
-      </div>
-
+      {% endwith %}
+      
       {% block content %}{% endblock %}
     </main>
 
@@ -164,7 +153,6 @@
                   aria-label="Facebook - (Opens in a new tab)"
                   rel="noopener">
                   <i class="fab fa-facebook-f"></i>
-                </a>
                 </a>
               </li>
               <li>

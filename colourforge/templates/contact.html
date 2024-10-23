@@ -2,17 +2,27 @@
 {% block title %}Contact Us{% endblock %}
 {% block content %}
 
-<div class="container">
-  <div class="row">
+<div class="row">
+  <div class="col s12">
     <h1 class="center-align">Contact us</h1>
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12">
     <div class="image-container">
       <img
-        class="site_logo responsive-img"
+        class="site-logo responsive-img"
         src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}"
         alt="Site Logo">
     </div>
-    <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
-      
+  </div>
+</div>
+
+<div class="row">
+  <div class="col s12 m8 offset-m2"> 
+    <form method="POST" class="contact-form" action="{{ url_for('routes.contact') }}">
+
       <div class="row">
         <div class="input-field col s12 m6"> 
           <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
@@ -29,7 +39,7 @@
           <input placeholder="Email Subject" id="subject" type="text" name="subject" class="validate">
           <label for="subject">Email Subject</label>
         </div>
-        <div class="input-field col s12">
+        <div class="input-field col s12"> 
           <textarea id="textarea1" class="materialize-textarea" name="message_content"></textarea>
           <label for="textarea1">Your Message</label>
         </div>
