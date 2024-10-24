@@ -265,6 +265,11 @@ nav ul a:active {
    Button Styles
    ============================================================= */
 
+/* Button Styles */
+.btn {
+  margin: 5px;
+}
+
 /* Large Button */
 .btn-large {
   margin-top: 15px;
@@ -538,12 +543,20 @@ nav ul a:active {
   text-align: center;
 }
 
+.recipe-title {
+  padding-bottom: 10px;
+}
+
 /* =============================================================
    Text fields
    ============================================================= */
 
 .file-input-container {
    display: none
+  }
+
+  .input-field label {
+    font-size: 0.7rem;
   }
 
 /* =============================================================

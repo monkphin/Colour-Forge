@@ -118,7 +118,7 @@ document.addEventListener("DOMContentLoaded", function () {
         <input type="hidden" name="stage_nums[]" value="${stageCount}">
 
         <!-- Instructions Textarea -->
-        <h6 class="center-align">Recipe Stage ${stageCount}</h6>
+        <h6 class="center-align recipe-title">Recipe Stage ${stageCount}</h6>
         <div class="input-field custom-textarea-field col s12 m7">
           <textarea
             id="instructions_${stageCount}"
@@ -133,18 +133,30 @@ document.addEventListener("DOMContentLoaded", function () {
         <!-- Image Upload Handling -->
         <div class="col s12 m5">
           <div class="file-field input-field">
-            <div class="btn teal darken-2">
-              <span>Add Image</span>
-              <input type="file" name="images[]" accept="image/*">
+           <div class="row">
+            <div class="col s12 l6">
+              <div class="btn teal darken-2">
+                <span>Add Image</span>
+                <input type="file" name="images[]" accept="image/*" >
+              </div>
+            </div> 
+            <div class="col s12 l6">
+              <div class="file-path-wrapper">
+                <input
+                  class="file-path validate"
+                  type="text"
+                  placeholder="Stage 1 image" >
+              </div>
             </div>
-            <div class="file-path-wrapper">
-              <input class="file-path validate" type="text" placeholder="Stage ${stageCount} image">
-            </div>
-            <!-- Alt Text Field -->
-            <div class="input-field">
-              <input id="image_desc_${stageCount}" name="image_desc[]" type="text" class="validate">
-              <label for="image_desc_${stageCount}">Image Description</label>
-            </div>
+          </div> 
+          <!-- Alt Text Field -->
+          <div class="input-field">
+            <input
+              id="image_desc_1"
+              name="image_desc[]"
+              type="text"
+              class="validate">
+            <label for="image_desc_1">Image Description</label>
           </div>
           <!-- Hidden input to track image deletion -->
           <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
