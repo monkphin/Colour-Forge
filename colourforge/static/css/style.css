@@ -63,6 +63,8 @@ h1, h2, h3, h4, h5 h6 {
   font-family: 'Roboto', sans-serif;
 }
 
+
+
 /* =============================================================
    Awesomeplete styles
    ============================================================= */
@@ -186,6 +188,11 @@ nav ul a:active {
 /* Pagination Active State */
 .pagination li.active {
   background-color: #b71c1c;
+}
+
+.pagination {
+  font-size: 0.1rem;
+  padding-bottom: 15px;
 }
 
 /* =============================================================
