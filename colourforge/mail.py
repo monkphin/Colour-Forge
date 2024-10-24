@@ -1,4 +1,5 @@
 from flask_mail import Message
+from flask import render_template
 
 from colourforge import mail
 
@@ -38,19 +39,7 @@ def welcome_email(email_address, username):
     """
 
     # HTML Email
-    msg.html = f"""
-    <html>
-        <body>
-            <p>Hi {username},</p>
-            <p>Welcome to Colourforge</p>
-            <p>Thank you for registering an account with us.</p>
-            <p>Don't worry, we just use your email for account messages like
-            password resets and will not spam you!</p>
-            <p>Thanks,<br>
-            The Colourforge Team</>
-        </body>
-    </html>
-    """
+    msg.html = render_template("emails/welcome.html", username=username)
 
     mail.send(msg)
 
@@ -84,17 +73,10 @@ def account_deletion(email_address, username):
     """
 
     # HTML Email
-    msg.html = f"""
-    <html>
-        <body>
-            <p>Hey {username},</p>
-            <p>Sorry to see you go</p>
-            <p>Your account has been successfully deleted.</p>
-            <p>Thanks,<br>
-            The Colourforge Team</>
-        </body>
-    </html>
-    """
+    msg.html = render_template(
+        "emails/account_deletion.html",
+        username=username
+    )
 
     mail.send(msg)
 
@@ -131,23 +113,7 @@ def password_change(email_address, username):
     """
 
     # HTML Email
-    msg.html = f"""
-    <html>
-        <body>
-            <p>Hi {username},</p>
-            <p>We wanted to inform you that your password was successfully
-            changed.</p>
-            <p>If you initiated this change, no further action is needed. If
-            you did not request a password change, please contact us
-            immediately using the link below to secure your account:</p>
-            <p>
-              <a href="https://colourforge.co.uk/contact">Contact Support</a>
-            </p>
-            <p>Thanks,<br>
-            The Colourforge Team</p>
-        </body>
-    </html>
-    """
+    msg.html = render_template("emails/password_reset.html", username=username)
 
     mail.send(msg)
 
@@ -180,19 +146,8 @@ def email_change(email_address, old_email, username):
     """
 
     # HTML Email
-    msg.html = f"""
-    <html>
-       <body>
-            <p>Hi {username},</p>
-            <p>We wanted to inform you that your email was successfully
-            changed</p>
-            <p>Thanks,<br>
-            The Colourforge Team</>
-        </body>
-    </html>
-
-    """
-
+    msg.html = render_template("emails/email_change.html", username=username)
+    
     mail.send(msg)
 
 
@@ -220,13 +175,10 @@ def contact_form(sender_email, sender_name, subject, message_content):
     msg.body = f"{sender_name} has submitted an email:\n\n{message_content}"
 
     # HTML Email
-    msg.html = f"""
-    <html>
-        <body>
-            <p>{ sender_name } has submitted an email</p>
-            <p>{ message_content }</p>
-        </body>
-    </html>
-    """
+    msg.html = render_template(
+        "emails/form_email.html",
+        sender_name=sender_email,
+        message_content=message_content
+    )
 
     mail.send(msg)
