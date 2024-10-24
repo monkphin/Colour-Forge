@@ -92,17 +92,22 @@ document.addEventListener("DOMContentLoaded", function () {
 
   autoResizeTextarea(); // Run auto-resize on initial load
 
-  // Prevent Enter key from submitting forms.
-  const contactForm = document.querySelector('form'); 
+// Prevent Enter key from submitting forms unless the form has a search input.
+var forms = document.querySelectorAll('form');
 
-  if (contactForm) {
-    contactForm.addEventListener('keydown', function(event) {
-      if (event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
-        event.preventDefault();
-        return false;
-      }
-    });
-  }
+forms.forEach(function(form) {
+  form.addEventListener('keydown', function(event) {
+    // Check if the form contains a search input element
+    var containsSearchInput = form.querySelector('input[type="search"]') !== null;
+
+    // Allow Enter key for forms with a search input, block for others.
+    if (!containsSearchInput && event.key === 'Enter' && event.target.tagName !== 'TEXTAREA') {
+      event.preventDefault();
+      return false;
+    }
+  });
+});
+
 
   // Set stageCount based on existing stages or default to 1 if none present.
   let stageCount = document.querySelectorAll(".multi-stage").length || 1;
