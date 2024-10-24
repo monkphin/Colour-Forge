@@ -2,42 +2,48 @@
 {% block title %}Search Results{% endblock %}
 {% block content %}
 
-  {% if recipes %}
     <div class="row">
-      <!-- Column for the Heading -->
-      <div class="col s12 m6">
-        <h3>Search Results for "{{ search }}"</h3>
-      </div>
 
-      <!-- Column for the Search Form -->
-      <div class="col s12 m6">
-        <form action="{{ url_for('admin.recipe_search') }}" method="GET">
-          <div class="row">
-            <!-- Input Field Column -->
-            <div class="input-field col s8">
-              <input
-                id="recipe_search"
-                type="text"
-                name="recipe_search"
-                class="validate"
-                placeholder="Search for Recipe Names..."
-                required >
-              <label for="recipe_search">Search</label>
-            </div>
+      <div class="row center-align">
+        <!-- Column for the Heading -->
+        <div class="col s12 m6">
+          <h4>
+            {% if users and users|length > 0 %}
+              Search Results for "{{ search }}"
+            {% else %}
+              No results found for "{{ search }}"
+            {% endif %}
+          </h4>
+        </div>
 
-            <!-- Button Column -->
-            <div class="input-field col s4">
-              <button
-                class="waves-effect waves-light btn-small blue darken-4"
-                type="submit"
-                name="action">
-                Search
-              </button>
-            </div>
+    <!-- Column for the Search Form -->
+    <div class="col s12 m6">
+      <form action="{{ url_for('admin.recipe_search') }}" method="GET">
+        <div class="row">
+          <!-- Input Field Column -->
+          <div class="input-field col s12 l8">
+            <input
+              id="recipe_search"
+              type="text"
+              name="recipe_search"
+              class="validate"
+              required >
+            <label for="recipe_search">Search Recipe Names...</label>
           </div>
-        </form>
-      </div>
+
+          <!-- Button Column -->
+          <div class="input-field col s12 l4 inline-search-button">
+            <button
+              class="waves-effect waves-light btn-small blue darken-4"
+              type="submit"
+              name="action">
+              Search
+            </button>
+          </div>
+        </div>
+      </form>
     </div>
+  </div>
 
     <div class="row">
       {% for recipe in recipes %}
@@ -113,43 +119,5 @@
         {% endif %}
       {% endfor %}
     </div>
-
-  {% else %}
-    <div class="row">
-      <!-- Column for the Heading -->
-      <div class="col s6">
-        <h3>No results found for "{{ search }}"</h3>
-      </div>
-
-      <!-- Column for the Search Form -->
-      <div class="col s6">
-        <form action="{{ url_for('admin.recipe_search') }}" method="GET">
-          <div class="row">
-            <!-- Input Field Column -->
-            <div class="input-field col s8">
-              <input
-                id="recipe_search"
-                type="text"
-                name="recipe_search"
-                class="validate"
-                placeholder="Search for Recipe Names..."
-                required >
-              <label for="recipe_search">Search</label>
-            </div>
-
-            <!-- Button Column -->
-            <div class="input-field col s4 inline-search-button">
-              <button
-                class="waves-effect waves-light btn-small blue darken-4"
-                type="submit"
-                name="action">
-                Search
-              </button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
-  {% endif %}
 
 {% endblock %}

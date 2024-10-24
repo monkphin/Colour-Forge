@@ -259,13 +259,12 @@ def recipe_search():
         flash("Please enter a search term.", category="error")
         return redirect(url_for('admin.recipe_admin'))
 
+    # Perform the recipe search
     matching_recipes = Recipe.query.filter(
         Recipe.recipe_name.ilike(f"%{search}%")
     ).all()
 
-    if not matching_recipes:
-        flash("No recipes found that match your search", category="info")
-
+    # Render the search results template with recipes, even if it's an empty list
     return render_template(
         'admin_recipe_search_results.html',
         recipes=matching_recipes,

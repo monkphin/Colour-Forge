@@ -2,7 +2,7 @@
 {% block title %}Account{% endblock %}
 {% block content %}
 
-  <div class="row">
+  <div class="row center-align">
     <!-- Column for the Heading -->
     <div class="col s12 m6">
       <h3>User Recipe Admin</h3>
@@ -13,19 +13,18 @@
       <form action="{{ url_for('admin.recipe_search') }}" method="GET">
         <div class="row">
           <!-- Input Field Column -->
-          <div class="input-field col s8">
+          <div class="input-field col s12 l8">
             <input
               id="recipe_search"
               type="text"
               name="recipe_search"
               class="validate"
-              placeholder="Search Recipe Names..."
               required >
-            <label for="recipe_search">Search</label>
+            <label for="recipe_search">Search Recipe Names...</label>
           </div>
 
           <!-- Button Column -->
-          <div class="input-field col s4 inline-search-button">
+          <div class="input-field col s12 l4 inline-search-button">
             <button
               class="waves-effect waves-light btn-small blue darken-4"
               type="submit"
