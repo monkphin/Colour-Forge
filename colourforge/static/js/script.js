@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 <input
                   class="file-path validate"
                   type="text"
-                  placeholder="Stage 1 image" >
+                  placeholder="Stage ${stageCount} image" >
               </div>
             </div>
           </div> 

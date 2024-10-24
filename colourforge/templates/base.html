@@ -130,14 +130,21 @@
         {% if messages %}
         {% for category, message in messages %}
         {% if category == 'error' %}
-        <div class="card-panel red lighten-2 flash-message">
+        <div class="card-panel red flash-message">
+          <span class="white-text">{{ message }}</span>
+          <a href="#!" class="close-flash right">
+            <i class="white-text fas fa-times"></i>
+          </a>
+        </div>
+        {% elif category == 'success' %}
+        <div class="card-panel green flash-message">
           <span class="white-text">{{ message }}</span>
           <a href="#!" class="close-flash right">
             <i class="white-text fas fa-times"></i>
           </a>
         </div>
         {% else %}
-        <div class="card-panel green lighten-2 flash-message">
+        <div class="card-panel blue flash-message">
           <span class="white-text">{{ message }}</span>
           <a href="#!" class="close-flash right">
             <i class="white-text fas fa-times"></i>
@@ -149,7 +156,8 @@
         {% endwith %}
       </div>
 
-      {% block content %}{% endblock %}
+      {% block content %}
+      {% endblock %}
     </main>
 
     <footer class="page-footer">

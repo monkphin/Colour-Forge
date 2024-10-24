@@ -4,21 +4,6 @@
 
   <!-- Logged in Display -->
   {% if user.is_authenticated %}
-    <div class="row">
-      <!-- Add Paint Card -->
-      <div class="col s12 m6">
-        <div class="card">
-          <div class="card-image">
-            <img class="responsive-img recipe-card-img" src="{{ url_for('static', filename='images/paint_library.png') }}" alt="Add Paint">
-          </div>
-          <div class="card-content center-align">
-            <span class="card-title">Add Paint</span>
-            <p>Feature Coming Soon</p>
-            <a href="#" class="btn-small light-blue disabled">Add Paint</a>
-          </div>
-        </div>
-      </div>
-
       <!-- Add Recipe Card -->
       <div class="col s12 m6">
         <div class="card">
@@ -33,6 +18,21 @@
         </div>
       </div>
     </div>
+
+    <div class="row">
+      <!-- Add Paint Card -->
+      <div class="col s12 m6">
+        <div class="card">
+          <div class="card-image">
+            <img class="responsive-img recipe-card-img" src="{{ url_for('static', filename='images/paint_library.png') }}" alt="Add Paint">
+          </div>
+          <div class="card-content center-align">
+            <span class="card-title">Add Paint</span>
+            <p>Feature Coming Soon</p>
+            <a href="#" class="btn-small light-blue disabled">Add Paint</a>
+          </div>
+        </div>
+      </div>
 
     <!-- Member Recipes Section -->
     <h1 class="center-align">Member Paint Recipes</h1>

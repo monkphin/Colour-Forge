@@ -13,6 +13,7 @@
   <div class="col s12 m6">
     <form action="{{ url_for('admin.user_search') }}" method="GET">
       <div class="row">
+        <div class="col s12 l6">
         <!-- Input Field Column -->
         <div class="input-field col s8">
           <input
@@ -25,7 +26,8 @@
           >
           <label for="user_search">Search</label>
         </div>
-
+      </div>
+      <div class="col s12 l6">
         <!-- Button Column -->
         <div class="input-field col s4 button-col">
           <button
@@ -34,6 +36,7 @@
             name="action">
             Search
           </button>
+        </div>
         </div>
       </div>
     </form>
