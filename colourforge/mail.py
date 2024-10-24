@@ -146,7 +146,7 @@ def email_change(email_address, old_email, username):
     """
 
     # HTML Email
-    msg.html = render_template("emails/email_change.html", username=username)
+    msg.html = render_template("emails/form_email.html", username=username)
     
     mail.send(msg)
 
