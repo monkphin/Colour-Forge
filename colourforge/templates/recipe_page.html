@@ -90,8 +90,8 @@
       <div>
         <ul class="collapsible">
           {% for stage in recipe.stages %}
-            <li>
-              <div class="collapsible-header">
+          <li {% if stage.stage_num == 1 %}class="active"{% endif %}>
+            <div class="collapsible-header">
                 <i class="fas fa-caret-right caret-icon"></i> Stage: {{ stage.stage_num }}
               </div>
               <div class="collapsible-body">
