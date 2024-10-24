@@ -29,8 +29,19 @@ def admin_dash():
     Returns:
         Response: The rendered admin dashboard page.
     """
+    # Get all Users
     users = User.query.all()
-    return render_template("admin.html", user=current_user, users=users)
+    
+    page = request.args.get('page', 1, type=int)
+    per_page = 6  # users per page
+    total = len(users)
+    total_pages = ceil(total / per_page)
+    
+    start = (page - 1) * per_page
+    end = start + per_page
+    paginated_users = users[start:end]
+    
+    return render_template("admin.html", user=current_user, users=paginated_users, page=page, total_pages=total_pages)
 
 
 @admin.route('/change_email/<int:user_id>', methods=['POST'])
