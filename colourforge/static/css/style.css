@@ -39,7 +39,7 @@ body {
 /* Main Content Area */
 main {
   flex: 1 0 auto;
-  max-width: 70% !important;
+
 }
 
 /* General Image Styling */
@@ -523,6 +523,10 @@ nav ul a:active {
     opacity: 1; 
   }
 
+.page-search {
+  width: auto !important;
+}
+
 /* =============================================================
    Recipe Description Styles
    ============================================================= */
@@ -605,6 +609,13 @@ nav ul a:active {
   }
 }
   
+@media (min-width: 600px) {
+  /* Main Content Area */
+main {
+  max-width: 70% !important;
+}
+}
+
 @media (min-width: 992px) {
   nav .brand-logo {
     padding-left: 5px !important;
