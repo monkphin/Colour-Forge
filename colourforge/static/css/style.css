@@ -62,7 +62,10 @@ h1, h2, h3, h4, h5 h6 {
   font-family: 'Roboto', sans-serif;
 }
 
-
+/* Hides recaptcha basdge */
+.grecaptcha-badge { 
+  visibility: hidden !important;
+}
 
 /* =============================================================
    Awesomeplete styles
