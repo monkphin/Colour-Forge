@@ -1,12 +1,13 @@
 import os
 
+
 class Config:
     """Base configuration class"""
     SECRET_KEY = os.environ.get("SECRET_KEY")
-    
+
     # Database configuration
     SQLALCHEMY_TRACK_MODIFICATIONS = False
-    
+
     # Mail configuration
     MAIL_SERVER = os.environ.get("MAIL_SERVER")
     MAIL_PORT = int(os.environ.get("MAIL_PORT", 587))  # Default to port 587
@@ -15,7 +16,7 @@ class Config:
     MAIL_USERNAME = os.environ.get("MAIL_USERNAME")
     MAIL_PASSWORD = os.environ.get("MAIL_PASSWORD")
     MAIL_DEFAULT_SENDER = os.environ.get("MAIL_DEFAULT_SENDER")
-    
+
     # Cloudinary configuration
     CLOUDINARY_CLOUD_NAME = os.environ.get("CLOUDINARY_CLOUD_NAME")
     CLOUDINARY_API_KEY = os.environ.get("CLOUDINARY_API_KEY")
