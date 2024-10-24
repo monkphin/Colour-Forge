@@ -278,6 +278,9 @@ nav ul a:active {
 .inline-search-button {
    margin-top: 15px;
 }
+.file-field .btn {
+  float: none;
+}
 
 /* =============================================================
    Recipe Card Styles
