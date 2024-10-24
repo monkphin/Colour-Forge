@@ -328,6 +328,11 @@ document.addEventListener("DOMContentLoaded", function () {
   }
 });
 
+// Captcha Tokenization
+function onSubmit() {
+  document.getElementById("contact-form").submit();
+}
+
 // Ensure all admin toggles are captured
 document.querySelectorAll("input[type='checkbox'][id^='is_admin_']").forEach(function (checkbox) {
   checkbox.addEventListener("change", function () {

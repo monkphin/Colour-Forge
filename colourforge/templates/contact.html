@@ -11,7 +11,7 @@
         src="{{ url_for('static', filename='images/colour-logo-small.webp') }}"
         alt="Site Logo">
     </div>
-    <form class="col s12" method="POST" action="{{ url_for('routes.contact') }}">
+    <form class="col s12" id="contact-form" method="POST" action="{{ url_for('routes.contact') }}">
       
       <div class="row">
         <div class="input-field col s12 m6"> 
@@ -39,7 +39,8 @@
     </div>
       </div>
       <div class="center-align">
-      <button class="btn waves-effect waves-light teal darken-2" id="submitButton" type="submit" name="action">
+      <button class="btn waves-effect waves-light teal darken-2 g-recaptcha" data-sitekey="6LfpT2sqAAAAAJlKz8-7QRWuYoGhstvEG5lpCHTp" id="submitButton" type="submit" data-callback='onSubmit' 
+        data-action='submit' name="action">
         Submit
       </button>
     </div>
