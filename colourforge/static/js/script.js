@@ -13,22 +13,45 @@ document.addEventListener("DOMContentLoaded", function () {
   };
   const carouselInstances = M.Carousel.init(carouselElems, carouselOptions);
 
-  // Init Materialize Collapsible
-  var elems = document.querySelectorAll(".collapsible");
+ 
+  // Initialize Materialize Collapsible
+  var elems = document.querySelectorAll('.collapsible');
   var instances = M.Collapsible.init(elems, {
-    onOpenStart: function (el) {
+    onOpenStart: function(el) {
       var header = el.querySelector('.collapsible-header');
       if (header) {
-        header.classList.add('active');
+        var icon = header.querySelector('.toggle-icon');
+        if (icon) {
+          // Change icon to minus when opening
+          icon.classList.remove('fa-plus');
+          icon.classList.add('fa-minus');
+        }
       }
     },
-    onCloseStart: function (el) {
+    onCloseStart: function(el) {
       var header = el.querySelector('.collapsible-header');
       if (header) {
-        header.classList.remove('active');
+        var icon = header.querySelector('.toggle-icon');
+        if (icon) {
+          // Change icon to plus when closing
+          icon.classList.remove('fa-minus');
+          icon.classList.add('fa-plus');
+        }
       }
     }
   });
+
+  // Handle the first stage on page load
+  var firstStageHeader = document.querySelector('.collapsible-header.first-stage');
+  if (firstStageHeader) {
+    var firstStageIcon = firstStageHeader.querySelector('.toggle-icon');
+    if (firstStageIcon) {
+      firstStageIcon.classList.remove('fa-plus');
+      firstStageIcon.classList.add('fa-minus'); // Ensure the first stage is open with minus icon
+    }
+  }
+
+  
 
   // init Modal
   const modalElems = document.querySelectorAll(".modal");
