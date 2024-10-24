@@ -1,5 +1,4 @@
 from flask_mail import Message
-from flask import render_template
 
 from colourforge import mail
 
@@ -221,9 +220,7 @@ def contact_form(sender_email, sender_name, subject, message_content):
     msg.body = f"{sender_name} has submitted an email:\n\n{message_content}"
 
     # HTML Email
-    msg.html = render_template("emails/form_email.html", sender_name=sender_name, message_content=message_content)
-    
-    f"""
+    msg.html = f"""
     <html>
         <body>
             <p>{ sender_name } has submitted an email</p>

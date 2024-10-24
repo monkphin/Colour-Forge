@@ -322,6 +322,6 @@ def contact():
             flash("""
                   Your message has been sent successfully!,
                   someone will be in touch soon.""", category='success')
-            return redirect(url_for('routes.contact_form'))
+            return redirect(url_for('routes.contact'))
 
     return render_template('contact.html')
