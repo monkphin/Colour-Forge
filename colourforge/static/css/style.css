@@ -39,7 +39,6 @@ body {
 /* Main Content Area */
 main {
   flex: 1 0 auto;
-
 }
 
 /* General Image Styling */
@@ -196,8 +195,17 @@ nav ul a:active {
 }
 
 /* =============================================================
-   Warning Message Styles
+   Modal Styles
    ============================================================= */
+
+/* Remove padding from modals */
+.modal-content {
+  padding: 0 !important;
+}
+
+.modal-footer {
+  text-align: center !important;
+}
 
 /* Warning Message */
 .warning-message {
@@ -205,6 +213,7 @@ nav ul a:active {
   color: #ffffff; 
   border: 3px solid #B71C1C; 
   padding: 20px; 
+  margin: 10px;
   border-radius: 8px; 
   font-size: 1.2rem; 
   text-align: center; 
@@ -280,6 +289,14 @@ nav ul a:active {
 }
 .file-field .btn {
   float: none;
+}
+
+/* =============================================================
+   Account Page Components
+   ============================================================= */
+
+.user-form {
+  padding: 14px !important;
 }
 
 /* =============================================================
@@ -415,7 +432,6 @@ nav ul a:active {
   align-items: center;
   max-width: 100%;
   height: auto;
-  margin-left: 16px;
 }
 
 /* Caret Icon */
@@ -614,13 +630,20 @@ nav ul a:active {
   
 @media (min-width: 600px) {
   /* Main Content Area */
-main {
-  max-width: 70% !important;
-}
+  main {
+    max-width: 70% !important;
+  }
 }
 
 @media (min-width: 992px) {
+  /* Main Content Area */
+  main {
+    max-width: 1400px !important;
+  }
+
+  /* Logo adjustment on larger screens */
   nav .brand-logo {
     padding-left: 5px !important;
   }
 }
+
