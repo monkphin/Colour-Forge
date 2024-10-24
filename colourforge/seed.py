@@ -59,6 +59,7 @@ def create_default_recipe(user):
     db.session.flush()  # Get stage_ids
 
     # Create recipe images
+    # I have been advise by my mentor that URLs can be longer than 79 chars.
     image1 = RecipeImage(
         stage=stage1,
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',

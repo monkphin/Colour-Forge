@@ -69,10 +69,10 @@ def recipes():
 
     Returns:
         Response : The rendered recipes page.
-    """    
+    """
     recipes = Recipe.query.filter_by(
         user_id=current_user.id).order_by(Recipe.recipe_name).all()
-    
+
     page = request.args.get('page', 1, type=int)
     per_page = 6  # Recipes per page
     total = len(recipes)
@@ -82,7 +82,13 @@ def recipes():
     end = start + per_page
     paginated_recipes = recipes[start:end]
 
-    return render_template("recipes.html", recipes=paginated_recipes, page=page, total_pages=total_pages, user=current_user)
+    return render_template(
+        "recipes.html",
+        recipes=paginated_recipes,
+        page=page,
+        total_pages=total_pages,
+        user=current_user
+    )
 
 
 @routes.route("/recipe_page/<int:recipe_id>")
@@ -311,9 +317,9 @@ def contact():
             flash('Please provide your email address.', category='error')
             return redirect(url_for('routes.contact'))
         else:
-            contact_form(sender_email, sender_name, subject, message_content)    
+            contact_form(sender_email, sender_name, subject, message_content)
             flash("""
-                  Your message has been sent successfully!, 
+                  Your message has been sent successfully!,
                   someone will be in touch soon.""", category='success')
             return redirect(url_for('routes.contact'))
 

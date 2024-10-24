@@ -31,17 +31,23 @@ def admin_dash():
     """
     # Get all Users
     users = User.query.all()
-    
+
     page = request.args.get('page', 1, type=int)
     per_page = 6  # users per page
     total = len(users)
     total_pages = ceil(total / per_page)
-    
+
     start = (page - 1) * per_page
     end = start + per_page
     paginated_users = users[start:end]
-    
-    return render_template("admin.html", user=current_user, users=paginated_users, page=page, total_pages=total_pages)
+
+    return render_template(
+        "admin.html",
+        user=current_user,
+        users=paginated_users,
+        page=page,
+        total_pages=total_pages
+    )
 
 
 @admin.route('/change_email/<int:user_id>', methods=['POST'])
@@ -221,10 +227,10 @@ def recipe_admin():
     paginated_recipes = recipes[start:end]
 
     return render_template(
-        "recipe_admin.html", 
-        recipes=paginated_recipes, 
-        page=page, 
-        total_pages=total_pages, 
+        "recipe_admin.html",
+        recipes=paginated_recipes,
+        page=page,
+        total_pages=total_pages,
         user=current_user
     )
 
@@ -264,7 +270,10 @@ def recipe_search():
         Recipe.recipe_name.ilike(f"%{search}%")
     ).all()
 
-    # Render the search results template with recipes, even if it's an empty list
+    """
+    Render the search results template with recipes,
+    even if it's an empty list
+    """
     return render_template(
         'admin_recipe_search_results.html',
         recipes=matching_recipes,

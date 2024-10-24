@@ -9,7 +9,8 @@ from colourforge.models import (
     EntityTag
 )
 
-# Common variables.
+# Common variables. 
+# I have been advise by my mentor that URLs can be longer than 79 chars. 
 PLACEHOLDER_IMAGE_URL = (
     'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png')
 PLACEHOLDER_THUMBNAIL_URL = (
