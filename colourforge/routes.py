@@ -317,6 +317,7 @@ def contact():
             flash('Please provide your email address.', category='error')
             return redirect(url_for('routes.contact'))
         else:
+            print(f"Calling contact_form with: {sender_name}, {subject}")  # Add this line
             contact_form(sender_email, sender_name, subject, message_content)
             flash("""
                   Your message has been sent successfully!,
