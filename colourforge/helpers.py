@@ -357,9 +357,7 @@ def process_stages_and_images(
         deleted.
     """
     existing_stage_ids = set(stage_ids)
-    current_stages = (RecipeStage.query
-                      .filter_by(recipe_id=recipe.recipe_id)
-                      .all())
+    current_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
 
     # Delete stages that are no longer in the updated list
     for stage in current_stages:
@@ -386,22 +384,17 @@ def process_stages_and_images(
             create_new_stage(recipe, i, instruction, images, alt_texts)
         i += 1
 
-    """
-    After processing all stages, reassign stage_num to ensure sequential order
-    """
-    all_stages = RecipeStage.query.filter_by(
-        recipe_id=recipe.recipe_id).order_by(RecipeStage.stage_num).all()
-    i = 1
+    # **Re-sort stages after updates**
+    all_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).order_by(RecipeStage.stage_num).all()
+    
+    # Assign stage_num values and set the final stage flag
+    stage_num = 1
     for stage in all_stages:
-        stage.stage_num = i
-        i += 1
+        stage.stage_num = stage_num
+        stage.is_final_stage = (stage_num == len(all_stages))  # Last stage flag
+        stage_num += 1
 
-    # Update the is_last_stage flag based on the updated stage_num
-    total_stages = len(all_stages)
-    i = 1
-    for stage in all_stages:
-        stage.is_final_stage = (i == total_stages)
-        i += 1
+    db.session.commit()
 
 
 def update_existing_stage(
