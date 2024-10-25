@@ -52,7 +52,7 @@
 
     <!-- Stages for Instructions -->
     <div class="row">
-      {% for stage in recipe.stages %}
+      {% for stage in recipe.stages|sort(attribute='stage_num') %}
       <div class="row multi-stage" data-stage-id="{{ stage.stage_id }}">
         <h6 class="center-align">Recipe Stage {{ stage.stage_num }}</h6>
         <br>

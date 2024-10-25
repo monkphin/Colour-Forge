@@ -52,6 +52,32 @@ Found an issue when creating the edit recipe page, where when an image was using
 jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
 While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
 
+FOund an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. 
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+
+This was the recipe before editing. 
+ stage_id | recipe_id | stage_num | instructions | is_final_stage 
+----------+-----------+-----------+--------------+----------------
+      135 |        53 |         1 | Testing 1    | f
+      136 |        53 |         2 | Testing 2    | f
+      137 |        53 |         3 | Testing 3    | t
+(3 rows)
+
+This was it after
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+ stage_id | recipe_id | stage_num |           instructions           | is_final_stage 
+----------+-----------+-----------+----------------------------------+----------------
+      136 |        53 |         2 | Testing 2                        | f
+      135 |        53 |         1 | Testing 1\r                     +| f
+          |           |           | \r                              +| 
+          |           |           | this should move to stage 2 or 3 | 
+      137 |        53 |         3 | Testing 3                        | t
+(3 rows)
+
+A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. 
+Jinja for loop before the fix       {% for stage in recipe.stages %}
+Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
+
 - [Technology](#technology)
 
   - [Frameworks and Programs](#frameworks-and-programs)

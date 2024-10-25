@@ -101,7 +101,7 @@
       <!-- Collapsible Stages with Modals for Each Stage's Image -->
       <div>
         <ul class="collapsible popout">
-          {% for stage in recipe.stages %}
+          {% for stage in recipe.stages|sort(attribute='stage_num') %}
           <li {% if stage.stage_num == 1 %}class="active"{% endif %}>
             <div class="collapsible-header">
               {% if stage.stage_num == 1 %}
