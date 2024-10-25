@@ -8,10 +8,10 @@ def create_default_recipe(user):
         user=user,  # Automatically sets user_id
         recipe_name="Demo Recipe",
         recipe_desc=f"""
-        This is a demonstration recipe, to show a rough idea of possible uses.
+This is a demonstration recipe, to show a rough idea of possible uses.
 
-        Images can be clicked on to see a larger copy, this will also allow you
-        to open the full sized version of the image in a new window
+Images can be clicked on to see a larger copy, this will also allow you
+to open the full sized version of the image in a new window
         """
     )
     db.session.add(demo_recipe)
@@ -21,14 +21,13 @@ def create_default_recipe(user):
     stage1 = RecipeStage(
         stage_num=1,
         instructions=f"""
-        Your basic instructions should go here.
+Your basic instructions should go here.
 
-        These will honour line breaks via the enter key.
+These will honour line breaks via the enter key.
 
-        Images and descriptions are optional, though a placeholder will be
-        added if no image is provided.
-
-        Such as with this stage.
+Images and descriptions are optional, though a placeholder will be added if no
+image is provided. Such as with this stage, where we see a black and white image
+of our Mascot, Rummy Nate, the procrastinating Painter.
         """,
         is_final_stage=False
     )
@@ -36,8 +35,13 @@ def create_default_recipe(user):
     stage2 = RecipeStage(
         stage_num=2,
         instructions=f"""
-        This stage has a user uploaded image with the image description being
-        used as the images alt text.
+This stage has a user-uploaded image with the image description being
+used as the image's alt text.
+
+Image descriptions are optional, but can help describe the image to those who
+use assistive devices to access the internet, as well as being useful to help
+describe the image to people who are following your recipe, so they should be
+fairly descriptive where possible.
         """,
         is_final_stage=False
     )
@@ -45,12 +49,12 @@ def create_default_recipe(user):
     stage3 = RecipeStage(
         stage_num=3,
         instructions=f"""
-        This is the final stage, as such its image will function as the
-        placeholder for the recipe - ideally showing what the end results of
-        the recipe should look like.
+This is the final stage, as such its image will function as the placeholder
+for the recipe - ideally showing what the end results of the recipe should look
+like.
 
-        Recipes can have a nearly infinite number of stages to allow for some
-        very complex recipes to be created.
+Recipes can have a nearly infinite number of stages to allow for some very
+complex recipes to be created.
         """,
         is_final_stage=True
     )
@@ -62,26 +66,26 @@ def create_default_recipe(user):
     # I have been advise by my mentor that URLs can be longer than 79 chars.
     image1 = RecipeImage(
         stage=stage1,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png',
-        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png',
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.png',
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.png',
         alt_text='Default Image',
-        public_id=None
+        public_id='placeholder'
     )
 
     image2 = RecipeImage(
         stage=stage2,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728736766/srth5pc5nisq66mph7ng.jpg',
-        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/srth5pc5nisq66mph7ng.jpg',
-        alt_text='Fafnir Ran Conversion',
-        public_id='srth5pc5nisq66mph7ng'
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-2.jpg',
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-2.jpg',
+        alt_text='A model of a frog, in red samurai armour.',
+        public_id='demo-image-1'
     )
 
     image3 = RecipeImage(
         stage=stage3,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728736767/woumsfwwkgycjjqooe3g.jpg',
-        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/woumsfwwkgycjjqooe3g.jpg',
-        alt_text=None,
-        public_id='woumsfwwkgycjjqooe3g'
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
+        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
+        alt_text='Rummy Nate, full colour.',
+        public_id='demo-image-2'
     )
 
     # Add images to the session

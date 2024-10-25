@@ -198,7 +198,7 @@ def delete_image(image):
     Args:
         image (RecipeImage): The image object to be deleted.
     """
-    if image.public_id:
+    if image.public_id and image.public_id.startswith('placeholder'):
         cloudinary.uploader.destroy(image.public_id)
     db.session.delete(image)
 
