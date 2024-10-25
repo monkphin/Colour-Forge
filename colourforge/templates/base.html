@@ -46,10 +46,15 @@
       rel="manifest"
       href="{{ url_for('static', filename='images/fav/site.webmanifest') }}"
     >
-     <!--meta tags for search engines-->
-     <meta
-       name="description"
-       content="An Website for painters to store and share their paint recipes."
+    <link
+    rel="shortcut icon"
+    href="{{ url_for('static', filename='images/fav/favicon.ico') }}"
+    type="image/x-icon"
+    >
+    <!--meta tags for search engines-->
+    <meta
+      name="description"
+      content="An Website for painters to store and share their paint recipes."
     >
     <title>Colour Forge: {% block title %}{% endblock %}</title>
   </head>
