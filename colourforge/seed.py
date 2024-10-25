@@ -83,7 +83,7 @@ complex recipes to be created.
     image3 = RecipeImage(
         stage=stage3,
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
-        thumbnail_url='http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
         alt_text='Rummy Nate, full colour.',
         public_id='demo-image-2'
     )
