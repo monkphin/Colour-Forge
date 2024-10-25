@@ -51,8 +51,6 @@ document.addEventListener("DOMContentLoaded", function () {
     }
   }
 
-  
-
   // init Modal
   const modalElems = document.querySelectorAll(".modal");
   const modalInstances = M.Modal.init(modalElems, {
@@ -96,6 +94,11 @@ document.addEventListener("DOMContentLoaded", function () {
 var forms = document.querySelectorAll('form');
 
 forms.forEach(function(form) {
+  // Skip the login and Register Forms
+  if (form.id === 'loginForm' || form.id === 'registrationForm') {
+    return;
+  }
+
   form.addEventListener('keydown', function(event) {
     // Check if the form contains a search input element
     var containsSearchInput = form.querySelector('input[type="search"]') !== null;
@@ -107,7 +110,6 @@ forms.forEach(function(form) {
     }
   });
 });
-
 
   // Set stageCount based on existing stages or default to 1 if none present.
   let stageCount = document.querySelectorAll(".multi-stage").length || 1;
@@ -203,17 +205,15 @@ forms.forEach(function(form) {
     }
   });
 
-  // Select the form element by its ID.
-  const form = document.getElementById("addRecipe");
-
-  if (form) {
-    form.addEventListener("submit", function (event) {
-      const submitButton = document.getElementById("submitButton");
-      if (submitButton) {
-        submitButton.disabled = true;
-      }
-    });
-  }
+// Disable submit button after form submission to prevent multiple submissions
+document.querySelectorAll('form').forEach(function(form) {
+  form.addEventListener('submit', function(event) {
+    var submitButton = form.querySelector('button[type="submit"]');
+    if (submitButton) {
+      submitButton.disabled = true;
+    }
+  });
+});
 
   // Reset contents of search boxes when user clicks away (using blur event)
   const mobileSearchBox = document.getElementById("mobile-search");
