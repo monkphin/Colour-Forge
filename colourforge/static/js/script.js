@@ -346,9 +346,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					this.input.value = before + text + ", ";
 				},
 			});
-		}).catch((error) => {
-			console.error("Error fetching tags:", error);
-		});
+		})
 	}
 });
 /**
