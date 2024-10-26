@@ -68,7 +68,7 @@ document.addEventListener("DOMContentLoaded", function() {
 	 */
 	const modalElems = document.querySelectorAll(".modal");
 	const modalInstances = M.Modal.init(modalElems, {
-		opacity: 0.5,
+		opacity: 0.6,
 		inDuration: 300,
 		outDuration: 200,
 	});
