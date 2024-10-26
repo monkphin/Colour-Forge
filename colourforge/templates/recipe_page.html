@@ -240,26 +240,59 @@
 
     <!-- Delete Confirmation Modal -->
     <div id="modal-delete-{{ recipe.recipe_id }}" class="modal">
-      <div class="modal-content">
-        <h4>Confirm Recipe Deletion!</h4>
-        <p>Are you sure you want to delete this recipe?</p>
-        {% if current_user.is_admin and recipe.user.id != current_user.id %}
-          <div class="red warning-message">
-            <p class="warning-title"><i class="fas fa-exclamation-triangle"></i> WARNING!</p>
-            <p>This recipe belongs to: {{ recipe.user.username }}</p>
-            <p>Are you sure you want to delete it?</p>
+      {% if current_user.is_admin and recipe.user.id != current_user.id %}
+        <!-- Admin Deletion Form -->
+        <form
+          action="{{ url_for('admin.confirm_delete', recipe_id=recipe.recipe_id) }}"
+          method="POST"
+          style="display:inline;">
+          <div class="modal-content">
+            <h4>Confirm Recipe Deletion!</h4>
+            <p>Are you sure you want to delete this recipe?</p>
+            <div class="red warning-message">
+              <p class="warning-title"><i class="fas fa-exclamation-triangle"></i> WARNING!</p>
+              <p>This recipe belongs to: {{ recipe.user.username }}</p>
+              <p>Are you sure you want to delete it?</p>
+            </div>
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="delete_recipe-{{ recipe.recipe_id }}"
+                  type="password"
+                  name="recipe_admin"
+                  class="validate"
+                  required>
+                <label for="delete_recipe-{{ recipe.recipe_id }}">Please enter your admin password to delete the user's recipe</label>
+              </div>
+            </div>
           </div>
-        {% endif %}
-      </div>
-      <div class="modal-footer">
-        <button class="modal-close btn green darken-4" type="button">Cancel</button>
-        <a
-          href="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}"
-          class="btn red darken-4">
-          Delete
-        </a>
-      </div>
+          <div class="modal-footer">
+            <button class="modal-close btn green darken-4" type="button">Cancel</button>
+            <button type="submit" class="btn red darken-4">
+              Delete
+            </button>
+          </div>
+        </form>
+      {% else %}
+        <!-- Regular User Deletion Form -->
+        <form
+          action="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}"
+          method="POST"
+          style="display:inline;">
+          <div class="modal-content">
+            <h4>Confirm Recipe Deletion!</h4>
+            <p>Are you sure you want to delete this recipe?</p>
+          </div>
+          <div class="modal-footer">
+            <button class="modal-close btn green darken-4" type="button">Cancel</button>
+            <button type="submit" class="btn red darken-4">
+              Delete
+            </button>
+          </div>
+        </form>
+      {% endif %}
     </div>
+
 
     <!-- Edit Confirmation Modal (Only for Admins Editing Others' Recipes) -->
     {% if current_user.is_admin and recipe.user.id != current_user.id %}
@@ -268,35 +301,36 @@
           <h4>Confirm Recipe Edit!</h4>
           <p>Are you sure you want to edit this recipe?</p>
           <form
-          action="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-          method="POST"
-          style="display:inline;">
-          <div class="modal-content">
-            <div class="warning-message red">
-              <i class="fas fa-exclamation-triangle"></i>
-              <h4>Confirm Recipe Edit!</h4>
-              <p>This recipe belongs to: {{ recipe.user.username }}</p>
-              <p>Are you sure you want to edit it?</p>
-            </div>  
-            <div class="row">
-              <div class="input-field col s12">
-                <input
-                  id="edit_recipe-{{ recipe.recipe_id }}"
-                  type="password"
-                  name="recipe_admin"
-                  class="validate"
-                  required>
-                <label for="edit_recipe-{{ recipe.recipe_id }}">Please enter your admin password to edit the users recipe</label>
+            action="{{ url_for('admin.confirm_edit', recipe_id=recipe.recipe_id) }}"
+            method="POST"
+            style="display:inline;">
+            <div class="modal-content">
+              <div class="warning-message red">
+                <i class="fas fa-exclamation-triangle"></i>
+                <h4>Confirm Recipe Edit!</h4>
+                <p>This recipe belongs to: {{ recipe.user.username }}</p>
+                <p>Are you sure you want to edit it?</p>
+              </div>
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="edit_recipe-{{ recipe.recipe_id }}"
+                    type="password"
+                    name="recipe_admin"
+                    class="validate"
+                    required>
+                  <label for="edit_recipe-{{ recipe.recipe_id }}">Please enter your admin password to edit the user's recipe</label>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="modal-footer">
-            <button class="modal-close btn green darken-4" type="button">Cancel</button>
-            <button type="submit" class="btn blue darken-4">
-              Edit
-            </button>
-          </div>
-        </form>
+            <div class="modal-footer">
+              <button class="modal-close btn green darken-4" type="button">Cancel</button>
+              <button type="submit" class="btn blue darken-4">
+                Edit
+              </button>
+            </div>
+          </form>
+        </div>
       </div>
     {% endif %}
 

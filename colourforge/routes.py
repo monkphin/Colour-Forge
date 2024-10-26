@@ -255,13 +255,13 @@ def search():
     )
 
 
-@routes.route("/delete_recipe/<int:recipe_id>")
+@routes.route("/delete_recipe/<int:recipe_id>", methods=['GET', 'POST'])
 @login_required
 def delete_recipe(recipe_id):
     """
     Handles recipe deletion.
-    This route will delete the recipe, stages, images, and tags associated with
-    the recipe.
+    This route will allow a user to delete a recipe, stages, images, and tags
+    associated with the recipe.
 
     Args:
         recipe_id (int): The ID of the recipe to delete.
@@ -272,7 +272,7 @@ def delete_recipe(recipe_id):
     recipe = Recipe.query.get_or_404(recipe_id)
 
     # ensure user owns the recipe
-    if recipe.user_id != current_user.id and not current_user.is_admin:
+    if recipe.user_id != current_user.id:
         flash(
             "You do not have permission to delete this recipe.",
             category="error"

@@ -12,9 +12,8 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from math import ceil
 
 # Local imports
-from colourforge import db
-from colourforge.models import User, Recipe
-
+from colourforge import db, cloudinary
+from colourforge.models import User, Recipe, RecipeStage, RecipeImage, EntityTag
 
 admin = Blueprint('admin', __name__)
 
@@ -371,3 +370,91 @@ def recipe_search():
         recipes=matching_recipes,
         search=search
     )
+
+
+@admin.route('/recipes/<int:recipe_id>/confirm_edit', methods=['POST'])
+@login_required
+def confirm_edit(recipe_id):
+    """
+    Confirm admin password before editing a user's recipe.
+    
+    Args:
+        recipe_id (int): The ID of the recipe to edit.
+    
+    Returns:
+        Response: Redirects to the recipe edit page if password is correct.
+    """
+    # Fetch the recipe or return 404 if not found
+    recipe = Recipe.query.get_or_404(recipe_id)
+    
+    # Check if the user is an admin and not the owner of the recipe
+    if not current_user.is_admin or recipe.user_id == current_user.id:
+        flash('You are not authorized to perform this action.', category='error')
+        return redirect(url_for('routes.home'))
+    
+    # Get the admin password from the form
+    admin_password = request.form.get('recipe_admin')
+    
+    # Check if the admin password is provided
+    if not admin_password:
+        flash('Please enter your admin password.', category='error')
+        return redirect(url_for('routes.home'))
+    
+    # Verify the admin password
+    if not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password.', category='error')
+        return redirect(url_for('routes.home'))
+    
+    # Redirect to the recipe edit page
+    return redirect(url_for('routes.edit_recipe', recipe_id=recipe_id))
+
+
+@admin.route('/recipes/<int:recipe_id>/confirm_delete', methods=['POST'])
+@login_required
+def confirm_delete(recipe_id):
+    """
+    Allows an admin to delete a recipe after confirming their password.
+    """
+    # Fetch the recipe
+    recipe = Recipe.query.get_or_404(recipe_id)
+
+    # Ensure the current user is an admin
+    if not current_user.is_admin:
+        flash('You are not authorized to perform this action.', category='error')
+        return redirect(url_for('routes.home'))
+
+    # Get the admin password from the form
+    admin_password = request.form.get('recipe_admin')
+
+    # Check if the admin password is provided
+    if not admin_password:
+        flash('Please enter your admin password.', category='error')
+        return redirect(url_for('routes.home'))
+
+    # Verify the admin password
+    if not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password.', category='error')
+        return redirect(url_for('routes.home'))
+
+    # Proceed to delete the recipe and associated data
+    # Use the same deletion logic as in the original route
+    # Delete associated stages and images
+    stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
+    for stage in stages:
+        images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
+        for image in images:
+            if image.public_id:
+                # Delete the image from Cloudinary using public_id
+                cloudinary.uploader.destroy(image.public_id)
+            db.session.delete(image)  # Delete image record from the database
+        db.session.delete(stage)  # Delete stage record from the database
+
+    # Delete associated tags
+    EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
+
+    # Delete the recipe itself
+    db.session.delete(recipe)
+    db.session.commit()
+
+    flash('Recipe has been successfully deleted.', category='success')
+    return redirect(url_for('admin.recipe_admin'))
