@@ -162,12 +162,12 @@
   </div>
 
   <!-- Delete Confirmation Modal -->
-  <div id="modal-delete-{{ user.id }}" class="modal">
+  <div id="modal-delete-{{ user.id }}" class="modal admin-modal">
     <!-- Form Encompassing the Entire Modal Content -->
     <form
       action="{{ url_for('admin.delete_account', user_id=user.id) }}"
       method="POST"
-      style="display:inline;">
+      >
       <div class="modal-content">
         <div class="warning-message red">
           <i class="fas fa-exclamation-triangle"></i>

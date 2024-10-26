@@ -205,6 +205,11 @@ nav ul a:active {
 	text-align: center !important;
 }
 
+/* Remove Scrollbars from Admin Modals */
+.admin-modal {
+  overflow: hidden;
+}
+
 /* Warning Message */
 .warning-message {
 	background-color: #FFB5BD;
@@ -650,4 +655,9 @@ nav ul a:active {
 	nav .brand-logo {
 		padding-left: 5px !important;
 	}
+
+  /* Width adjustments for Admin Modals on larger screens */
+  .admin-modal {
+    width: 600px;
+  }
 }

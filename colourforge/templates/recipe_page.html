@@ -239,13 +239,14 @@
     </div>
 
     <!-- Delete Confirmation Modal -->
-    <div id="modal-delete-{{ recipe.recipe_id }}" class="modal">
+    <div id="modal-delete-{{ recipe.recipe_id }}" class="modal admin-modal">
       {% if current_user.is_admin and recipe.user.id != current_user.id %}
         <!-- Admin Deletion Form -->
         <form
           action="{{ url_for('admin.confirm_delete', recipe_id=recipe.recipe_id) }}"
           method="POST"
-          style="display:inline;">
+          class="admin-modal"
+          >
           <div class="modal-content">
             <h4>Confirm Recipe Deletion!</h4>
             <p>Are you sure you want to delete this recipe?</p>
@@ -278,7 +279,7 @@
         <form
           action="{{ url_for('routes.delete_recipe', recipe_id=recipe.recipe_id) }}"
           method="POST"
-          style="display:inline;">
+          >
           <div class="modal-content">
             <h4>Confirm Recipe Deletion!</h4>
             <p>Are you sure you want to delete this recipe?</p>
@@ -296,14 +297,14 @@
 
     <!-- Edit Confirmation Modal (Only for Admins Editing Others' Recipes) -->
     {% if current_user.is_admin and recipe.user.id != current_user.id %}
-      <div id="modal-edit-{{ recipe.recipe_id }}" class="modal">
+      <div id="modal-edit-{{ recipe.recipe_id }}" class="modal admin-modal">
         <div class="modal-content">
           <h4>Confirm Recipe Edit!</h4>
           <p>Are you sure you want to edit this recipe?</p>
           <form
             action="{{ url_for('admin.confirm_edit', recipe_id=recipe.recipe_id) }}"
             method="POST"
-            style="display:inline;">
+            >
             <div class="modal-content">
               <div class="warning-message red">
                 <i class="fas fa-exclamation-triangle"></i>
