@@ -346,7 +346,7 @@ document.addEventListener("DOMContentLoaded", function() {
 					this.input.value = before + text + ", ";
 				},
 			});
-		})
+		});
 	}
 });
 /**
