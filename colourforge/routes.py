@@ -231,7 +231,10 @@ def search():
         )
     
     if not matching_tags:
-        flash("No recipes found that match your search", category="info")
+        flash(
+            f"No recipes found that match your search: { search }",
+            category="info"
+        )
 
     # Find all recipes that match the tags.
     matching_recipes = []
