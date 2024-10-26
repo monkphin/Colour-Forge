@@ -446,8 +446,8 @@ def confirm_delete(recipe_id):
             if image.public_id:
                 # Delete the image from Cloudinary using public_id
                 cloudinary.uploader.destroy(image.public_id)
-            db.session.delete(image)  # Delete image record from the database
-        db.session.delete(stage)  # Delete stage record from the database
+            db.session.delete(image)
+        db.session.delete(stage) 
 
     # Delete associated tags
     EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()

@@ -122,7 +122,6 @@ def login():
         # Check that user exists
         if not user:
             user = User.query.filter_by(username=user_input).first()
-            return redirect(url_for('routes.home'))
 
         # Ensure password is correct for the user. 
         if user:
