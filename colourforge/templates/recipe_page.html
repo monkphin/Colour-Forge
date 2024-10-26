@@ -267,23 +267,37 @@
         <div class="modal-content">
           <h4>Confirm Recipe Edit!</h4>
           <p>Are you sure you want to edit this recipe?</p>
-          <div class="red warning-message">
-            <p class="warning-title"><i class="fas fa-exclamation-triangle"></i> WARNING!</p>
-            <p>This recipe belongs to: {{ recipe.user.username }}</p>
-            <p>Are you sure you want to edit it?</p>
+          <form
+          action="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
+          method="POST"
+          style="display:inline;">
+          <div class="modal-content">
+            <div class="warning-message red">
+              <i class="fas fa-exclamation-triangle"></i>
+              <h4>Confirm Recipe Edit!</h4>
+              <p>This recipe belongs to: {{ recipe.user.username }}</p>
+              <p>Are you sure you want to edit it?</p>
+            </div>  
+            <div class="row">
+              <div class="input-field col s12">
+                <input
+                  id="edit_recipe-{{ recipe.recipe_id }}"
+                  type="password"
+                  name="recipe_admin"
+                  class="validate"
+                  required>
+                <label for="edit_recipe-{{ recipe.recipe_id }}">Please enter your admin password to edit the users recipe</label>
+              </div>
+            </div>
           </div>
-        </div>
-        <div class="modal-footer">
-          <button class="modal-close btn green darken-4" type="button">Cancel</button>
-          <a
-            href="{{ url_for('routes.edit_recipe', recipe_id=recipe.recipe_id) }}"
-            class="btn blue darken-4">
-            Edit
-          </a>
-        </div>
+          <div class="modal-footer">
+            <button class="modal-close btn green darken-4" type="button">Cancel</button>
+            <button type="submit" class="btn blue darken-4">
+              Edit
+            </button>
+          </div>
+        </form>
       </div>
     {% endif %}
-
-
 
 {% endblock %}

@@ -118,8 +118,13 @@ def login():
             return redirect(url_for('routes.home'))
 
         user = User.query.filter_by(email=user_input).first()
+
+        # Check that user exists
         if not user:
             user = User.query.filter_by(username=user_input).first()
+            return redirect(url_for('routes.home'))
+
+        # Ensure password is correct for the user. 
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
@@ -127,10 +132,12 @@ def login():
                 return redirect(url_for('routes.home'))
             else:
                 flash('Incorrect password, try again', category='error')
+                return redirect(url_for('routes.home'))
+
         else:
             flash('User not found', category='error')
+            return redirect(url_for('routes.home'))
 
-        return redirect(url_for('routes.home'))
     else:
         # For GET requests, render the login page
         return render_template("login.html")
@@ -163,24 +170,40 @@ def change_email():
         new_email = request.form.get('email')
         password = request.form.get('password-email')
 
-        if new_email == '':
+        # Make sure user has entered an email
+        if not new_email:
             flash('Please enter the new email address to change this.',
                   category='error'
                   )
-        elif password == '':
+            return redirect(url_for('auth.account'))
+
+        # Make sure the user has entered a password 
+        elif not password:
             flash('Please enter your current password to change your email.',
                   category='error'
                   )
+            return redirect(url_for('auth.account'))
+
+        # Make sure password is correct 
         elif not check_password_hash(current_user.password, password):
             flash('Incorrect password, try again', category='error')
+            return redirect(url_for('auth.account'))
+
+        # Make sure the email address isn't already being used.
         elif User.query.filter_by(email=new_email).first():
             flash('This email address is already in use', category='error')
+            return redirect(url_for('auth.account'))
+
+        # Make sure the new email isn't the same as the users existing email
         elif new_email == current_user.email:
             flash(
                 """The new email address must be different from the existing
                 one.""",
                 category='error'
             )
+            return redirect(url_for('auth.account'))
+
+        # Proceed to update the email address. 
         else:
             old_email = current_user.email
             current_user.email = new_email
@@ -216,15 +239,25 @@ def reset_password():
         current_password = request.form.get('password-reset')
         current_password_hash = current_user.password
 
-        if current_password == '':
+        # Check for password in password field 
+        if not current_password:
             flash(
                 'Please enter your current password to change your password.',
                 category='error'
             )
+            return redirect(url_for('auth.account'))
+
+        # Make sure current password is correct
         elif not check_password_hash(current_user.password, current_password):
             flash('Incorrect current password, try again', category='error')
+            return redirect(url_for('auth.account'))
+
+        # Make sure both new password fields match
         elif password1 != password2:
             flash('New passwords don\'t match!', category='error')
+            return redirect(url_for('auth.account'))
+
+        # Make sure the new password is not the same as the old password
         elif check_password_hash(current_password_hash, password1):
             flash("""
                   Your new password cannot be the same as your current
@@ -232,8 +265,14 @@ def reset_password():
                   """,
                   category='error'
                   )
+            return redirect(url_for('auth.account'))
+
+        # Make sure password is greater than 7 characters. 
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
+            return redirect(url_for('auth.account'))
+
+        # Change password. 
         else:
             password = generate_password_hash(
                                               password1,
@@ -246,7 +285,6 @@ def reset_password():
                 'Your password has been successfully changed',
                 category='success'
             )
-
             return redirect(url_for('auth.account'))
 
         return redirect(url_for('auth.account'))
@@ -269,15 +307,29 @@ def delete_account():
     if request.method == 'POST':
         current_password = request.form.get('password-delete')
 
-        if current_password == '':
+        # Make sure password was entered
+        if not current_password:
             flash('Please enter your current password to delete your account.',
                   category='error'
-                  )
+            )
+
+        # Make sure the password is correct
         elif not check_password_hash(current_user.password, current_password):
             flash('Incorrect current password, try again', category='error')
             return redirect(url_for('auth.account'))
+
+        # Make sure the admin isn't deleting themselves. 
+        elif current_user.is_admin:
+            flash(
+            """You are an admin user so cannot delete your own account, please
+            message another admin to do this or to demote you so you can
+            do this yourself.""",
+            category="error"
+            )
+            return redirect(url_for('auth.account'))
+
+        # Proceed to delete account only if password is correct
         else:
-            # Proceed to delete account only if password is correct
             user = current_user
             account_deletion(current_user.email, current_user.username)
             db.session.delete(user)

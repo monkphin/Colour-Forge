@@ -302,6 +302,7 @@ def recipe_admin():
         Response: The rendered admin recipes page.
     """
     recipes = Recipe.query.all()
+    admin_password = request.form.get('recipe_admin') 
 
     page = request.args.get('page', 1, type=int)
     per_page = 6  # Recipes per page
