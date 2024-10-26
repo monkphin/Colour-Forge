@@ -130,7 +130,6 @@ def login():
         else:
             flash('User not found', category='error')
 
-        # After flashing error messages, render login page again
         return redirect(url_for('routes.home'))
     else:
         # For GET requests, render the login page
@@ -178,7 +177,7 @@ def change_email():
             flash('This email address is already in use', category='error')
         elif new_email == current_user.email:
             flash(
-                """The new email address must be different from the current
+                """The new email address must be different from the existing
                 one.""",
                 category='error'
             )

@@ -181,7 +181,7 @@ def edit_recipe(recipe_id):
     # Handle POST request
     if request.method == "POST":
         handle_recipe_edit_post(recipe)
-        flash("Recipe has been updated")
+        flash("Recipe has been updated", category='success')
         return redirect(url_for(
             'routes.recipe_page',
             recipe_id=recipe.recipe_id)
@@ -229,6 +229,9 @@ def search():
         .filter(RecipeTag.tag_name.ilike(f"%{search}%"))
         .all()
         )
+    
+    if not matching_tags:
+        flash("No recipes found that match your search", category="info")
 
     # Find all recipes that match the tags.
     matching_recipes = []
@@ -291,7 +294,7 @@ def delete_recipe(recipe_id):
     db.session.delete(recipe)
     db.session.commit()
 
-    flash("Recipe has been deleted")
+    flash("Recipe has been deleted", category='info')
 
     return redirect(url_for('routes.recipes'))
 

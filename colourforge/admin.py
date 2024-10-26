@@ -19,6 +19,19 @@ from colourforge.models import User, Recipe
 admin = Blueprint('admin', __name__)
 
 
+@admin.before_request
+def restricted_access():
+    if not current_user.is_authenticated:
+        flash('Please log in to access the admin area!', category='error')
+        return redirect(url_for('auth.login'))
+    elif not current_user.is_admin:
+        flash(
+            'You are not authorised to access the admin area!',
+            category='error'
+        )
+        return redirect(url_for('routes.home'))
+
+
 @admin.route('/admin_dash', methods=['GET', 'POST'])
 @login_required
 def admin_dash():
@@ -270,10 +283,9 @@ def recipe_search():
         Recipe.recipe_name.ilike(f"%{search}%")
     ).all()
 
-    """
-    Render the search results template with recipes,
-    even if it's an empty list
-    """
+    if not matching_recipes:
+        flash("No recipes found that match your search", category="info")
+
     return render_template(
         'admin_recipe_search_results.html',
         recipes=matching_recipes,

@@ -10,8 +10,10 @@ def create_default_recipe(user):
         recipe_desc=f"""
 This is a demonstration recipe, to show a rough idea of possible uses.
 
+Feel free to delete or edit this when you're done with it. 
+
 Images can be clicked on to see a larger copy, this will also allow you
-to open the full sized version of the image in a new window
+to open the full sized version of the image in a new window. 
         """
     )
     db.session.add(demo_recipe)
@@ -54,7 +56,10 @@ for the recipe - ideally showing what the end results of the recipe should look
 like.
 
 Recipes can have a nearly infinite number of stages to allow for some very
-complex recipes to be created.
+complex recipes to be created, to add a stage simply click the 'add stage'
+button below. To remove a stage, click the remove stage button - be aware that
+this will remove anything you have entered in the stage to be removed so only
+use this if you're happy to lose this content. 
         """,
         is_final_stage=True
     )
@@ -84,7 +89,7 @@ complex recipes to be created.
         stage=stage3,
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
-        alt_text='Rummy Nate, full colour.',
+        alt_text='Rummy Nate in glorious full colour.',
         public_id='demo-image-2'
     )
 
