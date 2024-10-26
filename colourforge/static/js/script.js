@@ -333,7 +333,7 @@ document.addEventListener("DOMContentLoaded", function() {
 			}
 			return response.json();
 		}).then((tags) => {
-			new Awesomplete(inputField, {
+			const awesompleteInstance = new Awesomplete(inputField, {
 				list: tags,
 				minChars: 1,
 				maxItems: 10,
