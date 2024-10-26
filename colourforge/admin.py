@@ -87,6 +87,7 @@ def change_email(user_id):
     # Make sure an email address has been entered. 
     if new_email == '':
         flash('Please enter the new email address.', category='error')
+        return redirect(url_for('admin.admin_dash'))
     # Make sure the email is unique
     elif User.query.filter(User.email == new_email, User.id != User.id).first():
         flash(
@@ -94,15 +95,18 @@ def change_email(user_id):
             Please check with the user."""
             , category='error'
         )
+        return redirect(url_for('admin.admin_dash'))
     # Make sure the admin password has been entered. 
     elif not admin_password: 
         flash(
             'Please enter your admin password to change the users email.', 
             category='error'
         )
+        return redirect(url_for('admin.admin_dash'))
     # Make sure the admin password is correct
     elif not check_password_hash(current_user.password, admin_password):
         flash('Incorrect admin password, try again', category='error')
+        return redirect(url_for('admin.admin_dash'))
     else:
         user.email = new_email
         db.session.commit()
@@ -140,30 +144,37 @@ def reset_password(user_id):
             'Please enter your admin password to change the users password',
             category='error'
         )
+        return redirect(url_for('admin.admin_dash'))
     # Make sure entered password matches the admin users password. 
     elif not check_password_hash(current_user.password, admin_password):
         flash('Incorrect admin password, try again', category='error')
+        return redirect(url_for('admin.admin_dash'))
     # Make sure both password fields are filled to prevent errors. 
     elif not password1 or not password2:
         flash('Both password fields are required', category='error')
+        return redirect(url_for('admin.admin_dash'))
     # Make sure both fields match. 
     elif password1 != password2:
         flash('Passwords don\'t match!', category='error')
+        return redirect(url_for('admin.admin_dash'))
     # Make sure password entered is at least 7 characters. 
     elif len(password1) < 7:
         flash('Password must be at least 7 characters.', category='error')
+
     # Check if new password is the same as the users current password
     elif check_password_hash(user.password, password1):
         flash(
         'The new password cannot be the same as the user\'s current password',
         category='error'
         )
+        return redirect(url_for('admin.admin_dash'))
     # Check if new password is the same as admin's password
     elif check_password_hash(admin_password_hash, password1):
         flash(
             'The new password cannot be the same as your own password',
             category='error'
             )
+        return redirect(url_for('admin.admin_dash'))
     else:
         user.password = generate_password_hash(
             password1,
@@ -195,7 +206,7 @@ def toggle_admin(user_id):
         return redirect(url_for('routes.home'))
 
     user = User.query.get_or_404(user_id)
-    admin_password = request.form.get('admin_toggle') 
+    admin_password = request.form.get('toggle_password') 
 
     # Make sure the admin isn't demoting themselves.
     if user.id == current_user.id:
@@ -249,7 +260,7 @@ def delete_account(user_id):
 
     # Pull user details to be deleted.
     user = User.query.get_or_404(user_id)
-    admin_password = request.form.get('delete_user') 
+    admin_password = request.form.get('delete_user_password') 
 
     # Make sure an admin password has been entered. 
     if not admin_password:

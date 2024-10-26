@@ -125,11 +125,11 @@
           <div class="row">
             <div class="input-field col s12">
               <input
-                id="password-reset-{{ user.id }}"
+                id="password-reset"
                 type="password"
                 name="toggle_password"
                 class="validate" >
-              <label for="password-reset-{{ user.id }}">Please enter your current password to set the user as admin</label>
+              <label for="toggle_password-{{ user.id }}">Please enter your current password to set the user as admin</label>
             </div>
           </div>
             <div class="switch admin-switch">
@@ -177,12 +177,12 @@
         <div class="row">
           <div class="input-field col s12">
             <input
-              id="admin_password-{{ user.id }}"
+              id="delete-user-{{ user.id }}"
               type="password"
-              name="admin_password"
+              name="delete_user_password"
               class="validate"
               required>
-            <label for="admin_password-{{ user.id }}">Please enter your admin password to delete the user</label>
+            <label for="delete-user-{{ user.id }}">Please enter your admin password to delete the user</label>
           </div>
         </div>
       </div>
