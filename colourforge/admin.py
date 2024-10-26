@@ -81,15 +81,32 @@ def change_email(user_id):
         return redirect(url_for('routes.home'))
 
     user = User.query.get_or_404(user_id)
-
+    admin_password = request.form.get('password-email')
     new_email = request.form.get('email')
-    if new_email:
+
+    # Make sure an email address has been entered. 
+    if new_email == '':
+        flash('Please enter the new email address.', category='error')
+    # Make sure the email is unique
+    elif User.query.filter(User.email == new_email, User.id != User.id).first():
+        flash(
+            """The new email address is already in use.
+            Please check with the user."""
+            , category='error'
+        )
+    # Make sure the admin password has been entered. 
+    elif not admin_password: 
+        flash(
+            'Please enter your admin password to change the users email.', 
+            category='error'
+        )
+    # Make sure the admin password is correct
+    elif not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password, try again', category='error')
+    else:
         user.email = new_email
         db.session.commit()
         flash('Email has been successfully updated!', category='success')
-    else:
-        flash('There was an issue with updating the email', category='error')
-
     return redirect(url_for('admin.admin_dash'))
 
 
@@ -114,17 +131,37 @@ def reset_password(user_id):
 
     password1 = request.form.get('password1')
     password2 = request.form.get('password2')
-    current_password_hash = user.password
+    admin_password = request.form.get('password-reset')
+    admin_password_hash = current_user.password
 
-    if not password1 or not password2:
+    # Make sure an admin password is entered. 
+    if not admin_password:
+        flash(
+            'Please enter your admin password to change the users password',
+            category='error'
+        )
+    # Make sure entered password matches the admin users password. 
+    elif not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password, try again', category='error')
+    # Make sure both password fields are filled to prevent errors. 
+    elif not password1 or not password2:
         flash('Both password fields are required', category='error')
+    # Make sure both fields match. 
     elif password1 != password2:
         flash('Passwords don\'t match!', category='error')
+    # Make sure password entered is at least 7 characters. 
     elif len(password1) < 7:
         flash('Password must be at least 7 characters.', category='error')
-    elif check_password_hash(current_password_hash, password1):
+    # Check if new password is the same as the users current password
+    elif check_password_hash(user.password, password1):
         flash(
-            'The new password cannot be the same as the current password',
+        'The new password cannot be the same as the user\'s current password',
+        category='error'
+        )
+    # Check if new password is the same as admin's password
+    elif check_password_hash(admin_password_hash, password1):
+        flash(
+            'The new password cannot be the same as your own password',
             category='error'
             )
     else:
@@ -134,7 +171,7 @@ def reset_password(user_id):
         )
         db.session.commit()
         flash(
-            'Your password has been successfully changed',
+            'The user\'s password has been successfully changed',
             category='success'
         )
 
@@ -158,16 +195,29 @@ def toggle_admin(user_id):
         return redirect(url_for('routes.home'))
 
     user = User.query.get_or_404(user_id)
+    admin_password = request.form.get('admin_toggle') 
 
-    # Make sure the admin isn't demoting themselves
+    # Make sure the admin isn't demoting themselves.
     if user.id == current_user.id:
         flash(
-            "You cannot demote your own account, "
-            "please message another admin to do this",
+            """You cannot demote your own account, please message another admin
+            to do this""",
             category="error"
             )
         return redirect(url_for('admin.admin_dash'))
+    # Check for admins password.
+    elif not admin_password:
+        flash(
+            'Please enter your admin password to change the users admin status',
+            category='error'
+        )
+        return redirect(url_for('admin.admin_dash'))
+    # Make sure correct password is entered.
+    elif not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password, try again', category='error')
+        return redirect(url_for('admin.admin_dash'))
 
+    # Toggle status between admin/none admin.     
     if user.is_admin:
         user.is_admin = False
         db.session.commit()
@@ -199,14 +249,26 @@ def delete_account(user_id):
 
     # Pull user details to be deleted.
     user = User.query.get_or_404(user_id)
+    admin_password = request.form.get('delete_user') 
 
-    # Make sure the admin isn't deleting themselves
-    if user.id == current_user.id:
+    # Make sure an admin password has been entered. 
+    if not admin_password:
+        flash(
+            'Please enter your password to delete the account',
+            category='error'
+        )
+        return redirect(url_for('admin.admin_dash'))
+    # Make sure correct password is entered.
+    elif not check_password_hash(current_user.password, admin_password):
+        flash('Incorrect admin password, try again', category='error')
+        return redirect(url_for('admin.admin_dash'))
+    # Make sure the admin isn't deleting themselves. 
+    elif user.id == current_user.id:
         flash(
             "You cannot delete your own account, "
             "please message another admin to do this",
             category="error"
-            )
+        )
         return redirect(url_for('admin.admin_dash'))
 
     # Delete user.
