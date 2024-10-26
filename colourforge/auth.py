@@ -1,3 +1,33 @@
+"""
+Module: auth.py
+
+Description:
+------------
+This module handles the authentication Blueprint for the Colourforge
+Application.
+It deals with user authentication functionalities, including user registration,
+login, logout,account management (such as changing email and resetting
+password), and account deletion.
+All routes within this Blueprint are prefixed with '/auth' and manage
+user-related operations ensuring secure access and data integrity.
+
+Functions:
+----------
+- logout(): Logs the user out and redirects them to the home page.
+- register(): Handles user registration, including validation and sending
+welcome emails.
+- login(): Authenticates users and manages login sessions.
+- account(): Renders the user's account page.
+- change_email(): Allows users to change their email addresses with password
+confirmation.
+- reset_password(): Enables users to reset their passwords securely.
+- delete_account(): Allows users to delete their accounts after password
+verification.
+
+Notes:
+----------
+ - Many of the routes defined in this module are restricted to logged in users.
+"""
 # Third-Party Library Imports
 from flask import (
     flash,
@@ -29,10 +59,13 @@ auth = Blueprint('auth', __name__)
 @login_required
 def logout():
     """
-    Logs the user out and redirects them to the home page.
+    This view function logs out the currently authenticated user using
+    Flask-Login's `logout_user` function. After logging out, it flashes a
+    success message and redirects the user to the home page.
 
     Returns:
-        Response: Redirects the logged out user to the home page.
+        Response:
+            - Redirects the user to the home page with a success message.
     """
     logout_user()
     flash('Logged out successfully!', category='success')
@@ -42,14 +75,18 @@ def logout():
 @auth.route('/register', methods=['GET', 'POST'])
 def register():
     """
-    Registers a new user account and logs them in on a POST request.
-    Otherwise, renders the register page.
-    If the user already exists, or the form data is invalid, the user is
-    redirected to the register page.
-
+    Handles user registration by validating input data, creating a new user
+    in the database, initializing default user data, logging the user in, and
+    sending a welcome email. On a GET request, it renders the registration
+    page.
 
     Returns:
-        Response: The rendered register page.
+        Response:
+            - On GET: Renders the registration HTML template.
+            - On POST:
+                - Redirects to the home page upon successful registration.
+                - Redirects back to the registration page with error messages
+                if validation fails.
     """
     if request.method == 'POST':
         username = request.form.get('username').strip()
@@ -99,12 +136,22 @@ def register():
 @auth.route('/login', methods=['GET', 'POST'])
 def login():
     """
-    Logs the user in on a POST request. This shares the same page as the
+    Handles user authentication by verifying the provided username/email and
+    password.
+    On successful authentication, logs the user in and redirects them to the
     home page.
-    Renders the home page on a GET request.
+    On a GET request, it renders the login page.
+
+    Args:
+        None
 
     Returns:
-        Response: The rendered home page.
+        Response:
+            - On GET: Renders the login HTML template.
+            - On POST:
+                - Redirects to the home page upon successful login.
+                - Redirects back to the login page with error messages if
+                authentication fails.
     """
     if request.method == 'POST':
         user_input = request.form.get('login')
@@ -123,7 +170,7 @@ def login():
         if not user:
             user = User.query.filter_by(username=user_input).first()
 
-        # Ensure password is correct for the user. 
+        # Ensure password is correct for the user.
         if user:
             if check_password_hash(user.password, password):
                 login_user(user, remember=True)
@@ -146,10 +193,17 @@ def login():
 @login_required
 def account():
     """
-    Renders the account page.
+    This view function displays the authenticated user's account page, allowing
+    them to manage their account settings such as changing email, resetting
+    password, or deleting their account. Access to this page is restricted to
+    logged-in users.
 
     Returns:
-        Renders: The account page.
+        Response:
+            - On GET: Renders the account HTML template with the current user's
+            information.
+            - On POST: Currently, POST requests are not handled here and will
+            default to rendering the account page.
     """
     return render_template("account.html", user=current_user)
 
@@ -158,12 +212,23 @@ def account():
 @login_required
 def change_email():
     """
-    Changes the user's email address on a POST request from the account page.
-    If the email is already in use, the user is redirected to the account
-    page with an error message.
+    Allows a logged-in user to update their email address by providing a new
+    email and confirming their current password. Ensures that the new email is
+    unique and different from the existing one. Upon successful change, sends
+    an email notification to the user.
+
+    Args:
+        None
 
     Returns:
-        Render: The account page.
+        Response:
+            - On GET: Renders the account HTML template with the current user's
+            information.
+            - On POST:
+                - Redirects to the account page with success message upon
+                successful email change.
+                - Redirects back to the account page with error messages if
+                validation fails.
     """
     if request.method == 'POST':
         new_email = request.form.get('email')
@@ -172,18 +237,18 @@ def change_email():
         # Make sure user has entered an email
         if not new_email:
             flash('Please enter the new email address to change this.',
-                  category='error'
-                  )
+                category='error'
+                )
             return redirect(url_for('auth.account'))
 
-        # Make sure the user has entered a password 
+        # Make sure the user has entered a password
         elif not password:
             flash('Please enter your current password to change your email.',
-                  category='error'
-                  )
+                category='error'
+                )
             return redirect(url_for('auth.account'))
 
-        # Make sure password is correct 
+        # Make sure password is correct
         elif not check_password_hash(current_user.password, password):
             flash('Incorrect password, try again', category='error')
             return redirect(url_for('auth.account'))
@@ -202,7 +267,7 @@ def change_email():
             )
             return redirect(url_for('auth.account'))
 
-        # Proceed to update the email address. 
+        # Proceed to update the email address.
         else:
             old_email = current_user.email
             current_user.email = new_email
@@ -222,15 +287,21 @@ def change_email():
 @login_required
 def reset_password():
     """
-    Resets the user's password on a POST request from the account page.
-    If the passwords don't match, the user is redirected to the account page
-    with an error message. If the new password is the same as the current
-    password, the user is redirected to the account page with an error message.
-    If the password is less than 7 characters, the user is redirected to the
-    account page with an error message.
+    Allows a logged-in user to reset their password by providing their current
+    password and entering a new password twice for confirmation. Ensures that
+    the new password meets security requirements and is different from the
+    current password. Upon successful password reset, sends a notification
+    email to the user.
 
     Returns:
-        Response: Redirects the user to the account page.
+        Response:
+            - On GET: Renders the account HTML template with the current user's
+            information.
+            - On POST:
+                - Redirects to the account page with a success message upon
+                successful password change.
+                - Redirects back to the account page with error messages if
+                validation fails.
     """
     if request.method == 'POST':
         password1 = request.form.get('password1')
@@ -238,7 +309,7 @@ def reset_password():
         current_password = request.form.get('password-reset')
         current_password_hash = current_user.password
 
-        # Check for password in password field 
+        # Check for password in password field
         if not current_password:
             flash(
                 'Please enter your current password to change your password.',
@@ -258,25 +329,23 @@ def reset_password():
 
         # Make sure the new password is not the same as the old password
         elif check_password_hash(current_password_hash, password1):
-            flash("""
-                  Your new password cannot be the same as your current
-                  password.
-                  """,
-                  category='error'
-                  )
+            flash("""Your new password cannot be the same as your current
+                password.""",
+                category='error'
+                )
             return redirect(url_for('auth.account'))
 
-        # Make sure password is greater than 7 characters. 
+        # Make sure password is greater than 7 characters.
         elif len(password1) < 7:
             flash('Password must be at least 7 characters.', category='error')
             return redirect(url_for('auth.account'))
 
-        # Change password. 
+        # Change password.
         else:
             password = generate_password_hash(
-                                              password1,
-                                              method='pbkdf2:sha512'
-                                              )
+                                            password1,
+                                            method='pbkdf2:sha512'
+                                            )
             current_user.password = password
             db.session.commit()
             password_change(current_user.email, current_user.username)
@@ -295,21 +364,29 @@ def reset_password():
 @login_required
 def delete_account():
     """
-    Deletes the user's account on a POST request from the account page.
-    This flashes a success message and logs the user out before redirecting
-    them to the home page.
+    Allows a logged-in user to delete their account by providing their current
+    password. Ensures that administrators cannot delete their own accounts to
+    maintain system integrity. Upon successful deletion, sends an account
+    deletion notification email, logs the user out, and redirects them to the
+    home page.
 
     Returns:
-        Response: Redirects the user to the home page.
+        Response:
+            - On POST:
+                - Redirects to the home page with a success message upon
+                successful deletion.
+                - Redirects back to the account page with error messages if
+                validation fails.
+            - On GET: Redirects to the account page.
     """
-
     if request.method == 'POST':
         current_password = request.form.get('password-delete')
 
         # Make sure password was entered
         if not current_password:
-            flash('Please enter your current password to delete your account.',
-                  category='error'
+            flash(
+                'Please enter your current password to delete your account.',
+                category='error'
             )
 
         # Make sure the password is correct
@@ -317,13 +394,14 @@ def delete_account():
             flash('Incorrect current password, try again', category='error')
             return redirect(url_for('auth.account'))
 
-        # Make sure the admin isn't deleting themselves. 
+        # Make sure the admin isn't deleting themselves.
         elif current_user.is_admin:
             flash(
-            """You are an admin user so cannot delete your own account, please
-            message another admin to do this or to demote you so you can
-            do this yourself.""",
-            category="error"
+                """You are an admin user so cannot delete your own
+                account, please message another admin to do this or
+                to demote you so you can do this yourself.
+                """,
+                category="error"
             )
             return redirect(url_for('auth.account'))
 

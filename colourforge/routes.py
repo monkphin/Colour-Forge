@@ -1,3 +1,50 @@
+"""
+Module: routes.py
+
+Description:
+------------
+This module defines the main recipe handling routes for the Colourforge
+application. It contains routes for displaying recipes, adding new recipes,
+editing existing ones, deleting recipes, searching by tags, and handling user
+contact forms. The routes leverage SQLAlchemy for database interactions,
+Flask-Login for user session management, and Cloudinary for image handling. The
+module ensures that only authenticated users can perform certain actions,
+maintains data integrity through relationship management, and provides a
+pagination and search functionalities.
+
+Key Functionalities:
+--------------------
+- **Home Page (`/`):** Displays a paginated list of all recipes available in
+the application.
+
+- **User Recipes (`/recipes`):** Shows a paginated list of recipes created by
+the currently logged-in user.
+
+- **Recipe Page (`/recipe_page/<int:recipe_id>`):** Displays detailed
+information about a specific recipe, accessible to all users for sharing with
+the wider community over the internet.
+
+- **Add Recipe (`/add_recipe`):** Provides a form for authenticated users to
+create new recipes, including stages, images, and tags.
+
+- **Edit Recipe (`/edit_recipe/<int:recipe_id>`):** Allows authenticated users
+to modify existing recipes that they own or, if they are admins, any recipe
+within the application.
+
+- **Autocomplete Tags (`/tags/autocomplete`):** Supplies a list of existing
+tags to support autocomplete functionality in the recipe forms.
+
+- **Search (`/search`):** Enables users to search for recipes based on tags,
+returning relevant results.
+
+- **Delete Recipe (`/delete_recipe/<int:recipe_id>`):** Allows users to delete
+their own recipes, ensuring that only authorized deletions occur.
+
+- **Contact Form (`/contact`):** Handles user submissions from the contact
+form, sending messages to the site owner.
+"""
+
+
 # Third-Party Library Imports
 from flask import (
     flash,
@@ -16,8 +63,6 @@ from math import ceil
 from colourforge import db, cloudinary
 from colourforge.models import (
     Recipe,
-    RecipeStage,
-    RecipeImage,
     RecipeTag,
     EntityTag
     )
@@ -26,6 +71,7 @@ from colourforge.helpers import (
     instruction_handler,
     tag_handler,
     handle_recipe_edit_post,
+    remove_recipe
 )
 from colourforge.mail import contact_form
 
@@ -35,10 +81,13 @@ routes = Blueprint('routes', __name__)
 @routes.route("/", methods=['GET', 'POST'])
 def home():
     """
-    Renders the home page with a list of recipes.
+    Handles GET requests to display a paginated list of all recipes available
+    in the application. The page number is retrieved from query parameters,
+    defaulting to 1 if not provided.
 
     Returns:
-        Response: The rendered home page.
+        Response: The rendered 'home.html' template populated with paginated
+        recipes, current page, total pages, and the current user context.
     """
     # Get all recipes
     recipes = Recipe.query.order_by(Recipe.recipe_name).all()
@@ -65,10 +114,15 @@ def home():
 @login_required
 def recipes():
     """
-    Renders the recipes page with a list of recipes for the current user.
+    Render the Recipes Page with a List of Recipes Created by the Current User.
+
+    Handles GET requests to display a paginated list of recipes that belong to
+    the currently authenticated user. Ensures that only the user's own recipes
+    are displayed.
 
     Returns:
-        Response : The rendered recipes page.
+        Response: The rendered 'recipes.html' template populated with paginated
+        recipes, current page, total pages, and the current user context.
     """
     recipes = Recipe.query.filter_by(
         user_id=current_user.id).order_by(Recipe.recipe_name).all()
@@ -94,14 +148,16 @@ def recipes():
 @routes.route("/recipe_page/<int:recipe_id>")
 def recipe_page(recipe_id):
     """
-    Renders the recipe page for the specified recipe.
-    This is visible to none registered users to allow for recipe sharing.
+    Accessible to all users, this route displays detailed information about a
+    specific recipe, including its stages and associated images. It is intended
+    for sharing recipes publicly.
 
     Args:
-        recipe_id (int): The ID of the recipe to display.
+        recipe_id (int): The unique identifier of the recipe to display.
 
     Returns:
-        Response: The rendered recipe page.
+        Response: The rendered 'recipe_page.html' template populated with the
+        specified recipe, referrer URL, and the current user context.
     """
     recipe = Recipe.query.get_or_404(recipe_id)
     referrer = request.referrer
@@ -118,12 +174,19 @@ def recipe_page(recipe_id):
 @login_required
 def add_recipe():
     """
-    Renders the add recipe page and handles the creation of a new recipe.
-    Handles the addition of new recipes, stages, and images to the DB when a
-    POST request is made. Otherwise, renders the form.
+    Handles both GET and POST requests. On GET requests, renders the form for
+    adding a new recipe. On POST requests, processes the submitted form data to
+    create a new recipe, including its stages, images, and tags. Utilizes
+    helper functions to manage database interactions and ensures that the
+    recipe is properly associated with the current user.
 
     Returns:
-        Response: The rendered add recipe form page.
+        Response:
+            - On GET: The rendered 'add_recipe.html' template displaying the
+            recipe creation form.
+            - On POST: Redirects to the 'recipes' page with a success flash
+            message upon successful recipe creation. If form validation fails,
+            redirects back with error messages.
     """
     if request.method == "POST":
 
@@ -157,16 +220,22 @@ def add_recipe():
 @login_required
 def edit_recipe(recipe_id):
     """
-    Handles the editing of an existing recipe.
-    POST request types will update the recipe, stages, and images in the DB.
-    Otherwise this renders the form.
+    Handles both GET and POST requests for editing a recipe. On GET requests,
+    renders the form populated with the existing recipe data. On POST requests,
+    processes the submitted form data to update the recipe's details, including
+    its stages, images, and tags. Ensures that only the recipe's owner or an
+    admin can perform edits.
 
     Args:
-        recipe_id (int): The ID of the recipe to edit.
+        recipe_id (int): The unique identifier of the recipe to edit.
 
     Returns:
-        Response: The rendered edit recipe form page or a redirect response
-        after successful editing.
+        Response:
+            - On GET: The rendered 'edit_recipe.html' template with the
+            recipe's current data.
+            - On POST: Redirects to the 'recipe_page' with a success flash
+            message upon successful editing. If validation fails, redirects
+            back with error messages.
     """
     recipe = Recipe.query.get_or_404(recipe_id)
 
@@ -201,7 +270,12 @@ def edit_recipe(recipe_id):
 @login_required
 def autocomplete_tags():
     """
-    Provides a list of all available tags for autocomplete purposes.
+    Serves a JSON response containing all existing tag names in the database.
+    This endpoint is used to support autocomplete features in forms where users
+    can add tags to recipes.
+
+    Returns:
+        Response: A JSON array of tag names.
     """
     tags = RecipeTag.query.all()
     tag_names = [tag.tag_name for tag in tags]
@@ -212,11 +286,20 @@ def autocomplete_tags():
 @login_required
 def search():
     """
-    Handles the search functionality by allowing users to search for recipes
-    by tags.
+    Handle Recipe Search Functionality Based on Tags.
+
+    Allows users to search for recipes by specifying tag names. Retrieves tags
+    that match the search query and returns all recipes associated with those
+    tags. Results are displayed on a separate search results page.
 
     Returns:
-        Response: Renders the search results page with a list of recipes.
+        Response:
+            - If search query is empty: Redirects to the home page with an
+            error flash message.
+            - If no matching tags are found: Displays an informational flash
+            message.
+            - Otherwise: Renders the 'tag_search_results.html' template with
+            the list of matching recipes.
     """
     search = request.args.get('search')
     if not search:
@@ -229,7 +312,7 @@ def search():
         .filter(RecipeTag.tag_name.ilike(f"%{search}%"))
         .all()
         )
-    
+
     if not matching_tags:
         flash(
             f"No recipes found that match your search: { search }",
@@ -259,19 +342,27 @@ def search():
 @login_required
 def delete_recipe(recipe_id):
     """
-    Handles recipe deletion.
-    This route will allow a user to delete a recipe, stages, images, and tags
-    associated with the recipe.
+    Allows users to delete their own recipes, including all associated stages,
+    images, and tags. Ensures that only the recipe owner can perform deletions.
+    Utilizes helper functions to manage the deletion process and maintains
+    data integrity by cascading deletions appropriately.
 
     Args:
-        recipe_id (int): The ID of the recipe to delete.
+        recipe_id (int): The unique identifier of the recipe to delete.
 
     Returns:
-        Response: Redirects to the recipes page after deletion.
+        Response:
+            - On Successful Deletion: Redirects to the user's recipes page with
+            an informational flash message.
+            - On Unauthorized Access: Redirects to the home page with an error
+            flash message.
+
+    Raises:
+        404 Error: If no recipe with the given `recipe_id` exists.
     """
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    # ensure user owns the recipe
+    # Ensure user owns the recipe
     if recipe.user_id != current_user.id:
         flash(
             "You do not have permission to delete this recipe.",
@@ -279,31 +370,31 @@ def delete_recipe(recipe_id):
         )
         return redirect(url_for('routes.home'))
 
-    # Delete associated stages and images
-    stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
-    for stage in stages:
-        images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
-        for image in images:
-            if image.public_id:
-                # Delete the image from Cloudinary using public_id
-                cloudinary.uploader.destroy(image.public_id)
-            db.session.delete(image)  # Delete image record from the database
-        db.session.delete(stage)  # Delete stage record from the database
-
-    # Delete associated tags
-    EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
-
-    # Delete the recipe itself
-    db.session.delete(recipe)
-    db.session.commit()
-
+    # Use helper to delete recipe
+    remove_recipe(recipe)
     flash("Recipe has been deleted", category='info')
-
     return redirect(url_for('routes.recipes'))
 
 
 @routes.route('/contact', methods=['GET', 'POST'])
 def contact():
+    """
+    Handles both GET and POST requests. On GET requests, renders the contact
+    form.
+    On POST requests, validates the submitted data and sends the content of the
+    form to the site administrator via email. Provides appropriate feedback to
+    the user based on the success or failure of the submission.
+
+    Returns:
+        Response:
+            - On GET: The rendered 'contact.html' template displaying the
+            contact form.
+            - On POST:
+                - If validation fails: Redirects back to the contact form with
+                error flash messages.
+                - If submission is successful: Redirects to the contact form
+                with a success flash message.
+    """
     if request.method == "POST":
         sender_email = request.form.get('sender_email')
         sender_name = request.form.get('sender_name')
@@ -323,7 +414,6 @@ def contact():
             flash('Please provide your email address.', category='error')
             return redirect(url_for('routes.contact'))
         else:
-            print(f"Calling contact_form with: {sender_name}, {subject}")  # Add this line
             contact_form(sender_email, sender_name, subject, message_content)
             flash("""
                   Your message has been sent successfully!,

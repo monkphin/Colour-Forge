@@ -1,3 +1,38 @@
+"""
+Module: helpers.py
+
+Description:
+------------
+This module provides functions to handle recipe creation, editing, and deletion
+within the Colourforge application. It manages interactions with the database,
+handles image uploads via Cloudinary, and ensures data integrity through proper
+tagging and association of recipe components. The module includes helper
+functions to streamline the management of recipe stages, images, and tags,
+facilitating both creation and modification workflows.
+
+Functions:
+--------------------
+- **Recipe Creation:** Handles the creation of new recipes, including
+initializing default stages and uploading associated images.
+
+- **Recipe Editing:** Manages the updating of existing recipes, allowing for
+modifications
+to instructions, images, and tags. Ensures that changes are accurately
+reflected in the database and associated services.
+
+- **Recipe Deletion:** Facilitates the removal of recipes and all related data,
+ensuring that no orphaned records remain in the database.
+
+- **Image Handling:** Uploads images to Cloudinary, retrieves secure URLs and
+thumbnails, and manages the deletion of images from both the database and
+Cloudinary.
+
+- **Tag Management:** Adds, edits, and removes tags associated with recipes,
+ensuring a consistent tagging system for efficient categorization and
+searching.
+"""
+
+
 from flask import request, render_template
 from colourforge import app, db, cloudinary, cloudinary_url
 from flask_login import current_user
@@ -9,8 +44,8 @@ from colourforge.models import (
     EntityTag
 )
 
-# Common variables. 
-# I have been advise by my mentor that URLs can be longer than 79 chars. 
+# Common variables.
+# I have been advise by my mentor that URLs can be longer than 79 chars.
 PLACEHOLDER_IMAGE_URL = (
     'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png')
 PLACEHOLDER_THUMBNAIL_URL = (
@@ -19,14 +54,17 @@ PLACEHOLDER_THUMBNAIL_URL = (
 
 def recipe_handler(form_data):
     """
-    Handles creating a new recipe object in the database.
+    Processes form data to create a new recipe associated with the current
+    user.
+    Extracts the recipe name and description from the form, saves the recipe to
+    the database, and returns the newly created recipe object.
 
     Args:
-        form_data (dict): Data from the form to create a new recipe, including
-        recipe name and description.
+        form_data (dict): A dictionary containing form data with keys
+        'recipe_name' and 'recipe_desc'.
 
     Returns:
-        Recipe: The newly created recipe object.
+        Recipe: The newly created Recipe object persisted in the database.
     """
     recipe = Recipe(
         user_id=current_user.id,
@@ -40,11 +78,12 @@ def recipe_handler(form_data):
 
 def handle_recipe_edit_post(recipe):
     """
-    Handles updating recipe details, tags, and stages based on submitted
-    form data.
+    Updates the details of an existing recipe, including its name, description,
+    instructions, images, and tags. Processes form data to reflect the changes
+    in the database, ensuring that all associations are correctly maintained.
 
     Args:
-        recipe (Recipe): The recipe object being edited.
+        recipe (Recipe): The Recipe object to be updated with new data.
     """
     # Get form fields and store as variables.
     recipe.recipe_name = request.form.get('recipe_name')
@@ -80,10 +119,12 @@ def handle_recipe_edit_post(recipe):
 
 def tag_handler(recipe, tag_names):
     """
-    Handles adding tags to a recipe. If the tag does not exist, it creates it.
+    Iterates through a list of tag names, adding each tag to the database if it
+    does not already exist. Associates each tag with the specified recipe,
+    ensuring that duplication is avoided.
 
     Args:
-        recipe (Recipe): The recipe object to which tags are being added.
+        recipe (Recipe): The Recipe object to which tags are being added.
         tag_names (list): A list of tag names to be associated with the recipe.
     """
     if tag_names:
@@ -117,13 +158,14 @@ def tag_handler(recipe, tag_names):
 
 def edit_tag_handler(recipe, tag_names):
     """
-    Handles editing tags for a recipe by adding new tags and removing those
-    that are not in the updated tag list.
+    Compares the current tags associated with the recipe to the new list of
+    tags provided. Adds any new tags that are not already stored and removes
+    tags that are no longer included in the updated list.
 
     Args:
-        recipe (Recipe): The recipe object whose tags are being edited.
-        tag_names (list): A list of new tag names to be associated with
-        the recipe.
+        recipe (Recipe): The Recipe object whose tags are being edited.
+        tag_names (list): A list of new tag names to be associated with the
+        recipe.
     """
     # Retrieve current tags associated with the recipe
     current_tags = EntityTag.query.filter_by(
@@ -166,15 +208,17 @@ def edit_tag_handler(recipe, tag_names):
 
 def upload_image(image):
     """
-    Uploads an image to Cloudinary and retrieves URLs for full and thumbnail
-    versions.
+    Handles the uploading of an image file to Cloudinary. Retrieves the secure
+    URL, thumbnail URL, and public ID of the uploaded image. If no image is
+    provided, returns
+    None for all values.
 
     Args:
         image (FileStorage): The image file to be uploaded.
 
     Returns:
         tuple: A tuple containing (image_url, thumbnail_url, public_id).
-        Returns None for all if no image is provided.
+               Returns (None, None, None) if no image is provided.
     """
     if image and image.filename != '':
         upload_result = cloudinary.uploader.upload(image)
@@ -191,24 +235,53 @@ def upload_image(image):
     return None, None, None
 
 
-def delete_image(image):
+def remove_recipe(recipe):
     """
-    Deletes an image from Cloudinary and removes it from the database.
+    Removes the specified recipe from the DB, including all related stages,
+    images, and tag associations. Ensures that no orphaned records remain by
+    cascading deletions.
 
     Args:
-        image (RecipeImage): The image object to be deleted.
+        recipe (Recipe): The Recipe object to be deleted.
     """
-    if image.public_id and image.public_id.startswith('placeholder'):
+    # Delete associated stages and images
+    stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
+    for stage in stages:
+        for image in stage.recipe_images:
+            delete_image(image)  # Use the helper to handle image deletion
+        db.session.delete(stage)  # Delete stage record
+
+    # Delete associated tags
+    EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
+
+    # Finally, delete the recipe itself
+    db.session.delete(recipe)
+    db.session.commit()
+
+
+def delete_image(image):
+    """
+    Deletes the image from Cloudinary using its public ID, unless it is a
+    placeholder image. Once done this then removes the image record from the
+    database to ensure we're not storing unneeded records.
+
+    Args:
+        image (RecipeImage): The RecipeImage object to be deleted.
+    """
+    if image.public_id and not image.public_id.startswith('placeholder'):
         cloudinary.uploader.destroy(image.public_id)
     db.session.delete(image)
 
 
 def assign_placeholder_image(stage):
     """
-    Assigns a placeholder image to a recipe stage in the database.
+    Where no image is provided for a recipe stage, this function
+    assigns a placeholder image to ensure that every stage has an associated
+    image.
 
     Args:
-        stage (RecipeStage): The stage object to assign the placeholder image.
+        stage (RecipeStage): The RecipeStage object to which the placeholder
+        image is assigned.
     """
     placeholder_url = PLACEHOLDER_IMAGE_URL
     placeholder_thumbnail = PLACEHOLDER_THUMBNAIL_URL
@@ -229,10 +302,12 @@ def instruction_handler(
     alt_texts
 ):
     """
-    Handles creating recipe stages and associated images in the database.
+    Iterates through the provided instructions, uploads associated images, and
+    creates corresponding RecipeStage and RecipeImage records in the database.
+    Assigns placeholder images if no image is provided for a stage.
 
     Args:
-        recipe (Recipe): The recipe object to which stages are being added.
+        recipe (Recipe): The Recipe object to which stages are being added.
         instructions (list): A list of instructions for each recipe stage.
         image_files (list): A list of image files associated with each stage.
         alt_texts (list): A list of alt texts for each image.
@@ -287,11 +362,13 @@ def instruction_handler(
 
 def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
     """
-    Handles editing recipe stages and images by deleting existing stages and
-    adding new ones.
+    Deletes all existing stages and images associated with the recipe, then
+    recreates them based on the updated instructions and images provided
+    through the form data. Ensures that the recipe's structure remains
+    consistent and up-to-date.
 
     Args:
-        recipe (Recipe): The recipe object whose stages are being edited.
+        recipe (Recipe): The Recipe object whose stages are being edited.
         instructions (list): A list of new instructions for each recipe stage.
         image_files (list): A list of new image files associated with each
         stage.
@@ -299,8 +376,8 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
     """
     # Fetch existing stages/images
     existing_stages = (RecipeStage.query
-                       .filter_by(recipe_id=recipe.recipe_id)
-                       .all())
+                    .filter_by(recipe_id=recipe.recipe_id)
+                    .all())
 
     # Delete existing stages and images
     for stage in existing_stages:
@@ -318,13 +395,16 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
 
 def collect_delete_image_flags(stage_ids):
     """
-    Collects flags for whether images should be deleted for each stage.
+    Checks form data to determine which images associated with recipe stages
+    should be deleted. Returns a dictionary mapping stage IDs to boolean flags
+    indicating the deletion intent.
 
     Args:
         stage_ids (list): A list of stage IDs to check for deletion flags.
 
     Returns:
-        dict: A dictionary mapping stage IDs to deletion flags.
+        dict: A dictionary mapping each stage ID to a boolean indicating
+        whether its image should be deleted (`True`) or retained (`False`).
     """
     i = 0
     delete_image_flags = {}
@@ -344,20 +424,25 @@ def process_stages_and_images(
         delete_image_flags
         ):
     """
-    Processes stages and images for a recipe during editing, including adding,
-    deleting, or updating stages.
+    Handles the comprehensive processing of recipe stages and their associated
+    images during the editing workflow. This includes deleting stages no longer
+    present, updating existing stages with new instructions and images, and
+    adding new stages as needed. Ensures that the recipe's stages are correctly
+    ordered and that the final stage is appropriately flagged.
 
     Args:
-        recipe (Recipe): The recipe object being edited.
+        recipe (Recipe): The Recipe object being edited.
         instructions (list): A list of instructions for each stage.
-        images (list): A list of images for each stage.
+        images (list): A list of image files for each stage.
         alt_texts (list): A list of alt texts for each image.
         stage_ids (list): A list of existing stage IDs.
         delete_image_flags (dict): Flags indicating whether an image should be
         deleted.
     """
     existing_stage_ids = set(stage_ids)
-    current_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
+    current_stages = RecipeStage.query.filter_by(
+        recipe_id=recipe.recipe_id
+        ).all()
 
     # Delete stages that are no longer in the updated list
     for stage in current_stages:
@@ -385,13 +470,17 @@ def process_stages_and_images(
         i += 1
 
     # **Re-sort stages after updates**
-    all_stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).order_by(RecipeStage.stage_num).all()
-    
+    all_stages = RecipeStage.query.filter_by(
+        recipe_id=recipe.recipe_id
+    ).order_by(
+        RecipeStage.stage_num
+    ).all()
+
     # Assign stage_num values and set the final stage flag
     stage_num = 1
     for stage in all_stages:
         stage.stage_num = stage_num
-        stage.is_final_stage = (stage_num == len(all_stages))  # Last stage flag
+        stage.is_final_stage = (stage_num == len(all_stages))
         stage_num += 1
 
     db.session.commit()
@@ -406,17 +495,20 @@ def update_existing_stage(
         alt_texts
         ):
     """
-    Updates an existing stage with new instructions and optionally updates its
-    image.
+    Modifies the instructions of an existing stage and handles the updating or
+    deletion of its associated image based on user input. If a new image is
+    provided, it replaces the old image; otherwise, it assigns a placeholder
+    image if flagged for deletion.
 
     Args:
-        stage_id (int): The ID of the stage to update.
-        instruction (str): The updated instruction for the stage.
-        images (list): A list of images for each stage.
-        index (int): The index of the current stage being updated.
-        delete_image_flags (dict): Flags indicating whether an image should be
-        deleted.
-        alt_texts (list): A list of alt texts for each image.
+        stage_id (int): The unique identifier of the stage to be updated.
+        instruction (str): The updated instruction text for the stage.
+        image (FileStorage): The new image file to be associated with the
+        stage.
+        delete_image_flags (dict): A dictionary mapping stage IDs to boolean
+        flags indicating whether their images should be deleted.
+        alt_texts (list): A list of alt texts corresponding to each image.
+        index (int): The index of the current stage being processed.
     """
     stage = RecipeStage.query.get(stage_id)
     if stage:
@@ -453,13 +545,16 @@ def handle_existing_image(
         index
         ):
     """
-    Handles updating or deleting an existing image for a stage.
+    Checks if the image associated with the stage should be deleted based on
+    user input. If deletion is requested and no new image is provided, assigns
+    a placeholder image. Otherwise, retains or updates the existing image as
+    appropriate.
 
     Args:
-        stage (RecipeStage): The stage object to update.
-        new_image (FileStorage): The new image file.
-        delete_image_flags (dict): Flags indicating whether an image should be
-        deleted.
+        stage (RecipeStage): The stage object whose image is being handled.
+        new_image (FileStorage): The new image file, if uploaded.
+        delete_image_flags (dict): Flags indicating whether the current image
+        should be deleted.
         alt_texts (list): A list of alt texts for each image.
         index (int): The index of the current stage being processed.
     """
@@ -478,14 +573,15 @@ def handle_missing_image(
         index
         ):
     """
-    Handles the case where a stage is missing an image and no new image is
-    provided.
+    If the user has not requested deletion of the image and no new image is
+    provided, assigns a default placeholder image to the stage to maintain
+    consistency.
 
     Args:
-        stage (RecipeStage): The stage object to update.
-        new_image (FileStorage): The new image file.
-        delete_image_flags (dict): Flags indicating whether an image should be
-        deleted.
+        stage (RecipeStage): The stage object to assign the placeholder image.
+        new_image (FileStorage): The new image file, if uploaded.
+        delete_image_flags (dict): Flags indicating whether the current image
+        should be deleted.
         alt_texts (list): A list of alt texts for each image.
         index (int): The index of the current stage being processed.
     """
@@ -495,11 +591,13 @@ def handle_missing_image(
 
 def handle_new_image_upload(stage, new_image, alt_texts, index):
     """
-    Handles uploading a new image for a stage and updating the database.
+    Handles the uploading of a new image to Cloudinary, deletes the old image
+    if one exists, and associates the newly uploaded image with the recipe
+    stage.
 
     Args:
-        stage (RecipeStage): The stage object to update.
-        new_image (FileStorage): The new image file to upload.
+        stage (RecipeStage): The stage object to associate with the new image.
+        new_image (FileStorage): The new image file to be uploaded.
         alt_texts (list): A list of alt texts for each image.
         index (int): The index of the current stage being processed.
     """
@@ -520,14 +618,16 @@ def handle_new_image_upload(stage, new_image, alt_texts, index):
 
 def create_new_stage(recipe, index, instruction, images, alt_texts):
     """
-    Creates a new recipe stage and associates it with the recipe.
+    Creates a new RecipeStage record with the provided instruction and
+    associates it with an image. If no image is provided, assigns a placeholder
+    image to the stage.
 
     Args:
-        recipe (Recipe): The recipe object to which the new stage is
-        being added.
+        recipe (Recipe): The Recipe object to which the new stage is being
+        added.
         index (int): The index of the new stage being created.
-        instruction (str): The instruction for the new stage.
-        images (list): A list of images for each stage.
+        instruction (str): The instruction text for the new stage.
+        images (list): A list of image files for each stage.
         alt_texts (list): A list of alt texts for each image.
     """
     new_stage = RecipeStage(
@@ -543,12 +643,13 @@ def create_new_stage(recipe, index, instruction, images, alt_texts):
 
 def handle_new_stage_image(images, index, new_stage, alt_texts):
     """
-    Handles assigning an image to a newly created recipe stage.
+    Determines whether an image has been uploaded for the new stage and handles
+    its assignment. If no image is provided, assigns a placeholder image.
 
     Args:
-        images (list): A list of images for each stage.
+        images (list): A list of image files for each stage.
         index (int): The index of the current stage being processed.
-        new_stage (RecipeStage): The new stage object to update.
+        new_stage (RecipeStage): The newly created stage object to update.
         alt_texts (list): A list of alt texts for each image.
     """
     if index < len(images):
@@ -577,15 +678,19 @@ def add_new_image(
     public_id
 ):
     """
-    Adds a new image to a recipe stage in the database.
+    Creates a new RecipeImage record linking the uploaded image to the
+    specified recipe stage, including the image URL, thumbnail URL, alt text,
+    and public
+    ID.
 
     Args:
-        stage (RecipeStage): The stage object to associate with the image.
-        image_url (str): The URL of the uploaded image.
+        stage (RecipeStage): The RecipeStage object to associate with the
+        image.
+        image_url (str): The secure URL of the uploaded image.
         thumbnail_url (str): The thumbnail URL of the uploaded image.
-        alt_texts (list): A list of alt texts for each image.
+        alt_texts (list): A list of alt texts corresponding to each image.
         index (int): The index of the current stage being processed.
-        public_id (str): The public ID of the uploaded image.
+        public_id (str): The public ID of the uploaded image in Cloudinary.
     """
     recipe_image = RecipeImage(
         stage_id=stage.stage_id,

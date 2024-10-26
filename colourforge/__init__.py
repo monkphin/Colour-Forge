@@ -5,7 +5,7 @@ import cloudinary
 import cloudinary.uploader
 from cloudinary.utils import cloudinary_url
 from flask_login import LoginManager
-from flask_mail import Mail, Message
+from flask_mail import Mail
 
 
 if os.path.exists("env.py"):

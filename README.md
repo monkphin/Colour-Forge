@@ -44,42 +44,7 @@ A paint catalogue and recipe book for miniature painters
 
 - [Features](#features)
 
-Tags, these were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully. Eventually I found [this Reddit Thread](https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/) along with this [Stackoverflow thread](https://stackoverflow.com/questions/62894961/problem-with-materialize-chips-autocomplete) and this [Github Issue](https://github.com/Dogfalo/materialize/issues/6401) which all helped me understand what was needed to get this working. 
-
 - [Bugs and Issues](#bugs-and-issues)
-
-Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
-jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
-While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
-
-Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
-
-This was the recipe before editing. 
- stage_id | recipe_id | stage_num | instructions | is_final_stage 
-----------+-----------+-----------+--------------+----------------
-      135 |        53 |         1 | Testing 1    | f
-      136 |        53 |         2 | Testing 2    | f
-      137 |        53 |         3 | Testing 3    | t
-(3 rows)
-
-This was it after
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
- stage_id | recipe_id | stage_num |           instructions           | is_final_stage 
-----------+-----------+-----------+----------------------------------+----------------
-      136 |        53 |         2 | Testing 2                        | f
-      135 |        53 |         1 | Testing 1\r                     +| f
-          |           |           | \r                              +| 
-          |           |           | this should move to stage 2 or 3 | 
-      137 |        53 |         3 | Testing 3                        | t
-(3 rows)
-
-A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/wheen I resolve the under lying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
-
-Jinja for loop before the fix       {% for stage in recipe.stages %}
-Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
-
-
 
 - [Technology](#technology)
 
@@ -403,13 +368,52 @@ While i have larger plans around the ability to catalogue paints owned by a user
 
 # Features
 
+Tags, these were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully. Eventually I found [this Reddit Thread](https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/) along with this [Stackoverflow thread](https://stackoverflow.com/questions/62894961/problem-with-materialize-chips-autocomplete) and this [Github Issue](https://github.com/Dogfalo/materialize/issues/6401) which all helped me understand what was needed to get this working. 
+
 # Bugs and Issues
 
 Found an odd bug when using the chips feature from Materialize, where it was causing the stage counter to jump from 1 to 3 when adding a new stage. Removing the javascript needed for Chips to be initialized I found the behaviour worked as expected. The easiest fix here was to hard set the stageCount to 1, then increment/decrement it as part of the function to add/remove each stage as needed. This issue also made me realise that the ID tags being assigned were not unique as they're supposed to be, so I corrected this using Jinja to append the stage number to the ID tag for each new stage added by Javascript. 
 
-I decided part way through developing the edit functionality to split out the varying functions needed to drive each page, in an effort to encourage more DRY like behaviour allowing for reuse of code. When trying to amalgamate both initial DB entry and editing an existing entry into a single function, this kept having issues, causing me to split these out into their own create and edit functions. While the code is now easier to maintain, since the various app routes and functions are smaller and simpler it does remove some element of adhering to DRY practices, since as things stand, most of the functions are essentially limited to single app routes using them with a few exceptions, such as image uploading. 
+I decided part way through developing the edit functionality to split out the varying functions needed to drive each page, in an effort to encourage more DRY like behaviour allowing for reuse of code. When trying to amalgamate both initial DB entry and editing an existing entry into a single function, this kept having issues, causing me to split these out into their own create and edit functions. This allows the code to be somewhat easier to maintain, since the various app routes and functions are smaller and simpler as well as allowing further DRY practice, since the various functions can be called as needed going forwards.
 
 While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
+
+I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
+
+While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents my from disabling this. 
+Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality and is more a personal annoyance. 
+
+Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
+jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
+While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
+
+Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+
+This was the recipe before editing. 
+ stage_id | recipe_id | stage_num | instructions | is_final_stage 
+----------+-----------+-----------+--------------+----------------
+      135 |        53 |         1 | Testing 1    | f
+      136 |        53 |         2 | Testing 2    | f
+      137 |        53 |         3 | Testing 3    | t
+(3 rows)
+
+This was it after
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+ stage_id | recipe_id | stage_num |           instructions           | is_final_stage 
+----------+-----------+-----------+----------------------------------+----------------
+      136 |        53 |         2 | Testing 2                        | f
+      135 |        53 |         1 | Testing 1\r                     +| f
+          |           |           | \r                              +| 
+          |           |           | this should move to stage 2 or 3 | 
+      137 |        53 |         3 | Testing 3                        | t
+(3 rows)
+
+A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/when I resolve the under lying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
+
+Jinja for loop before the fix       {% for stage in recipe.stages %}
+Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
+
 
 
 

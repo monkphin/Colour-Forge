@@ -1,7 +1,51 @@
+"""
+Module: default_recipe.py
+
+Description:
+------------
+This module provides functionality to create a default recipe for new users
+of the Colourforge application. The `create_default_recipe` function creates a
+demo recipe complete with predefined stages, images, and tags to guide users
+through the application's features. This setup ensures that new users have a
+reference point and can easily understand how to interact with recipes, stages
+and associated media.
+
+Key Functionalities:
+--------------------
+- **Default Recipe Creation:** Initializes a sample recipe with multiple stages
+to demonstrate the application's capabilities.
+
+- **Stage Management:** Creates recipe stages with instructions, images
+(including placeholders), and designates the final stage.
+
+- **Image Handling:** Associates images with each stage, utilizing placeholder
+images where user-uploaded images are not provided.
+
+- **Tagging System:** Assigns predefined tags to the demo recipe to illustrate
+the tagging and search functionalities.
+"""
+
+
 from .models import db, Recipe, RecipeStage, RecipeImage, RecipeTag, EntityTag
 
 
 def create_default_recipe(user):
+    """
+    Initialize a Default Recipe for a New User.
+
+    This function creates a default "Demo Recipe" for a newly registered user.
+    The demo recipe includes three stages with predefined instructions and
+    images to demonstrate the application's features. Additionally, it assigns
+    a set of predefined tags to the recipe to showcase the tagging and search
+    functionalities.
+
+    Args:
+        user (User): The user object for whom the default recipe is being
+        created. This user will be associated with the recipe.
+
+    Returns:
+        None
+    """
 
     # Create a default recipe
     demo_recipe = Recipe(
@@ -10,10 +54,10 @@ def create_default_recipe(user):
         recipe_desc=f"""
 This is a demonstration recipe, to show a rough idea of possible uses.
 
-Feel free to delete or edit this when you're done with it. 
+Feel free to delete or edit this when you're done with it.
 
 Images can be clicked on to see a larger copy, this will also allow you
-to open the full sized version of the image in a new window. 
+to open the full sized version of the image in a new window.
         """
     )
     db.session.add(demo_recipe)
@@ -28,8 +72,8 @@ Your basic instructions should go here.
 These will honour line breaks via the enter key.
 
 Images and descriptions are optional, though a placeholder will be added if no
-image is provided. Such as with this stage, where we see a black and white image
-of our Mascot, Rummy Nate, the procrastinating Painter.
+image is provided. Such as with this stage, where we see a black and white
+image of our Mascot, Rummy Nate, the procrastinating Painter.
         """,
         is_final_stage=False
     )
@@ -59,7 +103,7 @@ Recipes can have a nearly infinite number of stages to allow for some very
 complex recipes to be created, to add a stage simply click the 'add stage'
 button below. To remove a stage, click the remove stage button - be aware that
 this will remove anything you have entered in the stage to be removed so only
-use this if you're happy to lose this content. 
+use this if you're happy to lose this content.
         """,
         is_final_stage=True
     )

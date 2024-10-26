@@ -1,3 +1,35 @@
+"""
+Module: email_notifications.py
+
+Description:
+------------
+This module handles the sending of various email notifications within the
+Colourforge application. It utilizes Flask-Mail to send emails for user
+registration, account deletion, password changes, email changes, and contact
+form submissions. Each function is responsible for composing and sending a
+specific type of email, ensuring consistent communication with users.
+
+Functions:
+----------
+- welcome_email(email_address, username):
+    Sends a welcome email to a new user upon successful registration.
+
+- account_deletion(email_address, username):
+    Sends a confirmation email to a user after their account has been deleted.
+
+- password_change(email_address, username):
+    Sends a notification email to a user after their password has been changed.
+
+- email_change(email_address, old_email, username):
+    Sends a confirmation email to a user after their email address has been
+    changed.
+
+- contact_form(sender_email, sender_name, subject, message_content):
+    Sends the content of a contact form submitted by a user to the site
+    administrator.
+"""
+
+
 from flask_mail import Message
 from flask import render_template
 
@@ -6,12 +38,13 @@ from colourforge import mail
 
 def welcome_email(email_address, username):
     """
-    Sends a welcome email to a new user who has registered an account.
+    Sends a welcome email to a user who has successfully registered an account.
+    The email includes both plain text and HTML to ensure maximum compatibility
+    with a range of mail clients.
 
     Parameters:
         email_address (str): The email address of the recipient.
         username (str): The username of the recipient.
-
 
     Returns:
         None
@@ -46,11 +79,13 @@ def welcome_email(email_address, username):
 
 def account_deletion(email_address, username):
     """
-    Sends a confirmation email to a user who deletes their account.
+    Sends a confirmation email to a user after their account has been
+    successfully deleted. This serves as a record of the account deletion to
+    confirm that we have done as the user requested.
 
     Parameters:
-        username (str): The username of the recipient.
         email_address (str): The email address of the recipient.
+        username (str): The username of the recipient.
 
     Returns:
         None
@@ -66,7 +101,7 @@ def account_deletion(email_address, username):
     Hey {username},
 
     Sorry to see you go.
-    Your account has been successfully deleted.
+    Your account and all associated data have been successfully deleted.
 
     Thanks,
     The Colourforge Team
@@ -83,7 +118,10 @@ def account_deletion(email_address, username):
 
 def password_change(email_address, username):
     """
-    Sends a confirmation email to a user who changes their password.
+    Sends an email to notify the user that their password has been successfully
+    changed.
+    If the user did not initiate the change, they are advised to contact
+    support immediately.
 
     Parameters:
         email_address (str): The email address of the recipient.
@@ -123,10 +161,14 @@ def password_change(email_address, username):
 
 def email_change(email_address, old_email, username):
     """
-    Sends a confirmation email to a user who has changed their email address.
+    Sends a confirmation email to notify the user that their email address has
+    been successfully changed.
+    The email is sent to both the new and old email addresses to ensure
+    security.
 
     Parameters:
-        email_address (str): The email address of the recipient.
+        email_address (str): The new email address of the recipient.
+        old_email (str): The previous email address of the recipient.
         username (str): The username of the recipient.
 
     Returns:
@@ -156,13 +198,19 @@ def email_change(email_address, old_email, username):
 
 def contact_form(sender_email, sender_name, subject, message_content):
     """
-    Sends the content of a contact form.
+    Send a Contact Form Submission Email to the Administrator.
+
+    Sends the content of a contact form submitted by a user to the site
+    administrator.
+    The email includes both plain text and HTML versions of the message for
+    better readability.
 
     Parameters:
         sender_email (str): The email address of the sender.
-        sender_name (str): The name of the user from the form.
+        sender_name (str): The name of the user submitting the form.
         subject (str): The subject of the message.
-        message_content (str): The content of the form that the user submitted.
+        message_content (str): The content of the message submitted by the
+        user.
 
     Returns:
         None

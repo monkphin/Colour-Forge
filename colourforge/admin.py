@@ -1,3 +1,34 @@
+"""
+Module: admin.py
+
+Description:
+----------
+This module handles the admin blueprint for Colourforge Application.
+It provides administrative functionalities such as user management, recipe
+moderation, and other admin-level operations.
+
+Functions:
+----------
+- restricted_access(): Restricts access to admin routes to authenticated admin
+users.
+- admin_dash(): Renders the admin dashboard displaying user details.
+- change_email(user_id): Allows admins to change a user's email address.
+- reset_password(user_id): Allows admins to reset a user's password.
+- toggle_admin(user_id): Toggles a user's admin status.
+- delete_account(user_id): Deletes a user account.
+- recipe_admin(): Renders the admin recipes page.
+- user_search(): Searches for users based on a query.
+- recipe_search(): Searches for recipes based on a query.
+- confirm_edit(recipe_id): Confirms admin password before editing a recipe.
+- confirm_delete(recipe_id): Confirms admin password before deleting a recipe.
+
+Notes:
+------
+- Access to routes defined in this module is restricted to admin users.
+- Ensure that 'current_user' is properly managed by Flask-Login.
+
+"""
+
 # Third-Party Library Imports
 from flask import (
     flash,
@@ -13,7 +44,14 @@ from math import ceil
 
 # Local imports
 from colourforge import db, cloudinary
-from colourforge.models import User, Recipe, RecipeStage, RecipeImage, EntityTag
+from colourforge.models import (
+                                User,
+                                Recipe,
+                                RecipeStage,
+                                RecipeImage,
+                                EntityTag
+                            )
+from colourforge.helpers import remove_recipe
 
 admin = Blueprint('admin', __name__)
 
@@ -35,12 +73,14 @@ def restricted_access():
 @login_required
 def admin_dash():
     """
-    Renders the admin dashboard page, with a list of all users and their
-    details
+    This function retrieves all users from the database, paginates them,
+    and renders the admin dashboard template. The dashboard provides
+    administrators list of all registered users and their details.
 
     Returns:
-        Response: The rendered admin dashboard page.
+        Response: The rendered admin dashboard HTML page.
     """
+
     # Get all Users
     users = User.query.all()
 
@@ -66,14 +106,18 @@ def admin_dash():
 @login_required
 def change_email(user_id):
     """
-    Change the email of a selected user on the admin page.
+    Allows an administrator to change the email address of a user.
+    The admin must provide their own password to authorize this change.
 
     Args:
-        user_id (int): The ID of the user to change the email of.
+        user_id (int): The unique identifier of the user whose email is to be
+        updated.
 
     Returns:
-        Response: Redirects the user to the admin dashboard.
+        Response: A redirect to the admin dashboard with a success or error
+        message.
     """
+
     # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -83,22 +127,24 @@ def change_email(user_id):
     admin_password = request.form.get('password-email')
     new_email = request.form.get('email')
 
-    # Make sure an email address has been entered. 
+    # Validate the new email input.
     if new_email == '':
         flash('Please enter the new email address.', category='error')
         return redirect(url_for('admin.admin_dash'))
     # Make sure the email is unique
-    elif User.query.filter(User.email == new_email, User.id != User.id).first():
+    elif User.query.filter(
+        User.email == new_email, User.id != current_user.id
+    ).first():
         flash(
             """The new email address is already in use.
-            Please check with the user."""
-            , category='error'
+            Please check with the user.""",
+            category='error'
         )
         return redirect(url_for('admin.admin_dash'))
-    # Make sure the admin password has been entered. 
-    elif not admin_password: 
+    # Make sure the admin password has been entered.
+    elif not admin_password:
         flash(
-            'Please enter your admin password to change the users email.', 
+            'Please enter your admin password to change the users email.',
             category='error'
         )
         return redirect(url_for('admin.admin_dash'))
@@ -117,14 +163,19 @@ def change_email(user_id):
 @login_required
 def reset_password(user_id):
     """
-    Reset the password of a selected user on the admin page.
+    Enables an administrator to reset the password of a user.
+    The admin must provide a new password (twice for confirmation) and
+    their own password for authentication.
 
     Args:
-        user_id (int): The ID of the user to reset the password of.
+        user_id (int): The unique identifier of the user whose password is to
+        be reset.
 
     Returns:
-        Response: Redirects the user to the admin dashboard.
+        Response: A redirect to the admin dashboard with a success or error
+        message.
     """
+
     # Make sure current user is an admin.
     if not current_user.is_admin:
         flash("Unauthorized access.", category="error")
@@ -137,34 +188,35 @@ def reset_password(user_id):
     admin_password = request.form.get('password-reset')
     admin_password_hash = current_user.password
 
-    # Make sure an admin password is entered. 
+    # Make sure an admin password is entered.
     if not admin_password:
         flash(
             'Please enter your admin password to change the users password',
             category='error'
         )
         return redirect(url_for('admin.admin_dash'))
-    # Make sure entered password matches the admin users password. 
+    # Make sure entered password matches the admin users password.
     elif not check_password_hash(current_user.password, admin_password):
         flash('Incorrect admin password, try again', category='error')
         return redirect(url_for('admin.admin_dash'))
-    # Make sure both password fields are filled to prevent errors. 
+    # Make sure both password fields are filled to prevent errors.
     elif not password1 or not password2:
         flash('Both password fields are required', category='error')
         return redirect(url_for('admin.admin_dash'))
-    # Make sure both fields match. 
+    # Make sure both fields match.
     elif password1 != password2:
         flash('Passwords don\'t match!', category='error')
         return redirect(url_for('admin.admin_dash'))
-    # Make sure password entered is at least 7 characters. 
+    # Make sure password entered is at least 7 characters.
     elif len(password1) < 7:
         flash('Password must be at least 7 characters.', category='error')
 
     # Check if new password is the same as the users current password
     elif check_password_hash(user.password, password1):
         flash(
-        'The new password cannot be the same as the user\'s current password',
-        category='error'
+            """The new password cannot be the same as the user\'s
+            current password""",
+            category='error'
         )
         return redirect(url_for('admin.admin_dash'))
     # Check if new password is the same as admin's password
@@ -194,10 +246,18 @@ def reset_password(user_id):
 @login_required
 def toggle_admin(user_id):
     """
-    A toggle to set a specific user as an admin or not.
+    Allows an administrator to promote or demote a user to or from admin.
+    The admin must provide their own password to authorize this change.
+    Self-demotion is prohibited to prevent an admin from accidentally
+    removing their own privileges.
 
     Args:
-        user_id (int): The ID of the user to toggle admin status of.
+        user_id (int): The unique identifier of the user whose admin status is
+        to be toggled.
+
+    Returns:
+        Response: A redirect to the admin dashboard with a success or error
+        message.
     """
     # Make sure current user is an admin.
     if not current_user.is_admin:
@@ -205,7 +265,7 @@ def toggle_admin(user_id):
         return redirect(url_for('routes.home'))
 
     user = User.query.get_or_404(user_id)
-    admin_password = request.form.get('toggle_password') 
+    admin_password = request.form.get('toggle_password')
 
     # Make sure the admin isn't demoting themselves.
     if user.id == current_user.id:
@@ -218,7 +278,9 @@ def toggle_admin(user_id):
     # Check for admins password.
     elif not admin_password:
         flash(
-            'Please enter your admin password to change the users admin status',
+            """Please enter your admin password to change the users admin
+            status
+            """,
             category='error'
         )
         return redirect(url_for('admin.admin_dash'))
@@ -227,7 +289,7 @@ def toggle_admin(user_id):
         flash('Incorrect admin password, try again', category='error')
         return redirect(url_for('admin.admin_dash'))
 
-    # Toggle status between admin/none admin.     
+    # Toggle status between admin/none admin.
     if user.is_admin:
         user.is_admin = False
         db.session.commit()
@@ -244,13 +306,18 @@ def toggle_admin(user_id):
 @login_required
 def delete_account(user_id):
     """
-    Delete a specified user account from the admin dashboard.
+    Enables an administrator to delete a user's account from the
+    system.
+    The admin must provide their own password to authorize the deletion.
+    Self-deletion is prohibited to ensure that the site has at least one
+    functioning admin user and prevent accidental self deletion.
 
     Args:
-        user_id (int): The ID of the user to delete.
+        user_id (int): The unique identifier of the user account to be deleted.
 
     Returns:
-        Response: Redirects the user to the admin dashboard.
+        Response: A redirect to the admin dashboard with a success or error
+        message.
     """
     # Make sure current user is an admin.
     if not current_user.is_admin:
@@ -259,9 +326,9 @@ def delete_account(user_id):
 
     # Pull user details to be deleted.
     user = User.query.get_or_404(user_id)
-    admin_password = request.form.get('delete_user_password') 
+    admin_password = request.form.get('delete_user_password')
 
-    # Make sure an admin password has been entered. 
+    # Make sure an admin password has been entered.
     if not admin_password:
         flash(
             'Please enter your password to delete the account',
@@ -272,7 +339,7 @@ def delete_account(user_id):
     elif not check_password_hash(current_user.password, admin_password):
         flash('Incorrect admin password, try again', category='error')
         return redirect(url_for('admin.admin_dash'))
-    # Make sure the admin isn't deleting themselves. 
+    # Make sure the admin isn't deleting themselves.
     elif user.id == current_user.id:
         flash(
             "You cannot delete your own account, "
@@ -294,14 +361,15 @@ def delete_account(user_id):
 @login_required
 def recipe_admin():
     """
-    Renders the admin level recipes page, with a list of all recipes and their
-    details
+    Retrieves all recipes from the database, paginates them, and renders the
+    admin recipes template. This page allows administrators to oversee and
+    manage all submitted recipes.
 
     Returns:
-        Response: The rendered admin recipes page.
+        Response: The rendered admin recipes HTML page.
     """
     recipes = Recipe.query.all()
-    admin_password = request.form.get('recipe_admin') 
+    admin_password = request.form.get('recipe_admin')
 
     page = request.args.get('page', 1, type=int)
     per_page = 6  # Recipes per page
@@ -324,6 +392,15 @@ def recipe_admin():
 @admin.route('/user_search', methods=['GET'])
 @login_required
 def user_search():
+    """
+    Allows admins to search for users based on a username query.
+    If no search term is provided or no users match the search, a message is
+    displayed to advise of this.
+
+    Returns:
+        Response: The rendered search results page or a redirect to the admin
+        dashboard.
+    """
     search = request.args.get('user_search')
     if not search:
         flash("Please enter a search term.", category="error")
@@ -349,6 +426,15 @@ def user_search():
 @admin.route('/recipe_search', methods=['GET'])
 @login_required
 def recipe_search():
+    """
+    Enables administrators to search for recipes based on a recipe name query.
+    If no search term is provided or no recipes match the search, a message is
+    displayed to advise of this.
+
+    Returns:
+        Response: The rendered search results page or a redirect to the admin
+        recipes page.
+    """
     search = request.args.get('recipe_search')
     if not search:
         flash("Please enter a search term.", category="error")
@@ -376,35 +462,44 @@ def recipe_search():
 @login_required
 def confirm_edit(recipe_id):
     """
-    Confirm admin password before editing a user's recipe.
-    
+    Validates the administrator's password before allowing them to edit a
+    specific recipe.
+    Ensures that only admins who are not the recipe owners can perform the
+    edit.
+
     Args:
-        recipe_id (int): The ID of the recipe to edit.
-    
+        recipe_id (int): The unique identifier of the recipe to be edited.
+
     Returns:
-        Response: Redirects to the recipe edit page if password is correct.
+        Response:
+            - Redirects to the recipe edit page if authentication is
+            successful.
+            - Redirects to the home page with an error message otherwise.
     """
     # Fetch the recipe or return 404 if not found
     recipe = Recipe.query.get_or_404(recipe_id)
-    
+
     # Check if the user is an admin and not the owner of the recipe
     if not current_user.is_admin or recipe.user_id == current_user.id:
-        flash('You are not authorized to perform this action.', category='error')
+        flash(
+            'You are not authorized to perform this action.',
+            category='error'
+        )
         return redirect(url_for('routes.home'))
-    
+
     # Get the admin password from the form
     admin_password = request.form.get('recipe_admin')
-    
+
     # Check if the admin password is provided
     if not admin_password:
         flash('Please enter your admin password.', category='error')
         return redirect(url_for('routes.home'))
-    
+
     # Verify the admin password
     if not check_password_hash(current_user.password, admin_password):
         flash('Incorrect admin password.', category='error')
         return redirect(url_for('routes.home'))
-    
+
     # Redirect to the recipe edit page
     return redirect(url_for('routes.edit_recipe', recipe_id=recipe_id))
 
@@ -413,48 +508,41 @@ def confirm_edit(recipe_id):
 @login_required
 def confirm_delete(recipe_id):
     """
-    Allows an admin to delete a recipe after confirming their password.
+    This function allows a logged in admin user to delete a users recipe from
+    after verifying their admin password.
+    The deletion process involves removing the recipe and all its associated
+    data using a helper function.
+
+    Args:
+        recipe_id (int): The unique identifier of the recipe to be deleted.
+
+    Returns:
+        Response:
+            - Redirects to the admin recipes page with a success message upon
+            successful deletion.
+            - Redirects to the home page with an error message if the user is
+            unauthorized or provides an incorrect password.
     """
-    # Fetch the recipe
     recipe = Recipe.query.get_or_404(recipe_id)
 
-    # Ensure the current user is an admin
+    # Ensure the current user has admin privileges
     if not current_user.is_admin:
-        flash('You are not authorized to perform this action.', category='error')
+        flash(
+            'You are not authorized to perform this action.',
+            category='error'
+        )
         return redirect(url_for('routes.home'))
 
-    # Get the admin password from the form
+    # Retrieve and verify the admin password from the form
     admin_password = request.form.get('recipe_admin')
-
-    # Check if the admin password is provided
-    if not admin_password:
-        flash('Please enter your admin password.', category='error')
-        return redirect(url_for('routes.home'))
-
-    # Verify the admin password
-    if not check_password_hash(current_user.password, admin_password):
+    if (
+        not admin_password
+        or not check_password_hash(current_user.password, admin_password)
+    ):
         flash('Incorrect admin password.', category='error')
         return redirect(url_for('routes.home'))
 
-    # Proceed to delete the recipe and associated data
-    # Use the same deletion logic as in the original route
-    # Delete associated stages and images
-    stages = RecipeStage.query.filter_by(recipe_id=recipe.recipe_id).all()
-    for stage in stages:
-        images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
-        for image in images:
-            if image.public_id:
-                # Delete the image from Cloudinary using public_id
-                cloudinary.uploader.destroy(image.public_id)
-            db.session.delete(image)
-        db.session.delete(stage) 
-
-    # Delete associated tags
-    EntityTag.query.filter_by(recipe_id=recipe.recipe_id).delete()
-
-    # Delete the recipe itself
-    db.session.delete(recipe)
-    db.session.commit()
-
+    # Delete the recipe using a helper function
+    remove_recipe(recipe)
     flash('Recipe has been successfully deleted.', category='success')
     return redirect(url_for('admin.recipe_admin'))
