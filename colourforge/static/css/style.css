@@ -212,7 +212,7 @@ nav ul a:active {
 
 /* Remove Scrollbars from Admin Modals */
 .admin-modal {
-  overflow: hidden;
+	overflow: hidden;
 }
 
 /* Warning Message */
@@ -303,10 +303,10 @@ nav ul a:active {
 
 /* make disabled button standout more */
 .btn-small.disabled {
-    background-color: #4a4a4a !important; 
-    color: #ffffff !important; 
-    cursor: not-allowed;
-    opacity: 0.8; 
+	background-color: #4a4a4a !important;
+	color: #ffffff !important;
+	cursor: not-allowed;
+	opacity: 0.8;
 }
 
 /* =============================================================
@@ -332,15 +332,18 @@ nav ul a:active {
 
 /* Recipe Title */
 .recipe-title {
-    font-size: 1.6rem;
-    line-height: 1.2;
-    max-height: 3.6rem; /* Allows two lines for wrapping longer names */
-    overflow: hidden;
-    overflow-wrap: break-word; /* Ensures multi-word names wrap within bounds */
-    display: -webkit-box;
-    white-space: normal; /* Allows wrapping */
-    text-overflow: ellipsis;
-    padding: 0 10px;
+	font-size: 1.6rem;
+	line-height: 1.2;
+	max-height: 3.6rem;
+ /* Allows two lines for wrapping longer names */
+	overflow: hidden;
+	overflow-wrap: break-word;
+ /* Ensures multi-word names wrap within bounds */
+	display: -webkit-box;
+	white-space: normal;
+ /* Allows wrapping */
+	text-overflow: ellipsis;
+	padding: 0 10px;
 	margin-block-start: 0.1em;
 	margin-block-end: 0.1em;
 	margin-top: 0.5rem;
@@ -349,62 +352,63 @@ nav ul a:active {
 
 /* Ensure the card column has enough height */
 .card {
-    min-height: 250px;
+	min-height: 250px;
 	border-radius: 7px;
 }
 
 /* Recipe Card Image */
 .recipe-card-img {
-    object-fit: cover;
-    max-height: 180px; /* Adjust image height for title space */
-    width: 100%;
+	object-fit: cover;
+	max-height: 180px;
+ /* Adjust image height for title space */
+	width: 100%;
 }
 
 /* Recipe Cards Container */
 .recipe-cards .card {
-    display: flex;
-    flex-direction: column;
-    height: 100%;
+	display: flex;
+	flex-direction: column;
+	height: 100%;
 }
 
 /* Recipe Card Image Section */
 .recipe-cards .card-image {
-    flex: 0 0 auto;
-    overflow: hidden;
+	flex: 0 0 auto;
+	overflow: hidden;
 }
 
 /* Recipe Card Content Section */
 .recipe-cards .card-content {
-    flex: 1;
-    overflow: hidden;
-    text-align: center;
-    padding: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
+	flex: 1;
+	overflow: hidden;
+	text-align: center;
+	padding: 10px;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	justify-content: space-between;
 }
 
 /* Card Reveal */
 .card .card-reveal {
-    padding: 14px;
+	padding: 14px;
 }
 
 /* Card Reveal Text */
 .card .card-reveal p {
-    overflow-y: auto;
+	overflow-y: auto;
 }
 
 .card .card-content {
-    padding: 10px;
+	padding: 10px;
 }
 
 .card .card-title {
-    font-size: 1em;
+	font-size: 1em;
 }
 
 .row-height {
-    height: max-content;
+	height: max-content;
 }
 
 
@@ -756,42 +760,42 @@ nav ul a:active {
 	}
 
     /* Adjust card height and layout for large screens */
-    .recipe-cards .card {
-        min-height: 400px;
-    }
+	.recipe-cards .card {
+		min-height: 400px;
+	}
 
     /* Larger title font for larger screens */
-    .recipe-title {
-        font-size: 1.6rem;
-    }
+	.recipe-title {
+		font-size: 1.6rem;
+	}
 
     /* Image max height for large screens */
-    .recipe-card-img {
-        max-height: 200px;
-    }
+	.recipe-card-img {
+		max-height: 200px;
+	}
 
   /* Width adjustments for Admin Modals on larger screens */
-  .admin-modal {
-    width: 600px;
-  }
+	.admin-modal {
+		width: 600px;
+	}
 }
 
 @media (min-width: 1066px) {
     /* Adjust card height and layout for large screens */
-    .recipe-cards .card {
-        min-height: 485px;
-    }	
+	.recipe-cards .card {
+		min-height: 485px;
+	}	
 
 	/* Main Content Area */
-    .recipe-title {
-        font-size: 1.8rem;
+	.recipe-title {
+		font-size: 1.8rem;
 		max-height: 2.5em;
-    }
+	}
 }
 
 @media (min-width: 1468px) {
     /* Adjust card height and layout for large screens */
-    .recipe-cards .card {
-        min-height: 605px;
-    }	
+	.recipe-cards .card {
+		min-height: 605px;
+	}
 }
