@@ -38,8 +38,11 @@
           type="text"
           id="tags_input"
           name="tags"
-          data-url="{{ url_for('routes.autocomplete_tags') }}" >
-        <label for="tags_input" class="active">Searchable Tags (Optional, comma separated)</label>
+          data-url="{{ url_for('routes.autocomplete_tags') }}" 
+          class="validate"
+          placeholder="Searchable Tags (comma separated)"
+        >          
+        <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
     </div>
 
