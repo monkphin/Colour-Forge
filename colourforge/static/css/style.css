@@ -369,7 +369,6 @@ nav ul a:active {
 
 /* Card Reveal Text */
 .card .card-reveal p {
-    max-height: 6em;
     overflow-y: auto;
 }
 
