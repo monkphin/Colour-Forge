@@ -52,6 +52,11 @@ from colourforge.models import (
                                 EntityTag
                             )
 from colourforge.helpers import remove_recipe
+from colourforge.mail import (
+                            admin_account_deletion,
+                            admin_password_change,
+                            admin_email_change
+                            )
 
 admin = Blueprint('admin', __name__)
 
@@ -109,6 +114,9 @@ def change_email(user_id):
     Allows an administrator to change the email address of a user.
     The admin must provide their own password to authorize this change.
 
+    An email notification is sent to the new address to inform the user
+    of the update.
+
     Args:
         user_id (int): The unique identifier of the user whose email is to be
         updated.
@@ -153,7 +161,9 @@ def change_email(user_id):
         flash('Incorrect admin password, try again', category='error')
         return redirect(url_for('admin.admin_dash'))
     else:
+        old_email = user.email
         user.email = new_email
+        admin_email_change(new_email, old_email, user.username)
         db.session.commit()
         flash('Email has been successfully updated!', category='success')
     return redirect(url_for('admin.admin_dash'))
@@ -166,6 +176,9 @@ def reset_password(user_id):
     Enables an administrator to reset the password of a user.
     The admin must provide a new password (twice for confirmation) and
     their own password for authentication.
+
+    An email notification is sent to the user’s email address to inform
+    them of the password change.
 
     Args:
         user_id (int): The unique identifier of the user whose password is to
@@ -231,6 +244,7 @@ def reset_password(user_id):
             password1,
             method='pbkdf2:sha512'
         )
+        admin_password_change(user.email, user.username)
         db.session.commit()
         flash(
             'The user\'s password has been successfully changed',
@@ -312,6 +326,9 @@ def delete_account(user_id):
     Self-deletion is prohibited to ensure that the site has at least one
     functioning admin user and prevent accidental self deletion.
 
+    An email notification is sent to the user's address to inform the user
+    of the update.
+
     Args:
         user_id (int): The unique identifier of the user account to be deleted.
 
@@ -349,6 +366,7 @@ def delete_account(user_id):
         return redirect(url_for('admin.admin_dash'))
 
     # Delete user.
+    admin_account_deletion(user.email, user.username)
     db.session.delete(user)
     db.session.commit()
 

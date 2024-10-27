@@ -51,8 +51,9 @@ def welcome_email(email_address, username):
     """
     msg = Message(
         subject="Welcome to ColourForge",
-        sender="noreply@colourforge.co.uk",
-        recipients=[email_address]
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
     )
 
     # Plain text body
@@ -92,8 +93,9 @@ def account_deletion(email_address, username):
     """
     msg = Message(
         subject="Your account has been deleted.",
-        sender="noreply@colourforge.co.uk",
-        recipients=[email_address]
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
     )
 
     # Plain text body
@@ -116,6 +118,48 @@ def account_deletion(email_address, username):
     mail.send(msg)
 
 
+
+def admin_account_deletion(email_address, username):
+    """
+    Sends a confirmation email to a user after an admin deletes their account.
+    This serves as a record of the account deletion to let the user know their
+    account has been deleted. 
+
+    Parameters:
+        email_address (str): The email address of the recipient.
+        username (str): The username of the recipient.
+
+    Returns:
+        None
+    """
+    msg = Message(
+        subject="Your account has been deleted.",
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
+    )
+
+    # Plain text body
+    msg.body = f"""
+    Hey {username},
+
+    Unfortunately we have had to delete your account, either at your request
+    or due to an issue with your usage of the site or your account. 
+    Your account and all associated data have been deleted
+
+    Thanks,
+    The Colourforge Team
+    """
+
+    # HTML Email
+    msg.html = render_template(
+        "emails/admin_account_deletion.html",
+        username=username
+    )
+
+    mail.send(msg)
+
+
 def password_change(email_address, username):
     """
     Sends an email to notify the user that their password has been successfully
@@ -132,8 +176,9 @@ def password_change(email_address, username):
     """
     msg = Message(
         subject="Your password has been changed.",
-        sender="noreply@colourforge.co.uk",
-        recipients=[email_address]
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
     )
 
     # Plain text body
@@ -159,6 +204,51 @@ def password_change(email_address, username):
     mail.send(msg)
 
 
+def admin_password_change(email_address, username):
+    """
+    Sends an email to notify the user that their password has been successfully
+    changed.
+    If the user did not initiate the change, they are advised to contact
+    support immediately.
+
+    Parameters:
+        email_address (str): The email address of the recipient.
+        username (str): The username of the recipient.
+
+    Returns:
+        None
+    """
+    msg = Message(
+        subject="Your password has been changed.",
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
+    )
+
+    # Plain text body
+    msg.body = f"""
+    Hey {username}
+
+    We wanted to inform you that your password was changed by an admin.
+
+    If you requested this change, no further action is needed and the admin
+    will be in touch with your new password shortly. 
+    If you did not request a password change, please contact us using
+    https://colourforge.co.uk/contact immediately to secure your account.
+
+    Thanks,
+    The ColourForge Team
+    """
+
+    # HTML Email
+    msg.html = render_template(
+        "emails/admin_password_change.html",
+        username=username
+    )
+
+    mail.send(msg)
+
+
 def email_change(email_address, old_email, username):
     """
     Sends a confirmation email to notify the user that their email address has
@@ -176,8 +266,9 @@ def email_change(email_address, old_email, username):
     """
     msg = Message(
         subject="Your email has been changed.",
-        sender="noreply@colourforge.co.uk",
-        recipients=[email_address, old_email]
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
     )
 
     # Plain text body
@@ -185,6 +276,9 @@ def email_change(email_address, old_email, username):
     Hey {username}
 
     We wanted to inform you that your email was successfully changed.
+    If you did not request this change, please contact us
+    immediately using the link below to secure your account:
+    https://colourforge.co.uk/contact immediately to secure your account.
 
     Thanks,
     The ColourForge Team
@@ -192,6 +286,48 @@ def email_change(email_address, old_email, username):
 
     # HTML Email
     msg.html = render_template("emails/email_change.html", username=username)
+
+    mail.send(msg)
+
+
+def admin_email_change(email_address, old_email, username):
+    """
+    Sends a confirmation email to notify the user that their email address has
+    been successfully changed by an admin. 
+    The email is sent to both the new and old email addresses to ensure
+    security.
+
+    Parameters:
+        email_address (str): The new email address of the recipient.
+        old_email (str): The previous email address of the recipient.
+        username (str): The username of the recipient.
+
+    Returns:
+        None
+    """
+    msg = Message(
+        subject="Your email has been changed.",
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
+    )
+
+    # Plain text body
+    msg.body = f"""
+    Hey {username}
+
+    We wanted to inform you that your email was successfully changed by an
+    admin.
+    If you did not request this change, please contact us immediately using
+    the link below to secure your account:
+    https://colourforge.co.uk/contact immediately to secure your account.
+
+    Thanks,
+    The ColourForge Team
+    """
+
+    # HTML Email
+    msg.html = render_template("emails/admin_email_change.html", username=username)
 
     mail.send(msg)
 
@@ -216,7 +352,7 @@ def contact_form(sender_email, sender_name, subject, message_content):
         None
     """
     msg = Message(
-        sender="noreply@colourforge.co.uk",
+        sender="Colour Forge",
         recipients=["darren.burrows@colourforge.co.uk"],
         subject=subject,
         reply_to=sender_email
