@@ -9,18 +9,17 @@
         <img class="responsive-img recipe-card-img" src="{{ url_for('static', filename='images/palette.webp') }}" alt="Add Recipe">
       </div>
       <div class="card-content center-align">
-        <h2 class="card-title">Add Recipe</h2>
+        <span class="card-title add-cards">Add Recipe</span>
         {% if recipes %}
-          <p>Add a new paint recipe to help guide you in future projects.</p>
+          <p class="add-card-feature">Add a new paint recipe to help guide you in future projects.</p>
         {% else %}
-          <p>You have no recipes currently, add one?</p>
+          <p class="add-card-feature">You have no recipes currently, add one?</p>
         {% endif %}
         <a href="{{ url_for('routes.add_recipe') }}" class="btn-large indigo">Add Recipe</a>
       </div>
     </div>
   </div>
 </div>
-
 
   <!-- Member Recipes Section -->
   <h1 class="center-align">My Recipes</h1>
