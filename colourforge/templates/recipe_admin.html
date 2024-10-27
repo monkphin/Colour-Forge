@@ -39,9 +39,10 @@
 
   <div class="row">
     {% for recipe in recipes %}
-      <div class="col s12 m6 l4">
-        <div class="card">
-          <div class="card-image waves-effect waves-block waves-light">
+      <div class="row-height">
+        <div class="col s12 m6 l4 recipe-cards">
+          <div class="card center-align">
+            <div class="card-image waves-effect waves-block waves-light">
             {% for stage in recipe.stages %}
               {% if stage.is_final_stage %}
                 {% if stage.recipe_images %}
@@ -55,19 +56,20 @@
             {% endfor %}
           </div>
           <div class="card-content">
-            <p class="grey-text text-darken-4">{{ recipe.recipe_name }}</p>
+            <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
             <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
             <p>
-              <span class="activator grey-text text-darken-4">
-                <i class="fas fa-caret-up"> Recipe Description</i>
+              <span class="activator card-title">
+                  <i class="fas fa-caret-up"> Recipe Description</i>
+                </span>
+              </p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title">
+                <i class="fas fa-caret-down"> Close</i>
               </span>
-            </p>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title grey-text text-darken-4">
-              <i class="fas fa-caret-down"> Close</i>
-            </span>
-            <p>{{ recipe.recipe_desc }}</p>
+              <p>{{ recipe.recipe_desc }}</p>
+            </div>
           </div>
         </div>
       </div>

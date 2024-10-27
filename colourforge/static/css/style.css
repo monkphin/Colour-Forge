@@ -129,6 +129,11 @@ nav ul a:active {
 	font-weight: bold;
 }
 
+/* Fix Dropdown width */ 
+.dropdown-content {
+	min-width: fit-content;
+}
+
 /* =============================================================
    Footer Styles
    ============================================================= */
@@ -287,12 +292,21 @@ nav ul a:active {
 	margin-top: 15px;
 }
 
+/* Adjust inline search to have a top margin */
 .inline-search-button {
 	margin-top: 15px;
 }
-
+/* remove float from file-field button */
 .file-field .btn {
 	float: none;
+}
+
+/* make disabled button standout more */
+.btn-small.disabled {
+    background-color: #4a4a4a !important; 
+    color: #ffffff !important; 
+    cursor: not-allowed;
+    opacity: 0.8; 
 }
 
 /* =============================================================
@@ -306,6 +320,15 @@ nav ul a:active {
 /* =============================================================
    Recipe Card Styles
    ============================================================= */
+
+/* Add recipe/paint titles */
+.card-content .card-title.add-cards {
+	font-size: 1.5em;
+}
+
+.add-card-feature {
+	padding: 10px;
+}
 
 /* Recipe Title */
 .recipe-title {
@@ -703,6 +726,24 @@ nav ul a:active {
 	}
 }
 
+@media (min-width: 640px) {
+	.recipe-cards .card {
+		min-height: 380px;
+	}
+}
+
+@media (min-width: 730px) {
+	.recipe-cards .card {
+		min-height: 400px;
+	}
+}
+
+@media (min-width: 780px) {
+	.recipe-cards .card {
+		min-height: 475px;
+	}
+}
+
 @media (min-width: 992px) {
   /* Main Content Area */
 	main {
@@ -721,7 +762,7 @@ nav ul a:active {
 
     /* Larger title font for larger screens */
     .recipe-title {
-        font-size: 1.8rem;
+        font-size: 1.6rem;
     }
 
     /* Image max height for large screens */
@@ -733,4 +774,24 @@ nav ul a:active {
   .admin-modal {
     width: 600px;
   }
+}
+
+@media (min-width: 1066px) {
+    /* Adjust card height and layout for large screens */
+    .recipe-cards .card {
+        min-height: 485px;
+    }	
+
+	/* Main Content Area */
+    .recipe-title {
+        font-size: 1.8rem;
+		max-height: 2.5em;
+    }
+}
+
+@media (min-width: 1468px) {
+    /* Adjust card height and layout for large screens */
+    .recipe-cards .card {
+        min-height: 605px;
+    }	
 }
