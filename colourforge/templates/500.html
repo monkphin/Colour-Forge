@@ -1,23 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
-        integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
-        crossorigin="anonymous" referrerpolicy="no-referrer">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
-        type="text/css">
-  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
-  <title>500 - There's been a problem!</title>
-</head>
-<body>
-  <div class="container">
-    <h1 class="center-align">Oops! There's been an issue</h1>
-    <p class="center-align">Sorry, it's not you, it's us!</p>
-    <div class="center-align">
-      <a href="{{ url_for('routes.home') }}" class="btn light-blue darken-1">Return to Home</a>
-    </div>
-  </div>
-</body>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+          integrity="sha512-iBBXm8fW90+nuLcSKlbmrPcLa0OT92xO1BIsZ+ywDWZCvqsWgccV3gFoRBv0z+8dLJgyAHIhR35VZc2oM/gI1w=="
+          crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css"
+          type="text/css">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" type="text/css">
+    <title>500 - There's been a problem!</title>
+  </head>
+  <body>
+    <main>
+      <div class="container center-align">
+        <div class="row">
+          <div class="col s12">
+            <div class="card">
+              <div class="card-image">
+                <img class="image-container" src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}" alt="site logo">
+              </div>
+              <div class="card-content">
+                <h1>Oops! There has been an issue!</h1>
+                <p>Sorry, it's not you, it's us!</p>
+              </div>
+              <div class="card-action">
+                <a href="{{ url_for('routes.home') }}" class="btn light-blue darken-1">Go Home</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </body>
 </html>
