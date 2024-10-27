@@ -353,7 +353,7 @@ def contact_form(sender_email, sender_name, subject, message_content):
     """
     msg = Message(
         sender="Colour Forge",
-        recipients=["darren.burrows@colourforge.co.uk"],
+        recipients=["noreply@colourforge.co.uk"],
         subject=subject,
         reply_to=sender_email
     )

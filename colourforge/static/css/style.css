@@ -307,36 +307,84 @@ nav ul a:active {
    Recipe Card Styles
    ============================================================= */
 
+/* Recipe Title */
+.recipe-title {
+    font-size: 1.6rem;
+    line-height: 1.2;
+    max-height: 3.6rem; /* Allows two lines for wrapping longer names */
+    overflow: hidden;
+    overflow-wrap: break-word; /* Ensures multi-word names wrap within bounds */
+    display: -webkit-box;
+    white-space: normal; /* Allows wrapping */
+    text-overflow: ellipsis;
+    padding: 0 10px;
+	margin-block-start: 0.1em;
+	margin-block-end: 0.1em;
+	margin-top: 0.5rem;
+	margin-bottom: 0.5rem;
+}
+
 /* Ensure the card column has enough height */
 .card {
-	min-height: 200px;
+    min-height: 250px;
+	border-radius: 7px;
 }
 
 /* Recipe Card Image */
 .recipe-card-img {
-	object-fit: cover;
-	max-height: 200px;
-	width: 100%;
+    object-fit: cover;
+    max-height: 180px; /* Adjust image height for title space */
+    width: 100%;
 }
 
 /* Recipe Cards Container */
 .recipe-cards .card {
-	display: flex;
-	flex-direction: column;
-	height: 100%;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
 /* Recipe Card Image Section */
 .recipe-cards .card-image {
-	flex: 0 0 40%;
-	overflow: hidden;
+    flex: 0 0 auto;
+    overflow: hidden;
 }
 
 /* Recipe Card Content Section */
 .recipe-cards .card-content {
-	flex: 1;
-	overflow: auto;
+    flex: 1;
+    overflow: hidden;
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
 }
+
+/* Card Reveal */
+.card .card-reveal {
+    padding: 14px;
+}
+
+/* Card Reveal Text */
+.card .card-reveal p {
+    max-height: 6em;
+    overflow-y: auto;
+}
+
+.card .card-content {
+    padding: 10px;
+}
+
+.card .card-title {
+    font-size: 1em;
+}
+
+.row-height {
+    height: max-content;
+}
+
 
 /* =============================================================
    List Styles
@@ -575,10 +623,6 @@ nav ul a:active {
 	text-align: center;
 }
 
-.recipe-title {
-	padding-bottom: 10px;
-}
-
 /* =============================================================
    Text fields
    ============================================================= */
@@ -643,6 +687,21 @@ nav ul a:active {
 	main {
 		max-width: 70% !important;
 	}
+
+	/* Adjust card height and layout for medium screens */
+	.recipe-cards .card {
+		min-height: 350px;
+	}
+
+	/* Adjust recipe title size for readability */
+	.recipe-title {
+		font-size: 1.6rem;
+	}
+
+	/* Adjust image height for balance */
+	.recipe-card-img {
+		max-height: 180px;
+	}
 }
 
 @media (min-width: 992px) {
@@ -655,6 +714,21 @@ nav ul a:active {
 	nav .brand-logo {
 		padding-left: 5px !important;
 	}
+
+    /* Adjust card height and layout for large screens */
+    .recipe-cards .card {
+        min-height: 400px;
+    }
+
+    /* Larger title font for larger screens */
+    .recipe-title {
+        font-size: 1.8rem;
+    }
+
+    /* Image max height for large screens */
+    .recipe-card-img {
+        max-height: 200px;
+    }
 
   /* Width adjustments for Admin Modals on larger screens */
   .admin-modal {
