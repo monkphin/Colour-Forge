@@ -1,6 +1,6 @@
 # **Colour Forge**
 
-A paint catalogue and recipe book for miniature painters
+A paint library and painting recipe book for miniature painters. 
 
 [The deployed website can be found here](https://colourforge.co.uk)
 
@@ -23,7 +23,9 @@ A paint catalogue and recipe book for miniature painters
   - [Security and Error Handling](#security-and-error-handling)    
   - [Data Management](#data-management)    
   - [Administration](#administration)    
-  - [Social Features](#social-features)    
+  - [Social Features](#social-features)   
+
+[Scale](#scale) 
 
 [Design](#design)
 
@@ -162,11 +164,14 @@ Colour Forge is an online paint catalogue and recipe tracking tool for miniature
 ## Social features
 - 27. As a user I would like to be able to have a link for my recipes so that I can share them with other users. 
 
+# Scope
+Something that was highlighted from meetings with my mentor was that the initial concept I had may have been a little ambitious for the time frames given and the amount of work needed, so it was suggested that I scale back and add in features later as time is available. As such, it was decided that the MVP for the website would be around Paint Recipes, since this allowed multiple one to many tables to exist, as well as a many to many table for the Recipe Tags. It also created a core focus around a need that miniature painters have, which is documenting their process for painting minis so that they can easily remember how they may have approached painting a certain set of miniatures if they have taken a break from painting for a while, as well as share these recipes with others. Since the recipes were left visible to none logged in users, it was also suggested that all user recipes should be visible on the homepage, essentially creating more social features, which is something I was quite keen to focus on since it aligned with my own longer term goals for the website. 
 
+This is a project I've been mulling over for several years, so it was very easy for it to suffer from scope creep as I started to design and develop functions and features. However, once I'd implemented CRUD functionality for paint recipes, I opted to focus on user and site administration, since while adding paint libraries is useful, I felt it was secondary to providing the site owner a way of assisting users who may have account or recipe issues, or to allow the owner to delete recipes or remove users who were using the service improperly, this also leans into the social aspect of the site as well as ensuring the site has some form of cover in place, since it allows a site admin to ensure that the various recipes being shared are suitable for the site and not uploading content that may cause legal issues for the site owner. Naturally, this is still quite immature, simply focusing on modifying/deleting content. But the core functionality is there. 
 
 # Design
 
-The design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account, modify the users account, contact the site owner for support or other reasons and administer the website and its users for the site admin. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site. 
+The early design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account, modify the users account, contact the site owner for support or other reasons and administer the website and its users for the site admin. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site. 
 
 It needs to support all of the above while still being somewhat simplistic and easy to use, as well as fully responsive with an interface that allows users to read through and emulate paint recipes, ideally with images to support each stage to show the desired results of the specific part of the instructions being worked on. Recipes should be presented in a simple, none distracting manner which allowed the hobbyist to focus on the specific stage they're working on, while still letting them check the stage before and after the current one if needed. 
 
@@ -174,7 +179,7 @@ It needs to support all of the above while still being somewhat simplistic and e
 
 Wireframes were created with Balsamiq software to provide rough mock-ups for layout.
 
-### Homepage
+Homepage
 
 The home page currently shows either a login page, or a specific landing page, where users can add paints or recipes to their account, as well as showing a carousel of their library and recipes depending on if they're logged in when accessing the page or not. 
 
@@ -187,18 +192,18 @@ The home page currently shows either a login page, or a specific landing page, w
 <summary>Desktop</summary>
 <img src="docs/desktop-homepage.png">
 </details>
-
-### Side Menu
-
+<br>
+Side Menu
+<br><br>
 The side menu is specific to the mobile experience and will show either login/registration options for none logged in users, or more typical site navigation options for logged in users.  
 
 <details>
 <summary>Mobile</summary>
 <img src="docs/mobile-menu.png">
 </details>
-
-### Registration Page
-
+<br>
+Registration Page
+<br><br>
 The registration page is accessible both from the home page and side bar when the user is not logged in. It allows a user to register for an account.  
 
 <details>
@@ -210,9 +215,9 @@ The registration page is accessible both from the home page and side bar when th
 <summary>Desktop</summary>
 <img src="docs/desktop-registration.png">
 </details>
-
-### Profile Pages
-
+<br>
+Profile Pages
+<br><br>
 The profile page will allow the user to manage their profile as needed, requesting password resets, change their username or email address, granting them the ability to reset their library or recipes and delete their account entirely. 
 
 <details>
@@ -224,9 +229,9 @@ The profile page will allow the user to manage their profile as needed, requesti
 <summary>Desktop</summary>
 <img src="docs/desktop-user-profile.png">
 </details>
-
-### List Display Option for Library and Recipe Pages. 
-
+<br>
+List Display Option for Library and Recipe Pages. 
+<br><br>
 I had a couple of ideas for how to present the items for both the library and recipes lists - the most obvious one being a list of items for each. This could either be infinitely scrolling or use pagination to handle longer lists. 
 
 <details>
@@ -238,9 +243,9 @@ I had a couple of ideas for how to present the items for both the library and re
 <summary>Desktop</summary>
 <img src="docs/desktop-lists.png">
 </details>
-
-### Cards Option for Library and Recipe Pages
-
+<br>
+Cards Option for Library and Recipe Pages
+<br><br>
 The alternative to the list to show the user their library or recipes was to use cards, allowing for a slightly cleaner and more mobile friendly look, due to the cards presenting a larger interaction surface than a list would. Again much like the lists this could either infinitely scroll or allow for pagination for large library/recipe collection handling. 
 
 <details>
@@ -252,9 +257,9 @@ The alternative to the list to show the user their library or recipes was to use
 <summary>Desktop</summary>
 <img src="docs/desktop-cards.png">
 </details>
-
-### Separate pages option for paint library
-
+<br>
+Separate pages option for paint library
+<br><br>
 I had a couple of ideas for how to handle showing the individual paints for the library, one was to simply have each paint as its own page, this provides the maximum amount of room on smaller devices to show information. It may also be easier to handle in terms of building. The accordion at the bottom of the page will show some simple details about each recipe mentioned and will function as another path to get to the specific recipe in question. The wireframes also show what it should look like when deleting, editing and successfully editing the page. If I choose to use a 4 table DB, when entering a paint name it would be useful if this started to auto-complete based off the data in the stock list, when when selected could autofill all the other fields, which the user could then edit and manipulate as needed before saving. 
 
 <details>
@@ -266,9 +271,9 @@ I had a couple of ideas for how to handle showing the individual paints for the 
 <summary>Desktop</summary>
 <img src="docs/desktop-paint-library-pages.png">
 </details>
-
-### Modal option for paint library
-
+<br>
+Modal option for paint library
+<br><br>
 The other option, which I think is more visually pleasing, but potentially more limiting in terms of space would be to use some form of modal when selecting the paint. The wireframes also show what it should look like when deleting, editing and successfully editing the page.
 
 <details>
@@ -280,9 +285,9 @@ The other option, which I think is more visually pleasing, but potentially more 
 <summary>Desktop</summary>
 <img src="docs/desktop-paint-library-modal.png">
 </details>
-
-### Separate pages option for recipes
-
+<br>
+Separate pages option for recipes
+<br><br>
 Much like with the paint library, I thought it would be worth while to mock up a couple of options for how the recipe items should look when accessed. Again, having these rendered as single pages allows for the most amount of room to be used for the content on smaller screens. In this case, the accordion is being used to show each stage of the paint recipe and will contain simple instructions and images. The images should be able to be expanded via modals or light boxes. Again, the images show deletion alerts, the edit screen and an update confirmation.  
 
 <details>
@@ -294,9 +299,9 @@ Much like with the paint library, I thought it would be worth while to mock up a
 <summary>Desktop</summary>
 <img src="docs/desktop-recipe-pages.png">
 </details>
-
-### Modal option for recipes
-
+<br>
+Modal option for recipes
+<br><br>
 Much like with the paint library, I tested what this could look like containing the same data in a modal, which again may be more aesthetically pleasing but has other considerations which make it less ideal, including less space to work with, possible complexity of code, etc. 
 
 <details>
@@ -308,9 +313,9 @@ Much like with the paint library, I tested what this could look like containing 
 <summary>Desktop</summary>
 <img src="docs/desktop-recipe-modal.png">
 </details>
-
-### Custom 404
-
+<br>
+Custom 404
+<br><br>
 The custom 404 functions as a way of handling users who may end up in places that they shouldn't when accessing the site. This features the same core layout that features throughout the rest of the site and allows the user to navigate back to the home page or use the menu to get to other locations. 
 
 <details>
