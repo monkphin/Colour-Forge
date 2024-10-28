@@ -2,14 +2,18 @@
 
 A paint catalogue and recipe book for miniature painters
 
+[The deployed website can be found here](https://colourforge.co.uk)
+
+<img src="docs/mockup.png">
+
 # Contents
 
-- [User Experience](#user-experience)
+[User Experience](#user-experience)
 
   - [Site Owner Goals](#site-owner-goals)
   - [A Visitors Goals](#visitor-goals)
 
-- [User Stories](#user-stories)
+[User Stories](#user-stories)
 
   - [Account Registration and Authentication](#account-registration-and-authentication)
   - [Paint Collection Management](#paint-collection-management)
@@ -21,43 +25,79 @@ A paint catalogue and recipe book for miniature painters
   - [Administration](#administration)    
   - [Social Features](#social-features)    
 
-- [Design](#design)
+[Design](#design)
 
   - [Wireframes](#wireframes)
-
-    - [Homepage](#homepage)
-    - [Side Menu](#side-menu)
-    - [Registration Page](#registration-page)
-    - [Profile Pages](#profile-pages)
-    - [List Display Option for Library and Recipe Pages](#list-display-option-for-library-and-recipe-pages)
-    - [Cards Option for Library and Recipe Pages](#cards-option-for-library-and-recipe-pages)
-    - [Separate Pages Option for Paint library](#separate-pages-option-for-paint-library)
-    - [Modal Option for Paint library](#modal-option-for-paint-library)
-    - [Separate Pages Option for Recipes](#separate-pages-option-for-recipes)
-    - [Modal Option for Recipes](#modal-option-for-recipes)
-    - [Custom 404](#custom-404)
-
   - [Entity Relationship Diagram](#erd)
   - [Schema](#schema)
+  - [Colour Palette](#colour-palette)
+  - [Typography](#typography)
+  - [Images](#images)
+  - [Icons](#icons)
 
-- [Security and best Practices](#security-and-best-practices)  
 
-- [Features](#features)
+[Security and best Practices](#security-and-best-practices)  
 
-- [Bugs and Issues](#bugs-and-issues)
+[Features](#features)
 
-- [Technology](#technology)
+  - [Homepage](#homepage)
+  - [Side Menu](#side-menu)
+  - [Login Page](#login-page)
+  - [Registration Page](#registration-page)
+  - [Contact Page](#contact-page)
+  - [Profile Pages](#profile-pages)
+  - [My Recipes Page](#my-recipe-page)
+  - [Recipes Page](#recipe-page)
+  - [Recipes Creation Page](#recipe-creation-page)
+  - [Recipe Edit Page](#recipe-edit-page)
+  - [User Admin Page](#user-admin-page)
+  - [Paint Admin Page](#paint-admin-page)  
+  - [User Admin Search Page](#user-admin-search-page)
+  - [Recipe Admin Search Page](#recipe-admin-search-page)          
+  - [Tag Search Page](#tag-search-page)
+  - [Custom 404](#custom-404)
+  - [Custom 500](#custom-500)
+  - [Emails](#emails)
+  - [Cloudinary](#cloudinary)
+  - [User testing](#user-testing)
+  - [Email Handling](#email-handling)
+  - [Database](#database)
+  - [Custom URL](#custom-url)
 
+[Bugs and Issues](#bugs-and-issues)
+  - [Resolved Bugs](#resolved-bugs)
+  - [Unresolved Bugs](#unresolved-bugs)
+
+
+[Technology](#technology)
+  - [User testing](#user-testing)
   - [Frameworks and Programs](#frameworks-and-programs)
 
-- [Testing](#testing-and-validation)
+[Testing](#testing-and-validation)
 
-- [Version Control and Deployment](#version-control-and-deployment)
+  - [HTML Validation](#html-validation)
+  - [CSS Validation](#css-validation)
+  - [Accessibility](#accessibility)
+  - [Performance](#performance)
+  - [User Testing](#user-testing)
+  - [User Story Testing](#user-story-testing)
+  - [Javascript Testing](#javascript-testing)
+  - [Python Testing](#python-testing)
+  - [Device and Browser Testing](#device-and-browser-testing)
+  - [Responsiveness](#responsiveness)
+  - [Automated testing](#automated-testing)
 
-- [Credits](#credits)
-  
+ [Version Control and Deployment](#version-control-and-deployment)
+
+  - [Repository Creation](#repository-creation)
+  - [Cloning Locally](#cloning-locally)
+  - [Deployment](#Deployment)
+
+[Credits](#credits)
+  - [Images](#images)
 
 # User Experience
+Colour Forge is an online paint catalogue and recipe tracking tool for miniature painters, created to allow miniature painters a way of cataloguing the paints they own, allowing them to check what they may need while in hobby shops to help avoid purchasing the wrong paints for their ongoing projects, as well as creating recipes - effectively instructions for how to paint certain colours or miniatures, ensuring repeatability and consistency over multiple models. 
 
 ## Site Owner goals
 
@@ -84,49 +124,51 @@ A paint catalogue and recipe book for miniature painters
 - 4. As a user, I want to be able to change my account details
 
 ## Paint Collection Management
-- 1. As a user, I would like to be able to add new paints to my collection by entering details of the paint. 
-- 2. As a user, I want to be able to edit details of any paints in my collection, such as quantity, if I need to replace it and so on. 
-- 3. As a user, I would like to be able to delete paints that I no longer have or use. 
-- 4. As a user, I want to be able to search and filter my paint collection. 
-- 5. As a user, I would like to be able to add paints to my library from an existing list. 
+- 5. As a user, I would like to be able to add new paints to my collection by entering details of the paint. 
+- 6. As a user, I want to be able to edit details of any paints in my collection, such as quantity, if I need to replace it and so on. 
+- 7. As a user, I would like to be able to delete paints that I no longer have or use. 
+- 8. As a user, I want to be able to search and filter my paint collection. 
+- 9. As a user, I would like to be able to add paints to my library from an existing list. 
 
 ## Recipe creation and Management. 
-- 1. As a user, I would like to be able to create new recipes using paints from my Library. 
-- 2. As a user, I want to add detailed step by step instructions to my recipes. 
-- 3. As a user, I would like to upload images to help see how each stage of the recipe looks. 
-- 4. As a user, I want to be able to add tags or other identifiers to recipes to help me organise them. 
-- 5. As a user, I would like to be able to edit my recipes as I improve them or need to change paints used. 
-- 6. As a user, I would like to be able to delete recipes that are no longer of use to me. 
+- 10. As a user, I would like to be able to create new recipes using paints from my Library. 
+- 11. As a user, I want to add detailed step by step instructions to my recipes. 
+- 12. As a user, I would like to upload images to help see how each stage of the recipe looks. 
+- 13. As a user, I want to be able to add tags or other identifiers to recipes to help me organise them. 
+- 14. As a user, I would like to be able to edit my recipes as I improve them or need to change paints used. 
+- 15. As a user, I would like to be able to delete recipes that are no longer of use to me. 
 
 ## Viewing and Searching
-- 1. As a user, I want to be able to search my library and recipes using keywords. 
-- 2. As a user, I want to be able to see all recipes that may use a particular paint from my library. 
+- 16. As a user, I want to be able to search my library and recipes using keywords. 
+- 17. As a user, I want to be able to see all recipes that may use a particular paint from my library. 
 
 ## User Experience and Visuals
-- 1. As a user, I want the application to be clean and easy to navigate. 
-- 2. As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. 
+- 18. As a user, I want the application to be clean and easy to navigate. 
+- 19. As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. 
 
 ## Security and error handling. 
-- 1. As a user, I want my password to be stored securely to protect my account. 
-- 2. As a user, I would like that only I am able to modify or edit my library or recipes. 
-- 3. As a user, I want to receive visual feedback or confirmation when I edit or delete a paint or recipe. 
-- 4. As a user, I would like to be alerted when I try and submit an incomplete form, with an indication of what data may be missing.
+- 20. As a user, I want my password to be stored securely to protect my account. 
+- 21. As a user, I would like that only I am able to modify or edit my library or recipes. 
+- 22. As a user, I want to receive visual feedback or confirmation when I edit or delete a paint or recipe. 
+- 23. As a user, I would like to be alerted when I try and submit an incomplete form, with an indication of what data may be missing.
 
 ## Data Management
-- 1. As a user, I would like to be able to import my paint collection for faster entry. 
-- 2. As a user, I would like to be able to export my collection and recipes so that I know i have a back up. 
-- 3. As a user, I would like to be able to reset my library, recipes or both to allow me to start over if needed. 
+- 24. As a user, I would like to be able to import my paint collection for faster entry. 
+- 25. As a user, I would like to be able to export my collection and recipes so that I know i have a back up. 
 
 ## Administration
-- 1. As an admin, I want to be able to manage user accounts, including editing and deletion. 
+- 26. As an admin, I want to be able to manage user accounts, including editing and deletion. 
 
 ## Social features
-- 1. As a user I would like to be able to have a link for my recipes so that I can share them with other users. 
+- 27. As a user I would like to be able to have a link for my recipes so that I can share them with other users. 
 
 
-## Site Visitor
 
 # Design
+
+The design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account, modify the users account, contact the site owner for support or other reasons and administer the website and its users for the site admin. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site. 
+
+It needs to support all of the above while still being somewhat simplistic and easy to use, as well as fully responsive with an interface that allows users to read through and emulate paint recipes, ideally with images to support each stage to show the desired results of the specific part of the instructions being worked on. Recipes should be presented in a simple, none distracting manner which allowed the hobbyist to focus on the specific stage they're working on, while still letting them check the stage before and after the current one if needed. 
 
 ## Wireframes:
 
@@ -363,7 +405,22 @@ This table exists purely to store the tags that each user adds. Since it has a m
  - tag_id - an auto incrementing field, which stores the tables primary key. </br>
  - tag_name - a text field where the tag name will be stored. </br>
 
-While i have larger plans around the ability to catalogue paints owned by a user and link them to their recipes, their is a chance due to time constraints that this may not make into an MVP release, as such the above schema is designed with a degree of adaptability in mind, allowing me to add in additional tables to handle other data, either via many to many relationships or one to many relationships.   
+While i have larger plans around the ability to catalogue paints owned by a user and link them to their recipes, their is a chance due to time constraints that this may not make into an MVP release, as such the above schema is designed with a degree of adaptability in mind, allowing me to add in additional tables to handle other data, either via many to many relationships or one to many relationships.  
+
+# Colour Palette
+The colour palette was a fairly late choice, with initial colours being based around some of the stock template colours from Materialize. These were adjusted to be darker to increase the contrast where needed between any text that iss rendered on sections that have colour. The button colours were all picked to be fairly in line with the button use - blues and greens for buttons that provide either 'positive' or 'neutral' functionality, such as adding recipes, increasing/decreasing stages, back buttons, etc. With reds used for more negative outcome buttons, such as deleting entries. Effectively this is leaning on existing understanding of how colour is used to represent things, green for go, red for stop etc. 
+
+# Typography
+Much like the colour palette, the fonts were a fairly late choice in terms of development, since the main focus was getting the core CRUD functionality working, rather than making things look good to begin with. Three fonts were picked to give some slight visual difference between text, headings and the nav bar and all were provided by Google Fonts. 
+
+<img src="docs/fonts.png">
+
+# Images
+Stock images are relatively minimal here, with much of the image content being provided by the users. However, the site logo and images used for the Add Paint and Add Recipe cards are the only 'static' images that the site uses and the only ones which are pulled from the host the site sits on. All other images in use are hosted on Cloudinary and are mostly provided by users, with three exceptions - the black and white and full colour versions of the site logo and a single painted miniature image, all of which are used for the 'demo recipe' which is created when a user creates a new account. Credits for the images will be provided at the end of the readme. 
+
+# Icons
+Icons were provided by Font Awesome and were used for a few different features on the site, from social links in the footer, to iconography to help demonstrate functionality on the collapsibles or drawers on the recipe cards. 
+
 # Security and best Practices
 
 # Features
