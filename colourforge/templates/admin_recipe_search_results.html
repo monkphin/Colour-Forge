@@ -6,10 +6,10 @@
 
       <div class="row center-align">
         <!-- Column for the Heading -->
-        <div class="col s12 m6">
+        <div class="col s12 l6">
           <h1>
-            {% if users and users|length > 0 %}
-              Search Results for "{{ search }}"
+            {% if recipes and recipes|length >= 1 %}
+              {{ recipes|length }} result{{ "s" if recipes|length > 1 else "" }} found for "{{ search }}"
             {% else %}
               No results found for "{{ search }}"
             {% endif %}
@@ -17,7 +17,7 @@
         </div>
 
     <!-- Column for the Search Form -->
-    <div class="col s12 m6">
+    <div class="col s12 l6">
       <form action="{{ url_for('admin.recipe_search') }}" method="GET">
         <div class="row">
           <!-- Input Field Column -->
@@ -86,7 +86,7 @@
         <!-- Single search results should return a full-width card for better visuals -->
         <div class="row">
         <div class="row-height">
-          <div class="col s12 recipe-cards">
+          <div class="col s12 m6 offset-m3 recipe-cards">
             <div class="card center-align">
               <div class="card-image waves-effect waves-block waves-light">
                 {% for stage in recipe.stages %}

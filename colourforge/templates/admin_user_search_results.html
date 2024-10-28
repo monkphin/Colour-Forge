@@ -4,10 +4,10 @@
 
   <div class="row center-align">
     <!-- Column for the Heading -->
-    <div class="col s12 m6">
+    <div class="col s12 l6">
       <h1>
-        {% if users and users|length > 0 %}
-          Search Results for "{{ search }}"
+        {% if users and users|length >= 1 %}
+          {{ users|length }} results{{ "s" if recipes|length > 1 else "" }} found for "{{ search }}"
         {% else %}
           No results found for "{{ search }}"
         {% endif %}
@@ -15,7 +15,7 @@
     </div>
 
   <!-- Column for the Search Form -->
-  <div class="col s12 m6 center-align">
+  <div class="col s12 l6 center-align">
     <form action="{{ url_for('admin.user_search') }}" method="GET"">
       <div class="row">
         <div class="input-field col s12 l8">
@@ -168,7 +168,7 @@
           </div>
 
         {% else %}
-          <div class="col s12">
+        <div class="col s12 m6 offset-m3 recipe-cards">
             <div class="card">
               <div class="card-content">
                 <span class="card-title">User Details</span>
