@@ -86,6 +86,8 @@
         <a class="dropdown-trigger" href="#!" data-target="search-dropdown">Search</a>
       </li>
       {% else %}
+      <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+      <li><a href="{{ url_for('routes.about') }}">About Us</a></li>
       <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
       <li><a href="{{ url_for('auth.register') }}">Register</a></li>
       <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
@@ -149,6 +151,8 @@
           <label for="mobile-search" class="hidden">Search for Recipe Tags...</label>
         </li>
         {% else %}
+        <li><a href="{{ url_for('routes.home') }}">Home</a></li>
+        <li><a href="{{ url_for('routes.about') }}">About Us</a></li>
         <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
         <li><a href="{{ url_for('auth.register') }}">Register</a></li>
         <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>

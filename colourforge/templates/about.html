@@ -1,0 +1,28 @@
+{% extends "base.html" %}
+{% block title %}About Us{% endblock %}
+{% block content %}
+
+<h1 class="center-align">About us</h1>
+
+<div class="image-container">
+  <img
+    class="site_logo"
+    src="{{ url_for('static', filename='images/colour-logo-small.webp') }}"
+    alt="Site Logo" >
+</div>
+
+<!-- About Us Section --> 
+    <div class="row">
+      <div class="col s12 center-align">
+        <p>Colour Forge is an online paint cataloging and recipe tracking tool.</p>
+        <p>Have you ever moved on from a paint project, to go back to it after a few months and 
+           forgotton quite how you've managed to get that cool look on your troops armour?</p> 
+        <p>That's where Colour Forge can help!.</p> 
+        <p>Ever been out shopping and remembered you need some paint for a project you're working on, but can't remember what?</p> 
+        <p>Check your paint library and see what you're missing</p>
+        <p>Curious about how to paint a specific mini or project?</p>
+        <p>Check out our users recipes for ideas and inspiration</p>
+      </div>
+    </div>
+
+{% endblock %}    
