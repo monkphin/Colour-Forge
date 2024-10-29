@@ -1,19 +1,17 @@
 # **Colour Forge**
 
-[Testing](#testing-and-validation)
-
-  - [Usage Based Functionality Testing](#use-based-functionality-testing)
-  - [HTML Validation](#html-validation)
-  - [CSS Validation](#css-validation)
-  - [Accessibility](#accessibility)
-  - [Performance](#performance)
-  - [User Testing](#user-testing)
-  - [User Story Testing](#user-story-testing)
-  - [Javascript Testing](#javascript-testing)
-  - [Python Testing](#python-testing)
-  - [Device and Browser Testing](#device-and-browser-testing)
-  - [Responsiveness](#responsiveness)
-  - [Automated testing](#automated-testing)
+[Usage Based Functionality Testing](#use-based-functionality-testing)
+[HTML Validation](#html-validation)
+[CSS Validation](#css-validation)
+[Accessibility](#accessibility)
+[Performance](#performance)
+[User Testing](#user-testing)
+[User Story Testing](#user-story-testing)
+[Javascript Testing](#javascript-testing)
+[Python Testing](#python-testing)
+[Device and Browser Testing](#device-and-browser-testing)
+[Responsiveness](#responsiveness)
+[Automated testing](#automated-testing)
 
 
 # Testing and Validation
