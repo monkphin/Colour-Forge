@@ -125,6 +125,18 @@ document.addEventListener("DOMContentLoaded", function() {
 	 */
 	// Set stageCount based on existing stages or default to 1 if none present.
 	let stageCount = document.querySelectorAll(".multi-stage").length || 1;
+	const removeStageButton = document.querySelector(".remove_field");
+
+    // Function to enable or disable the remove stage button
+    function updateRemoveButtonState() {
+        if (stageCount > 1) {
+            removeStageButton.disabled = false;
+        } else {
+            removeStageButton.disabled = true;
+        }
+    }
+    updateRemoveButtonState();
+
 	/**
 	 * Generates the HTML for a new Recipe Stage
 	 */
@@ -199,6 +211,8 @@ document.addEventListener("DOMContentLoaded", function() {
 			}, 100);
 			// Re-apply auto-resize to any new textareas that are added
 			autoResizeTextarea();
+
+			updateRemoveButtonState();
 		}
 	});
 	// Remove the last added stage when remove stage button clicked.
@@ -209,6 +223,7 @@ document.addEventListener("DOMContentLoaded", function() {
 				const lastStage = stages[stages.length - 1];
 				lastStage.parentNode.removeChild(lastStage);
 				stageCount--;
+				updateRemoveButtonState();
 			}
 		}
 	});

@@ -36,6 +36,7 @@ A paint library and painting recipe book for miniature painters.
   - [Typography](#typography)
   - [Images](#images)
   - [Icons](#icons)
+  - [Features](#features)
 
 [Bugs and Issues](#bugs-and-issues)
   - [Resolved Bugs](#resolved-bugs)
@@ -48,18 +49,6 @@ A paint library and painting recipe book for miniature painters.
   - [Frameworks and Programs](#frameworks-and-programs)
 
 [Testing](#testing-and-validation)
-
-  - [HTML Validation](#html-validation)
-  - [CSS Validation](#css-validation)
-  - [Accessibility](#accessibility)
-  - [Performance](#performance)
-  - [User Testing](#user-testing)
-  - [User Story Testing](#user-story-testing)
-  - [Javascript Testing](#javascript-testing)
-  - [Python Testing](#python-testing)
-  - [Device and Browser Testing](#device-and-browser-testing)
-  - [Responsiveness](#responsiveness)
-  - [Automated testing](#automated-testing)
 
  [Version Control and Deployment](#version-control-and-deployment)
 
@@ -361,9 +350,9 @@ This table exists purely to store the tags that each user adds. Since it has a m
 While I have larger plans around the ability to catalogue paints owned by a user and link them to their recipes, there was a high chance due to time constraints that this would not make into an MVP release, as such the above schema was designed with a degree of adaptability in mind, allowing me to add in additional tables to handle other data, either via many to many relationships or one to many relationships.  
 
 # UX
-When a user first visits the site, they will be presented with the homepage, the appearance of which will change depending on if the user is logged in or not. For a none logged in user, will see a carousel that shows some of the recipes that users of the site have created, which are fully accessible to non-members so they can peruse some of what the site has to offer. They’re invited from both the nav bar and a button on the home page to either log in or register. Once logged in the homepage view changes to display a paginated list of recipes contributed by all users of the website. This will show in either a 3x2, a 2x3 or a 1x6 array of cards depending on the size of the screen in use. Each recipe card displays a thumbnail, title and creator. Each card can show the recipe description using Materiliazes ‘Card Reveal’ function From here each recipe can be viewed and read freely, these can even be shared with none registered users of the website as a way of allowing users to not only share paint recipes others may find useful, but as a method of trying to attract new users by, effectively, advertising the site via its shared recipes. In addition to the list of recipes the homepage shows an ‘Add Recipe’ and currently, a non-functional ‘Add Paint’ card, these two cards allow the user to go directly to the ‘Add Recipe’ page to create a new paint recipe and advertise the planned paint library feature. 
+When a user first visits the site, they will be presented with the homepage, the appearance of which will change depending on if the user is logged in or not. For a none logged in user, will see a carousel that shows some of the recipes that users of the site have created, which are fully accessible to non-members so they can peruse some of what the site has to offer. They’re invited from both the nav bar and a button on the home page to either log in or register. Once logged in the homepage view changes to display a paginated list of recipes contributed by all users of the website. This will show in either a 3x2, a 2x3 or a 1x6 array of cards depending on the size of the screen in use. Each recipe card displays a thumbnail, title and creator. Each card can show the recipe description using the Materialize ‘Card Reveal’ function From here each recipe can be viewed and read freely, these can even be shared with none registered users of the website as a way of allowing users to not only share paint recipes others may find useful, but as a method of trying to attract new users by, effectively, advertising the site via its shared recipes. In addition to the list of recipes the homepage shows an ‘Add Recipe’ and currently, a non-functional ‘Add Paint’ card, these two cards allow the user to go directly to the ‘Add Recipe’ page to create a new paint recipe and advertise the planned paint library feature. 
 
-For the nav bar, a logged-out user will only see the login, register and contact options - the contact form is publicly accessible to allow users to contact the admin in case of issues with their account since currently a self-serve password reset function has not been implemented. However, there are advantages to leaving this form public-facing even after this feature has been added, since it allows unregistered users to raise concerns and questions before joining. 
+For the nav bar, a logged-out user will only see the login, about us, register and contact options. After landing on the home page a logical place to visit would be the about page, which informs potential new users what the sites purpose is and how it may be able to help them. The contact form is publicly accessible to allow users to contact the admin in case of issues with their account since currently a self-serve password reset function has not been implemented. However, there are advantages to leaving this form public-facing even after this feature has been added, since it allows unregistered users to raise concerns and questions before joining. 
 
 A logged-in user will see the ‘My Recipes’ section immediately after the home button, which is positioned to ensure users can get quick access to their recipe library, allowing them to log in, locate a recipe they have created and get to work relatively quickly. The My Recipes page lists -only- the user's own created recipes providing them with an uncluttered list of cards which are again paginated and will present no more than 6 per page in varying widths/heights depending on the device in use. This page also includes another card to allow the user to add a new recipe, which is always present at the top of the page, ensuring that the ability to create new recipes is never more than a click or two away from wherever the user is on the site. 
 
@@ -396,7 +385,190 @@ The site Logo was kindly donated by a good friend who was aware of the project a
 # Icons
 Icons were provided by Font Awesome and were used for a few different features on the site, from social links in the footer to iconography to help demonstrate functionality on the collapsible or drawers on the recipe cards.
 
+# Features
+ ## Navbar
+ The navbar is designed to be relatively simple to use and adapt to both mobile and desktop formats, with the navbar switching to a sliding in based format on smaller screens. It adapts the links and options that are visible to a user based on if they're logged in or not. This allows new users to not be too overwhelmed by options when they first access the site and be able to look around a little before deciding to join. 
 
+ - The name of the site, which also functions as a link to the home page. 
+
+ - Responsive Navigation, on the desktop the various navigation options are visible across the top of the site at all times. With a few additional features for logged in users or site admins, which feature drop down options for search or accessing the various site admin functions. 
+
+   - If a user is not logged in all they will see is Home, About, Login, Register and Contact. 
+   -  If a user is logged in they will see options for Home, My Recipes, Account, Logout, Contact Us and Search. 
+   -  If a user is an admin, in addition to all the options a logged in user sees they will also see the Admin Panels option.
+
+ - On mobile devices such as tablets and laptops the top navigation menu is condensed and just shows the site name and a burger menu. Clicking on this will cause the navigation bar to slide out and show the same options listed above depending on if the user is logged in or not. This slide out menu takes advantage of being more of a list to do away with the need of drop down menus and also show the site logo at the top. 
+
+ ## Home Page
+
+  ### Logged Out View
+  The home page is, in most cases going to be the first page a user sees. If the user has not not signed in or is not registered they're shown a carousel which allows them to see a small selection of the sites users paint recipes, this can help to show a new user some of what the site has to offer to them. The logged out view also includes a login and register button so they're kept in the eyeline of the user as they're looking over the main content, without them needing to look for the options in the menu bar. 
+
+  ### Logged In View
+  When the user has logged in the homepage adjusts what it shows, this time showing them a set of cards - the two topmost both advertise the ability to add paints to their library or to create paint recipes, ensuring these are both quickly accessible. In addition the page will also display all the paint recipes that the sites user base has added, effectively creating a limited social function. This allows any registered user to be able to see other users paint recipes, something which can be quite useful when looking for inspiration and ideas or when trying to work out how to create a specific effect on a miniature. This list is paginated so will show 6 recipes per page. 
+
+ ## About Page
+ The about page offers a new visitor information about the core function and features of the site, giving them reasons why they as a miniature painter may want to sign up and use the service. It advertises the fact that any recipes they create can be shared freely and be seen by anyone as well as suggesting some scenarios where the site could offer some useful functionality. 
+
+ ## Login and Registration Pages
+ These pages are somewhat self explanatory, offering a user a way to register an account and sign in to an account if they have one. On registration the user will be automatically logged in, since a personal bug bear of mine is signing up for something to then have to log in to use the site. Similarly the login screen will take both usernames and email addresses, since I personally hate trying to login to a website with a username, only to find that it requires my email and vice versa. 
+
+ ## Contact Page
+ The contact page is a simple contact form, which is partly protected by Googles ReCaptcha service via front end based protections. (I struggled to get the backend protections working correctly) to try to mitigate some of the spam I was getting once I put this online. It offers a simple way for a user to contact the site admin to ask any questions they may have as well as ask for support in situations where they may be locked out of their account for some reason. As such this is visible to both logged in and logged out users. 
+
+ ## My Recipes
+ This page is available once the user has registered for an account and is logged in. Much like the logged in view of the home page, it presents the user with a set of cards. Specifically an option to add a new recipe at the top of the page with a paginated view of the users own recipes below this. Much like the home page this will show 6 recipes per page before the user needs to move to the next one via pagination. 
+
+ ## Account
+ This page allows the user to modify and change their account, initially this is limited to just changing their email, password and deleting their account. Any change made will require their password to ensure that the changes are not made in error or are not able to be made by someone else using the users device without supervision. The delete button features a modal to notify the user they are about to delete their account - this is to add another layer of protection to prevent finger slips or other possible accidents, once the user confirms they wish to delete their account on the modal the account is deleted. 
+
+ Any changes the user makes to their account with this screen will flash a message to advise the user of the change. In addition an email which can send both HTML and plaintext messages to advise of the change and provide a layer of confirmation as well as a layer of security, since the user will always be aware of changes to their account even if someone else changes it, this includes changes to emails, since both the old and new address are sent the same email to ensure the user is updated. 
+
+ The flash function is also used to advise the user of any errors in modifying their account, such as password mismatches, using their existing password as a new password and so on. 
+
+ ## Search
+ The final option available to registered users on the nav bar not covered so far is the search box. This uses a dropdown box to minimise the amount of space it takes up on the navbar. This allows users to search for any recipe tags that may have been applied, displaying the results on a page much like the users My Recipes page or the Home Page, presenting the user with a list of paginated cards based on the search results. It also uses the search query as the title of the page to remind the user what they searched for. This gives the user a quick qay of searching for recipes that may be useful for the project they're working on. Though its predicated on good tag usage by all users across the site. 
+
+ ## Admin Panels
+ This is only visible to users who have the 'is_admin' boolean on the users table set to true, allowing them to administer the sites users and the site users recipes. 
+
+  ### User Admin
+  This presents a list of all site users as well as a search function where the admin can search for a user by username. 
+  The page shows each users account in a card, with the same options that are available in the 'Account' page showing for each users card. It also has the additional option to toggle if someone is an admin or not, to allow users to be promoted to support the admin in looking after the website via an easy to use GUI option, rather than requiring them to use CLI based commands to promote a user. Much like with the Account page, all updates that can be adjusted require the admins password to enact. As an added layer of security, admin accounts cannot demote themselves or delete their own accounts while they're admins, this is to ensure that the site always has at least one admin available to provide support where needed. The delete button triggers a modal that highlights that the admin is about to delete a users account with the password field moved to this view in order to ensure the admin has read and understands the warning given. 
+
+  Much like with the Account page feedback is provided to the admin via the medium of flashed messages, these trigger both on successful and unsuccessful actions - with messages covering scenarios like incorrect passwords, passwords matching the admins password and so on. Additionally any changes the admin makes to a users account will generate an email to that user to update them as to the current situation on their account, this provides a layer of reassurance to users that admins have carried out an action if one was requested. It also ensures that admins cannot take malicious action against an account without the users being aware. 
+
+  ### Recipe Admin
+  The Recipe Admin section presents a list of all the recipes on the site and much like the User Admin page also has a search box allowing the admin to search by recipe name. This again falls back on using the same, familiar card view that is prevalent throughout the website and allows the admin another method of accessing and administering users recipes. While no action can be taken directly in this page it gives the admin a quick way to search for a users recipes to investigate and correct issues that may have been raised to them. 
+
+ ## Recipe Page
+ One of the core functions of the site is its recipe pages, these are where the users can read and look at the recipes they or other users create. These are able to be viewed by none logged in, none registered users also, allowing recipes to be freely shared with the wider internet, since hobbyists are often more than happy to share painting methods and approaches to how to achieve specific results. The recipe pages are accessed by clicking on the image on each recipes card and have several Materialize features such as Chips, Modals and Collapsibles. 
+
+ There are a few assumptions made around how recipes will be created here. Generally when images are used to show how to create a specific effect on a mini, each image would assumed to be once the stage has been completed. So the first stage would invariably be an undercoat or the first later of paint, with the last stage being what the effect looks like once all painting had been completed. As such the recipes image on its card and at the top of the page is programmatically set to use the image from the last stage of the recipe, since this should always be how the recipe looks once its completed based on commonly observed behaviour within the hobby community. 
+
+ Chips are used to show which tags a recipe may have attached to it. Currently these are only used for searching, however I have ideas for them in future iterations which I will cover in the [Future Improvements](#future_improvements) section below. The card below the chips shows the completed recipe. As previously stated this is taken from the last stage of the recipe itself, since this will generally show how the recipe looks once the last stage has been completed. It also includes the name of the recipe creator as well as a brief description so the creator and any viewers know what the recipe is trying to achieve. 
+
+ Directly below this we have the recipe instructions themselves with each stage being a list item in a collapsible list. Discussions with my mentor and user testing suggested that it wasn't always obvious what the function of the list was, since initially all stages were closed on load. This resulted in a slight change of approach where on accessing the recipe the first stage is automatically opened. Font Awesome plus and minus icons were used with the collapsible to help impart how the collapsible functions to a visitor, since the collapsible is using the pop out function that Materialize provides, effectively expanding and contracting the various items into the list as the user clicks on them. 
+
+ Each stage contains an image and the specific instructions entered by the user for that particular stage, such as 'undercoat with black paint'. 
+
+ All images on this page will open in a modal when clicked, allowing the user to see a higher resolution version of the image as needed. This modal includes a close button and a button allowing the user to open the original image in a new tab in case they need to see this in much more detail than the site allows for. 
+
+ The bottom of the page features a back button, which takes the user to the page they came to the recipe from, an edit button allowing the user to edit the recipe and a delete button. The edit and delete buttons are only visible to the recipe owner and site admins. The delete button will pop a modal to warn a user before they're able to delete the recipe. If an admin uses either the edit or delete buttons and the recipe is not theirs, the modal will highlight that user belongs to another user and requires the admins password before they can proceed. Both these modals offer a layer of protection against accidental deletion by both users and admins. 
+
+ ## Add Recipe Page. 
+ The add recipe page features a fairly simple form, allowing the user to create a new recipe. It has several required fields including the Recipe Name, the Recipe Description and the Stage Instructions. On first load the user is presented with 6 fields in total, the title, tags and description; and the fields required to add a stage, consisting of the first stages instructions, the stage one image and the image description. In addition there are a few buttons present - Add Image, Add Stage, Remove Stage and Add Recipe. 
+
+ The Tags field uses Awesomeplete to present existing tags that are in the database to the user as they start to enter characters, this allows tags to be reused and should hopefully minimise DB overhead by allowing users to use existing tags rather than having to enter new ones each time. These tags are shared by all users across the site. 
+
+ The Add Image button and Stage x image field will both allow a user to add their own images, this supports multiple image types such as Jpeg, GIF, WebM etc with the file browse window defaulting to showing images. When accessed on a phone this will give an option to open your photo library and select from there, take a photo or, if your phone has a file browser to search for images from that. 
+
+ The Image Description field is used to provide an Alt Tag to be associated with the image. 
+
+ The user is not required to add an image to add the recipe. If they choose to not, a placeholder image is added automatically to ensure that not only does the DB have an entry for the field, but to ensure that basic functionality of the site is not compromised. If the user adds an image but does not provide a description, the test 'No Description Provided' is added to the DB automatically to ensure basic accessibility is adhered to. 
+
+ The user can add multiple stages using the 'Add Stage' Button testing shows their to be no upper limit to the number of stages available, allowing for some very complex recipes to be created. 
+
+ The remove button will only remove stages from the second stage onwards and as such is disabled until its needed. Until the recipe is saved anything that is entered into a stage that the user deletes is lost since this is not written to the DB until the recipe is added using the Add recipe button. 
+
+ ## Edit Recipe. 
+ Much like the Add Recipe page this consists predominantly of form fields, so rather than recover the core fields I'll cover the differences. 
+
+ Since we're editing an existing recipe the app will show any and all existing entries in their respective fields, allowing the user to see each fields text as needed to make adjusting and editing easier. The other obvious difference is the fact that any images attached to the recipe, including the default placeholder image are also rendered. This is in place of the Add Image/Add Description combination seen on the Add Recipe page, their is also a delete image button, which will hide the image from view and instead show the button and fields from the add recipe page, allowing the user to add a new image. Their is also an added cancel button in case the user changes their mind about replacing the image which simply hides the fields and unhides the previously hidden image. 
+
+ ## 404/500/Unauthorised Access. 
+ There are 404 and 500 error handlers that present a friendly page to the user when issues occur that trigger these. These are designed to fit the common appearance of the rest of the site, with a fairly minimal look featuring the sites mascot/logo and a simple button to get the user back to the home page. In addition all user only or admin only routes have protections in place that will redirect the user to either the login page if they're not logged in, or to the home page if they try to access the admin panels but do not have the required level of access.  
+
+
+ ## Footer
+ The footer provides a few links to the various socials that will belong to the site. These are all currently dummy links which take you to the relevant websites homepage. 
+
+
+ ## Flash Messages 
+ Part of good design is ensuring the user is aware of the actions they take via visual feedback, be it direct feedback such as updating a page, or indirect such as flashing a message. 
+ Flash messages will appear in the following situations: 
+  - Success and Information Messages
+    - Registration success 
+    - Login Success. 
+    - Logout Success
+    - Updating their account, for example emails, passwords etc. 
+    - Admin level changes to an account, such as promotion, detail changes etc. 
+    - Account or User deletion.
+    - Successfully sending an email via the form. 
+    - Adding or updating a recipe
+
+  - Fail Messages
+    - Registration failures due to the user/email already existing, password mismatches etc. 
+    - When trying to access an area they don't have access to - be it either through not being logged in, or not being an admin
+    - Failure to login.
+    - Being unable to update account details due to not entering the information, using existing details, forgetting to add the password confirmation etc. 
+    - Admin level changes to an account failing, such as not entering the admin password, using the admins own password for the user etc. 
+    - Not entering or entering the wrong password. 
+    - Failed searches due to no matches or no search term entered. 
+    - Failure to send an email from the mail form. 
+ 
+ Some of the forms are set to be required, so will present tool tips to show when they need to be filled in also. 
+
+ ## Protected Routes
+ As mentioned earlier many routes on the site are protected against being accessed by unauthorised users, with only the sections of the site visible to logged out users accessible to someone who is logged out and the admin sections only accessible to admin users. Additionally since the URLs are not advertised on the site to these areas when a user is not logged in or not admin, their is a relative level of additional protection in place via obscurity of URLs. 
+
+ ## Emails
+ Finally we have the emails. These are sent via Gmail's servers using their SMTP functionality. These provide users an easy way to reach out to the site admin as well as providing a layer of assurance and reassurance that any changes the users take have been actioned and any actions the admin takes is done in a way that the users are kept informed. 
+
+ Emails are sent in the following situations: 
+ - User Initiated
+   - Welcoming a new user.
+   - Email Change
+   - Password Change
+   - A user sends an email to the admin via the contact form. 
+   - Account Deletion
+
+ - Admin Initiated
+   - User Password Change
+   - User Email Change
+   - User Account Deletion. 
+
+# Future Features
+As mentioned early in this document I have had to cut several features due to time or relative complexity. These are documented on the [Kanban](https://github.com/users/monkphin/projects/1/views/1) board I was using to track progress, specifically under the 'Future Improvements' section. 
+
+ - Paint Library
+ The most obvious future improvement would be to add the ability to add a paint library, this was part of the original plan, but had to be deferred in order to ensure that I completed the project in a reasonable time. This would allow users to add paints from their collection, track when they're running low so they could check on what paints they need when they're next in a hobby shop, or placing orders online. Ideally this should allow users to go direct to a retailer of their choices' website to allow them to order replacements directly as needed. 
+
+ - Global Paint Library. 
+ Part of my initial plan was to have the more popular vendors paints already exist in a table, with paint names, colours, bottle volume etc so that users could add their paints to the library directly from this list, as well as adding their own custom paints. This should allow for a much quicker method for users to add to their libraries than having to enter each and every paint individually in full. A quite onerous task at the best of times and one that may be continually put off without support for this. 
+
+- Linking the paint library to Recipes
+This would allow users to see exactly which paints are in use by which recipe. Similarly it would, if implemented right allow users to see all recipes that use a certain paint. 
+
+- Full ReCaptcha functionality
+As things stand, I have only implemented front end ReCaptcha, while this seems to have stemmed the tide of spam mail, some still leaks through, so backend ReCaptha would be useful to help eliminate more of the spam mail I am getting from the form. 
+
+- Tag removal
+Currently when a tag is removed from all recipes it stays in the database, while tags don't take up much by way of room, over time the table for them could become unwieldily so being able to delete a tag when its no longer in use would be useful for good database health and maintenance. 
+
+- Colour Combinations. 
+I envisage this working in a similar manner to paint recipes, where users can create colour combinations that they use for specific highlight and shading effects, effectively letting them create complimentary triads of colours.
+
+- Chips function as links
+This is an extension of the tags feature, allowing a user to simply click on a tag in a recipe to then bring up a list of all recipes that share that tag giving users another way to 'search' for tags based on whats visually in front of them rather than having to open a search form. 
+
+- Usernames function as links
+Leaning more into the social aspect of the site, it would be good for users to see the page of other users, allowing them to see a users entire collection of recipes or paints. 
+
+- Messaging or Commenting functions. 
+Again to expand on the social aspect, it may be useful to have users be able to contact each other without leaving the site to share recipes, suggest improvements, give compliments and feedback etc. 
+
+- Multiple Images per stage
+While this is technically supported now. I have not designed the UI with this in mind. I observed several times via bugs I encountered and other testing I was doing that I could sometimes cause a stage in a recipe to show multiple images. This could be useful to show different angles where it may be helpful to show how an effect can look. 
+
+- Reordering of stages
+While I suspect this may be rarely used, as a user refines their recipe it may be useful to be able to shift the orders or stages around or even add a new stage in the middle of existing ones, something which currently requires all later stages to be removed and readded, including adding all images and text back. 
+
+- Self Serve password reset
+I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. MOre info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
+
+- Project progress tracking. 
+One of the bigger challenges as a miniature painter is to keep track of your projects, how many minis need painting, how many are painted, where they're upto in the process and so on. Something that would be super useful is the ability to create and track paint projects, this could even log number of minis painted per year, allowing users to set goals and milestones. 
 
 # Bugs, Issues and challenges 
 
@@ -405,24 +577,30 @@ Tags
 Tags were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully as intended, effectively the main issues I as finding is that I wasn't able to use the Materialize Chips when adding or editing tags, which caused me to shift approach and treat editing and entry more like a text field. After some research I found Awesomeplete which would cover the autocomplete functionality, allowing users to draw on and add to the library of tags available on the site. I was able to get this working using some tweaking to some Javascript I found online, so the section around Awesomeplete in the JS File should not be graded since this was heavily reliant on code from [this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
 
 Refactoring and DRY 
+
 While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. 
 
 Cloudinary Deletion
+
 While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
 
 Accidental Image Deletion
+
 I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
 
 Button Debounce
+
 While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents my from disabling this. 
 Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality and is more a personal annoyance. 
 
 Jinja Issues caused by not storing data in the DB
+
 Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
 jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
 While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
 
 Stage Ordering Issues. 
+
 Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
 open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 
@@ -451,11 +629,9 @@ Jinja for loop before the fix       {% for stage in recipe.stages %}
 Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
 
 # Security and best Practices
-User passwords are hashed, using 
+User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worth while. 
 
-https://sslinsights.com/sha-256-vs-sha-512/#:~:text=SHA%2D512%20Weaknesses&text=512%2Dbit%20hashes%20are%20overkill,architecture%20to%20reach%20optimal%20performance.
-
-Users are informed of account level changes via emails, ensuring they're kept aware of any changes made, this also includes admin led account level changes. 
+Users are informed of account level changes via emails, ensuring they're kept aware of any changes made to their accounts, this also includes admin led account level changes.
 
 Users are notified of success or failure of actions taken on the site via alerts that are flashed, which should include reasons for why an action may have failed. 
 
@@ -515,7 +691,7 @@ Testing is covered in the following document: [Testing And Validation](TESTING.m
 # Credits
 
 
-Placeholder image for recipes from https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/
-
-
+Placeholder image for Recipes from [minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)
+Placeholder image for Paint Library from [GettyImages](https://www.gettyimages.co.uk/)
+Rummy Nate (Site Logo) kindly donated by [Adam Nicol](https://adnicol.weebly.com/#/)  
 

@@ -203,6 +203,9 @@ def add_recipe():
         tag_names = tag_names_str.split(',')
         stage_num = 1
 
+        if not instructions: 
+            flash('Please add instructions to the recipe', category='error')
+
         # Process instructions and images
         instruction_handler(recipe, instructions, image_files, alt_texts)
 

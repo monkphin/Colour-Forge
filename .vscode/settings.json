@@ -16,9 +16,11 @@
    "workbench.colorTheme": "Visual Studio Dark",
    "terminal.integrated.gpuAcceleration": "canvas",
    "cSpell.words": [
+      "Awesomeplate",
       "Awesomeplete",
       "backref",
       "Caliban",
+      "Captha",
       "CLOUDINARY",
       "Coelia",
       "collapsibles",
@@ -38,6 +40,7 @@
       "ilike",
       "Jinja",
       "jsonify",
+      "Kanban",
       "Mailjet",
       "materialtags",
       "mockup",
@@ -53,6 +56,7 @@
       "Stackoverflow",
       "Textareas",
       "tooltipped",
+      "unwieldily",
       "Werkzeug",
       "Werkzueg",
       "woumsfwwkgycjjqooe"
