@@ -284,17 +284,6 @@ Feature Creep
 
 Due to feature creep, I added in a few additional pages that were thought to be beyond scope, or not factored into the initial planning, such as the admin pages or the contact page. In cases where this occurred I was able to fall back on existing wireframes and choices made around them to quickly get them looking like they were a cohesive part of the website without adding too much additional overhead or work, or needing to really mock up anything via new wireframes for them. 
 
-
-
-
-
-<details>
-<summary>4 Table ERD</summary>
-
-</details>
-
-
-
 ## Schema
 Initially I had a few ideas for this, but didn't fully take into account how the data would need to be handled within the database to ensure it was easily modifiable and manipulatable, as well as supporting the one-to-many and many-to-many relationships that I was going to need to take advantage of for the data being used. 
 
@@ -407,27 +396,33 @@ The site Logo was kindly donated by a good friend who was aware of the project a
 # Icons
 Icons were provided by Font Awesome and were used for a few different features on the site, from social links in the footer to iconography to help demonstrate functionality on the collapsible or drawers on the recipe cards.
 
-# Features
 
-Tags, these were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully. Eventually I found [this Reddit Thread](https://www.reddit.com/r/flask/comments/25zjtb/af_can_someone_show_me_how_to_build_json_object/) along with this [Stackoverflow thread](https://stackoverflow.com/questions/62894961/problem-with-materialize-chips-autocomplete) and this [Github Issue](https://github.com/Dogfalo/materialize/issues/6401) which all helped me understand what was needed to get this working. 
 
-# Bugs and Issues
+# Bugs, Issues and challenges 
 
-Found an odd bug when using the chips feature from Materialize, where it was causing the stage counter to jump from 1 to 3 when adding a new stage. Removing the javascript needed for Chips to be initialized I found the behaviour worked as expected. The easiest fix here was to hard set the stageCount to 1, then increment/decrement it as part of the function to add/remove each stage as needed. This issue also made me realise that the ID tags being assigned were not unique as they're supposed to be, so I corrected this using Jinja to append the stage number to the ID tag for each new stage added by Javascript. 
+Tags
 
-I decided part way through developing the edit functionality to split out the varying functions needed to drive each page, in an effort to encourage more DRY like behaviour allowing for reuse of code. When trying to amalgamate both initial DB entry and editing an existing entry into a single function, this kept having issues, causing me to split these out into their own create and edit functions. This allows the code to be somewhat easier to maintain, since the various app routes and functions are smaller and simpler as well as allowing further DRY practice, since the various functions can be called as needed going forwards.
+Tags were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have exiting tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully as intended, effectively the main issues I as finding is that I wasn't able to use the Materialize Chips when adding or editing tags, which caused me to shift approach and treat editing and entry more like a text field. After some research I found Awesomeplete which would cover the autocomplete functionality, allowing users to draw on and add to the library of tags available on the site. I was able to get this working using some tweaking to some JavascriptI found online.
 
+Refactoring and DRY 
+While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. 
+
+Cloudinary Deletion
 While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
 
+Accidental Image Deletion
 I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
 
+Button Debounce
 While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents my from disabling this. 
 Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality and is more a personal annoyance. 
 
+Jinja Issues caused by not storing data in the DB
 Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
 jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
 While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over none existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
 
+Stage Ordering Issues. 
 Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
 open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 
@@ -456,6 +451,13 @@ Jinja for loop before the fix       {% for stage in recipe.stages %}
 Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
 
 # Security and best Practices
+User passwords are hashed, using 
+
+Users are informed of account level changes via emails, ensuring they're kept aware of any changes made, this also includes admin led account level changes. 
+
+Users are notified of success or failure of actions taken on the site via alerts that are flashed, which should include reasons for why an action may have failed. 
+
+Modals have been implemented to add a layer of protection where deletion of accounts and recipes are concerned, basically creating a two stage delete process to help limit accidental data loss. For Admins they're given a slightly different version of this Modal when taking action on an item that they don't own, which highlights that they're taking action on another users recipe or account and requires them to enter their password as a final check to ensure they mean to take this action. 
 
 # Technology
 
@@ -485,6 +487,23 @@ Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute
 
  - Used to host image files
 
+- [Heroku](https://heroku.com)
+
+ - Used to host the site. 
+
+- [Cloudflare](https://cloudfalre.com)
+
+ - Used for DNS and caching to aid performance. 
+
+- [OVH](https://ovh.com)
+
+ - Used to provide the domain name. 
+
+- [Google](https://google.com)
+
+ - Used to provide the contact form Captcha and Mail services. 
+
+ 
 # Testing and Validation
 
 ## Use based functionality testing
