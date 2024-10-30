@@ -1,17 +1,19 @@
 # **Colour Forge**
 
-[Usage Based Functionality Testing](#use-based-functionality-testing)
-[HTML Validation](#html-validation)
-[CSS Validation](#css-validation)
-[Accessibility](#accessibility)
-[Performance](#performance)
-[User Testing](#user-testing)
-[User Story Testing](#user-story-testing)
-[Javascript Testing](#javascript-testing)
-[Python Testing](#python-testing)
-[Device and Browser Testing](#device-and-browser-testing)
-[Responsiveness](#responsiveness)
-[Automated testing](#automated-testing)
+[Testing and Validation](#testing-and-validation)
+
+ - [Usage Based Functionality Testing](#use-based-functionality-testing)
+ - [HTML Validation](#html-validation)
+ - [CSS Validation](#css-validation)
+ - [Accessibility](#accessibility)
+ - [Performance](#performance)
+ - [User Testing](#user-testing)
+ - [User Story Testing](#user-story-testing)
+ - [Javascript Testing](#javascript-testing)
+ - [Python Testing](#python-testing)
+ - [Device and Browser Testing](#device-and-browser-testing)
+ - [Responsiveness](#responsiveness)
+ - [Automated testing](#automated-testing)
 
 
 # Testing and Validation
@@ -463,12 +465,227 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 </details>
 
 
-# Version control and Deployment
+# HTML Validation
 
-# Credits
+# CSS Validation
+
+# Accessibility
+WAVE was used to check to ensure the site conforms to accessibility standards. 
+
+A few issues were highlighted, specifically around duplication of the link to the Home Page, since this features in both the site name and the home button; some images having 'suspicious' Alt Text, which was caused by the 'Default Image' placeholder Alt Texts used for placeholder images. Some broken and missing link messages were occurring on every page, which were caused by the side nav menu and both the admin and search drop downs, which use fake links for them to work. Also some forms reported no labels. However, other than two forms on the contact page which I believe may be caused by ReCaptcha, I could not locate any forms that were missing labels on the site. There were a few minor call outs to headings also, which considering the site can't really conform to standardised layouts I think is reasonably acceptable, since theirs no sections etc to have H2, H3 and so on and these were used where it was appropriate to do so. 
+
+## Logged Out Pages
+<details>
+<summary>Home Page</summary>
+<img src="docs/wave/wave-home-loggedout.png">
+</details>
+<br>
+
+<details>
+<summary>About Page (to add)</summary>
+<img src="docs/wave/WAVE">
+</details>
+<br>
+
+<details>
+<summary>Login Page</summary>
+<img src="docs/wave/wave-login-loggedout.png">
+</details>
+<br>
+
+<details>
+<summary>Register Page</summary>
+<img src="docs/wave/wave-register-loggedout.png">
+</details>
+<br>
+
+<details>
+<summary>Contact Page</summary>
+<img src="docs/wave/wave-contact-logedout.png">
+</details>
+<br>
+
+## Logged In Pages
+<details>
+<summary>Home Page</summary>
+<img src="docs/wave/WAVE-Home-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>My Recipes Page</summary>
+<img src="docs/wave/WAVE-MyRecipes-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Account Page (to add)</summary>
+<img src="docs/wave/WAVE-Acc.png">
+</details>
+<br>
+
+<details>
+<summary>Tag Search Results</summary>
+<img src="docs/wave/WAVE-TagSearchResults-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Add Recipe Page Results</summary>
+<img src="docs/wave/WAVE-Addrecipe-LoggedIn-SingleStage.png">
+<img src="docs/wave/WAVE-AddRecipe-LoggedIn-MultiStage.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Page Results</summary>
+<img src="docs/wave/WAVE-RecipePage-Loggedin.png">
+</details>
+<br>
+
+<details>
+<summary>Edit Recipe Results</summary>
+<img src="docs/wave/WAVE-EditRecipe-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Error Page Results</summary>
+<img src="docs/wave/WAVE-ErrorPages-LoggedIn.png">
+</details>
+<br>
+
+## Admin Pages
+<details>
+<summary>User Admin Results</summary>
+<img src="docs/wave/WAVE-Admin-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>User Admin Search Results</summary>
+<img src="docs/wave/WAVE-AdminSearchResults-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Admin Search Results</summary>
+<img src="docs/wave/WAVE-RecipeAdmin-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Admin Search Results</summary>
+<img src="docs/wave/WAVE-RecipeAdminSearch-LoggedIn.png">
+</details>
+<br>
+
+# Performance
+
+Performance testing was conducted with Googles Lighthouse, which is part of its DevTools package in Chrome. 
+
+Due to the sites reliance on several external resources, which in some cases are on free tiers, which can impact performance I fully expected performance tests to not be great for this app, since external services can be factor when it comes to load times that are beyond the control of the site owner. Similarly the nature of the site being image and DB query heavy will be contributing factors since the images can, often intentionally so, be large. Similarly their can be multiple calls made to the DB per page where multi stage recipes are concerned. This is part of the reason I opted to use CloudFlare for caching content when the site has been browsed, since this can help to mitigate load times where possible. 
+
+I suspect I may be able to implement things like preloading and similar to help. Similarly I have generated a minified CSS file which the site uses and may, in future shift to minimized Javascript and HTML files to see if these help with load times. 
 
 
-Placeholder image for recipes from https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/
+## Logged Out
+<details>
+<summary>Loggedout Home Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-Home-LoggedOut.png">
+</details>
+<br>
 
+<details>
+<summary>Login Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-Login-LoggedOut.png">
+</details>
+<br>
 
+<details>
+<summary>Registration Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-Register-LoggedOut.png">
+</details>
+<br>
 
+<details>
+<summary>Contact Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-Contact-LoggedOut.png">
+</details>
+<br>
+
+## Logged In
+<details>
+<summary>Logged in Home Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-Home-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>My Recipes Results</summary>
+<img src="docs/lighthouse/Lighthouse-MyRecipes-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Account Results</summary>
+<img src="docs/lighthouse/Lighthouse-Account-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Page Results</summary>
+<img src="docs/lighthouse/Lighthouse-RecipePage-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Add Recipe Results</summary>
+<img src="docs/lighthouse/Lighthouse-AddRecipe-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Edit Recipe Results</summary>
+<img src="docs/lighthouse/Lighthouse-EditRecipe-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Tag Search Results</summary>
+<img src="docs/lighthouse/Lighthouse-TagSearch-LoggedIn.png">
+</details>
+<br>
+
+## Admin Pages
+<details>
+<summary>User Admin Results</summary>
+<img src="docs/lighthouse/Lighthouse-Admin-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>User Admin Search Results</summary>
+<img src="docs/lighthouse/Lighthouse-AdminSearch-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Admin Results</summary>
+<img src="docs/lighthouse/Lighthouse-RecipeAdmin-LoggedIn.png">
+</details>
+<br>
+
+<details>
+<summary>Recipe Admin Search Results</summary>
+<img src="docs/lighthouse/Lighthouse-RecipeAdminSearch-LoggedIn.png">
+</details>
+<br>
+
+# User Testing
+# User Story Testing
+# Javascript Testing
+# Python Testing
+# Device and Browser Testing
+# Responsiveness
+# Automated testing
