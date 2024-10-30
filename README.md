@@ -527,11 +527,33 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  Chips are used to show which tags a recipe may have attached to it. Currently these are only used for searching, however I have ideas for them in future iterations which I will cover in the [Future Improvements](#future_improvements) section below. The card below the chips shows the completed recipe. As previously stated this is taken from the last stage of the recipe itself, since this will generally show how the recipe looks once the last stage has been completed. It also includes the name of the recipe creator as well as a brief description so the creator and any viewers know what the recipe is trying to achieve. 
 
+ <details>
+<summary>Materialize Chips</summary>
+<img src="docs/features/tags.png">
+</details>
+
+
  Directly below this we have the recipe instructions themselves with each stage being a list item in a collapsible list. Discussions with my mentor and user testing suggested that it wasn't always obvious what the function of the list was, since initially all stages were closed on load. This resulted in a slight change of approach where on accessing the recipe the first stage is automatically opened. Font Awesome plus and minus icons were used with the collapsible to help impart how the collapsible functions to a visitor, since the collapsible is using the pop out function that Materialize provides, effectively expanding and contracting the various items into the list as the user clicks on them. 
+
+ <details>
+<summary>Materialize Chips</summary>
+<img src="docs/features/description-card.png">
+</details>
+
 
  Each stage contains an image and the specific instructions entered by the user for that particular stage, such as 'undercoat with black paint'. 
 
+<details>
+<summary>Materialize Chips</summary>
+<img src="docs/features/open-stage.png">
+</details>
+
  All images on this page will open in a modal when clicked, allowing the user to see a higher resolution version of the image as needed. This modal includes a close button and a button allowing the user to open the original image in a new tab in case they need to see this in much more detail than the site allows for. 
+
+<details>
+<summary>Materialize Chips</summary>
+<img src="docs/features/open-image--modal.png">
+</details>
 
  The bottom of the page features a back button, which takes the user to the page they came to the recipe from, an edit button allowing the user to edit the recipe and a delete button. The edit and delete buttons are only visible to the recipe owner and site admins. The delete button will pop a modal to warn a user before they're able to delete the recipe. If an admin uses either the edit or delete buttons and the recipe is not theirs, the modal will highlight that user belongs to another user and requires the admins password before they can proceed. Both these modals offer a layer of protection against accidental deletion by both users and admins. 
 
@@ -544,7 +566,18 @@ Icons were provided by Font Awesome and were used for a few different features o
  ## Add Recipe Page. 
  The add recipe page features a fairly simple form, allowing the user to create a new recipe. It has several required fields including the Recipe Name, the Recipe Description and the Stage Instructions. On first load the user is presented with 6 fields in total, the title, tags and description; and the fields required to add a stage, consisting of the first stages instructions, the stage one image and the image description. In addition there are a few buttons present - Add Image, Add Stage, Remove Stage and Add Recipe. 
 
+<details>
+<summary>Add Recipe Page</summary>
+<img src="docs/features/addrecipepage-desktop.png">
+<img src="docs/features/addrecipepage-mobile.png">
+</details>
+
  The Tags field uses Awesomeplete to present existing tags that are in the database to the user as they start to enter characters, this allows tags to be reused and should hopefully minimise DB overhead by allowing users to use existing tags rather than having to enter new ones each time. These tags are shared by all users across the site. 
+
+<details>
+<summary>Auto Complete Tags</summary>
+<img src="docs/features/awesomeplete-tags.png">
+</details>
 
  The Add Image button and Stage x image field will both allow a user to add their own images, this supports multiple image types such as Jpeg, GIF, WebM etc with the file browse window defaulting to showing images. When accessed on a phone this will give an option to open your photo library and select from there, take a photo or, if your phone has a file browser to search for images from that. 
 
@@ -552,14 +585,19 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  The user is not required to add an image to add the recipe. If they choose to not, a placeholder image is added automatically to ensure that not only does the DB have an entry for the field, but to ensure that basic functionality of the site is not compromised. If the user adds an image but does not provide a description, the test 'No Description Provided' is added to the DB automatically to ensure basic accessibility is adhered to. 
 
+ <details>
+<summary>Add Image</summary>
+<img src="docs/features/add-image-tags.png">
+</details>
+
  The user can add multiple stages using the 'Add Stage' Button testing shows their to be no upper limit to the number of stages available, allowing for some very complex recipes to be created. 
 
  The remove button will only remove stages from the second stage onwards and as such is disabled until its needed. Until the recipe is saved anything that is entered into a stage that the user deletes is lost since this is not written to the DB until the recipe is added using the Add recipe button. 
 
  <details>
-<summary>Add Recipe Page</summary>
-<img src="docs/features/addrecipepage-desktop.png">
-<img src="docs/features/addrecipepage-mobile.png">
+<summary>Add/Remove Stage buttons</summary>
+<img src="docs/features/add-remove-deactivated.png">
+<img src="docs/features/add-remove-activated.png">
 </details>
 
 
@@ -572,6 +610,11 @@ Icons were provided by Font Awesome and were used for a few different features o
 <summary>Add Recipe Page</summary>
 <img src="docs/features/editrecipepage-desktop.png">
 <img src="docs/features/editrecipepage-mobile.png">
+</details>
+
+ <details>
+<summary>Add Recipe Page</summary>
+<img src="docs/features/edit-recipe-image.png">
 </details>
 
 
