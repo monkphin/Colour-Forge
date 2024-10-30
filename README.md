@@ -471,6 +471,12 @@ Icons were provided by Font Awesome and were used for a few different features o
  ## Account
  This page allows the user to modify and change their account, initially this is limited to just changing their email, password and deleting their account. Any change made will require their password to ensure that the changes are not made in error or are not able to be made by someone else using the users device without supervision. The delete button features a modal to notify the user they are about to delete their account - this is to add another layer of protection to prevent finger slips or other possible accidents, once the user confirms they wish to delete their account on the modal the account is deleted. 
 
+ <details>
+<summary>User Deletion Modals</summary>
+<img src="docs/features/admin-delete-modal.png">
+<img src="docs/features/user-delete-modal.png">
+</details>
+
  Any changes the user makes to their account with this screen will flash a message to advise the user of the change. In addition an email which can send both HTML and plaintext messages to advise of the change and provide a layer of confirmation as well as a layer of security, since the user will always be aware of changes to their account even if someone else changes it, this includes changes to emails, since both the old and new address are sent the same email to ensure the user is updated. 
 
  The flash function is also used to advise the user of any errors in modifying their account, such as password mismatches, using their existing password as a new password and so on. 
@@ -520,6 +526,12 @@ Icons were provided by Font Awesome and were used for a few different features o
 <img src="docs/features/recipeadmin-mobile.png">
 </details>
 
+ <details>
+<summary>Recipe Admin</summary>
+<img src="docs/features/admin-recipe-edit.png">
+<img src="docs/features/admin-recipe-delete.png">
+</details>
+
  ## Recipe Page
  One of the core functions of the site is its recipe pages, these are where the users can read and look at the recipes they or other users create. These are able to be viewed by none logged in, none registered users also, allowing recipes to be freely shared with the wider internet, since hobbyists are often more than happy to share painting methods and approaches to how to achieve specific results. The recipe pages are accessed by clicking on the image on each recipes card and have several Materialize features such as Chips, Modals and Collapsibles. 
 
@@ -552,7 +564,7 @@ Icons were provided by Font Awesome and were used for a few different features o
 
 <details>
 <summary>Materialize Chips</summary>
-<img src="docs/features/open-image--modal.png">
+<img src="docs/features/open-image-modal.png">
 </details>
 
  The bottom of the page features a back button, which takes the user to the page they came to the recipe from, an edit button allowing the user to edit the recipe and a delete button. The edit and delete buttons are only visible to the recipe owner and site admins. The delete button will pop a modal to warn a user before they're able to delete the recipe. If an admin uses either the edit or delete buttons and the recipe is not theirs, the modal will highlight that user belongs to another user and requires the admins password before they can proceed. Both these modals offer a layer of protection against accidental deletion by both users and admins. 
@@ -587,7 +599,7 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  <details>
 <summary>Add Image</summary>
-<img src="docs/features/add-image-tags.png">
+<img src="docs/features/add-image.png">
 </details>
 
  The user can add multiple stages using the 'Add Stage' Button testing shows their to be no upper limit to the number of stages available, allowing for some very complex recipes to be created. 
