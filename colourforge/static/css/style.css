@@ -321,6 +321,12 @@ nav ul a:active {
    Recipe Card Styles
    ============================================================= */
 
+/* Add padding to the card at the top of the recipe page */ 
+.top-recipe-card {
+	padding-left: 10px;
+	padding-right: 10px;
+}
+
 /* Add recipe/paint titles */
 .card-content .card-title.add-cards {
 	font-size: 1.5em;
