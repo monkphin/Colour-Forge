@@ -153,12 +153,12 @@ The home page currently shows either a login page or a specific landing page, wh
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-homepage.png">
+<img src="docs/wireframes/mobile-homepage.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-homepage.png">
+<img src="docs/wireframes/desktop-homepage.png">
 </details>
 <br>
 
@@ -168,7 +168,7 @@ The side menu is specific to the mobile experience and will show either login/re
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-menu.png">
+<img src="docs/wireframes/mobile-menu.png">
 </details>
 <br>
 
@@ -178,12 +178,12 @@ The registration page is accessible both from the home page and the sidebar when
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-registration.png">
+<img src="docs/wireframes/mobile-registration.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-registration.png">
+<img src="docs/wireframes/desktop-registration.png">
 </details>
 <br>
 
@@ -193,12 +193,12 @@ The profile page will allow the user to manage their profile as needed, requesti
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-user-profile.png">
+<img src="docs/wireframes/mobile-user-profile.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-user-profile.png">
+<img src="docs/wireframes/desktop-user-profile.png">
 </details>
 <br>
 
@@ -210,13 +210,13 @@ The alternative to the list to show the user their library or recipes was to use
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-lists.png">
-<img src="docs/mobile-cards.png">
+<img src="docs/wireframes/mobile-lists.png">
+<img src="docs/wireframes/mobile-cards.png">
 </details>
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-lists.png">
-<img src="docs/desktop-cards.png">
+<img src="docs/wireframes/desktop-lists.png">
+<img src="docs/wireframes/desktop-cards.png">
 </details>
 <br>
 
@@ -234,18 +234,18 @@ In both cases, I opted for single pages, rather than modals, this gave the conte
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-paint-library-pages.png">
-<img src="docs/mobile-paint-library-modal.png">
-<img src="docs/mobile-recipe-pages.png">
-<img src="docs/mobile-recipe-modal.png">
+<img src="docs/wireframes/mobile-paint-library-pages.png">
+<img src="docs/wireframes/mobile-paint-library-modal.png">
+<img src="docs/wireframes/mobile-recipe-pages.png">
+<img src="docs/wireframes/mobile-recipe-modal.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-paint-library-pages.png">
-<img src="docs/desktop-paint-library-modal.png">
-<img src="docs/desktop-recipe-pages.png">
-<img src="docs/desktop-recipe-modal.png">
+<img src="docs/wireframes/desktop-paint-library-pages.png">
+<img src="docs/wireframes/desktop-paint-library-modal.png">
+<img src="docs/wireframes/desktop-recipe-pages.png">
+<img src="docs/wireframes/desktop-recipe-modal.png">
 </details>
 <br>
 
@@ -257,24 +257,12 @@ In addition, I also added a custom 500, which was styled in much the same way.
 
 <details>
 <summary>Mobile</summary>
-<img src="docs/mobile-404.png">
+<img src="docs/wireframes/mobile-404.png">
 </details>
 
 <details>
 <summary>Desktop</summary>
-<img src="docs/desktop-404.png">
-</details>
-<br>
-
-
-<details>
-<summary>Mobile</summary>
-<img src="docs/mobile-404.png">
-</details>
-
-<details>
-<summary>Desktop</summary>
-<img src="docs/desktop-404.png">
+<img src="docs/wireframes/desktop-404.png">
 </details>
 <br>
 
