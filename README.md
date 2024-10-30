@@ -741,7 +741,9 @@ Tags were a challenge to get to work correctly due to not only the need for the 
 
 Refactoring and DRY 
 
-While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. 
+While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. More refactoring work will be needed, since the core focus of this was on the routes file, the auth and admin files were added later and the routes contained within them were relatively small, so were not a priority for refactoring. 
+
+In some cases, I am aware of instances where I may be repeating code in the Helpers file, from skimming I've spotted that I'm performing image uploads as part of a specific function, rather than handing this off to the function that is in place to upload images, this is something that will be addressed going forwards as time allows. 
 
 Cloudinary Deletion
 
@@ -797,6 +799,24 @@ Jinja for loop after the fix:<br>
 
 # Unresolved Issues
 Something I neglected to realise early on is that the free version of Cloudinary has a max file size for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. 
+
+The site has a couple of minor graphical issues that I have noticed but can't quite pin down. 
+ - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
+
+ <details>
+<summary>404 Page</summary>
+<img src="docs/bugs/searchbox-bug.png">
+</details>
+
+Additionally I have noticed an issue with the admin menu drop down on the nav bar. This is set to fit the contents, yet seems to insist on word wrapping when the Recipe Admin option is selected. 
+
+<details>
+<summary>404 Page</summary>
+<img src="docs/bugs/user-admin.png">
+<img src="docs/bugs/recipe-admin-bug.png">
+</details>
+
+
 
 # Security and best Practices
 User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worth while. 
