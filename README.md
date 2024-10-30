@@ -233,7 +233,7 @@ Much like with the paint library, I thought it would be worthwhile to mock up a 
 
 I also tested what the recipe pages could look like containing the same data in a modal, which again may be more aesthetically pleasing but has other considerations which make it less ideal, including less space to work with, possible complexity of code, etc.
 
-In both cases, I opted for single pages, rather than modals, this gave the content more room to breath on smaller screens and allowed the use of modal popups to show larger images for each recipe stage, as well as have a button to take the user directly to the full resolution version of the image in a new tab. 
+In both cases, I opted for single pages, rather than modals, this gave the content more room to breath on smaller screens and allowed the use of modal pop ups to show larger images for each recipe stage, as well as have a button to take the user directly to the full resolution version of the image in a new tab. 
 
 <details>
 <summary>Mobile</summary>
@@ -274,7 +274,8 @@ Feature Creep
 Due to feature creep, I added in a few additional pages that were thought to be beyond scope, or not factored into the initial planning, such as the admin pages or the contact page. In cases where this occurred I was able to fall back on existing wireframes and choices made around them to quickly get them looking like they were a cohesive part of the website without adding too much additional overhead or work, or needing to really mock up anything via new wireframes for them. 
 
 ## Schema
-Initially I had a few ideas for this, but didn't fully take into account how the data would need to be handled within the database to ensure it was easily modifiable and manipulatable, as well as supporting the one-to-many and many-to-many relationships that I was going to need to take advantage of for the data being used. 
+I knew from the start that this would likely benefit more from a relational database, so choosing to use PostGresQL was a near automatic choice. 
+Initially I had a few ideas for this, but didn't fully take into account how the data would need to be handled within the database to ensure it was easily modifiable and manipulatable, as well as supporting the one-to-many and many-to-many relationships that I was going to need to take advantage of for the data being used.
 
 These early attempts can be seen in the two below screenshots. 
 
@@ -390,6 +391,13 @@ Icons were provided by Font Awesome and were used for a few different features o
  All the below features have been designed with mobile first in mind and are fully responsive using a mix of custom CSS and the materialize grid system to enable the site to adjust and adapt to varying screen resolutions and device sizes. 
 
  ## Navbar
+
+<details>
+<summary>Navbar</summary>
+<img src="docs/features/navbar.png">
+<img src="docs/features/mobile-nav.png">
+</details>
+
  The navbar is designed to be relatively simple to use and adapt to both mobile and desktop formats, with the navbar switching to a sliding in based format on smaller screens. It adapts the links and options that are visible to a user based on if they're logged in or not. This allows new users to not be too overwhelmed by options when they first access the site and be able to look around a little before deciding to join. 
 
  - The name of the site, which also functions as a link to the home page. 
@@ -407,20 +415,58 @@ Icons were provided by Font Awesome and were used for a few different features o
   ### Logged Out View
   The home page is, in most cases going to be the first page a user sees. If the user has not not signed in or is not registered they're shown a carousel which allows them to see a small selection of the sites users paint recipes, this can help to show a new user some of what the site has to offer to them. The logged out view also includes a login and register button so they're kept in the eyeline of the user as they're looking over the main content, without them needing to look for the options in the menu bar. 
 
+  <details>
+  <summary>Home Page Logged out</summary>
+  <img src="docs/features/homepage-desktop.png">
+  <img src="docs/features/homepage-mobile.png">
+  </details>
+
   ### Logged In View
   When the user has logged in the homepage adjusts what it shows, this time showing them a set of cards - the two topmost both advertise the ability to add paints to their library or to create paint recipes, ensuring these are both quickly accessible. In addition the page will also display all the paint recipes that the sites user base has added, effectively creating a limited social function. This allows any registered user to be able to see other users paint recipes, something which can be quite useful when looking for inspiration and ideas or when trying to work out how to create a specific effect on a miniature. This list is paginated so will show 6 recipes per page. 
+
+  <details>
+  <summary>Home Page Logged In</summary>
+  <img src="docs/features/homepage-loggedin-desktop.png">
+  <img src="docs/features/homepage-loggedin-mobile.png">
+  </details>
 
  ## About Page
  The about page offers a new visitor information about the core function and features of the site, giving them reasons why they as a miniature painter may want to sign up and use the service. It advertises the fact that any recipes they create can be shared freely and be seen by anyone as well as suggesting some scenarios where the site could offer some useful functionality. 
 
+<details>
+<summary>About Page Logged out</summary>
+<img src="docs/features/about-desktop.png">
+<img src="docs/features/about-mobile.png">
+</details>
+
  ## Login and Registration Pages
  These pages are somewhat self explanatory, offering a user a way to register an account and sign in to an account if they have one. On registration the user will be automatically logged in, since a personal bug bear of mine is signing up for something to then have to log in to use the site. Similarly the login screen will take both usernames and email addresses, since I personally hate trying to login to a website with a username, only to find that it requires my email and vice versa. 
+
+<details>
+<summary>Login and Register Pages</summary>
+<img src="docs/features/login-desktop.png">
+<img src="docs/features/login-mobile.png">
+<img src="docs/features/register-desktop.png">
+<img src="docs/features/register-mobile.png">
+</details>
 
  ## Contact Page
  The contact page is a simple contact form, which is partly protected by Googles ReCaptcha service via front end based protections. (I struggled to get the backend protections working correctly) to try to mitigate some of the spam I was getting once I put this online. It offers a simple way for a user to contact the site admin to ask any questions they may have as well as ask for support in situations where they may be locked out of their account for some reason. As such this is visible to both logged in and logged out users. 
 
+<details>
+<summary>Contact Page</summary>
+<img src="docs/features/contact-desktop.png">
+<img src="docs/features/contact-mobile.png">
+</details>
+
  ## My Recipes
  This page is available once the user has registered for an account and is logged in. Much like the logged in view of the home page, it presents the user with a set of cards. Specifically an option to add a new recipe at the top of the page with a paginated view of the users own recipes below this. Much like the home page this will show 6 recipes per page before the user needs to move to the next one via pagination. 
+
+<details>
+<summary>My Recipes Page</summary>
+<img src="docs/features/myrecipes-desktop.png">
+<img src="docs/features/myrecipes-mobile.png">
+</details>
 
  ## Account
  This page allows the user to modify and change their account, initially this is limited to just changing their email, password and deleting their account. Any change made will require their password to ensure that the changes are not made in error or are not able to be made by someone else using the users device without supervision. The delete button features a modal to notify the user they are about to delete their account - this is to add another layer of protection to prevent finger slips or other possible accidents, once the user confirms they wish to delete their account on the modal the account is deleted. 
@@ -429,11 +475,29 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  The flash function is also used to advise the user of any errors in modifying their account, such as password mismatches, using their existing password as a new password and so on. 
 
+<details>
+<summary>Account Page</summary>
+<img src="docs/features/account-desktop.png">
+<img src="docs/features/account-mobile.png">
+</details>
+
  ## Search
  The final option available to registered users on the nav bar not covered so far is the search box. This uses a dropdown box to minimise the amount of space it takes up on the navbar. This allows users to search for any recipe tags that may have been applied, displaying the results on a page much like the users My Recipes page or the Home Page, presenting the user with a list of paginated cards based on the search results. It also uses the search query as the title of the page to remind the user what they searched for. This gives the user a quick qay of searching for recipes that may be useful for the project they're working on. Though its predicated on good tag usage by all users across the site. 
 
+ <details>
+<summary>Search</summary>
+<img src="docs/features/search-mobile.png">
+<img src="docs/features/search-desktop.png">
+
+</details>
+
  ## Admin Panels
  This is only visible to users who have the 'is_admin' boolean on the users table set to true, allowing them to administer the sites users and the site users recipes. 
+
+ <details>
+<summary>Admin Drop Down</summary>
+<img src="docs/features/adminmenu.png">
+</details>
 
   ### User Admin
   This presents a list of all site users as well as a search function where the admin can search for a user by username. 
@@ -441,8 +505,20 @@ Icons were provided by Font Awesome and were used for a few different features o
 
   Much like with the Account page feedback is provided to the admin via the medium of flashed messages, these trigger both on successful and unsuccessful actions - with messages covering scenarios like incorrect passwords, passwords matching the admins password and so on. Additionally any changes the admin makes to a users account will generate an email to that user to update them as to the current situation on their account, this provides a layer of reassurance to users that admins have carried out an action if one was requested. It also ensures that admins cannot take malicious action against an account without the users being aware. 
 
+ <details>
+<summary>User Admin</summary>
+<img src="docs/features/useradmin-desktop.png">
+<img src="docs/features/useradmin-mobile.png">
+</details>
+
   ### Recipe Admin
   The Recipe Admin section presents a list of all the recipes on the site and much like the User Admin page also has a search box allowing the admin to search by recipe name. This again falls back on using the same, familiar card view that is prevalent throughout the website and allows the admin another method of accessing and administering users recipes. While no action can be taken directly in this page it gives the admin a quick way to search for a users recipes to investigate and correct issues that may have been raised to them. 
+
+ <details>
+<summary>Recipe Admin</summary>
+<img src="docs/features/recipeadmin-desktop.png">
+<img src="docs/features/recipeadmin-mobile.png">
+</details>
 
  ## Recipe Page
  One of the core functions of the site is its recipe pages, these are where the users can read and look at the recipes they or other users create. These are able to be viewed by none logged in, none registered users also, allowing recipes to be freely shared with the wider internet, since hobbyists are often more than happy to share painting methods and approaches to how to achieve specific results. The recipe pages are accessed by clicking on the image on each recipes card and have several Materialize features such as Chips, Modals and Collapsibles. 
@@ -459,6 +535,12 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  The bottom of the page features a back button, which takes the user to the page they came to the recipe from, an edit button allowing the user to edit the recipe and a delete button. The edit and delete buttons are only visible to the recipe owner and site admins. The delete button will pop a modal to warn a user before they're able to delete the recipe. If an admin uses either the edit or delete buttons and the recipe is not theirs, the modal will highlight that user belongs to another user and requires the admins password before they can proceed. Both these modals offer a layer of protection against accidental deletion by both users and admins. 
 
+ <details>
+<summary>Recipe Page</summary>
+<img src="docs/features/recipepage-desktop.png">
+<img src="docs/features/recipepage-mobile.png">
+</details>
+
  ## Add Recipe Page. 
  The add recipe page features a fairly simple form, allowing the user to create a new recipe. It has several required fields including the Recipe Name, the Recipe Description and the Stage Instructions. On first load the user is presented with 6 fields in total, the title, tags and description; and the fields required to add a stage, consisting of the first stages instructions, the stage one image and the image description. In addition there are a few buttons present - Add Image, Add Stage, Remove Stage and Add Recipe. 
 
@@ -474,18 +556,41 @@ Icons were provided by Font Awesome and were used for a few different features o
 
  The remove button will only remove stages from the second stage onwards and as such is disabled until its needed. Until the recipe is saved anything that is entered into a stage that the user deletes is lost since this is not written to the DB until the recipe is added using the Add recipe button. 
 
+ <details>
+<summary>Add Recipe Page</summary>
+<img src="docs/features/addrecipepage-desktop.png">
+<img src="docs/features/addrecipepage-mobile.png">
+</details>
+
+
  ## Edit Recipe. 
  Much like the Add Recipe page this consists predominantly of form fields, so rather than recover the core fields I'll cover the differences. 
 
  Since we're editing an existing recipe the app will show any and all existing entries in their respective fields, allowing the user to see each fields text as needed to make adjusting and editing easier. The other obvious difference is the fact that any images attached to the recipe, including the default placeholder image are also rendered. This is in place of the Add Image/Add Description combination seen on the Add Recipe page, their is also a delete image button, which will hide the image from view and instead show the button and fields from the add recipe page, allowing the user to add a new image. Their is also an added cancel button in case the user changes their mind about replacing the image which simply hides the fields and unhides the previously hidden image. 
 
+ <details>
+<summary>Add Recipe Page</summary>
+<img src="docs/features/editrecipepage-desktop.png">
+<img src="docs/features/editrecipepage-mobile.png">
+</details>
+
+
  ## 404/500/Unauthorised Access. 
  There are 404 and 500 error handlers that present a friendly page to the user when issues occur that trigger these. These are designed to fit the common appearance of the rest of the site, with a fairly minimal look featuring the sites mascot/logo and a simple button to get the user back to the home page. In addition all user only or admin only routes have protections in place that will redirect the user to either the login page if they're not logged in, or to the home page if they try to access the admin panels but do not have the required level of access.  
-
+ 
+<details>
+<summary>404 Page</summary>
+<img src="docs/features/404page.png">
+</details>
 
  ## Footer
  The footer provides a few links to the various socials that will belong to the site. These are all currently dummy links which take you to the relevant websites homepage. 
 
+<details>
+<summary>Footer</summary>
+<img src="docs/features/footer-desktop.png">
+<img src="docs/features/footer-mobile.png">
+</details>
 
  ## Flash Messages 
  Part of good design is ensuring the user is aware of the actions they take via visual feedback, be it direct feedback such as updating a page, or indirect such as flashing a message. 
@@ -644,45 +749,42 @@ Modals have been implemented to add a layer of protection where deletion of acco
 
 ## Frameworks and Programs
 
-- [ERD DB Designer](https://erd.dbdesigner.net/)
+ ### Languages
+ - [HTML] - used to create the frontend of the website.
+ - [CSS] - Used to style the website. 
+ - [Javascript] - Used for front end interactions and adjustments. 
+ - [Python] - The backend programming language. 
 
-  - Used to help with ERD diagrams and understanding the DB relationships
+ ### Version Control and Deployment. 
+ - [Github] - Used to store the websites codebase in a repo. 
+ - [Git] - A CLI based tool used for version control and uploading to Github. 
+ - [Heroku] - Hosting the final deployed version of the website. 
+ - [GitHub] Projects - used to help plan and manage my project. 
 
-- [Balsamiq](https://balsamiq.com/)
+ ### Frameworks 
+ - [Materialize] - a Front end library used to provide some templating and layout, as well as some Javascript powered features such as modals, carousels and so on. 
+ - [Flask] - The python framework that powers the site. 
+ - [Awesomeplete] - Used to provide auto complete functions for Tags
 
-  - Wire-framing program.
+ ### Database
+ - [PostGresQL] - A relational database used to store the data for the site. 
 
-- [VSCode](https://code.visualstudio.com/)
+ ### Conding Environment 
+ - [VSCode] - My IDE of choice. 
 
-  - IDE of choice.  
-
-- [Git](https://github.com/)
-
-  - Used for version control, storage and deployment.  
-
-- [Djecrety](https://djecrety.ir/)
-
- - Used to generate secret Key
-
- - [Cloudinary](https://cloudinary.com/users/login)
-
- - Used to host image files
-
-- [Heroku](https://heroku.com)
-
- - Used to host the site. 
-
-- [Cloudflare](https://cloudfalre.com)
-
- - Used for DNS and caching to aid performance. 
-
-- [OVH](https://ovh.com)
-
- - Used to provide the domain name. 
-
-- [Google](https://google.com)
-
- - Used to provide the contact form Captcha and Mail services. 
+ ### Other Tools and Utilities
+ - [ERD DB Designer](https://erd.dbdesigner.net/) - Used to help with ERD diagrams and understanding the DB relationships
+ - [Balsamiq](https://balsamiq.com/) - Wire-framing program.
+ - [Djecrety](https://djecrety.ir/) - Used to generate secret Key.
+ - [Cloudinary](https://cloudinary.com/users/login) - Used to host image files
+ - [Cloudflare](https://cloudfalre.com) - Used for DNS and caching to aid performance. 
+ - [OVH](https://ovh.com) - Used to provide the domain name. 
+ - [Google](https://google.com) - Used to provide the contact form Captcha and Mail services. 
+ - [Chrome Dev Tools]() - Used to help analyse performance, responsiveness and tweak CSS in a live situation to ensure accurate adjustements. 
+ - [WAVE]() - Used for accessibility testing
+ - [Google Fonts]() - Used to import fonts to the style sheet. 
+ - [Techsini]() - Mockup generator
+ - [Favicon.io]() - Used to generate Favicons. 
 
 
 # Testing and Validation
