@@ -676,7 +676,7 @@ While I suspect this may be rarely used, as a user refines their recipe it may b
 I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. MOre info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
 
 - Project progress tracking. 
-One of the bigger challenges as a miniature painter is to keep track of your projects, how many minis need painting, how many are painted, where they're upto in the process and so on. Something that would be super useful is the ability to create and track paint projects, this could even log number of minis painted per year, allowing users to set goals and milestones. 
+One of the bigger challenges as a miniature painter is to keep track of your projects, how many minis need painting, how many are painted, where they're up to in the process and so on. Something that would be super useful is the ability to create and track paint projects, this could even log number of minis painted per year, allowing users to set goals and milestones. 
 
 # Bugs, Issues and challenges 
 
@@ -710,31 +710,38 @@ While falling back to rendering a placeholder file locally is fine, I couldn't q
 Stage Ordering Issues. 
 
 Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+
 
 This was the recipe before editing. 
- stage_id | recipe_id | stage_num | instructions | is_final_stage 
-----------+-----------+-----------+--------------+----------------
-      135 |        53 |         1 | Testing 1    | f
-      136 |        53 |         2 | Testing 2    | f
-      137 |        53 |         3 | Testing 3    | t
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+| stage_id | recipe_id | stage_num | instructions | is_final_stage 
+| -------- | --------- | --------- | ------------ | --------------- |
+|      135 |        53 |         1 | Testing 1    | f               |
+|      136 |        53 |         2 | Testing 2    | f               |
+|      137 |        53 |         3 | Testing 3    | t               |
 (3 rows)
 
 This was it after
 open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
- stage_id | recipe_id | stage_num |           instructions           | is_final_stage 
-----------+-----------+-----------+----------------------------------+----------------
-      136 |        53 |         2 | Testing 2                        | f
-      135 |        53 |         1 | Testing 1\r                     +| f
-          |           |           | \r                              +| 
-          |           |           | this should move to stage 2 or 3 | 
-      137 |        53 |         3 | Testing 3                        | t
+| stage_id | recipe_id | stage_num |           instructions           | is_final_stage |
+| -------- | --------- | --------- | -------------------------------- |--------------- |
+|      136 |        53 |         2 | Testing 2                        | f              |
+|      135 |        53 |         1 | Testing 1\r                      | f              |
+|          |           |           | \r                               |                |
+|          |           |           | this should move to stage 2 or 3 |                |
+|      137 |        53 |         3 | Testing 3                        | t              |
 (3 rows)
 
 A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/when I resolve the under lying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
 
-Jinja for loop before the fix       {% for stage in recipe.stages %}
-Jinja for loop after the fix        {% for stage in recipe.stages|sort(attribute='stage_num') %}
+Jinja for loop before the fix:<br>
+{% for stage in recipe.stages %}<br>
+Jinja for loop after the fix:<br>
+{% for stage in recipe.stages|sort(attribute='stage_num') %}
+
+
+# Unresolved Issues
+Something I neglected to realise early on is that the free version of Cloudinary has a max file size for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. 
 
 # Security and best Practices
 User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worth while. 
@@ -750,27 +757,27 @@ Modals have been implemented to add a layer of protection where deletion of acco
 ## Frameworks and Programs
 
  ### Languages
- - [HTML] - used to create the frontend of the website.
- - [CSS] - Used to style the website. 
- - [Javascript] - Used for front end interactions and adjustments. 
- - [Python] - The backend programming language. 
+ - [HTML](https://www.w3schools.com/html/) - used to create the frontend of the website.
+ - [CSS](https://developer.mozilla.org/en-US/docs/Web/CSS) - Used to style the website. 
+ - [Javascript](https://developer.mozilla.org/en-US/docs/Web/javascript) - Used for front end interactions and adjustments. 
+ - [Python](https://www.python.org/) - The backend programming language. 
 
  ### Version Control and Deployment. 
- - [Github] - Used to store the websites codebase in a repo. 
- - [Git] - A CLI based tool used for version control and uploading to Github. 
- - [Heroku] - Hosting the final deployed version of the website. 
- - [GitHub] Projects - used to help plan and manage my project. 
+ - [Github](https://github.com/) - Used to store the websites codebase in a repo. 
+ - [Git](https://git-scm.com/) - A CLI based tool used for version control and uploading to Github. 
+ - [Heroku](https://www.heroku.com/) - Hosting the final deployed version of the website. 
+ - [GitHub Projects](https://github.com/) - used to help plan and manage my project. 
 
  ### Frameworks 
- - [Materialize] - a Front end library used to provide some templating and layout, as well as some Javascript powered features such as modals, carousels and so on. 
- - [Flask] - The python framework that powers the site. 
- - [Awesomeplete] - Used to provide auto complete functions for Tags
+ - [Materialize](https://materializecss.com/) - a Front end library used to provide some templating and layout, as well as some Javascript powered features such as modals, carousels and so on. 
+ - [Flask](https://flask.palletsprojects.com/) - The python framework that powers the site. 
+ - [Awesomeplete](https://projects.verou.me/awesomplete/) - Used to provide auto complete functions for Tags
 
  ### Database
- - [PostGresQL] - A relational database used to store the data for the site. 
+ - [PostGresQL](https://www.postgresql.org/) - A relational database used to store the data for the site. 
 
- ### Conding Environment 
- - [VSCode] - My IDE of choice. 
+ ### Coding Environment 
+ - [VSCode](https://code.visualstudio.com/) - My IDE of choice. 
 
  ### Other Tools and Utilities
  - [ERD DB Designer](https://erd.dbdesigner.net/) - Used to help with ERD diagrams and understanding the DB relationships
@@ -780,11 +787,11 @@ Modals have been implemented to add a layer of protection where deletion of acco
  - [Cloudflare](https://cloudfalre.com) - Used for DNS and caching to aid performance. 
  - [OVH](https://ovh.com) - Used to provide the domain name. 
  - [Google](https://google.com) - Used to provide the contact form Captcha and Mail services. 
- - [Chrome Dev Tools]() - Used to help analyse performance, responsiveness and tweak CSS in a live situation to ensure accurate adjustements. 
- - [WAVE]() - Used for accessibility testing
- - [Google Fonts]() - Used to import fonts to the style sheet. 
- - [Techsini]() - Mockup generator
- - [Favicon.io]() - Used to generate Favicons. 
+ - [Chrome Dev Tools]() - Used to help analyse performance, responsiveness and tweak CSS in a live situation to ensure accurate adjustments. 
+ - [WAVE](https://wave.webaim.org/) - Used for accessibility testing
+ - [Google Fonts](https://fonts.google.com/) - Used to import fonts to the style sheet. 
+ - [Techsini](https://techsini.com/) - Mockup generator
+ - [Favicon.io](https://favicon.io/favicon-converter/) - Used to generate Favicons. 
 
 
 # Testing and Validation
@@ -794,9 +801,10 @@ Testing is covered in the following document: [Testing And Validation](TESTING.m
 # Version control and Deployment
 
 # Credits
+https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main
+[this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
 
-
+# Media
 Placeholder image for Recipes from [minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)
 Placeholder image for Paint Library from [GettyImages](https://www.gettyimages.co.uk/)
 Rummy Nate (Site Logo) kindly donated by [Adam Nicol](https://adnicol.weebly.com/#/)  
-
