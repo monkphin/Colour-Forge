@@ -159,16 +159,4 @@
   </form>
 </div>
 
-<!-- Modal Structure -->
-<div id="modal1-{{ user.id }}" class="modal">
-  <div class="modal-content">
-    <h4>Confirm Account Deletion!</h4>
-    <p>Are you sure you want to delete your account?</p>
-  </div>
-  <div class="modal-footer">
-    <button class="modal-close btn green" type="button">Cancel</button>
-    <button type="submit" class="btn red" form="delete-account-form-{{ user.id }}">Delete</button>
-  </div>
-</div>
-
 {% endblock %}

@@ -1,13 +1,13 @@
 {% extends "base.html" %}
 {% block title %}Home{% endblock %}
 {% block content %}
-<h1 class="center-align">Login</h1>
-<div class="image-container">
-  <img
-    class="site_logo"
-    src="{{ url_for('static', filename='images/colour-logo-small.webp') }}"
-    alt="Site Logo" >
-</div>
+  <h1 class="center-align">Login</h1>
+  <div class="image-container">
+    <img
+      class="site_logo"
+      src="{{ url_for('static', filename='images/colour-logo-small.webp') }}"
+      alt="Site Logo" >
+  </div>
   <div class="row">
     <form class="col s12 l6 offset-l3" id="loginForm" method="POST" action="{{ url_for('auth.login') }}">
       <div class="row">
@@ -58,9 +58,7 @@
           </div>
         </div>
       </div>
-    </div>
-  </form>
-</div>
-
+    </form>
+  </div>
 
 {% endblock %}

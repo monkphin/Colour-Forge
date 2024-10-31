@@ -61,22 +61,10 @@
                     <div class="modal-footer center-align">
                       {% if stage.recipe_images %}
                         {% for image in stage.recipe_images %}
-                        <a href="{{ image.image_url }}" target="_blank" aria-label="View Full Image" rel="noopener">
-                          <button
-                            class="btn blue darken-4"
-                            type="button">
-                            View Full Image
-                          </button>
-                        </a>
+                        <a href="{{ image.image_url }}" target="_blank" aria-label="View Full Image" class="btn blue darken-4" rel="noopener">View Full Image</a>
                         {% endfor %}
                       {% else %}
-                      <a href="{{ url_for('static', filename='images/placeholder-mid.webp') }}" target="_blank" aria-label="View Full Image" rel="noopener">
-                        <button
-                          class="btn blue darken-4"
-                          type="button">
-                          View Full Image
-                        </button>
-                      </a>
+                      <a href="{{ url_for('static', filename='images/placeholder-mid.webp') }}" target="_blank" aria-label="View Full Image" class="btn blue darken-4" rel="noopener">View Full Image</a>
                       {% endif %}
                         <button
                         class="btn green darken-4 modal-close waves-effect waves-green"
@@ -162,22 +150,10 @@
                 <div class="modal-footer">
                   {% if stage.recipe_images %}
                     {% for image in stage.recipe_images %}
-                      <a href="{{ image.image_url }}" target="_blank" aria-label="View Full Image" rel="noopener">
-                        <button
-                          class="btn blue darken-4"
-                          type="button">
-                          View Full Image
-                        </button>
-                      </a>
+                      <a href="{{ image.image_url }}" target="_blank" aria-label="View Full Image" class="btn blue darken-4" rel="noopener">View Full Image</a>
                     {% endfor %}
                   {% else %}
-                    <a href="{{ url_for('static', filename='images/placeholder-mid.webp') }}" target="_blank" aria-label="View Full Image" rel="noopener">
-                      <button
-                        class="btn blue darken-4"
-                        type="button">
-                        View Full Image
-                      </button>
-                    </a>
+                    <a href="{{ url_for('static', filename='images/placeholder-mid.webp') }}" target="_blank" aria-label="View Full Image" class="btn blue darken-4" rel="noopener">View Full Image</a>
                   {% endif %}
                     <button
                     class="btn green darken-4 modal-close waves-effect waves-green"
@@ -333,5 +309,6 @@
         </div>
       </div>
     {% endif %}
-
+  </div>
+</div> 
 {% endblock %}

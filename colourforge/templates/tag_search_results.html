@@ -9,91 +9,92 @@
         <h3>Search Results for "{{ search }}"</h3>
       </div>
 
-    <div class="row">
-      {% for recipe in recipes %}
-        {% if recipes|length > 1 %}
-        <div class="row-height">
-          <div class="col s12 m6 l4 recipe-cards">
-            <div class="card center-align">
-              <div class="card-image waves-effect waves-block waves-light">
-                {% for stage in recipe.stages %}
-                  {% if stage.is_final_stage %}
-                    {% if stage.recipe_images %}
-                      <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                        <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
-                      </a>
-                    {% else %}
-                      <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <div class="card-content">
-              <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
-                <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
-                <p>
-                  <span class="activator card-title">
-                    <i class="fas fa-caret-up"> Recipe Description</i>
-                  </span>
-                </p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title">
-                  <i class="fas fa-caret-down"> Close</i>
-                </span>
-                <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
-              </div>
-            </div>
-          </div> 
-        </div>
-        {% else %}
-      <!-- Single search results should return a full-width card for better visuals -->
       <div class="row">
-        <div class="row-height">
-          <div class="col s12 m6 offset-m3 recipe-cards">
-            <div class="card center-align">
-              <div class="card-image waves-effect waves-block waves-light">
-                {% for stage in recipe.stages %}
-                  {% if stage.is_final_stage %}
-                    {% if stage.recipe_images %}
-                      <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                        <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
-                      </a>
-                    {% else %}
-                      <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
-                    {% endif %}
-                  {% endif %}
-                {% endfor %}
-              </div>
-              <div class="card-content">
-              <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
-                <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
-                <p>
-                  <span class="activator card-title">
-                    <i class="fas fa-caret-up"> Recipe Description</i>
-                  </span>
-                </p>
-              </div>
-              <div class="card-reveal">
-                <span class="card-title">
-                  <i class="fas fa-caret-down"> Close</i>
-                </span>
-                <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+        {% for recipe in recipes %}
+          {% if recipes|length > 1 %}
+            <div class="row-height">
+              <div class="col s12 m6 l4 recipe-cards">
+                <div class="card center-align">
+                  <div class="card-image waves-effect waves-block waves-light">
+                    {% for stage in recipe.stages %}
+                      {% if stage.is_final_stage %}
+                        {% if stage.recipe_images %}
+                          <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                            <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
+                          </a>
+                        {% else %}
+                          <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
+                        {% endif %}
+                      {% endif %}
+                    {% endfor %}
+                  </div>
+                  <div class="card-content">
+                    <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                    <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
+                    <p>
+                      <span class="activator card-title">
+                        <i class="fas fa-caret-up"> Recipe Description</i>
+                      </span>
+                    </p>
+                  </div>
+                  <div class="card-reveal">
+                    <span class="card-title">
+                      <i class="fas fa-caret-down"> Close</i>
+                    </span>
+                    <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+                  </div>
+                </div>
+              </div> 
+            </div>
+          {% else %}
+            <!-- Single search result should return a full-width card for better visuals -->
+            <div class="row">
+              <div class="row-height">
+                <div class="col s12 m6 offset-m3 recipe-cards">
+                  <div class="card center-align">
+                    <div class="card-image waves-effect waves-block waves-light">
+                      {% for stage in recipe.stages %}
+                        {% if stage.is_final_stage %}
+                          {% if stage.recipe_images %}
+                            <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                              <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
+                            </a>
+                          {% else %}
+                            <img class="activator" src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image" >
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                    </div>
+                    <div class="card-content">
+                      <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                      <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
+                      <p>
+                        <span class="activator card-title">
+                          <i class="fas fa-caret-up"> Recipe Description</i>
+                        </span>
+                      </p>
+                    </div>
+                    <div class="card-reveal">
+                      <span class="card-title">
+                        <i class="fas fa-caret-down"> Close</i>
+                      </span>
+                      <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
-        {% endif %}
-      {% endfor %}
-    </div>
+          {% endif %}
+        {% endfor %}
+      </div> <!-- Closing row for recipe cards -->
+    </div> <!-- Closing row for recipes block -->
 
   {% else %}
-  <div class="row center-align">
-    <!-- Column for the Heading -->
-    <div class="col s12">
-      <h3>No results found for "{{ search }}"</h3>
-    </div>
-
+    <div class="row center-align">
+      <!-- Column for the Heading -->
+      <div class="col s12">
+        <h3>No results found for "{{ search }}"</h3>
+      </div>
 
       <!-- Column for the Search Form -->
       <div class="col s12">
@@ -124,7 +125,7 @@
           </div>
         </form>
       </div>
-    </div>
+    </div> 
   {% endif %}
 
 {% endblock %}
