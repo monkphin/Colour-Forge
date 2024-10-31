@@ -98,7 +98,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <details>
 <summary>basic functionality to write to the recipes table and add multiple stages to the recipes_stages table</summary>
 <img src="docs/add_recipe_test3.png">
-<br>
+
 Recipe Name: Testing adding 2 stages<br>
 Recipe Description: This is a test of 2 stages<br>
 3<br>
@@ -111,10 +111,11 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> select * from recipes;<br>
+
 | recipe_id |       recipe_name       |        recipe_desc         |
 | --------- | ----------------------- | -------------------------- |
 |      1    | Testing adding 2 stages | This is a test of 2 stages |
-(1 row)<br>
+(1 row)
 
 open_punch_bath_8981=> select * from recipe_stages;<br>
 | stage_id | recipe_id | stage_num |        instructions        | is_final_stage  |
@@ -179,18 +180,18 @@ open_punch_bath_8981=> select * from recipes;<br>
 | --------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
 |     1     | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.                                                                                                                    |
 |     2     | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image |
-(2 rows)<br>
-<br>
-open_punch_bath_8981=> select * from recipe_stages;<br>
-| stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage |
-| -------- | --------- | --------- | --------------------------------------------------------- | -------------- | 
-|    1     |     1     |     1     | This is stage 1 of the third test                         | t              | 
-|    2     |     1     |     2     | This is stage 2 of the third test                         | t              |
-|    3     |     1     |     3     | This is stage 3 of the third test                         | t              |
-|    4     |     2     |     1     | This stage 1 of the test of the adjusted Boolean handling | f              |
-|    5     |     2     |     2     | This stage 2 of the test of the adjusted Boolean handling | f              |
-|    6     |     2     |     3     | This stage 3 of the test of the adjusted Boolean handling | f              |
-|    7     |     2     |     4     | This stage 4 of the test of the adjusted Boolean handling | f              |
+(2 rows)
+
+| stage_id | recipe_id | stage_num | instructions                                     | is_final_stage |
+|----------|-----------|-----------|--------------------------------------------------|----------------|
+| 1        | 1         | 1         | This is stage 1 of the third test                | t              |
+| 2        | 1         | 3         | This is stage 2 of the third test                | t              |
+| 3        | 1         | 3         | This is stage 3 of the third test                | t              |
+| 4        | 2         | 1         | This is stage 1 of the adjusted Boolean handling | f              |
+| 5        | 2         | 2         | This is stage 2 of the adjusted Boolean handling | f              |
+| 6        | 2         | 3         | This is stage 3 of the adjusted Boolean handling | f              |
+| 7        | 2         | 4         | This is stage 4 of the adjusted Boolean handling | f              |
+
 </details>
 
 <details>
