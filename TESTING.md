@@ -3,6 +3,8 @@
 [Testing and Validation](#testing-and-validation)
 
  - [Usage Based Functionality Testing](#use-based-functionality-testing)
+ - [# Bugs, Issues and challenges](#Bugs-issues-and-challenges) 
+ - [Unresolved Bugs](#unresolved-bugs)
  - [HTML Validation](#html-validation)
  - [CSS Validation](#css-validation)
  - [Accessibility](#accessibility)
@@ -15,13 +17,12 @@
  - [Responsiveness](#responsiveness)
  - [Automated testing](#automated-testing)
 
-
 # Testing and Validation
 
 ## Use based functionality testing
 While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
 
-This method of testing was abandoned after I started to get more to grips with accessing and writing data to the database, instead relying more on directly checking to see if data had updated on the website. Sadly, I neglected to record much, if any data at this stage, since I was more focused on getting functionality online. 
+This method of testing was moved on from after I started to get more to grips with accessing and writing data to the database, instead relying more on directly checking to see if data had updated on the website. Sadly, I neglected to record much, if any data from that point on, since I was more focused on getting functionality online and working as well as reacting to realisations about tweaks or changes that were needed. 
 
 ### add recipe
 <details>
@@ -480,9 +481,110 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 (5 rows)
 </details>
 
+# Bugs, Issues and challenges 
+
+### Tags
+
+Tags were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have existing tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully as intended, effectively the main issues I as finding is that I wasn't able to use the Materialize Chips when adding or editing tags, which caused me to shift approach and treat editing and entry more like a text field. After some research I found Awesomeplete which would cover the autocomplete functionality, allowing users to draw on and add to the library of tags available on the site. I was able to get this working using some tweaking to some Javascript I found online, so the section around Awesomeplete in the JS File should not be graded since this was heavily reliant on code from [this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
+
+### Refactoring and DRY 
+While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. More refactoring work will be needed, since the core focus of this was on the routes file, the auth and admin files were added later and the routes contained within them were relatively small, so were not a priority for refactoring. 
+In some cases, I am aware of instances where I may be repeating code in the Helpers file, from skimming I've spotted that I'm performing image uploads as part of a specific function, rather than handing this off to the function that is in place to upload images, this is something that will be addressed going forwards as time allows. 
+
+### Cloudinary Deletion
+While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
+
+### Accidental Image Deletion
+I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
 
 ### Button Debounce
 While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but gradually it was slowly added to every other page where a user could submit a form, since the same issue was present on all form entries. 
+
+While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents me from disabling this. 
+Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality, and instead allows users to repeatedly send a single email in error. 
+
+### Jinja Issues caused by not storing data in the DB
+Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
+jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
+While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over non-existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
+
+### Card Reflow issues.
+During development a persistent issue was that cards would sometimes grow to be larger than other cards in the same row, causing the row below to reflow into the next row below it.
+To resolve this I ended up adding some significant tweaks via CSS, requiring me to use a lot of Media Queries to ensure that the cards rendered in a reasonably acceptable manner over multiple window sizes and screen resolutions.
+This is very much a band aid solution and ideally this should be resolved by making further adjustments to font sizes, card sizes, text reflow and so on, however this will take time to fully implement.
+
+<details>
+<summary>Reflow Bug</summary>
+<img src="docs/bugs/reflow issue.png">
+</details>
+
+### Text Box issues. 
+Another persistent issue I encountered was with the Materialize text box. For some reason this would not easily adjust when changing screen resolution during testing, consistently causing issues with page overflow which resulted in the page shrinking within the window at varying screen resolutions, compressing the site into itself. 
+I noticed that I'd omitted to include the Javascript provided by Materialize to help with text box resizing, however even with this added I was finding the behaviour was still present. In order to resolve this I had to create my own custom text box, outside of that offered by materialize and come up with some custom javascript to assist with resizing. I'm still unsure why the Materialize solution didn't work, however I feel that adding my own custom box actually improved the UI somewhat, since it allowed me to make text boxes stand out from text fields more, since the Materialize CSS framework presents both as blank lines that the user can type in, where as my custom approach presents the text box as a distinct box which I feel makes it more obvious that it can take a large volume of text, as opposed to a single line. 
+
+### Stage Ordering Issues. 
+Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
+
+<details>
+<summary>Sorting Bug</summary>
+<img src="docs/bugs/recipe-sort-bug-edit.png">
+<img src="docs/bugs/recipe-sort-bug.png">
+</details>
+
+<details>
+<summary>Resolved Sorting Bug</summary>
+<img src="docs/bugs/resolved-sort-bug-edit.png">
+<img src="docs/bugs/resolved-sort-bug.png">
+</details>
+
+This was the recipe before editing. 
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+| stage_id | recipe_id | stage_num | instructions | is_final_stage 
+| -------- | --------- | --------- | ------------ | --------------- |
+|      135 |        53 |         1 | Testing 1    | f               |
+|      136 |        53 |         2 | Testing 2    | f               |
+|      137 |        53 |         3 | Testing 3    | t               |
+(3 rows)
+
+This was it after
+open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
+| stage_id | recipe_id | stage_num |           instructions           | is_final_stage |
+| -------- | --------- | --------- | -------------------------------- |--------------- |
+|      136 |        53 |         2 | Testing 2                        | f              |
+|      135 |        53 |         1 | Testing 1\r                      | f              |
+|          |           |           | \r                               |                |
+|          |           |           | this should move to stage 2 or 3 |                |
+|      137 |        53 |         3 | Testing 3                        | t              |
+(3 rows)
+
+A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/when I resolve the underlying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
+
+Jinja for loop before the fix:<br>
+{% for stage in recipe.stages %}<br>
+Jinja for loop after the fix:<br>
+{% for stage in recipe.stages|sort(attribute='stage_num') %}
+
+# Unresolved Issues
+Something I neglected to realise early on is that the free version of Cloudinary has a max file size for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. 
+
+The site has a couple of minor graphical issues that I have noticed but can't quite pin down. THe search box bug is the more frustrating of the two, since this is user facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However neither of these causes significant issues for functionality and are more very minor UI issues. 
+
+ - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
+
+ <details>
+<summary>Searchbox Bug</summary>
+<img src="docs/bugs/searchbox-bug.png">
+</details>
+
+Additionally I have noticed an issue with the admin menu drop down on the nav bar. This is set to fit the contents, yet seems to insist on word wrapping when the Recipe Admin option is selected. 
+
+<details>
+<summary>Admin Menu Bug</summary>
+<img src="docs/bugs/user-admin.png">
+<img src="docs/bugs/recipe-admin-bug.png">
+</details>
+
+Additionally, while I have already mentioned it in the resolved bugs section. I feel it's worth again calling out the issues with recipe ordering, since while I have a fix in place, it is, at best a band aid solution to what I think may be a much larger issue which warrants further investigation, particularly since the fix I have in place would cause issues with potential future functionality where reordering the recipe stages or adding in new between existing ones is concerned. 
 
 # HTML Validation
 
