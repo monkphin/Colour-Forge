@@ -821,8 +821,10 @@ I suspect I may be able to implement things like preloading and similar to help.
 # User Story Testing
 
 # Javascript Testing
+https://jshint.com/
 
 # Python Testing
+https://pep8ci.herokuapp.com/
 
 # Device and Browser Testing
 
