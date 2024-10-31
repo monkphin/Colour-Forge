@@ -519,8 +519,14 @@ This is very much a band aid solution and ideally this should be resolved by mak
 </details>
 
 ### Text Box issues. 
-Another persistent issue I encountered was with the Materialize text box. For some reason this would not easily adjust when changing screen resolution during testing, consistently causing issues with page overflow which resulted in the page shrinking within the window at varying screen resolutions, compressing the site into itself. 
+Another persistent issue I encountered was with the Materialize text box. For some reason this would not readily adjust when changing screen resolution during testing, consistently causing issues with page overflow which resulted in the page shrinking within the window at varying screen resolutions, compressing the site into itself. 
 I noticed that I'd omitted to include the Javascript provided by Materialize to help with text box resizing, however even with this added I was finding the behaviour was still present. In order to resolve this I had to create my own custom text box, outside of that offered by materialize and come up with some custom javascript to assist with resizing. I'm still unsure why the Materialize solution didn't work, however I feel that adding my own custom box actually improved the UI somewhat, since it allowed me to make text boxes stand out from text fields more, since the Materialize CSS framework presents both as blank lines that the user can type in, where as my custom approach presents the text box as a distinct box which I feel makes it more obvious that it can take a large volume of text, as opposed to a single line. 
+
+<details>
+<summary>Reflow Bug</summary>
+<img src="docs/bugs/crushed-site-1.png">
+<img src="docs/bugs/crushed-site-2.png">
+</details>
 
 ### Stage Ordering Issues. 
 Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 

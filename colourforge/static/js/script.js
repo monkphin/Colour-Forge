@@ -335,6 +335,7 @@ document.querySelectorAll(".flash-message").forEach(function(message) {
 });
 /**
  * Handles the Awesomplete tag suggestion and autocomplete functionality.
+ * Taken from https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9
  */
 document.addEventListener("DOMContentLoaded", function() {
 	const inputField = document.getElementById("tags_input");

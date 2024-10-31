@@ -525,6 +525,12 @@ One of the core functions of the site is its recipe pages, these are where the u
 
 There are a few assumptions made around how recipes will be created here. Generally when images are used to show how to create a specific effect on a mini, each image would be assumed to be once the stage has been completed. So the first stage would invariably be an undercoat or the first layer of paint, with the last stage being what the effect looks like once all painting has been completed. As such the recipe's image on its card and at the top of the page is programmatically set to use the image from the last stage of the recipe, since this should always be how the recipe looks once its completed based on commonly observed behaviour within the hobby community. 
 
+<details>
+<summary>Description Cards</summary>
+<img src="docs/features/description-card.png">
+</details>
+
+
 Chips are used to show which tags a recipe may have attached to it. Currently these are only used for searching, however I have ideas for them in future iterations which I will cover in the [Future Improvements](#future_improvements) section below. The card below the chips shows the completed recipe. As previously stated this is taken from the last stage of the recipe itself, since this will generally show how the recipe looks once the last stage has been completed. It also includes the name of the recipe creator as well as a brief description so the creator and any viewers know what the recipe is trying to achieve. 
 
 <details>
@@ -536,10 +542,14 @@ Chips are used to show which tags a recipe may have attached to it. Currently th
 Directly below this we have the recipe instructions themselves with each stage being a list item in a collapsible list. Discussions with my mentor and user testing suggested that it wasn't always obvious what the function of the list was, since initially all stages were closed on load. This resulted in a slight change of approach where on accessing the recipe the first stage is automatically opened. Font Awesome plus and minus icons were used with the collapsible to help impart how the collapsible functions to a visitor, since the collapsible is using the pop out function that Materialize provides, effectively expanding and contracting the various items into the list as the user clicks on them. 
 
 <details>
-<summary>Description Cards</summary>
-<img src="docs/features/description-card.png">
+<summary>Old Collapsible Menu</summary>
+<img src="docs/features/old-collapsible.png">
 </details>
 
+<details>
+<summary>Improved Collapsible Menu</summary>
+<img src="docs/features/new-collapsible.png">
+</details>
 
 Each stage contains an image and the specific instructions entered by the user for that particular stage, such as 'undercoat with black paint'. 
 
@@ -719,6 +729,12 @@ I initially thought this may be something I could implement in time, however fro
 - Project progress tracking. 
 One of the bigger challenges as a miniature painter is to keep track of your projects, how many minis need painting, how many are painted, where they're up to in the process and so on. Something that would be super useful is the ability to create and track paint projects, this could even log the number of minis painted per year, allowing users to set goals and milestones. 
 
+- Hiding Demo recipes on all pages except the 'My Library' page and perhaps showing only the users own demo recipe to them on the home page. As things stand, having the demo recipe on display is fine while this is not in active use, since it helps when the project is being assessed. However if I move this into a live project, having the home page be inundated with Demo Recipes will be something of a hindrance and annoyance to the sites users. 
+
+- Setting Recipes to be private. In some cases a user may not want to show how to create a certain effect, the community has some fairly high calibre and prestigious painting contests around the world. So I could understand why a competitive painter may not want to share how to perform a certain technique or achieve a certain colour until after an event has closed, if at all, while still logging how to do this. 
+
+- Highlighted Recipes. Miniature painters will always have things they are proud to share and things that they don't mind sharing but may not want in direct line of site for the entire world to see, such as it could be on the home page. Having a featured recipe tag would allow for only selected recipes to be used on the home page for both logged in and logged out users. 
+
 # Security and best Practices
 User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worthwhile. 
 
@@ -773,11 +789,338 @@ Testing is covered in the following document: [Testing And Validation](TESTING.m
 
 # Version control and Deployment
 
-# Credits
-https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main
-[this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
+The live site has been deployed to Heroku which was configured to auto update from Github on every commit. It uses a PostGresQL relational Database provided by COde Institute, however I will be migrating this to a Heroku deployed PostGresDB once it has been marked. 
 
-# Media
-Placeholder image for Recipes from [minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)
-Placeholder image for Paint Library from [GettyImages](https://www.gettyimages.co.uk/)
-Rummy Nate (Site Logo) kindly donated by [Adam Nicol](https://adnicol.weebly.com/#/)  
+## Repo Creation
+
+A new repo was generated using the Code Institutes ci-fill-template using the below steps:
+
+1. Navigate to https://github.com/Code-Institute-Org/ci-full-template
+2. Click the green 'Use this template' button and select 'Create a new repository'
+3. On the newly loaded page, in the text field enter a name for the repo, in this case, Colour Forge was entered.
+4. An optional description can be added in the text box below this. In this instance, this was left blank.
+5. Select the visibility as either public or private. Since this needs to be visible for assessment and marking, the default 'Public' option was left checked.
+6. Click the Create repository button and wait for a few moments, once this has been cloned into your account the page will reload and you'll be presented with the code space for the repo.
+
+## Cloning to your workspace for editing
+
+I work with VSCode, so use the built in CLI to run the commands needed to clone the repo to my local machine for editing. 
+
+1. In VSCode, I opened the Terminal window, by visiting the 'Terminal' menu in VSCode and selecting 'New Terminal'
+2. Within this terminal window, I made sure I was in the correct folder for where I wanted to store my work, if this was not correct I would have used the bash command cd to navigate to the correct folder. In this case, ~/Code, which is a folder called 'Code' in my logged-in user Home Folder.
+3. In a web browser, I navigated to the GitHub repository for the project and clicked on the green '<> Code' button, this presented me with several options for cloning. I selected the 'HTTPS' option and copied the URL in the text field.
+4. In Visual Studio Code’s terminal, I typed git clone https://github.com/monkphin/Colour-Forge.git and pressed enter, which cloned the repo to my local machine as shown by the below output.
+ 
+    ```
+    darren@localhost MINGW64 ~/Code (main)
+    $ git clone https://github.com/monkphin/Colour-Forge.git
+    Cloning into 'Colour-Forge'...
+    remote: Enumerating objects: 12, done.
+    remote: Counting objects: 100% (12/12), done.
+    remote: Compressing objects: 100% (12/12), done.
+    remote: Total 12 (delta 0), reused 8 (delta 0), pack-reused 0
+    Receiving objects: 100% (12/12), 5.68 KiB | 830.00 KiB/s, done.
+    ```
+
+5. Once this had finished cloning I used cd to navigate into the relevant folder - in this case, cd Colour-Forge
+   
+    ```
+    darren@localhost MINGW64 ~/Code (main)
+    $ cd Colour-Forge/
+    darren@localhost MINGW64 ~/Code/Colour-Forge (main)
+    ```
+6. I am now able to work on the project on my local machine.
+
+I used the ability to clone locally to allow me to work on several devices over the course of the creation of the app and its readme file. Its worth noting that at several points I was working on the project on a computer provided by my employer as part of our allocated "10% Time" where we're allowed to focus on studying and personal development. ANy commits made from this device will show my work GitHub profile (Movonkphin) as being responsible for them.
+
+## Adding and Updating Files on the Repo. 
+
+Much like all previous instructions this will be carried out via CLI. 
+
+1. Once you are ready to upload a new or a changed file, within the terminal type: 
+    ``` 
+    git add -A
+    ```
+to add multiple files or
+    ```
+    git add filename.extension
+    ```
+to add a single file. 
+This adds the file to the current staging area. 
+
+eg: 
+
+    ```
+    darre@Anton MINGW64 ~/Code/Colour-Forge (main)
+    $ git add -A 
+    ```
+Its worth being aware that using git add -a will update all files, so to avoid sending private or secret data you may need to create a .gitignore file, which will contain a list of files that you want git to not upload to github when using git add commands. 
+
+eg 
+
+    ```
+    core.Microsoft*
+    core.mongo*
+    core.python*
+    env.py
+    __pycache__/
+    *.py[cod]
+    node_modules/
+    .github/
+    cloudinary_python.txtsendgrid.env
+    sendgrid.env
+    testmail.py
+    reset_db.py
+    ```
+
+2. Once you are ready to commit the change from staging use the following command 
+    ```
+    git commit -m 'description of the changes made' 
+    ```
+This creates the commit, ready to be pushed to Github and will show some output in terms of what the commit message is and what files have been changed and how. 
+eg: 
+
+    ```
+    darre@Anton MINGW64 ~/Code/Colour-Forge (main)
+    $ git commit -m "moved bugs section to the testing file"
+    [main adf960b] moved bugs section to the testing file
+    2 files changed, 104 insertions(+), 109 deletions(-)
+    ```
+
+3. Finally, to push the changes to git type 
+    ```
+    git push
+    ```
+This should generate some output to confirm the actions being taken to transfer the files to github. 
+eg: 
+
+    ```
+    darre@Anton MINGW64 ~/Code/Colour-Forge (main)
+    $ git push
+    Enumerating objects: 7, done.
+    Counting objects: 100% (7/7), done.
+    Delta compression using up to 24 threads
+    Compressing objects: 100% (4/4), done.
+    Writing objects: 100% (4/4), 5.26 KiB | 5.26 MiB/s, done.
+    Total 4 (delta 3), reused 0 (delta 0), pack-reused 0 (from 0)
+    remote: Resolving deltas: 100% (3/3), completed with 3 local objects.
+    To https://github.com/monkphin/Colour-Forge.git
+    1e666b6..adf960b  main -> main
+    ```
+
+### Working on Multiple Devices
+Assuming you have already cloned the repo to any other computers you may want to work on the code on, you need to ensure that you have the latest version of the code. Luckily this is relatively simple, using a single command.
+
+    ```
+    git pull
+    ```
+This will show some output to show what files its downloading from github as well as any changes or adjustments made to files that are stored locally and need to be updated
+eg
+
+    ```
+    darre@Anton MINGW64 ~/Code/Colour-Forge (main)
+    $ git pull
+    Updating 99514e9..1e666b6
+    Fast-forward
+    colourforge/templates/admin.html                   | 398 ++++++++++-----------
+    .../templates/admin_recipe_search_results.html     |  85 +++--
+    .../templates/admin_user_search_results.html       |   4 +-
+    colourforge/templates/contact.html                 |   1 -
+    colourforge/templates/edit_recipe.html             |  12 -
+    colourforge/templates/emails/account_deletion.html |  22 +-
+    .../templates/emails/admin_account_deletion.html   |  22 +-
+    .../templates/emails/admin_email_change.html       |  30 +-
+    .../templates/emails/admin_password_change.html    |  36 +-
+    colourforge/templates/emails/email_change.html     |  23 +-
+    colourforge/templates/emails/form_email.html       |  16 +-
+    colourforge/templates/emails/password_change.html  |  36 +-
+    colourforge/templates/emails/welcome.html          |  12 +-
+    colourforge/templates/login.html                   |  20 +-
+    colourforge/templates/recipe_page.html             |  35 +-
+    colourforge/templates/tag_search_results.html      | 163 ++++-----
+    docs/html-testing/error-pages.png                  | Bin 0 -> 11393 bytes
+    .../html-testing/loggedin-account-admin-search.png | Bin 0 -> 11437 bytes
+    docs/html-testing/loggedin-account-admin.png       | Bin 0 -> 11316 bytes
+    docs/html-testing/loggedin-account.png             | Bin 0 -> 11534 bytes
+    docs/html-testing/loggedin-edit-recipe.png         | Bin 0 -> 11357 bytes
+    docs/html-testing/loggedin-home.png                | Bin 0 -> 11433 bytes
+    docs/html-testing/loggedin-my-recipes.png          | Bin 0 -> 11813 bytes
+    docs/html-testing/loggedin-recipe-admin-search.png | Bin 0 -> 11207 bytes
+    docs/html-testing/loggedin-recipe-admin.png        | Bin 0 -> 11641 bytes
+    docs/html-testing/loggedin-recipe-page.png         | Bin 0 -> 11505 bytes
+    docs/html-testing/loggedin-tag-search.png          | Bin 0 -> 11638 bytes
+    docs/html-testing/loggedout-about.png              | Bin 0 -> 11883 bytes
+    docs/html-testing/loggedout-contact.png            | Bin 0 -> 11770 bytes
+    docs/html-testing/loggedout-home.png               | Bin 0 -> 14535 bytes
+    docs/html-testing/loggedout-login.png              | Bin 0 -> 11708 bytes
+    docs/html-testing/loggedout-register.png           | Bin 0 -> 11870 bytes
+    32 files changed, 460 insertions(+), 455 deletions(-)
+    create mode 100644 docs/html-testing/error-pages.png
+    create mode 100644 docs/html-testing/loggedin-account-admin-search.png
+    create mode 100644 docs/html-testing/loggedin-account-admin.png
+    create mode 100644 docs/html-testing/loggedin-account.png
+    create mode 100644 docs/html-testing/loggedin-edit-recipe.png
+    create mode 100644 docs/html-testing/loggedin-home.png
+    create mode 100644 docs/html-testing/loggedin-my-recipes.png
+    create mode 100644 docs/html-testing/loggedin-recipe-admin-search.png
+    create mode 100644 docs/html-testing/loggedin-recipe-admin.png
+    create mode 100644 docs/html-testing/loggedin-recipe-page.png
+    create mode 100644 docs/html-testing/loggedin-tag-search.png
+    create mode 100644 docs/html-testing/loggedout-about.png
+    create mode 100644 docs/html-testing/loggedout-contact.png
+    create mode 100644 docs/html-testing/loggedout-home.png
+    create mode 100644 docs/html-testing/loggedout-login.png
+    create mode 100644 docs/html-testing/loggedout-register.png
+    ```
+
+## Local Deployment
+For testing reasons its beneficial to have the site be able to run locally. As mentioned, you can clone the repo to a machine you are working from allowing you to access the codebase that exists on GitHub. 
+Local deployment allows for the testing of modified files before uploading them to GitHub, to ensure the code does what you expect to it, helping minimise the number of commits needed and ensure fewer errors are commited. 
+
+ - We've already covered cloning a repo above. However you may also need to pull any modules you're using. This can be done with the below command. 
+    ```
+    pip install requirements -r requirements.txt
+    ```
+ 
+Once the required modules are imported, you will also need to ensure you have a local env.py file, since this should never be uploaded to github and can be set to be ignored using the .gitignore file as previously mentioned.
+This file needs to be at the root level of your project and should include the environment variables needed to ensure the application can run. 
+
+'''
+import os
+
+os.environ.setdefault("IP", "0.0.0.0")
+os.environ.setdefault("PORT", "5000")
+os.environ.setdefault("SECRET_KEY", "insert secret key")
+os.environ.setdefault("DEBUG", "True")
+os.environ.setdefault("DEVELOPMENT", "True")
+os.environ.setdefault("DB_URL", "insert DB URL")
+'''
+
+In the above file we're using a development and debug enabled environment, this can be useful to allow for debug messages to be pushed to the console. But should never be used in a live production environment since it can create a security risk. 
+
+## PostGres DB Creation
+
+To create the PostGres DB, I used the Code Institute provided Database hosting service, located here: https://dbs.ci-dbs.net/
+
+It provides a guided set up process, which is outline below. 
+
+ - 1 enter your email address in the field provided
+ - 2 Wait for the tool to create the DB
+ - 3 Wait for the email to be sent. 
+
+<details>
+<summary>The three DB Creation stage</summary>
+<img src="docs/deployment/db-creation.png">
+<img src="docs/deployment/db-construction.png">
+<img src="docs/deployment/db-deployment.png">
+</details>
+
+Once the email has been received this will confirm the details of your new database. 
+
+<img src="docs/deployment/db-details.png">
+
+## Heroku Set up and Configuration. 
+As mentioned this project is hosted on Heroku, a service that allows developers to host applications and websites using tools such as containerisation to create lightweight, isolated servers on the internet, which Heroku refers to as 'Dynos'. 
+
+The below steps outline how to create a Heroku Dyno, once you have an account with them. 
+
+ - Click on 'New' in the drop down in the top-right of the Heroku Dashboard and select 'create new app' from the menu that appears. 
+
+<img src="docs/deployment/heroku-dyno-deployment.png">
+
+ - Choose a unique app name and choose a region that fits your requirements, typically the one that's geographically closest to you, then click on the 'Create App' button. 
+
+<img src="docs/deployment/heroku-app-name.png">
+
+- Once the next page loads, your dyno is created. However there are further steps that may be needed to get the app to work. 
+- As part fo the development process of the app, you will have likely created an env.py file, which stores various pieces of data needed to run the application, such as database URLs, usernames, keys and so on. This information will need to be configured in Heroku. 
+- In the tabbed page that will appear after the Dyno has been created, click the 'settings' tab. 
+
+<img src="docs/deployment/heroku-settings.png">
+
+Within the settings screen, scroll down until you see the 'reveal cofig vars' button, click this to show a form that allows you to enter any variables you may have. 
+
+<img src="docs/deployment/config-vars.png">
+
+Examples of these include:
+
+| key          |   value         |
+| ------------ | --------------- |
+| IP           |  0.0.0.0        |  
+| PORT         |    5000         |
+| DB_URL       | url of DB       |
+| SECRET_KEY   | users key       |
+| OTHER VALUES | set as required |
+
+ - Once this has been saved, you need to create to additional files in your IDE. 
+    - requirements.txt
+    - profile
+
+The requirements file is used to ensure any imported modules that may be used by your app are included whenever the Dyno is deployed, including things like 'Math', 'Cloudinary', 'Flask' and so on. 
+The Procfile is used to tell the Dyno how to start your python application, in this case using the command 'web: python run.py'
+
+ - To generate the requirements file, simply issue the following command:
+    ```
+    pip freeze -- local > requirements.txt
+    ```
+The requirements file will need to be updated any time new modules and imports are added to your codebase to ensure it can run the required external functions you may be calling on. 
+
+ - Creating the Procfile can be done either manually, by creating the Procfile itself and then editing its contents in a text editor or IDE or via CLI. 
+ - To create via CLI simply issue the below command, assuming your flask app is launched from run.py, otherwise this will need to be changed to whatever this file is called, eg app.py. 
+ ''' 
+ echo web: python app.py > Procfile
+ '''
+
+ - To deploy your code on Heroku, you can either use the Heroku terminal, or alternatively configure the app on Heroku to auto deploy when ever you push a commit to github. 
+ - For automatic deployments, within Herokus website, click on the Deployment tab, click 'Connect to Github, choose your account in the dropdown if its not already there and fill in the name of the repo you wish to deploy from. 
+
+<img src="docs/deployment/deploy-menu.png">
+<img src="docs/deployment/deployment-git.png">
+
+ - Once you have selected the appropriate repo, Heroko will spend a few moments connecting to it and if its successful display the following:
+
+<img src="docs/deployment/connected-git.png">
+
+- This will now allow you to set up auto deploys if you should so choose to, which will allow Heroku to automatically update on changes to the github repo to do this, simply click the 'Enable Automatic Deploys' button.  
+
+<img src="docs/deployment/auto-deploys.png">
+
+ - ALternatively below this is a manual deplyment option, which requires you to click the 'Deploy Branch' button each time you're ready to deploy.
+
+<img src="docs/deployment/manual-deploy.png">
+
+Finally, you can, as mentioned use the Heroku CLI. Where previously you would need to select the GitHub option on the Deploy page, you can simply leave this set to 'Heroku Git' since this is the default setting. 
+
+ - To use the Heroku terminal, you need to login to it using the following command: 
+    ```
+    $ heroku login
+    ```
+ - You will then need to set the remote for Heroku. 
+    ```
+   $ heroku git:remote -a insert-your-app-name
+    ```
+ - Once done, after using the typical Git based add, commit and push commands you can deploy to Heroku directly using the following: 
+    ```
+   $ git push heroku main
+    ```
+
+
+
+
+# Credits
+ - [Tim Nelsons Task Manager Project](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main)    
+  This was used as an initial jumping off point for the layout of the site and is very much baked into the overall look and feel I am using       
+ - [Elixer Forum](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9)    
+  This provided a lot of the javascript used to get Awesomeplete working. I can take no credit for the Javascript in place for this functionality 
+ -[minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)    
+   Placeholder image for Recipes.
+ - [GettyImages](https://www.gettyimages.co.uk/)    
+   Placeholder image for Paint Library. 
+ - [Adam Nicol](https://adnicol.weebly.com/#/)    
+   Kind donation of 'Rummy Nate' the sites mascot and logo. 
+
+# Acknowledgements
+ - [Iuliia Konovalova](https://github.com/IuliiaKonovalova), my Code Institute Mentor for your help, insight and advice throughout this project. 
+ - The fine community built around [The Fluffenhammer](https://www.thefluffenhammer.com/) for tolerating me going on about this so much in discord and constantly asking if they could test functionality - some of the issues found would still be there if not for you gents. 
+ - My incredibly patient wife for putting up with me vanishing for hours at a time while I worked on this over the last couple of months
+ - My workmates for putting up with my heavily leaning on my 10% time at work between internal project work to get a bit more time to focus on this. 
