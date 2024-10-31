@@ -22,7 +22,7 @@
 While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
 
 Button debounce
-While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implmented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but ideally it needs to be implemented on all pages that have a form/button that allows a user to modify the database. Several examples for how to do this via Jquery were found, with [this stack overflow](https://stackoverflow.com/questions/97962/debounce-clicks-when-submitting-a-web-form) article being particularly useful 
+While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but ideally it needs to be implemented on all pages that have a form/button that allows a user to modify the database. 
 
 ### add recipe
 <details>
@@ -33,6 +33,7 @@ Output of writing to the recipes table<br>
 
 Recipe Name: This is a test of the add recipe function<br>
 Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.<br>
+
 127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -<br>
@@ -42,15 +43,16 @@ Recipe Description: Testing the ability to add recipes. Nothing to see here. Onc
 Recipes table contents<br>
 open_punch_bath_8981=> \dt<br>
            List of relations<br>
- Schema |  Name   | Type  |    Owner
---------+---------+-------+-------------
- public | recipes | table | urbqgoc5q8y
-(1 row)<br>
-<br>
+| Schema |  Name   | Type  |    Owner    |
+|------- | ------- | ----- | ------------|
+| public | recipes | table | urbqgoc5q8y |
+(1 row)
+
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |                recipe_name                |                                                                recipe_desc
------------+-------------------------------------------+-------------------------------------------------------------------------------------------------------------------------------------------
-         1 | This is a test of the add recipe function | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
+
+| recipe_id |                recipe_name                 |                                                                recipe_desc                                                               |
+| --------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
+|    1      | This is a test of the add recipe function  | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data. |
 (1 row)
 </details>
 
@@ -70,23 +72,25 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 
 open_punch_bath_8981=> \dt<br>
-              List of relations
- Schema |     Name      | Type  |    Owner
---------+---------------+-------+-------------
- public | recipe_stages | table | urbqgoc5q8y
- public | recipes       | table | urbqgoc5q8y
-(2 rows)<br>
-<br>
+           List of relations<br>
+| Schema |     Name      | Type  |    Owner     |
+| ------ | ------------- | ----- | ------------ |
+| public | recipe_stages | table | urbqgoc5q8y  |
+| public | recipes       | table | urbqgoc5q8y  |
+(2 rows)
+
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |             recipe_name             |                   recipe_desc
------------+-------------------------------------+--------------------------------------------------
-         1 | This is a test of the recipe stages | Testing to see if a single stage can be added OK
+
+| recipe_id |             recipe_name             |                   recipe_desc                     |
+| --------  |------------------------------------ | ------------------------------------------------- |
+|     1     | This is a test of the recipe stages | Testing to see if a single stage can be added OK  |
 (1 row)
 
-open_punch_bath_8981=> select * from recipe_stages;
- stage_id | recipe_id | stage_num |        instructions        | is_final_stage 
-----------+-----------+-----------+----------------------------+----------------
-        1 |         1 |         1 | Just a single stage test.  | f
+open_punch_bath_8981=> select * from recipe_stages;<br>
+
+| stage_id | recipe_id | stage_num |        instructions        | is_final_stage   |
+| -------- | --------- | --------- | -------------------------- | ---------------- |
+|    1     |         1 |         1 | Just a single stage test.  | f                | 
 (1 row)
 </details>
 
@@ -107,16 +111,16 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |       recipe_name       |        recipe_desc
------------+-------------------------+----------------------------
-         1 | Testing adding 2 stages | This is a test of 2 stages
+| recipe_id |       recipe_name       |        recipe_desc         |
+| --------- | ----------------------- | -------------------------- |
+|      1    | Testing adding 2 stages | This is a test of 2 stages |
 (1 row)<br>
-<br>
+
 open_punch_bath_8981=> select * from recipe_stages;<br>
- stage_id | recipe_id | stage_num |        instructions        | is_final_stage 
-----------+-----------+-----------+----------------------------+----------------
-        1 |         1 |         1 | This is the first stage.   | f
-        2 |         1 |         2 | This is the second stage.  | f
+| stage_id | recipe_id | stage_num |        instructions        | is_final_stage  |
+| -------- | --------- | --------- | -------------------------- | --------------- |
+|     1    |      1    |      1    | This is the first stage.   | f               |
+|     2    |      1    |      2    | This is the second stage.  | f               |
 (2 rows)
 </details>
 
@@ -136,17 +140,20 @@ Is Final Stage?: on<br>
 127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |               recipe_name               |                                                                       recipe_desc
------------+-----------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------
-         1 | Testing three stages with a final stage | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
+
+
+| recipe_id |               recipe_name               |                                                                       recipe_desc                                                                      |
+| --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
+|     1     | Testing three stages with a final stage | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. |
+
 (1 row)<br>
 <br>
 open_punch_bath_8981=> select * from recipe_stages;<br>
- stage_id | recipe_id | stage_num |           instructions            | is_final_stage 
-----------+-----------+-----------+-----------------------------------+----------------
-        1 |         1 |         1 | This is stage 1 of the third test | t
-        2 |         1 |         2 | This is stage 2 of the third test | t
-        3 |         1 |         3 | This is stage 3 of the third test | t
+| stage_id | recipe_id | stage_num |           instructions            | is_final_stage |
+| -------- | --------- | --------- | --------------------------------- | -------------- |
+|     1    |      1    |      1    | This is stage 1 of the third test | t              |
+|     2    |      1    |      2    | This is stage 2 of the third test | t              | 
+|     3    |      1    |      3    | This is stage 3 of the third test | t              | 
 </details>
 
 It seemed this assigned true to all stages, rather than just the last. This caused me to rethink how this should be handled, either giving the user an option per stage, which seems like too clunky a solution. Or to automatically assume the last stage added is the last stage of the instructions, which would make more sense since this is where we would normally expect the image used in the card for the recipe to be selected from. 
@@ -167,22 +174,23 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc
------------+-------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         1 | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
-         2 | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
+
+| recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                |
+| --------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
+|     1     | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.                                                                                                                    |
+|     2     | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image |
 (2 rows)<br>
 <br>
 open_punch_bath_8981=> select * from recipe_stages;<br>
- stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage 
-----------+-----------+-----------+-----------------------------------------------------------+----------------
-        1 |         1 |         1 | This is stage 1 of the third test                         | t
-        2 |         1 |         2 | This is stage 2 of the third test                         | t
-        3 |         1 |         3 | This is stage 3 of the third test                         | t
-        4 |         2 |         1 | This stage 1 of the test of the adjusted Boolean handling | f
-        5 |         2 |         2 | This stage 2 of the test of the adjusted Boolean handling | f
-        6 |         2 |         3 | This stage 3 of the test of the adjusted Boolean handling | f
-        7 |         2 |         4 | This stage 4 of the test of the adjusted Boolean handling | f
+| stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage |
+| -------- | --------- | --------- | --------------------------------------------------------- | -------------- | 
+|    1     |     1     |     1     | This is stage 1 of the third test                         | t              | 
+|    2     |     1     |     2     | This is stage 2 of the third test                         | t              |
+|    3     |     1     |     3     | This is stage 3 of the third test                         | t              |
+|    4     |     2     |     1     | This stage 1 of the test of the adjusted Boolean handling | f              |
+|    5     |     2     |     2     | This stage 2 of the test of the adjusted Boolean handling | f              |
+|    6     |     2     |     3     | This stage 3 of the test of the adjusted Boolean handling | f              |
+|    7     |     2     |     4     | This stage 4 of the test of the adjusted Boolean handling | f              |
 </details>
 
 <details>
@@ -202,26 +210,28 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc
------------+-------------------------------------------------------------------------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
-         1 | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.
-         2 | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
-         3 | Testing adjusted logic for last stage check                             | Adjusted logic check for final stage logic
-         4 | Test of adjusted logic for Bool handling                                | THis is hopefully a final test for the adjusted Boolean logic
+
+| recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                 |
+| --------  | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+|     1     | Testing three stages with a final stage                                 | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured.                                                                                                                     |
+|     2     | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image  |
+|     3     | Testing adjusted logic for last stage check                             | Adjusted logic check for final stage logic                                                                                                                                                                                                                                 |
+|     4     | Test of adjusted logic for Bool handling                                | THis is hopefully a final test for the adjusted Boolean logic                                                                                                                                                                                                              |
 (4 rows)<br>
-<br>
+
 open_punch_bath_8981=> select * from recipe_stages;<br>
- stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage 
-----------+-----------+-----------+-----------------------------------------------------------+----------------
-        1 |         1 |         1 | This is stage 1 of the third test                         | t
-        2 |         1 |         2 | This is stage 2 of the third test                         | t
-        3 |         1 |         3 | This is stage 3 of the third test                         | t
-        4 |         2 |         1 | This stage 1 of the test of the adjusted Boolean handling | f
-        5 |         2 |         2 | This stage 2 of the test of the adjusted Boolean handling | f
-        6 |         2 |         3 | This stage 3 of the test of the adjusted Boolean handling | f
-        7 |         2 |         4 | This stage 4 of the test of the adjusted Boolean handling | f
-        8 |         4 |         1 | Stage 1 of the adjusted logic test                        | f
-        9 |         4 |         2 | Stage 2 of the adjusted logic test                        | t
+
+| stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage |
+| -------- | --------- | --------- | --------------------------------------------------------- | -------------- |
+|    1     |    1      |    1      | This is stage 1 of the third test                         | t              |
+|    2     |    1      |    2      | This is stage 2 of the third test                         | t              |
+|    3     |    1      |    3      | This is stage 3 of the third test                         | t              |
+|    4     |    2      |    1      | This stage 1 of the test of the adjusted Boolean handling | f              |
+|    5     |    2      |    2      | This stage 2 of the test of the adjusted Boolean handling | f              |
+|    6     |    2      |    3      | This stage 3 of the test of the adjusted Boolean handling | f              |
+|    7     |    2      |    4      | This stage 4 of the test of the adjusted Boolean handling | f              |
+|    8     |    4      |    1      | Stage 1 of the adjusted logic test                        | f              |
+|    9     |    4      |    2      | Stage 2 of the adjusted logic test                        | t              |
 (9 rows)
 </details>
 
@@ -242,21 +252,22 @@ Image names: [<FileStorage: 'hero-image.png' ('image/png')>]<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
- recipe_id |                         recipe_name                          |                recipe_desc
------------+--------------------------------------------------------------+--------------------------------------------
-         1 | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage
+
+| recipe_id |                         recipe_name                          |                recipe_desc                 |
+| --------- | ------------------------------------------------------------ | ------------------------------------------ |
+|     1     | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage |
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
- stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage
-----------+-----------+-----------+-------------------------------------------------------------------------------------------------------------+----------------
-        1 |         1 |         1 | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t
+| stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage |
+| -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
+|     1    |     1     |     1     | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t              |
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
- image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text
-----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+--------------------------------------------------------------------------
-        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.
+| image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text                                |
+| -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
+|     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project. |
 (1 row)
 </details>
 
@@ -279,26 +290,26 @@ Image names: [<FileStorage: '404-page-desktop.png' ('image/png')>]<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
- recipe_id |                         recipe_name                          |                    recipe_desc
------------+--------------------------------------------------------------+---------------------------------------------------
-         1 | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage
-         2 | This is a test of adding multiple images                     | Will try for three images this time over 4 stages
+
+| recipe_id |                         recipe_name                          |                    recipe_desc                    |
+| --------- | ------------------------------------------------------------ | ------------------------------------------------- |
+|      1    | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage        |
+|      2    | This is a test of adding multiple images                     | Will try for three images this time over 4 stages |
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
- stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage 
-----------+-----------+-----------+-------------------------------------------------------------------------------------------------------------+----------------
-        1 |         1 |         1 | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t
-        2 |         2 |         1 | This is the first stages image                                                                              | f
+| stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage  |
+| -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | --------------- |
+|    1     |     1     |     1     | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t               |
+|    2     |     2     |     1     | This is the first stages image                                                                              | f               |
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
- image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text
-----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+--------------------------------------------------------------------------
-        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.
-        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727716322/tnp1ssx1ac3gjs8blb0g.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/tnp1ssx1ac3gjs8blb0g.jpg | Sad Pikachu!
+| image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text                                 | 
+| -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | 
+|     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.  | 
+|     2    |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727716322/tnp1ssx1ac3gjs8blb0g.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/tnp1ssx1ac3gjs8blb0g.jpg | Sad Pikachu!                                                             | 
 (2 rows)
-(1 row)
 </details>
 
 The above only seemed to add a single image of the several that were input. On inspection, I'd missed creating the images and alt text entries as arrays. 
@@ -321,25 +332,26 @@ alt text: ['Sad pika', 'Hero Image', 'Local Map']<br>
 127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
- recipe_id |          recipe_name           |  recipe_desc   
------------+--------------------------------+----------------
-         1 | Testing multiple image uploads | This is a test
+
+| recipe_id |          recipe_name           |  recipe_desc   | 
+| --------- | ------------------------------ | -------------- |
+|     1     | Testing multiple image uploads | This is a test |
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
- stage_id | recipe_id | stage_num | instructions | is_final_stage 
-----------+-----------+-----------+--------------+----------------
-        1 |         1 |         1 | Stage 1      | f
-        2 |         1 |         2 | Stage 2      | f
-        3 |         1 |         3 | Stage 3      | t
+| stage_id | recipe_id | stage_num | instructions | is_final_stage |
+| -------- | --------- | --------- | ------------ | -------------- |
+|     1    |     1     |     1     | Stage 1      | f              |
+|     2    |     1     |     2     | Stage 2      | f              |
+|     3    |     1     |     3     | Stage 3      | t              |
 (3 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
- image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |  alt_text  
-----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+------------
-        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika
-        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image
-        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map
+| image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |  alt_text   |
+| -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------- |
+|    1     |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika    |
+|    2     |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image  | 
+|    3     |     3    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map   |
 (3 rows)
 </details>
 
@@ -362,34 +374,36 @@ alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mock-up - In 
 127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 <br>
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
- recipe_id |                        recipe_name                        |                       recipe_desc
------------+-----------------------------------------------------------+----------------------------------------------------------
-         1 | Testing multiple image uploads                            | This is a test
-         2 | Test of not adding data to all fields for multiple stages | Some stages will have all fields filled. Some will not.
+
+
+| recipe_id |                        recipe_name                        |                       recipe_desc                        | 
+| --------- | --------------------------------------------------------- | -------------------------------------------------------- |
+|      1    | Testing multiple image uploads                            | This is a test                                           |
+|      2    | Test of not adding data to all fields for multiple stages | Some stages will have all fields filled. Some will not.  |
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
- stage_id | recipe_id | stage_num |                                                                                                     instructions                                                                                                     | is_final_stage 
-----------+-----------+-----------+----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------
-        1 |         1 |         1 | Stage 1                                                                                                                                                                                                              | f
-        2 |         1 |         2 | Stage 2                                                                                                                                                                                                              | f
-        3 |         1 |         3 | Stage 3                                                                                                                                                                                                              | t
-        4 |         2 |         1 | Stage 1 - this is the control and will have data in all fields                                                                                                                                                       | f
-        5 |         2 |         2 | Stage 2 - this will only have the instructions                                                                                                                                                                       | f
-        6 |         2 |         3 | Stage 3 - This will just be an image                                                                                                                                                                                 | f
-        7 |         2 |         4 | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f
-        8 |         2 |         5 | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t
+| stage_id | recipe_id | stage_num |                                                                                                     instructions                                                                                                     | is_final_stage | 
+| -------- | --------- | ----------| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  | -------------- |
+|     1    |     1     |     1     | Stage 1                                                                                                                                                                                                              | f              |
+|     2    |     1     |     2     | Stage 2                                                                                                                                                                                                              | f              |
+|     3    |     1     |     3     | Stage 3                                                                                                                                                                                                              | t              |
+|     4    |     2     |     1     | Stage 1 - this is the control and will have data in all fields                                                                                                                                                       | f              |
+|     5    |     2     |     2     | Stage 2 - this will only have the instructions                                                                                                                                                                       | f              |
+|     6    |     2     |     3     | Stage 3 - This will just be an image                                                                                                                                                                                 | f              |
+|     7    |     2     |     4     | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f              |
+|     8    |     2     |     5     | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t              |
 (8 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
- image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                   alt_text
-----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+-------------------------------------------------------------------------------
-        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika
-        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image
-        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map
-        4 |        4 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731716/jwrsx0hlqixuxl2k1fdc.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/jwrsx0hlqixuxl2k1fdc.jpg | The Thing
-        5 |        6 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731717/ytwtbmoc6wmrxenzk5fj.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ytwtbmoc6wmrxenzk5fj.jpg |
-        6 |        8 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731718/xeynhlcgz4jbzuysjg34.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/xeynhlcgz4jbzuysjg34.jpg | Phone Mockup - In this instance I'm testing adding images and no Instructions
+| image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                   alt_text                                    |
+| -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
+|    1     |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika                                                                      |
+|    2     |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image                                                                    |
+|    3     |     3    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map                                                                     |
+|    4     |     4    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731716/jwrsx0hlqixuxl2k1fdc.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/jwrsx0hlqixuxl2k1fdc.jpg | The Thing                                                                     |
+|    5     |     6    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731717/ytwtbmoc6wmrxenzk5fj.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ytwtbmoc6wmrxenzk5fj.jpg |                                                                               |
+|    6     |     8    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731718/xeynhlcgz4jbzuysjg34.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/xeynhlcgz4jbzuysjg34.jpg | Phone Mockup - In this instance I'm testing adding images and no Instructions |
 (6 rows)
 </details>
 
@@ -409,58 +423,60 @@ alt text: ['Undercoated Dark Angel', 'Base coat', 'First Highlight', 'Wash']<br>
 Full form content ImmutableMultiDict([('recipe_name', 'Dark Angels Desaturated Power Armour'), ('recipe_desc', 'This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour'), ('tags', 'Dark Angels,Warhammer,Space Marines,Power Armour,Desaturated'), ('instructions[]', 'Undercoat the model with a flat black paint. '), ('instructions[]', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. "), ('instructions[]', "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. "), ('instructions[]', 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. '), ('image_desc[]', 'Undercoated Dark Angel'), ('image_desc[]', 'Base coat'), ('image_desc[]', 'First Highlight'), ('image_desc[]', 'Wash')])<br>
 <br>
 open_punch_bath_8981=> \dt<br>
-              List of relations
- Schema |     Name      | Type  |    Owner    
---------+---------------+-------+-------------
- public | entity_tags   | table | urbqgoc5q8y
- public | recipe_images | table | urbqgoc5q8y
- public | recipe_stages | table | urbqgoc5q8y
- public | recipe_tags   | table | urbqgoc5q8y
- public | recipes       | table | urbqgoc5q8y
+
+           List of relations<br>
+
+| Schema |     Name      | Type  |    Owner    | 
+| ------ |-------------  | ----- | ----------- |
+| public | entity_tags   | table | urbqgoc5q8y |
+| public | recipe_images | table | urbqgoc5q8y |
+| public | recipe_stages | table | urbqgoc5q8y | 
+| public | recipe_tags   | table | urbqgoc5q8y |
+| public | recipes       | table | urbqgoc5q8y |
 (5 rows)
 
 open_punch_bath_8981=> select * from recipes;<br>
- recipe_id |             recipe_name              |                                        recipe_desc
------------+--------------------------------------+--------------------------------------------------------------------------------------------
-         1 | Dark Angels Desaturated Power Armour | This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour
+| recipe_id |             recipe_name              |                                        recipe_desc                                         |
+| --------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
+|      1    | Dark Angels Desaturated Power Armour | This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour | 
 (1 row)
 
 open_punch_bath_8981=> select * from recipe_stages;<br>
- stage_id | recipe_id | stage_num |                                                                                                                               instructions                                                                                                                               | is_final_stage 
-----------+-----------+-----------+--------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+----------------
-        1 |         1 |         1 | Undercoat the model with a flat black paint.                                                                                                                                                                                                                             | f
-        2 |         1 |         2 | Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left.                                                | f
-        3 |         1 |         3 | using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f
-        4 |         1 |         4 | Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t
+| stage_id | recipe_id | stage_num |                                                                                                                               instructions                                                                                                                               | is_final_stage  |
+| -------- | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
+|     1    |     1     |     1     | Undercoat the model with a flat black paint.                                                                                                                                                                                                                             | f               |
+|     2    |     1     |     2     | Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left.                                                | f               |
+|     3    |     1     |     3     | using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f               |
+|     4    |     1     |     4     | Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t               |
 (4 rows)
 
 open_punch_bath_8981=> select * from recipe_images;<br>
- image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |        alt_text        
-----------+----------+----------------------------------------------------------------------------------------+----------------------------------------------------------------------------------------------+------------------------
-        1 |        1 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987873/q5i2ftplla6udtqxdlob.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/q5i2ftplla6udtqxdlob.jpg | Undercoated Dark Angel
-        2 |        2 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987876/afcihcowy0sjo7jvtzx1.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/afcihcowy0sjo7jvtzx1.jpg | Base coat
-        3 |        3 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987877/bc4onemhmikj4otzngk2.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/bc4onemhmikj4otzngk2.jpg | First Highlight
-        4 |        4 | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987878/g5ccnr4thoblvveatmpq.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/g5ccnr4thoblvveatmpq.jpg | Wash
+| image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |        alt_text         |       
+| -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------- | 
+|    1     |    1     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987873/q5i2ftplla6udtqxdlob.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/q5i2ftplla6udtqxdlob.jpg | Undercoated Dark Angel  | 
+|    2     |    2     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987876/afcihcowy0sjo7jvtzx1.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/afcihcowy0sjo7jvtzx1.jpg | Base coat               | 
+|    3     |    3     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987877/bc4onemhmikj4otzngk2.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/bc4onemhmikj4otzngk2.jpg | First Highlight         | 
+|    4     |    4     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987878/g5ccnr4thoblvveatmpq.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/g5ccnr4thoblvveatmpq.jpg | Wash                    | 
 (4 rows)
 
 open_punch_bath_8981=> select * from recipe_tags;<br>
- tag_id |   tag_name    
---------+---------------
-      1 | Dark Angels
-      2 | Warhammer
-      3 | Space Marines
-      4 | Power Armour
-      5 | Desaturated
+| tag_id |   tag_name    |
+| ------ | ------------- |
+|    1   | Dark Angels   |
+|    2   | Warhammer     |
+|    3   | Space Marines |
+|    4   | Power Armour  |
+|    5   | Desaturated   |
 (5 rows)
 
 open_punch_bath_8981=> select * from entity_tags;<br>
- recipe_id | tag_id | entity_type 
------------+--------+-------------
-         1 |      1 | recipe
-         1 |      2 | recipe
-         1 |      3 | recipe
-         1 |      4 | recipe
-         1 |      5 | recipe
+| recipe_id | tag_id | entity_type  |
+| --------- | ------ | ------------ |
+|     1     |      1 | recipe       |
+|     1     |      2 | recipe       |
+|     1     |      3 | recipe       |
+|     1     |      4 | recipe       |
+|     1     |      5 | recipe       |
 (5 rows)
 </details>
 
