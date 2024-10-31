@@ -21,8 +21,7 @@
 ## Use based functionality testing
 While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
 
-Button debounce
-While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but ideally it needs to be implemented on all pages that have a form/button that allows a user to modify the database. 
+This method of testing was abandoned after I started to get more to grips with accessing and writing data to the database, instead relying more on directly checking to see if data had updated on the website. Sadly, I neglected to record much, if any data at this stage, since I was more focused on getting functionality online. 
 
 ### add recipe
 <details>
@@ -482,9 +481,19 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 </details>
 
 
+### Button Debounce
+While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but gradually it was slowly added to every other page where a user could submit a form, since the same issue was present on all form entries. 
+
 # HTML Validation
 
 # CSS Validation
+
+CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS, specifically around the user of vendor extensions which were needed to ensure that Webkit based browsers were able to render parts of the site as expected. 
+
+There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class investigating found that his had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. 
+
+After some investigation I confirmed that 
+[W3Schools Jigsaw](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fcolourforge.co.uk&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 # Accessibility
 WAVE was used to check to ensure the site conforms to accessibility standards. 
@@ -608,7 +617,7 @@ I suspect I may be able to implement things like preloading and similar to help.
 
 ## Logged Out
 <details>
-<summary>Loggedout Home Page Results</summary>
+<summary>Home Page Results</summary>
 <img src="docs/lighthouse/Lighthouse-Home-LoggedOut.png">
 </details>
 <br>
@@ -700,9 +709,16 @@ I suspect I may be able to implement things like preloading and similar to help.
 <br>
 
 # User Testing
+
 # User Story Testing
+
 # Javascript Testing
+
 # Python Testing
+
 # Device and Browser Testing
+
 # Responsiveness
+
 # Automated testing
+Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that their were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. 

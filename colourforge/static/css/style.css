@@ -498,9 +498,9 @@ nav ul a:active {
 .collapsible-body {
 	padding: 16px;
 	box-sizing: border-box;
-	overflow-wrap: break-word;
-	word-wrap: break-word;
-	word-break: break-word;
+	overflow-wrap: anywhere;
+	word-wrap: anywhere;
+	word-break: anywhere;
 	white-space: normal;
 	overflow: hidden;
 }
@@ -541,7 +541,7 @@ nav ul a:active {
 	margin: -1px;
 	padding: 0;
 	border: 0;
-	clip: rect(0, 0, 0, 0);
+	clip-path: inset(0 0 0 0);
 	overflow: hidden;
 }
 
