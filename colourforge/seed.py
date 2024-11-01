@@ -115,7 +115,7 @@ use this if you're happy to lose this content.
     # I have been advise by my mentor that URLs can be longer than 79 chars.
     image1 = RecipeImage(
         stage=stage1,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg,'
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg',
         alt_text='Default Image',
         public_id='placeholder'
