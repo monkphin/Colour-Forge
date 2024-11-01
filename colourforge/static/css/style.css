@@ -34,6 +34,9 @@ body {
 	display: flex;
 	min-height: 100vh;
 	flex-direction: column;
+	overflow-wrap: anywhere;
+	-webkit-hyphens: auto;
+	hyphens: auto;
 }
 
 /* Main Content Area */
@@ -131,6 +134,7 @@ nav ul a:active {
 
 /* Fix Dropdown width */ 
 .dropdown-content {
+	min-width: -webkit-fill-available;
 	min-width: fit-content;
 }
 
