@@ -770,7 +770,9 @@ Performance testing was conducted with Googles Lighthouse, which is part of its 
 
 Due to the sites reliance on several external resources, which in some cases are on free tiers, which can impact performance I fully expected performance tests to not be great for this app, since external services can be factor when it comes to load times that are beyond the control of the site owner. Similarly the nature of the site being image and DB query heavy will be contributing factors since the images can, often intentionally so, be large. Similarly their can be multiple calls made to the DB per page where multi stage recipes are concerned. This is part of the reason I opted to use CloudFlare for caching content when the site has been browsed, since this can help to mitigate load times where possible. 
 
-I suspect I may be able to implement things like preloading and similar to help. Similarly I have generated a minified CSS file which the site uses and may, in future shift to minimized Javascript and HTML files to see if these help with load times. 
+I also suspect that using a cheaper Dyno from Heroku may not be helping in terms of general load times and responsiveness, combined with what I suspect may be some inefficient coding on my part will also be contributing. 
+
+I suspect I may be able to implement things like pre-caching of CSS, javascript and common images to help. Similarly I have generated a minified CSS file which the site uses and may, in future shift to minimized Javascript and HTML files to see if these help with load times. 
 
 
 ## Logged Out
@@ -955,8 +957,17 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 
 # Device and Browser Testing
 
+| Operating System | Browser | Notes                                                                                                                            | Result       |
+| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Mac OS           | Safari  | Admin Dropdown renders correctly vs when using Chrome. Minor rendering issues with the search box that I've documented elsewhere | Functions OK |
+| Mac OS           | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                            | Functions OK |
+| Mac OS           | Firefox |
+| Windows          | Chrome  |
+| Windows          | Firefox |
+| Windows          | Edge    | 
 
 # Responsiveness
+
 
 # Automated testing
 Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that their were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. 
