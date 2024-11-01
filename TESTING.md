@@ -621,7 +621,7 @@ Jinja for loop after the fix:<br>
 {% for stage in recipe.stages|sort(attribute='stage_num') %}
 
 # Unresolved Issues
-Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzeug error, which is a less than ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from dSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure there are protections in place to prevent the site throwing a Werkzeug error and instead just kicking a flashed message, however the only way I can see to do this would cause the site to reload to prevent the code form continuing and trying to upload too large a file, which when the user has typed a large volume of text in the instruction field would cause a negative experience also, since they'd need to retype their instructions, as well as any in prior stages, so I need to find a way to cache this data while still preventing the program from continuing. 
+Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzeug error, which is a less-than-ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from DSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure there are protections in place to prevent the site throwing a Werkzeug error and instead just kicking a flashed message, however, the only way I can see to do this would cause the site to reload to prevent the code from continuing and trying to upload the too large file, which when the user has typed a large volume of text in the instruction field would cause a negative experience also since they'd need to retype their instructions, as well as any in prior stages, so I need to find a way to cache this data while still preventing the program from continuing. 
 
 <details>
 <summary>Large Image Bug</summary>
@@ -635,7 +635,7 @@ While this bug is present, when it is triggered, it can cause recipes to not be 
 <img src="docs/bugs/unviewable-recipes.png">
 </details>
 
-The site has a couple of minor graphical issues that I have noticed but can't quite pin down. THe search box bug is the more frustrating of the two, since this is user facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However neither of these causes significant issues for functionality and are more very minor UI issues. 
+The site has a couple of minor graphical issues that I have noticed but can't quite pin down. The search box bug is the more frustrating of the two since this is user-facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However, neither of these causes significant issues for functionality and are more very minor UI issues. 
 
  - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
 
@@ -644,7 +644,7 @@ The site has a couple of minor graphical issues that I have noticed but can't qu
 <img src="docs/bugs/searchbox-bug.png">
 </details>
 
-Additionally I have noticed an issue with the admin menu drop down on the nav bar. This is set to fit the contents, yet seems to insist on word wrapping when the Recipe Admin option is selected. 
+Additionally, I have noticed an issue with the admin menu drop-down on the nav bar. Although it is set to fit the contents, it seems to insist on word wrapping when the Recipe Admin option is selected. 
 
 <details>
 <summary>Admin Menu Bug</summary>
@@ -652,7 +652,7 @@ Additionally I have noticed an issue with the admin menu drop down on the nav ba
 <img src="docs/bugs/recipe-admin-bug.png">
 </details>
 
-Additionally, while I have already mentioned it in the resolved bugs section. I feel it's worth again calling out the issues with recipe ordering, since while I have a fix in place, it is, at best a band aid solution to what I think may be a much larger issue which warrants further investigation, particularly since the fix I have in place would cause issues with potential future functionality where reordering the recipe stages or adding in new between existing ones is concerned. 
+Additionally, while I have already mentioned it in the resolved bugs section, I feel it's worth again calling out the issues with recipe ordering, since while I have a fix in place, it is, at best a band-aid solution to what I think maybe a much larger issue which warrants further investigation, particularly since the fix I have in place would cause problems with potential future functionality where reordering the recipe stages or adding in new between existing ones is concerned. 
 
 # HTML Validation
 
@@ -681,9 +681,9 @@ W3Schools HTML Validator was used to test all HTML. Since much of the site is lo
 
 # CSS Validation
 
-CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS, specifically around the use of vendor extensions which were needed to ensure that Webkit based browsers were able to render parts of the site as expected. 
+CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS. There are also a group of errors inmy own CSS that are highlighted, specifically around the use of vendor extensions and pseudo-elements, which were required to ensure maximal compatibility. 
 
-There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class,some investigation found that this had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break-word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
+There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class, some investigation found that this had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip-path instead. Similarly, after reading MDN docs, I replaced break-word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
 
 One issue that seems to have appeared in the last few days which wasn't present before is a materialize caused issue, likely created by a typo in a change to their own CSS. 
 
@@ -938,25 +938,25 @@ The below user stories were all met based on requirements. In some cases there w
 | As a user, I would like to be able to delete recipes that are no longer of use to me.                       | Works as expected   | Users can delete any recipe they create. Deletion creates a modal pop up which alerts the user to the deletion, allowing for some defence from deleting the wrong thing, or accidental deletions |
 | As a user, I want to be able to search my library and recipes using tags                                    | Works as expected   | Users can use the tags they add to recipes to search for and find all recipes with the associated tags. 
 | As a user, I want the application to be clean and easy to navigate.                                         | Works as expected   | The website features a nav bar across the top or a pull out nav bar, accessible via the hamburger menu which provides simple navigation around the website. |
-| As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. | Works as expected | The website has been designed with mobile first, responsive design in mind. Meaning it will adjust depending on the device in use and provide a user interface that's adapted to either touch or mouse based entry. |
+| As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. | Works as expected | The website has been designed with mobile-first, responsive design in mind. Meaning it will adjust depending on the device in use and provide a user interface that's adapted to either touch or mouse-based entry. |
 | As a user, I want my password to be stored securely to protect my account.                                  | Works as expected   | User passwords are hashed using SHA 512
-| As a user, I would like that only I am able to modify or edit my library or recipes.                        | Works as expected   | The only people who can modify a user's recipes or other data are the users who contributed that data to site admins. Site admins only have the facility to this to protect the site from malicious use, which I feel is an expectation when it comes to using a platform online |
+| As a user, I would like that only I can modify or edit my library or recipes.                        | Works as expected   | The only people who can modify a user's recipes or other data are the users who contributed that data to site admins. Site admins only have the facility to this to protect the site from malicious use, which I feel is an expectation when it comes to using a platform online |
 | As a user, I want to receive visual feedback or confirmation when I edit or delete a paint or recipe.       | Works as expected   | Feedback is provided to users via the form of flashed messages which auto hide after 3 seconds or can be dismissed before the 3 seconds are up if the user chooses to do so |
-| As a user, I would like to be alerted when I try to submit an incomplete form, with an indication of what data may be missing. | Works as expected | The site uses a mix of flashed alerts and form level tool tips which should highlight why a form may fail to submit |
-| As an admin, I want to be able to manage user accounts, including editing and deletion.                     | Works as expected | The website features an admin panel to allow site admins to manage both user accounts and user submitted recipes, this grants them the ability to modify and delete both accounts and recipes to help users or protect the site from abuse and misuse. |
+| As a user, I would like to be alerted when I try to submit an incomplete form, with an indication of what data may be missing. | Works as expected | The site uses a mix of flashed alerts and form level tooltips which should highlight why a form may fail to submit |
+| As an admin, I want to be able to manage user accounts, including editing and deletion.                     | Works as expected | The website features an admin panel to allow site admins to manage both user accounts and user-submitted recipes, this grants them the ability to modify and delete both accounts and recipes to help users or protect the site from abuse and misuse. |
 | As a user I would like to be able to have a link for my recipes so that I can share them with other users.  | Works as expected | All recipes are available to share with both other members of the site (And indeed they're displayed to all users on the home page) as well as the wider internet by sharing the URL |
 
 ## Partial Successes 
-These were all partially implemented where easier to implement solutions have been used or some story based functionality may be missing due to needing to scale back the scope for an MVP. Implementation would be given a priority focus for the next release
+These were all partially implemented where easier-to-implement solutions have been used or some story-based functionality may be missing due to needing to scale back the scope for an MVP. Implementation would be given a priority focus for the next release
 
 | User Story                                                                                                  | Status              | Notes |
 | ----------------------------------------------------------------------------------------------------------- | ------------------- | ------|
 | As a user, I want to be able to reset my password if I forget it                                            | Partial             | While self-serve password reset functionality is not currently implemented, the user can request an admin to change their password for them, allowing them to be able to log in and change their password to something more suitable. |
-| As a user, I want to be able to register for an account so that I may save my paint collection and recipes. | Partial             | The website has a registration page which allows users to register an account in order to use the site. This auto logs in the user and generates a demonstration recipe which provides some basic usage instructions. Once logged in the user is able to create, edit and save paint recipes. However due to having to scale back, adding paint and having a library of paints is not yet implemented. | 
-| As a user, I would like to be able to create new recipes using paints from my Library.                      | Partial             | Users can create paint recipes, however because the paint library was deemed to be beyond the scope of the MVP the ability to add specific paints to a recipe or create a recipe from paints is currently not present. This will be added in a future iteration. |
+| As a user, I want to be able to register for an account so that I may save my paint collection and recipes. | Partial             | The website has a registration page which allows users to register an account to use the site. This auto logs in the user and generates a demonstration recipe which provides some basic usage instructions. Once logged in the user can create, edit and save paint recipes. However, due to having to scale back, adding paint and having a library of paints is not yet implemented. | 
+| As a user, I would like to be able to create new recipes using paints from my Library.                      | Partial             | Users can create paint recipes, however, because the paint library was deemed to be beyond the scope of the MVP the ability to add specific paints to a recipe or create a recipe from paints is currently not present. This will be added in a future iteration. |
 
 ## Failed to meet. 
-These were user stories which were unable to be implemented due to scaling back the project for an MVP candidate. However this functionality would be treated as being a priority for a next release candidate update. The below user stories mostly focused on the ability to add paint to a paint library or using this data in recipes or in other forms, which was a feature that was chosen to be de-prioritised in order to meet an MVP release for the due date. 
+These were user stories which were unable to be implemented due to scaling back the project for an MVP candidate. However, this functionality would be treated as being a priority for the next release candidate update. The below user stories mostly focused on the ability to add paint to a paint library or use this data in recipes or in other forms, which was a feature that was chosen to be de-prioritised to meet an MVP release for the due date. 
 
 | User Story                                                                                                                        | Status              | Notes                                                             |
 | --------------------------------------------------------------------------------------------------------------------------------- | ------------------- | ----------------------------------------------------------------- |
@@ -991,7 +991,7 @@ PEP8 Compliance testing was conducted with the Code Institute provided [Python L
 | seed.py     | Six issues detected, see notes below |
 
 ### Init File
-The file has an issue where an import is declared mid way through the document. Specifically on line 58
+The file has an issue where an import is declared mid-way through the document. Specifically on line 58
 ```
 from colourforge.models import User
 ```
@@ -1000,7 +1000,7 @@ If I declare this at the top of the document I get circular import errors. I can
 ### helpers.py
 This file has two lines that are two long. Specifically lines 50 and 52, with them being 86 and 93 characters in length respectively. 
 
-Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters, since it's easier to read when they're on a single line rather than split and concatenated back together. 
+Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters since it's easier to read when they're on a single line rather than split and concatenated back together. 
 
 ### seed.py 
 Much like the helpers file this is throwing errors due to long line lengths. Specifically 118, 119, 126, 127, 134 and 135, with the evenly numbered lines being 100 characters long and the oddly numbered lines being 111 characters long. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
@@ -1011,13 +1011,13 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 | ---------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | Mac OS           | Safari  | Admin Dropdown renders correctly vs when using Chrome. Minor rendering issues with the search box that I've documented elsewhere               | Functions OK |
 | Mac OS           | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
-| Mac OS           | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
-| Windows          | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
-| Windows          | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
-| Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |                
+| Mac OS           | Firefox | Minor issues with the search box, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
+| Windows          | Chrome  | Minor issues that have been raised elsewhere about the admin drop-down and search box                                                          | Functions OK |
+| Windows          | Firefox | Minor issues with the search box, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
+| Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop-down and search box                                                          | Functions OK |                
 
 <details>
-<summary>Example of the Firefox issue prior to its resolution.</summary>
+<summary>Example of the Firefox issue before its resolution.</summary>
 <img src="docs/bugs/firefox-bug.png">
 </details>
 <br> 
