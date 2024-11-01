@@ -635,6 +635,22 @@ CSS validation was conducted using the W3 Schools validation service. This highl
 
 There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class investigating found that his had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
 
+One issue that seems to have appeared in the last few days which wasn't present before is a materialize caused issue, likely created by a typo in a change to their own CSS. 
+
+<details>
+<summary>Large Image Bug</summary>
+<img src="docs/bugs/materialize-css-issue.png">
+</details>
+
+I had attempted to work around to mitigate the error by using the following addition to my own CSS. 
+
+```
+.table-of-contents a {
+    letter-spacing: 0.4px !important;
+}
+```
+However the issue was still being picked up by the Jigsaw test, so I removed this since it seemed to make no difference. As such there is, at the time of writing, a failure on the test results but this is caused by an externally sourced CSS file which I have no control over and seemingly cannot override. 
+
 The results of the CSS validation be found here: [W3Schools Jigsaw test results](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fcolourforge.co.uk&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 # Accessibility
@@ -893,6 +909,7 @@ Both these lines are URL strings for images which are set as variables to be use
 Much like the helpers file this is throwing errors due to long line lengths. Specifically 35 and 37, which are again 86 and 93 characters in length respectively. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
 
 # Device and Browser Testing
+
 
 # Responsiveness
 
