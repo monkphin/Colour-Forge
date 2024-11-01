@@ -7,7 +7,7 @@
 
 /* I don't believe this is being used anywhere on the site, this is just to remove an error on Jigsaw tests */
 .table-of-contents a {
-    letter-spacing: 0.4px;
+    letter-spacing: 0.4px !important;
 }
 
 /* =============================================================
