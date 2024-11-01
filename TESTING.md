@@ -966,6 +966,11 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 | Windows          | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
 | Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |                
 
+<details>
+<summary>Example of the Firefox issue prior to its resolution.</summary>
+<img src="docs/bugs/firefox-bug.png">
+</details>
+
 # Responsiveness
 
 I tested my project both when deployed locally and on the Heroku server using Google Chrome's dev tools, trying various simulated phones as well as just shifting the responsive dimensions screen around to view how varying resolutions impacted the sites rendering. 
