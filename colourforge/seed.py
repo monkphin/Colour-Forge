@@ -29,14 +29,6 @@ the tagging and search functionalities.
 from .models import db, Recipe, RecipeStage, RecipeImage, RecipeTag, EntityTag
 
 
-# Common variables.
-# I have been advise by my mentor that URLs can be longer than 79 chars.
-PLACEHOLDER_IMAGE_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg')
-PLACEHOLDER_THUMBNAIL_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg')
-
-
 def create_default_recipe(user):
     """
     Initialize a Default Recipe for a New User.
@@ -123,24 +115,24 @@ use this if you're happy to lose this content.
     # I have been advise by my mentor that URLs can be longer than 79 chars.
     image1 = RecipeImage(
         stage=stage1,
-        image_url=PLACEHOLDER_IMAGE_URL,
-        thumbnail_url=PLACEHOLDER_THUMBNAIL_URL,
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg,'
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg',
         alt_text='Default Image',
         public_id='placeholder'
     )
 
     image2 = RecipeImage(
         stage=stage2,
-        image_url=PLACEHOLDER_IMAGE_URL,
-        thumbnail_url=PLACEHOLDER_THUMBNAIL_URL,
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-2.jpg',
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-2.jpg',
         alt_text='A model of a frog, in red samurai armour.',
         public_id='demo-image-1'
     )
 
     image3 = RecipeImage(
         stage=stage3,
-        image_url=PLACEHOLDER_IMAGE_URL,
-        thumbnail_url=PLACEHOLDER_THUMBNAIL_URL,
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
         alt_text='Rummy Nate in glorious full colour.',
         public_id='demo-image-2'
     )

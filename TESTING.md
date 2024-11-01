@@ -938,7 +938,7 @@ PEP8 Compliance testing was conducted with the Code Institute provided [Python L
 | mail.py     | Pass                                 |
 | models.py   | Pass                                 |
 | routes.py   | Pass                                 |
-| seed.py     | Two issues detected, see notes below |
+| seed.py     | Six issues detected, see notes below |
 
 ### Init File
 The file has an issue where an import is declared mid way through the document. Specifically on line 58
@@ -953,7 +953,7 @@ This file has two lines that are two long. Specifically lines 50 and 52, with th
 Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters, since its easier to read when they're on a single line rather than split and concatenated back together. 
 
 ### seed.py 
-Much like the helpers file this is throwing errors due to long line lengths. Specifically 35 and 37, which are again 86 and 93 characters in length respectively. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
+Much like the helpers file this is throwing errors due to long line lengths. Specifically 118, 119, 126, 127, 134 and 135, with the evenly numbered lines being 100 characters long and the oddly numbered being 111 characters long. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
 
 # Device and Browser Testing
 
