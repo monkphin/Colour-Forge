@@ -20,7 +20,7 @@
 # Testing and Validation
 
 ## Use based functionality testing
-While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output the function to ensure the data was being correctly captured before sending to the DB. 
+While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output to ensure the data was being correctly captured before sending it to the DB. 
 
 This method of testing was moved on from after I started to get more to grips with accessing and writing data to the database, instead relying more on directly checking to see if data had updated on the website. Sadly, I neglected to record much, if any data from that point on, since I was more focused on getting functionality online and working as well as reacting to realisations about tweaks or changes that were needed. 
 
@@ -34,11 +34,13 @@ Output of writing to the recipes table<br>
 Recipe Name: This is a test of the add recipe function<br>
 Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.<br>
 
+```
 127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+```
 
 Recipes table contents<br>
 open_punch_bath_8981=> \dt<br>
@@ -60,6 +62,7 @@ open_punch_bath_8981=> select * from recipes;<br>
 <summary>Output of writing to the recipe and recipe_stages tables</summary>
 <img src="docs/add_recipe_test2.png">
 
+```
 Recipe Name: This is a test of the recipe stages<br>
 Recipe Description: Testing to see if a single stage can be added OK<br>
 2<br>
@@ -70,6 +73,7 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+```
 
 open_punch_bath_8981=> \dt<br>
            List of relations<br>
@@ -99,6 +103,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <summary>basic functionality to write to the recipes table and add multiple stages to the recipes_stages table</summary>
 <img src="docs/add_recipe_test3.png">
 
+```
 Recipe Name: Testing adding 2 stages<br>
 Recipe Description: This is a test of 2 stages<br>
 3<br>
@@ -109,7 +114,8 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |       recipe_name       |        recipe_desc         |
@@ -129,6 +135,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the Boolean</summary>
 <img src="docs/add_recipe_test4.png">
 
+```
 Recipe Name: Testing three stages with a final stage<br>
 Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. <br>
 4<br>
@@ -139,7 +146,8 @@ Is Final Stage?: on<br>
 127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> select * from recipes;<br>
 
 
@@ -157,12 +165,13 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |     3    |      1    |      3    | This is stage 3 of the third test | t              | 
 </details>
 
-It seemed this assigned true to all stages, rather than just the last. This caused me to rethink how this should be handled, either giving the user an option per stage, which seems like too clunky a solution. Or to automatically assume the last stage added is the last stage of the instructions, which would make more sense since this is where we would normally expect the image used in the card for the recipe to be selected from. 
+It seemed this was assigning true to all stages, rather than just the last. This caused me to rethink how this should be handled, either giving the user an option per stage, which seems like too clunky a solution. Or to automatically assume the last stage added is the last stage of the instructions, which would make more sense since this is where we would normally expect the image used in the card for the recipe to be selected from. 
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the new Boolean logic</summary>
 <img src="docs/add_recipe_test5.png">
-<br>
+
+```
 Recipe Name: Retest of multiple stages, with the new logic for the final stage added<br>
 Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image<br>
 5<br>
@@ -173,7 +182,8 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                |
@@ -197,7 +207,8 @@ open_punch_bath_8981=> select * from recipes;<br>
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the fix Boolean logic</summary>
 <img src="docs/add_recipe_test6.png">
-<br>
+
+```
 Recipe Name: Test of adjusted logic for Bool handling<br>
 Recipe Description: THis is hopefully a final test for the adjusted Boolean logic<br>
 3<br>
@@ -209,7 +220,8 @@ Is Final Stage?: None<br>
 127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/js/script.js HTTP/1.1" 304 -<br>
 127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                 |
@@ -239,11 +251,12 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
 <img src="docs/add_recipe_test7.png">
-<br>
+
+```
 Recipe Name: This is a test of adding the images to Cloudinary and the DB<br>
 Recipe Description: Testing of image upload for a single stage<br>
 1<br>
-Instructions List: ['This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL. ']<br>
+Instructions List: ['This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL. ']<br>
 Is Final Stage?: None<br>
 Image names: [<FileStorage: 'hero-image.png' ('image/png')>]<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "POST /add_recipe HTTP/1.1" 302 -<br>
@@ -251,7 +264,8 @@ Image names: [<FileStorage: 'hero-image.png' ('image/png')>]<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |                         recipe_name                          |                recipe_desc                 |
@@ -262,7 +276,7 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage |
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
-|     1    |     1     |     1     | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t              |
+|     1    |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t              |
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
@@ -275,7 +289,8 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
 <img src="docs/add_recipe_test8.png">
-<br>
+
+```
 Recipe Name: This is a test of adding multiple images<br>
 Recipe Description: Will try for three images this time over 4 stages<br>
 1<br>
@@ -287,9 +302,9 @@ Image names: [<FileStorage: '404-page-desktop.png' ('image/png')>]<br>
 127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-
 127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |                         recipe_name                          |                    recipe_desc                    |
@@ -301,7 +316,7 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage  |
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | --------------- |
-|    1     |     1     |     1     | This is the first and only stage. The Bool should be true. Their should be an image URL and Thumbnail URL.  | t               |
+|    1     |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t               |
 |    2     |     2     |     1     | This is the first stages image                                                                              | f               |
 (2 rows)
 
@@ -318,7 +333,8 @@ The above only seemed to add a single image of the several that were input. On i
 <details>
 <summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
 <img src="docs/add_recipe_test9.png">
-<br>
+
+```
 Recipe Name: Testing multiple image uploads<br>
 Recipe Description: This is a test<br>
 3<br>
@@ -331,7 +347,8 @@ alt text: ['Sad pika', 'Hero Image', 'Local Map']<br>
 127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |          recipe_name           |  recipe_desc   | 
@@ -360,11 +377,12 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 <summary>Output of testing unexpected behaviours, such as not filling in all fields, forgetting to add alt-text (image description), forgetting to add an image, etc.</summary>
 <img src="docs/add_recipe_test10.png">
 <img src="docs/add_recipe_test10a.png">
-<br>
+
+```
 Recipe Name: Test of not adding data to all fields for multiple stages<br>
 Recipe Description: Some stages will have all fields filled. Some will not.<br>
 5<br>
-Instructions List: ['Stage 1 - this is the control and will have data in all fields ', 'Stage 2 - this will only have the instructions ', 'Stage 3 - This will just be an image', "Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this. ", 'Stage 5 - this needed to be filled in to submit, as expected']<br>
+Instructions List: ['Stage 1 - this is the control and will have data in all fields ', 'Stage 2 - this will only have the instructions ', 'Stage 3 - This will just be an image', "Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this. ", 'Stage 5 - this needed to be filled in to submit, as expected']<br>
 Is Final Stage?: None<br>
 Image names: ['Screenshot 2024-06-08 021116.png', '', 'Screenshot 2024-09-12 223744.png', '', 'Screenshot 2024-07-25 202904.png']<br>
 alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mock-up - In this instance I'm testing adding images and no Instructions"]<br>
@@ -373,7 +391,8 @@ alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mock-up - In 
 127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
 127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-<br>
+```
+
 open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 
@@ -392,7 +411,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 |     4    |     2     |     1     | Stage 1 - this is the control and will have data in all fields                                                                                                                                                       | f              |
 |     5    |     2     |     2     | Stage 2 - this will only have the instructions                                                                                                                                                                       | f              |
 |     6    |     2     |     3     | Stage 3 - This will just be an image                                                                                                                                                                                 | f              |
-|     7    |     2     |     4     | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once i've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f              |
+|     7    |     2     |     4     | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f              |
 |     8    |     2     |     5     | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t              |
 (8 rows)
 
@@ -413,16 +432,18 @@ The above test, while initially using 6 stages for testing, also let me test wha
 <details>
 <summary>Testing writing to all tables needed for adding a recipe, recipes, recipe_stages, recipe_images, recipe_tags and entity_tags  </summary>
 <img src="docs/add_recipe_test11.png">
-<br>
+
+```
 Recipe Name: Dark Angels Desaturated Power Armour<br>
 Recipe Description: This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour<br>
 1<br>
-Instructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, sinInstructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. ", 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. ']<br>
+Instructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, sinInstructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. ", 'Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. ']<br>
 Is Final Stage?: None<br>
 Image names: ['404-page-desktop.png', 'game-wave.png', 'hero-image.png', 'jest.png']<br>
 alt text: ['Undercoated Dark Angel', 'Base coat', 'First Highlight', 'Wash']<br>
 Full form content ImmutableMultiDict([('recipe_name', 'Dark Angels Desaturated Power Armour'), ('recipe_desc', 'This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour'), ('tags', 'Dark Angels,Warhammer,Space Marines,Power Armour,Desaturated'), ('instructions[]', 'Undercoat the model with a flat black paint. '), ('instructions[]', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. "), ('instructions[]', "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. "), ('instructions[]', 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. '), ('image_desc[]', 'Undercoated Dark Angel'), ('image_desc[]', 'Base coat'), ('image_desc[]', 'First Highlight'), ('image_desc[]', 'Wash')])<br>
-<br>
+```
+
 open_punch_bath_8981=> \dt<br>
 
            List of relations<br>
@@ -447,8 +468,8 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 | -------- | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
 |     1    |     1     |     1     | Undercoat the model with a flat black paint.                                                                                                                                                                                                                             | f               |
 |     2    |     1     |     2     | Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left.                                                | f               |
-|     3    |     1     |     3     | using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f               |
-|     4    |     1     |     4     | Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t               |
+|     3    |     1     |     3     | Using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f               |
+|     4    |     1     |     4     | Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t               |
 (4 rows)
 
 open_punch_bath_8981=> select * from recipe_images;<br>
@@ -483,7 +504,7 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 
 # Bugs, Issues and challenges 
 
-### Tags
+### Tags
 
 Tags were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have existing tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully as intended, effectively the main issues I as finding is that I wasn't able to use the Materialize Chips when adding or editing tags, which caused me to shift approach and treat editing and entry more like a text field. After some research I found Awesomeplete which would cover the autocomplete functionality, allowing users to draw on and add to the library of tags available on the site. I was able to get this working using some tweaking to some Javascript I found online, so the section around Awesomeplete in the JS File should not be graded since this was heavily reliant on code from [this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
 
@@ -498,7 +519,7 @@ While developing the edit function, I realised that I was leaving images on Clou
 I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
 
 ### Button Debounce
-While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I' hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this is only on the add_recipe page, but gradually it was slowly added to every other page where a user could submit a form, since the same issue was present on all form entries. 
+While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this was only on the add_recipe page, but gradually it was slowly added to every other page where a user could submit a form, since the same issue was present on all form entries. 
 
 While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents me from disabling this. 
 Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality, and instead allows users to repeatedly send a single email in error. 
@@ -571,7 +592,7 @@ Jinja for loop after the fix:<br>
 {% for stage in recipe.stages|sort(attribute='stage_num') %}
 
 # Unresolved Issues
-Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from dSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure their are protections in place to prevent the site throwing a Werkzueg error and instead just kicking a flashed message. 
+Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzeug error, which is a less than ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from dSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure there are protections in place to prevent the site throwing a Werkzeug error and instead just kicking a flashed message. 
 
 <details>
 <summary>Large Image Bug</summary>
@@ -631,9 +652,9 @@ W3Schools HTML Validator was used to test all HTML. Since much of the site is lo
 
 # CSS Validation
 
-CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS, specifically around the user of vendor extensions which were needed to ensure that Webkit based browsers were able to render parts of the site as expected. 
+CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS, specifically around the use of vendor extensions which were needed to ensure that Webkit based browsers were able to render parts of the site as expected. 
 
-There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class investigating found that his had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
+There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class,some investigation found that this had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break-word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
 
 One issue that seems to have appeared in the last few days which wasn't present before is a materialize caused issue, likely created by a typo in a change to their own CSS. 
 
@@ -766,13 +787,13 @@ A few issues were highlighted, specifically around duplication of the link to th
 
 # Performance
 
-Performance testing was conducted with Googles Lighthouse, which is part of its DevTools package in Chrome. 
+Performance testing was conducted with Google's Lighthouse, which is part of its DevTools package in Chrome. 
 
-Due to the sites reliance on several external resources, which in some cases are on free tiers, which can impact performance I fully expected performance tests to not be great for this app, since external services can be factor when it comes to load times that are beyond the control of the site owner. Similarly the nature of the site being image and DB query heavy will be contributing factors since the images can, often intentionally so, be large. Similarly their can be multiple calls made to the DB per page where multi stage recipes are concerned. This is part of the reason I opted to use CloudFlare for caching content when the site has been browsed, since this can help to mitigate load times where possible. 
+Due to the site's reliance on several external resources, which in some cases are on free tiers, which can impact performance, I fully expected performance tests to not be great for this app, since external services can be a factor when it comes to load times that are beyond the control of the site owner. Similarly the nature of the site being image and DB query heavy will be contributing factors since the images can, often intentionally so, be large. Similarly there can be multiple calls made to the DB per page where multi stage recipes are concerned. This is part of the reason I opted to use CloudFlare for caching content when the site has been browsed, since this can help to mitigate load times where possible. 
 
 I also suspect that using a cheaper Dyno from Heroku may not be helping in terms of general load times and responsiveness, combined with what I suspect may be some inefficient coding on my part will also be contributing. 
 
-I suspect I may be able to implement things like pre-caching of CSS, javascript and common images to help. Similarly I have generated a minified CSS file which the site uses and may, in future shift to minimized Javascript and HTML files to see if these help with load times. 
+I suspect I may be able to implement things like pre-caching of CSS, javascript and common images to help. Similarly I have generated a minified CSS file which the site uses and may, in future, shift to minimized Javascript and HTML files to see if these help with load times. 
 
 
 ## Logged Out
@@ -875,11 +896,11 @@ User level testing was conducted throughout development by contacting a small gr
 
 ## Successes 
 
-The below user stories were all met based on requirements. In some cases there were minor caveats, such as admins being able to modify user recipes, though I believe that their is an expectation that moderation of user content can occur when using a service where the content is user generated. In other cases some of the requirements were exceeded, such as a limited number user recipes being visible on the home page when logged out, or all recipes being visible to all users when logged in. 
+The below user stories were all met based on requirements. In some cases there were minor caveats, such as admins being able to modify user recipes, though I believe that there is an expectation that moderation of user content can occur when using a service where the content is user generated. In other cases some of the requirements were exceeded, such as a limited number of user recipes being visible on the home page when logged out, or all recipes being visible to all users when logged in. 
 
 | User Story                                                                                                  | Status              | Notes |
 | ----------------------------------------------------------------------------------------------------------- | ------------------- | ------|
-| As a user, I want to log in securely to access my data.                                                     | Working As Expected | During registration the users password is securely hashed using SHA-512, allowing for secure storage of passwords in order to protect the users account and data. |
+| As a user, I want to log in securely to access my data.                                                     | Working As Expected | During registration the user's password is securely hashed using SHA-512, allowing for secure storage of passwords in order to protect the user's account and data. |
 | As a user, I want to be able to change my account details                                                   | Works as expected   | The website has an account page which allows the user to modify their email address, password and delete their account. | 
 | As a user, I want to add detailed step by step instructions to my recipes.                                  | Works as expected   | Users can create paint recipes, which allow for multiple stages to be added or removed as needed, allowing for some fairly indepth approaches to miniature painting to be documented. |
 | As a user, I would like to upload images to help see how each stage of the recipe looks.                    | Works as expected   | Users are able to upload images to each stage of their recipes thanks to cloudinary integration. This also auto generates thumbnails which are able to be used to display smaller versions of the uploaded images where appropriate. |
@@ -887,10 +908,10 @@ The below user stories were all met based on requirements. In some cases there w
 | As a user, I would like to be able to edit my recipes as I improve them or need to change paints used.      | Works as expected   | Recipes can be edited by users, with additional stages added, content of existing stages changed, stages removed and different images added to those that are already present. |
 | As a user, I would like to be able to delete recipes that are no longer of use to me.                       | Works as expected   | Users can delete any recipe they create. Deletion creates a modal pop up which alerts the user to the deletion, allowing for some defence from deleting the wrong thing, or accidental deletions |
 | As a user, I want to be able to search my library and recipes using tags                                    | Works as expected   | Users can use the tags they add to recipes to search for and find all recipes with the associated tags. 
-| As a user, I want the application to be clean and easy to navigate.                                         | Works as expected   | The website features a nav bar across the top or a pull out nav bar, accessible via the hamburger menu which provide simple navigation around the website. |
+| As a user, I want the application to be clean and easy to navigate.                                         | Works as expected   | The website features a nav bar across the top or a pull out nav bar, accessible via the hamburger menu which provides simple navigation around the website. |
 | As a user, I would like the application to be fully responsive so that it can be easily used regardless of the device I access it from. | Works as expected | The website has been designed with mobile first, responsive design in mind. Meaning it will adjust depending on the device in use and provide a user interface that's adapted to either touch or mouse based entry. |
 | As a user, I want my password to be stored securely to protect my account.                                  | Works as expected   | User passwords are hashed using SHA 512
-| As a user, I would like that only I am able to modify or edit my library or recipes.                        | Works as expected   | The only people who can modify a users recipes or other data are the users who contributed that data oe site admins. Site admins only have the facility to this to protect the site from malicious use, which I feel is an expectation when it comes to using a platform online |
+| As a user, I would like that only I am able to modify or edit my library or recipes.                        | Works as expected   | The only people who can modify a user's recipes or other data are the users who contributed that data to site admins. Site admins only have the facility to this to protect the site from malicious use, which I feel is an expectation when it comes to using a platform online |
 | As a user, I want to receive visual feedback or confirmation when I edit or delete a paint or recipe.       | Works as expected   | Feedback is provided to users via the form of flashed messages which auto hide after 3 seconds or can be dismissed before the 3 seconds are up if the user chooses to do so |
 | As a user, I would like to be alerted when I try to submit an incomplete form, with an indication of what data may be missing. | Works as expected | The site uses a mix of flashed alerts and form level tool tips which should highlight why a form may fail to submit |
 | As an admin, I want to be able to manage user accounts, including editing and deletion.                     | Works as expected | The website features an admin panel to allow site admins to manage both user accounts and user submitted recipes, this grants them the ability to modify and delete both accounts and recipes to help users or protect the site from abuse and misuse. |
@@ -901,7 +922,7 @@ These were all partially implemented where easier to implement solutions have be
 
 | User Story                                                                                                  | Status              | Notes |
 | ----------------------------------------------------------------------------------------------------------- | ------------------- | ------|
-| As a user, I want to be able to reset my password if I forget it                                            | Partial             | While self serve password reset functionality is not currently implemented, the user can request an admin can change their password for them, allowing them to be able to log in and change their password to something more suitable. |
+| As a user, I want to be able to reset my password if I forget it                                            | Partial             | While self-serve password reset functionality is not currently implemented, the user can request an admin to change their password for them, allowing them to be able to log in and change their password to something more suitable. |
 | As a user, I want to be able to register for an account so that I may save my paint collection and recipes. | Partial             | The website has a registration page which allows users to register an account in order to use the site. This auto logs in the user and generates a demonstration recipe which provides some basic usage instructions. Once logged in the user is able to create, edit and save paint recipes. However due to having to scale back, adding paint and having a library of paints is not yet implemented. | 
 | As a user, I would like to be able to create new recipes using paints from my Library.                      | Partial             | Users can create paint recipes, however because the paint library was deemed to be beyond the scope of the MVP the ability to add specific paints to a recipe or create a recipe from paints is currently not present. This will be added in a future iteration. |
 
@@ -940,7 +961,7 @@ PEP8 Compliance testing was conducted with the Code Institute provided [Python L
 | routes.py   | Pass                                 |
 | seed.py     | Six issues detected, see notes below |
 
-### Init File
+### Init File
 The file has an issue where an import is declared mid way through the document. Specifically on line 58
 ```
 from colourforge.models import User
@@ -950,10 +971,10 @@ If I declare this at the top of the document I get circular import errors. I can
 ### helpers.py
 This file has two lines that are two long. Specifically lines 50 and 52, with them being 86 and 93 characters in length respectively. 
 
-Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters, since its easier to read when they're on a single line rather than split and concatenated back together. 
+Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters, since it's easier to read when they're on a single line rather than split and concatenated back together. 
 
 ### seed.py 
-Much like the helpers file this is throwing errors due to long line lengths. Specifically 118, 119, 126, 127, 134 and 135, with the evenly numbered lines being 100 characters long and the oddly numbered being 111 characters long. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
+Much like the helpers file this is throwing errors due to long line lengths. Specifically 118, 119, 126, 127, 134 and 135, with the evenly numbered lines being 100 characters long and the oddly numbered lines being 111 characters long. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
 
 # Device and Browser Testing
 
@@ -961,7 +982,7 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 | ---------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
 | Mac OS           | Safari  | Admin Dropdown renders correctly vs when using Chrome. Minor rendering issues with the search box that I've documented elsewhere               | Functions OK |
 | Mac OS           | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
-| Mac OS           | Firefox | 
+| Mac OS           | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
 | Windows          | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
 | Windows          | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
 | Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |                
@@ -970,10 +991,11 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 <summary>Example of the Firefox issue prior to its resolution.</summary>
 <img src="docs/bugs/firefox-bug.png">
 </details>
+<br> 
 
 # Responsiveness
 
-I tested my project both when deployed locally and on the Heroku server using Google Chrome's dev tools, trying various simulated phones as well as just shifting the responsive dimensions screen around to view how varying resolutions impacted the sites rendering. 
+I tested my project both when deployed locally and on the Heroku server using Google Chrome's dev tools, trying various simulated phones as well as just shifting the responsive dimensions screen around to view how varying resolutions impacted the site's rendering. 
 
 | Device            | Resolution  | Test Results | Supporting Evidence                                                                    |
 | ----------------- | ----------- | ------------ | -------------------------------------------------------------------------------------- |
@@ -985,4 +1007,5 @@ I tested my project both when deployed locally and on the Heroku server using Go
 
 
 # Automated testing
-Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that their were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. 
+Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that there were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. 
+
