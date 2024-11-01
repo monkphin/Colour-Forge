@@ -48,6 +48,7 @@ open_punch_bath_8981=> \dt<br>
 | Schema |  Name   | Type  |    Owner    |
 |------- | ------- | ----- | ------------|
 | public | recipes | table | urbqgoc5q8y |
+
 (1 row)
 
 open_punch_bath_8981=> select * from recipes;<br>
@@ -55,6 +56,7 @@ open_punch_bath_8981=> select * from recipes;<br>
 | recipe_id |                recipe_name                 |                                                                recipe_desc                                                               |
 | --------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 |    1      | This is a test of the add recipe function  | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data. |
+
 (1 row)
 </details>
 
@@ -81,6 +83,7 @@ open_punch_bath_8981=> \dt<br>
 | ------ | ------------- | ----- | ------------ |
 | public | recipe_stages | table | urbqgoc5q8y  |
 | public | recipes       | table | urbqgoc5q8y  |
+
 (2 rows)
 
 open_punch_bath_8981=> select * from recipes;<br>
@@ -88,6 +91,7 @@ open_punch_bath_8981=> select * from recipes;<br>
 | recipe_id |             recipe_name             |                   recipe_desc                     |
 | --------  |------------------------------------ | ------------------------------------------------- |
 |     1     | This is a test of the recipe stages | Testing to see if a single stage can be added OK  |
+
 (1 row)
 
 open_punch_bath_8981=> select * from recipe_stages;<br>
@@ -95,6 +99,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 | stage_id | recipe_id | stage_num |        instructions        | is_final_stage   |
 | -------- | --------- | --------- | -------------------------- | ---------------- |
 |    1     |         1 |         1 | Just a single stage test.  | f                | 
+
 (1 row)
 </details>
 
@@ -121,6 +126,7 @@ open_punch_bath_8981=> select * from recipes;<br>
 | recipe_id |       recipe_name       |        recipe_desc         |
 | --------- | ----------------------- | -------------------------- |
 |      1    | Testing adding 2 stages | This is a test of 2 stages |
+
 (1 row)
 
 open_punch_bath_8981=> select * from recipe_stages;<br>
@@ -128,6 +134,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 | -------- | --------- | --------- | -------------------------- | --------------- |
 |     1    |      1    |      1    | This is the first stage.   | f               |
 |     2    |      1    |      2    | This is the second stage.  | f               |
+
 (2 rows)
 </details>
 
@@ -245,6 +252,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |    7     |    2      |    4      | This stage 4 of the test of the adjusted Boolean handling | f              |
 |    8     |    4      |    1      | Stage 1 of the adjusted logic test                        | f              |
 |    9     |    4      |    2      | Stage 2 of the adjusted logic test                        | t              |
+
 (9 rows)
 </details>
 
@@ -271,18 +279,21 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 | recipe_id |                         recipe_name                          |                recipe_desc                 |
 | --------- | ------------------------------------------------------------ | ------------------------------------------ |
 |     1     | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage |
+
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage |
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
 |     1    |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t              |
+
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text                                |
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 |     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project. |
+
 (1 row)
 </details>
 
@@ -311,6 +322,7 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 | --------- | ------------------------------------------------------------ | ------------------------------------------------- |
 |      1    | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage        |
 |      2    | This is a test of adding multiple images                     | Will try for three images this time over 4 stages |
+
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
@@ -318,6 +330,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | --------------- |
 |    1     |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t               |
 |    2     |     2     |     1     | This is the first stages image                                                                              | f               |
+
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
@@ -325,6 +338,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | 
 |     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.  | 
 |     2    |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727716322/tnp1ssx1ac3gjs8blb0g.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/tnp1ssx1ac3gjs8blb0g.jpg | Sad Pikachu!                                                             | 
+
 (2 rows)
 </details>
 
@@ -354,6 +368,7 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 | recipe_id |          recipe_name           |  recipe_desc   | 
 | --------- | ------------------------------ | -------------- |
 |     1     | Testing multiple image uploads | This is a test |
+
 (1 row)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
@@ -362,6 +377,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 |     1    |     1     |     1     | Stage 1      | f              |
 |     2    |     1     |     2     | Stage 2      | f              |
 |     3    |     1     |     3     | Stage 3      | t              |
+
 (3 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
@@ -370,6 +386,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 |    1     |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika    |
 |    2     |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image  | 
 |    3     |     3    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map   |
+
 (3 rows)
 </details>
 
@@ -400,6 +417,7 @@ open_punch_bath_8981=> SELECT * FROM recipes;<br>
 | --------- | --------------------------------------------------------- | -------------------------------------------------------- |
 |      1    | Testing multiple image uploads                            | This is a test                                           |
 |      2    | Test of not adding data to all fields for multiple stages | Some stages will have all fields filled. Some will not.  |
+
 (2 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
@@ -413,6 +431,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 |     6    |     2     |     3     | Stage 3 - This will just be an image                                                                                                                                                                                 | f              |
 |     7    |     2     |     4     | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f              |
 |     8    |     2     |     5     | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t              |
+
 (8 rows)
 
 open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
@@ -424,6 +443,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 |    4     |     4    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731716/jwrsx0hlqixuxl2k1fdc.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/jwrsx0hlqixuxl2k1fdc.jpg | The Thing                                                                     |
 |    5     |     6    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731717/ytwtbmoc6wmrxenzk5fj.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ytwtbmoc6wmrxenzk5fj.jpg |                                                                               |
 |    6     |     8    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731718/xeynhlcgz4jbzuysjg34.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/xeynhlcgz4jbzuysjg34.jpg | Phone Mockup - In this instance I'm testing adding images and no Instructions |
+
 (6 rows)
 </details>
 
@@ -455,12 +475,14 @@ open_punch_bath_8981=> \dt<br>
 | public | recipe_stages | table | urbqgoc5q8y | 
 | public | recipe_tags   | table | urbqgoc5q8y |
 | public | recipes       | table | urbqgoc5q8y |
+
 (5 rows)
 
 open_punch_bath_8981=> select * from recipes;<br>
 | recipe_id |             recipe_name              |                                        recipe_desc                                         |
 | --------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
 |      1    | Dark Angels Desaturated Power Armour | This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour | 
+
 (1 row)
 
 open_punch_bath_8981=> select * from recipe_stages;<br>
@@ -470,6 +492,7 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |     2    |     1     |     2     | Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left.                                                | f               |
 |     3    |     1     |     3     | Using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f               |
 |     4    |     1     |     4     | Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t               |
+
 (4 rows)
 
 open_punch_bath_8981=> select * from recipe_images;<br>
@@ -479,6 +502,7 @@ open_punch_bath_8981=> select * from recipe_images;<br>
 |    2     |    2     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987876/afcihcowy0sjo7jvtzx1.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/afcihcowy0sjo7jvtzx1.jpg | Base coat               | 
 |    3     |    3     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987877/bc4onemhmikj4otzngk2.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/bc4onemhmikj4otzngk2.jpg | First Highlight         | 
 |    4     |    4     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987878/g5ccnr4thoblvveatmpq.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/g5ccnr4thoblvveatmpq.jpg | Wash                    | 
+
 (4 rows)
 
 open_punch_bath_8981=> select * from recipe_tags;<br>
@@ -489,6 +513,7 @@ open_punch_bath_8981=> select * from recipe_tags;<br>
 |    3   | Space Marines |
 |    4   | Power Armour  |
 |    5   | Desaturated   |
+
 (5 rows)
 
 open_punch_bath_8981=> select * from entity_tags;<br>
@@ -499,6 +524,7 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 |     1     |      3 | recipe       |
 |     1     |      4 | recipe       |
 |     1     |      5 | recipe       |
+
 (5 rows)
 </details>
 
@@ -571,6 +597,7 @@ open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 |      135 |        53 |         1 | Testing 1    | f               |
 |      136 |        53 |         2 | Testing 2    | f               |
 |      137 |        53 |         3 | Testing 3    | t               |
+
 (3 rows)
 
 This was it after
@@ -582,6 +609,7 @@ open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 |          |           |           | \r                               |                |
 |          |           |           | this should move to stage 2 or 3 |                |
 |      137 |        53 |         3 | Testing 3                        | t              |
+
 (3 rows)
 
 A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/when I resolve the underlying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
