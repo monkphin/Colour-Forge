@@ -134,6 +134,7 @@ nav ul a:active {
 
 /* Fix Dropdown width */ 
 .dropdown-content {
+	min-width: 100%;
 	min-width: -webkit-fill-available;
 	min-width: fit-content;
 }
