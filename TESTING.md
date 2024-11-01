@@ -957,16 +957,26 @@ Much like the helpers file this is throwing errors due to long line lengths. Spe
 
 # Device and Browser Testing
 
-| Operating System | Browser | Notes                                                                                                                            | Result       |
-| ---------------- | ------- | -------------------------------------------------------------------------------------------------------------------------------- | ------------ |
-| Mac OS           | Safari  | Admin Dropdown renders correctly vs when using Chrome. Minor rendering issues with the search box that I've documented elsewhere | Functions OK |
-| Mac OS           | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                            | Functions OK |
-| Mac OS           | Firefox |
-| Windows          | Chrome  |
-| Windows          | Firefox |
-| Windows          | Edge    | 
+| Operating System | Browser | Notes                                                                                                                                          | Result       |
+| ---------------- | ------- | ---------------------------------------------------------------------------------------------------------------------------------------------- | ------------ |
+| Mac OS           | Safari  | Admin Dropdown renders correctly vs when using Chrome. Minor rendering issues with the search box that I've documented elsewhere               | Functions OK |
+| Mac OS           | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
+| Mac OS           | Firefox | 
+| Windows          | Chrome  | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |
+| Windows          | Firefox | Minor issues with the searchbox, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
+| Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop down and search box                                                          | Functions OK |                
 
 # Responsiveness
+
+I tested my project both when deployed locally and on the Heroku server using Google Chrome's dev tools, trying various simulated phones as well as just shifting the responsive dimensions screen around to view how varying resolutions impacted the sites rendering. 
+
+| Device            | Resolution  | Test Results | Supporting Evidence                                                                    |
+| ----------------- | ----------- | ------------ | -------------------------------------------------------------------------------------- |
+| iPhone SE         | 375 x 667   | Pass         | [Recording of iPhone SE resolution browser](docs/videos/iphone-se.mp4)                 |
+| iPhone 14 Pro Max | 430 x 932   | Pass         | [Recording of iPhone 14 Pro Max resolution browser](docs/videos/iphone-14-pro-max.mp4) |
+| Pixel 7           | 412 x 915   | Pass         | [Recording of Pixel 7 resolution browser](docs/videos/iphone-se.mp4)                   |
+| Galaxy Z Fold 5   | 344 x 882   | Pass         | [Recording of Galaxy Z Fold 5 resolution browser](docs/videos/galaxy-z-fold-5.mp4)     |
+| Laptop            | 1920 x 1080 | Pass         | [Recording of a typical Laptop resolution browser](docs/videos/laptop.mp4)             |
 
 
 # Automated testing

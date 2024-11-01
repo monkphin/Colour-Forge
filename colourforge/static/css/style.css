@@ -72,6 +72,10 @@ h1, h2, h3, h4, h5, h6 {
 .awesomplete {
 	display: unset;
 }
+/* Required to resolve an issue in FireFox */
+.awesomplete > input {
+	display: inline-block;
+}
 /* =============================================================
    Layout Components
    ============================================================= */
