@@ -428,10 +428,10 @@ def about():
     """
     Accessible to logged out users, this route displays a brief about section
     designed to help inform new users as to what the site is and what its
-    intended uses are. 
+    intended uses are.
 
     Returns:
-        Response: The rendered 'about.html' template. 
+        Response: The rendered 'about.html' template.
     """
 
     return render_template('about.html')

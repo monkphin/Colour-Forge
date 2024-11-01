@@ -1,5 +1,5 @@
 """
-Module: email_notifications.py
+Module: mail.py
 
 Description:
 ------------
@@ -118,12 +118,11 @@ def account_deletion(email_address, username):
     mail.send(msg)
 
 
-
 def admin_account_deletion(email_address, username):
     """
     Sends a confirmation email to a user after an admin deletes their account.
     This serves as a record of the account deletion to let the user know their
-    account has been deleted. 
+    account has been deleted.
 
     Parameters:
         email_address (str): The email address of the recipient.
@@ -144,7 +143,7 @@ def admin_account_deletion(email_address, username):
     Hey {username},
 
     Unfortunately we have had to delete your account, either at your request
-    or due to an issue with your usage of the site or your account. 
+    or due to an issue with your usage of the site or your account.
     Your account and all associated data have been deleted
 
     Thanks,
@@ -232,7 +231,7 @@ def admin_password_change(email_address, username):
     We wanted to inform you that your password was changed by an admin.
 
     If you requested this change, no further action is needed and the admin
-    will be in touch with your new password shortly. 
+    will be in touch with your new password shortly.
     If you did not request a password change, please contact us using
     https://colourforge.co.uk/contact immediately to secure your account.
 
@@ -293,7 +292,7 @@ def email_change(email_address, old_email, username):
 def admin_email_change(email_address, old_email, username):
     """
     Sends a confirmation email to notify the user that their email address has
-    been successfully changed by an admin. 
+    been successfully changed by an admin.
     The email is sent to both the new and old email addresses to ensure
     security.
 
@@ -327,7 +326,10 @@ def admin_email_change(email_address, old_email, username):
     """
 
     # HTML Email
-    msg.html = render_template("emails/admin_email_change.html", username=username)
+    msg.html = render_template(
+                              "emails/admin_email_change.html",
+                              username=username
+                               )
 
     mail.send(msg)
 

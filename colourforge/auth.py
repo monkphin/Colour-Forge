@@ -237,15 +237,15 @@ def change_email():
         # Make sure user has entered an email
         if not new_email:
             flash('Please enter the new email address to change this.',
-                category='error'
-                )
+                  category='error'
+                  )
             return redirect(url_for('auth.account'))
 
         # Make sure the user has entered a password
         elif not password:
             flash('Please enter your current password to change your email.',
-                category='error'
-                )
+                  category='error'
+                  )
             return redirect(url_for('auth.account'))
 
         # Make sure password is correct
@@ -330,9 +330,9 @@ def reset_password():
         # Make sure the new password is not the same as the old password
         elif check_password_hash(current_password_hash, password1):
             flash("""Your new password cannot be the same as your current
-                password.""",
-                category='error'
-                )
+                  password.""",
+                  category='error'
+                  )
             return redirect(url_for('auth.account'))
 
         # Make sure password is greater than 7 characters.

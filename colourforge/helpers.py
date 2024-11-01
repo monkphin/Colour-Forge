@@ -376,14 +376,16 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
     """
     # Fetch existing stages/images
     existing_stages = (RecipeStage.query
-                    .filter_by(recipe_id=recipe.recipe_id)
-                    .all())
+                       .filter_by(recipe_id=recipe.recipe_id)
+                       .all())
 
     # Delete existing stages and images
     for stage in existing_stages:
         images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
-            if image.public_id and not image.public_id.startswith('placeholder'):
+            if image.public_id and not image.public_id.startswith(
+                                                                  'placeholder'
+                                                                  ):
                 cloudinary.uploader.destroy(image.public_id)
             db.session.delete(image)
         db.session.delete(stage)

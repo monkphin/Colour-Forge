@@ -606,14 +606,36 @@ Additionally, while I have already mentioned it in the resolved bugs section. I 
 
 # HTML Validation
 
+W3Schools HTML Validator was used to test all HTML. Since much of the site is locked behind a login requirement the testing tool cannot test directly from the website, so I have had to view source and paste for each page that needed to be tested. 
+
+| Page                  | Result                                                          | 
+| --------------------- | --------------------------------------------------------------- |
+| Logged out home page  | <img src="docs/html-testing/loggedout-home.png">                |
+| About Page            | <img src="docs/html-testing/loggedout-about.png">               |
+| Login Page            | <img src="docs/html-testing/loggedout-login.png">               |
+| Register Page         | <img src="docs/html-testing/loggedout-register.png">            |
+| Contact Page          | <img src="docs/html-testing/loggedout-contact.png">             |
+| Logged in Home Page   | <img src="docs/html-testing/loggedin-home.png">                 |
+| My Recipes Page       | <img src="docs/html-testing/loggedin-my-recipes.png">           |
+| Recipe Page           | <img src="docs/html-testing/loggedin-recipe-page.png">          |
+| Add Recipe Page       | <img src="docs/html-testing/loggedin-add-recipe.png">           |
+| Edit Recipe Page      | <img src="docs/html-testing/loggedin-edit-recipe.png">          |
+| Account Page          | <img src="docs/html-testing/loggedin-account.png">              |
+| Account Admin Page    | <img src="docs/html-testing/loggedin-account-admin.png">        |
+| Account Admin Search  | <img src="docs/html-testing/loggedin-account-admin-search.png"> |
+| Recipe Admin Page     | <img src="docs/html-testing/loggedin-recipe-admin.png">         |
+| Recipe Admin Search   | <img src="docs/html-testing/loggedin-recipe-admin-search.png">  |
+| Tag Search Page       | <img src="docs/html-testing/loggedin-tag-search.png">           |
+| Error Pages           | <img src="docs/html-testing/error-pages.png">                   |
+
+
 # CSS Validation
 
 CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS, specifically around the user of vendor extensions which were needed to ensure that Webkit based browsers were able to render parts of the site as expected. 
 
-There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class investigating found that his had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. 
+There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class investigating found that his had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip path instead. Similarly after reading MDN docs, I replaced break word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
 
-After some investigation I confirmed that 
-[W3Schools Jigsaw](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fcolourforge.co.uk&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
+The results of the CSS validation be found here: [W3Schools Jigsaw test results](https://jigsaw.w3.org/css-validator/validator?uri=https%3A%2F%2Fcolourforge.co.uk&profile=css3svg&usermedium=all&warning=1&vextwarning=&lang=en)
 
 # Accessibility
 WAVE was used to check to ensure the site conforms to accessibility standards. 
@@ -829,14 +851,46 @@ I suspect I may be able to implement things like preloading and similar to help.
 <br>
 
 # User Testing
+User level testing was conducted throughout development by contacting a small group of fellow hobbyists who I know are often keen to share information on how they approach painting, which lead to a few issues being discovered, which have been highlighted elsewhere, including the ability to add multiple duplicate entries, issues with shared images being deleted by a single user deleting a recipe. 
 
 # User Story Testing
 
+
+
 # Javascript Testing
-https://jshint.com/
+Javascript validation was performed using [JSHint](https://jshint.com/) which highlighted a few unused variables, some undeclared variables and a lot of informational warnings about some features only being available in ES6. 
+
+I need to refactor the JS file and break things up into functions to make it more readable however from some initial attempts at refactoring and cleaning up the unused variables this causes functionality to break in terms of adding and removing stages as well as some other features. So for now I will leave this mostly untouched so I can go back and refactor at a later date. 
+
 
 # Python Testing
-https://pep8ci.herokuapp.com/
+PEP8 Compliance testing was conducted with the Code Institute provided [Python Linter ](https://pep8ci.herokuapp.com/) the results of which can be seen below. 
+
+| File Name   | Result                               |
+| ----------- | ------------------------------------ |
+| __init__.py | One issue detected, see notes below  |
+| admin.py    | Pass                                 |
+| auth.py     | Pass                                 |
+| helpers.py  | Two issues detected, see notes below |
+| mail.py     | Pass                                 |
+| models.py   | Pass                                 |
+| routes.py   | Pass                                 |
+| seed.py     | Two issues detected, see notes below |
+
+### Init File
+The file has an issue where an import is declared mid way through the document. Specifically on line 58
+```
+from colourforge.models import User
+```
+If I declare this at the top of the document I get circular import errors. I cannot work out what is causing this to prevent it being an issue. 
+
+### helpers.py
+This file has two lines that are two long. Specifically lines 50 and 52, with them being 86 and 93 characters in length respectively. 
+
+Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters, since its easier to read when they're on a single line rather than split and concatenated back together. 
+
+### seed.py 
+Much like the helpers file this is throwing errors due to long line lengths. Specifically 35 and 37, which are again 86 and 93 characters in length respectively. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
 
 # Device and Browser Testing
 
