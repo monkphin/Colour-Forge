@@ -3,7 +3,7 @@
 [Testing and Validation](#testing-and-validation)
 
  - [Usage Based Functionality Testing](#use-based-functionality-testing)
- - [# Bugs, Issues and challenges](#Bugs-issues-and-challenges) 
+ - [Bugs, Issues and challenges](#Bugs-issues-and-challenges) 
  - [Unresolved Bugs](#unresolved-bugs)
  - [HTML Validation](#html-validation)
  - [CSS Validation](#css-validation)
