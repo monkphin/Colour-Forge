@@ -571,7 +571,19 @@ Jinja for loop after the fix:<br>
 {% for stage in recipe.stages|sort(attribute='stage_num') %}
 
 # Unresolved Issues
-Something I neglected to realise early on is that the free version of Cloudinary has a max file size for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. 
+Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzueg error, which is a less than ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from dSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure their are protections in place to prevent the site throwing a Werkzueg error and instead just kicking a flashed message. 
+
+<details>
+<summary>Large Image Bug</summary>
+<img src="docs/bugs/large-image-error.png">
+</details>
+
+While this bug is present, when it is triggered, it can cause recipes to not be accessible via the GUI, since the image or image description are used as the link for the recipe. 
+
+<details>
+<summary>Large Image Bug</summary>
+<img src="docs/bugs/unviewable-recipes.png">
+</details>
 
 The site has a couple of minor graphical issues that I have noticed but can't quite pin down. THe search box bug is the more frustrating of the two, since this is user facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However neither of these causes significant issues for functionality and are more very minor UI issues. 
 

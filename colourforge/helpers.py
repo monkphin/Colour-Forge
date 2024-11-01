@@ -47,9 +47,9 @@ from colourforge.models import (
 # Common variables.
 # I have been advise by my mentor that URLs can be longer than 79 chars.
 PLACEHOLDER_IMAGE_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder.png')
+    'https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg')
 PLACEHOLDER_THUMBNAIL_URL = (
-    'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder.png')
+    'https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg')
 
 
 def recipe_handler(form_data):
@@ -383,7 +383,7 @@ def edit_instruction_handler(recipe, instructions, image_files, alt_texts):
     for stage in existing_stages:
         images = RecipeImage.query.filter_by(stage_id=stage.stage_id).all()
         for image in images:
-            if image.public_id:
+            if image.public_id and not image.public_id.startswith('placeholder'):
                 cloudinary.uploader.destroy(image.public_id)
             db.session.delete(image)
         db.session.delete(stage)

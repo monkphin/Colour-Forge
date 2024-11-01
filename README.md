@@ -595,6 +595,8 @@ The add recipe page features a fairly simple form, allowing the user to create a
 
  The user is not required to add an image to add the recipe. If they choose not to, a placeholder image is added automatically to ensure that not only does the DB have an entry for the field, but to ensure that basic functionality of the site is not compromised. If the user adds an image but does not provide a description, the test 'No Description Provided' is added to the DB automatically to ensure basic accessibility is adhered to. 
 
+ The image uploader is designed in a way that when selecting images, the desktop dialogue box will default to image files. Similarly on mobile this defaults to images only, with me being unable to select videos to upload, it may be useful to allow videos at a later point however. 
+
  <details>
 <summary>Add Image</summary>
 <img src="docs/features/add-image.png">

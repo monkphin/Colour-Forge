@@ -90,7 +90,7 @@
         <!-- Placeholder Image Container -->
         <div id="image_container_{{ stage.stage_num }}" class="col s12 m5 center-align">
           <img
-            src="https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-mid.webp"
+            src="{{ url_for('static', filename='images/placeholder-mid.webp') }}"
             alt="Default Image"
             class="responsive-img" >
           <button
