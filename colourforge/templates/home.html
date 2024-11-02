@@ -42,6 +42,8 @@
         <div class="col s12 m6 l4 recipe-cards">
           <div class="card center-align">
             <div class="card-image waves-effect waves-block waves-light">
+              <!-- https://stackoverflow.com/questions/3727045/set-variable-from-another-variable-in-jinja -->
+               <!-- https://oznetnerd.com/2017/04/18/jinja2-selectattr-filter/ -->
               {% set stage = recipe.stages | selectattr('is_final_stage') | first %}
               {% if stage and stage.recipe_images %}
                 <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
