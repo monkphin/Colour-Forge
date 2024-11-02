@@ -619,22 +619,49 @@ Jinja for loop before the fix:<br>
 {% for stage in recipe.stages %}<br>
 Jinja for loop after the fix:<br>
 {% for stage in recipe.stages|sort(attribute='stage_num') %}
-
-# Unresolved Issues
-Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb. Currently I'm not sure I have time to try to investigate and implement a fix for this. I have found t[he following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python) that outlines an approach I may be able to build off and implement a file size check which will alert a user when adding too large an image, however I do not know if I will be able to implement this between now and the deadline to hand in for marking. Sadly in the meantime this means that users who upload an image larger than 10Mb will see a Werkzeug error, which is a less-than-ideal experience. I suspect this may not be a huge issue in the short term, since the majority of users will more than likely be uploading cropped smartphone photos, rather than un-cropped images and photos taken from DSLRs and other devices that are more likely to take photos that will generate larger sized images, but it would be better to ensure there are protections in place to prevent the site throwing a Werkzeug error and instead just kicking a flashed message, however, the only way I can see to do this would cause the site to reload to prevent the code from continuing and trying to upload the too large file, which when the user has typed a large volume of text in the instruction field would cause a negative experience also since they'd need to retype their instructions, as well as any in prior stages, so I need to find a way to cache this data while still preventing the program from continuing. 
+​​
+### Large Image Handling.
+Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb.
+Initially, I was considering letting this slide since I suspect images larger than 10 MB will be very rarely encountered. (In testing the only time I found images larger than this is when uploading uncropped photos from a DSLR, which for the sites use case should be rare enough to be almost 0 of the uploads) however, I wasn't happy just leaving it there so I decided to try to resolve this while I had some time. [This following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python), [this turing.com article](https://www.turing.com/kb/how-to-get-the-size-of-file-in-python#making-use-of-file-object) proved useful in outlining methods that I could use to approach the issue to create a filesize check, which via some trial and error I managed to get working.
 
 <details>
 <summary>Large Image Bug</summary>
 <img src="docs/bugs/large-image-error.png">
 </details>
 
-While this bug is present, when it is triggered, it can cause recipes to not be accessible via the GUI, since the image or image description are used as the link for the recipe. 
+Even though the site would throw an error, the recipe was still able to be saved, just without the large images. However, this created a few issues. THe first of which was that if the image was to be the final stage image this would render the recipe inaccessible since the image is used in the anchor tag to allow users to click through to the recipe page. Additionally, for some reason stages where large images were used and generating the Werkzueg error were not rendering on the recipe page at all.
 
 <details>
-<summary>Large Image Bug</summary>
+<summary>Large Image Recipe Card</summary>
 <img src="docs/bugs/unviewable-recipes.png">
 </details>
 
+<details>
+<summary>Missing stage due to large image</summary>
+<img src="docs/bugs/missing-stage.png">
+</details>
+
+After managing to get the check to work, I found it was still allowing the recipe to be saved, but with a missing image icon.
+
+<details>
+<summary>Broken Image Recipe Card</summary>
+<img src="docs/bugs/broken-large-image.png">
+</details>
+
+<details>
+<summary>Broken Image stage</summary>
+<img src="docs/bugs/broken-large-image-stage.png">
+</details>
+
+One possible solution to this was to reload the page as the return to the large image checker, which while valid would be less than ideal, since if the user had added a fairly long recipe having to re-enter it would create a negative user experience. I quickly realised that the best solution would be to simply pass the two constants that have been set for the placeholder image to cause the recipe to replace the large image with a placeholder image, meaning not only is the recipe able to be saved, but the site can gracefully handle larger images. I do have issues with how slow this process is for large image handling since it can take around 30 seconds to a minute to return anything. Still, I am not currently sure how to best improve performance here, since we're dealing with a few factors - uploading the image from the users’ device to the site, to check before passing to Cloudinary.
+I am also not entirely happy with how the flashed alerts are handled here, since while we need to inform the user of the replacement of their image due to file size, we're also flashing that the recipe was added successfully. A future improvement will be to combine both of these messages or alert the user in another method such as an email or similar.
+
+<details>
+<summary>Broken Image stage</summary>
+<img src="docs/bugs/resolved-large-images.png">
+</details>
+
+# Unresolved Issues
 The site has a couple of minor graphical issues that I have noticed but can't quite pin down. The search box bug is the more frustrating of the two since this is user-facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However, neither of these causes significant issues for functionality and are more very minor UI issues. 
 
  - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
