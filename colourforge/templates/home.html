@@ -42,7 +42,7 @@
           <div class="card center-align">
             <div class="card-image waves-effect waves-block waves-light">
               {% for stage in recipe.stages %}
-                {% if stage.is_final_stage %}
+                {% if stage.is_final_stage and stage.recipe_images %}
                   {% if stage.recipe_images %}
                     <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
                       <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
@@ -54,7 +54,9 @@
               {% endfor %}
             </div>
             <div class="card-content">
-              <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+              </a>
               <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
               <p>
                 <span class="activator card-title">
@@ -160,8 +162,8 @@
       </div>
       <div class="col s6 left-align">
         <a href="{{ url_for('auth.register') }}" class="btn waves-effect teal darken-2 waves-light">
-        Register
-      </a>
+          Register
+        </a>
       </div>
     </div>
 

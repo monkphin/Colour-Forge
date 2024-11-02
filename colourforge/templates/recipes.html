@@ -30,7 +30,7 @@
           <div class="card center-align">
             <div class="card-image waves-effect waves-block waves-light">
               {% for stage in recipe.stages %}
-                {% if stage.is_final_stage %}
+                {% if stage.is_final_stage and stage.recipe_images %}
                   {% if stage.recipe_images %}
                     <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
                       <img src="{{ stage.recipe_images[0].thumbnail_url }}" alt="{{ stage.recipe_images[0].alt_text }}" >
@@ -41,26 +41,28 @@
                 {% endif %}
               {% endfor %}
             </div>
-          <div class="card-content">
-            <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
-            <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
-            <p>
-              <span class="activator card-title">
-              <i class="fas fa-caret-up"> Recipe Description</i>
+            <div class="card-content">
+              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+              </a>
+              <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
+              <p>
+                <span class="activator card-title">
+                  <i class="fas fa-caret-up"> Recipe Description</i>
+                </span>
+              </p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title">
+                <i class="fas fa-caret-down"> Close</i>
               </span>
-            </p>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title">
-              <i class="fas fa-caret-down"> Close</i>
-            </span>
-            <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+              <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
-  {% endfor %}
-</div>
+    {% endfor %}
+  </div>
 
   <!-- Pagination Controls -->
   {% if page > 1 or page < total_pages %}
