@@ -15,25 +15,25 @@
       
       <div class="row">
         <div class="input-field col s12 m6"> 
-          <input placeholder="Your Email Address" id="email" type="email" name="sender_email" class="validate">
+          <input placeholder="Your Email Address (Required)" id="email" type="email" name="sender_email" class="validate" required>
           <label for="email">Email</label>
         </div>
         <div class="input-field col s12 m6"> 
-          <input placeholder="Your Name" id="name" type="text" name="sender_name" class="validate">
+          <input placeholder="Your Name (Required)" id="name" type="text" name="sender_name" class="validate" required>
           <label for="name">Name</label>
         </div>
       </div>
 
       <div class="row">
         <div class="input-field col s12">
-          <input placeholder="Email Subject" id="subject" type="text" name="subject" class="validate">
+          <input placeholder="Email Subject (Required)" id="subject" type="text" name="subject" class="validate" required>
           <label for="subject">Email Subject</label>
         </div>
       </div>
       <div class="row">
         <!-- Custom Textarea -->
         <div class="input-field custom-textarea-field col s12">
-            <textarea id="custom_textarea" class="custom-textarea" name="message_content" placeholder="Your Message" rows="6"></textarea>
+            <textarea id="custom_textarea" class="custom-textarea validate" name="message_content" placeholder="Your Message (Required)" rows="6" required></textarea>
             <label for="custom_textarea">Your Message</label>
         </div>
       </div>
