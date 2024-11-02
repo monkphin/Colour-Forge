@@ -41,19 +41,22 @@ A paint library and painting recipe book for miniature painters.
 [Security and best Practices](#security-and-best-practices)  
 
 [Technology](#technology)
-  - [User testing](#user-testing)
   - [Frameworks and Programs](#frameworks-and-programs)
 
 [Testing](#testing-and-validation)
 
  [Version Control and Deployment](#version-control-and-deployment)
 
-  - [Repository Creation](#repository-creation)
+  - [Repository Creation](#repo-creation)
   - [Cloning Locally](#cloning-locally)
-  - [Deployment](#Deployment)
+  - [Adding and Updating Files on the Repo](#adding-and-updating-files-on-the-repo) 
+  - [Working on Multiple Devices](#working-on-multiple-devices)
+  - [Local Deployment](#local-deployment)
+  - [PostGres DB Creation](#postgres-db-creation)
+  - [Heroku Set up and Configuration](#heroku-set-up-and-configuration)
 
 [Credits](#credits)
-  - [Images](#images)
+[Acknowledgements](#acknowledgements)
 
 
 # Site Concept
@@ -62,6 +65,7 @@ Colour Forge is an online paint catalogue and recipe tracking tool for miniature
 This is a project that I've been contemplating for several years, which has caused a little feature creep to occur here and there as well as causing it to be a tad ambitious in scope for an MVP project, which resulted in having to scale back some planned functionality to allow me to have a working project to hand in. A common problem many hobbyists such as myself have is keeping track of their collections of paint, knowing what they're out of when they're near a hobby store as well as remembering specific methods for painting miniatures in a collection that they've not worked on for a while, meaning its very easy to end up with slight discrepancies between some miniatures appearance in a collection. The aim of this project is to help mitigate some of those issues by providing an easy to access online resource for hobbyists to use. As such, some of the site owner goals and user stories reflect this more expansive ambition for the project and as such via MoSCoW prioritisation have been allowed to be shifted in or out of the scope for MVP as features were brought online based on what was deemed to bring the most benefits, have a higher priority or take the most additional work, something which I know development teams have to consider when developing real world applications. I created and used a Kanban to help track specific parts of the project from conception, to styling and finally completion, which I used in conjunction with my MoSCoW board to help with planning and prioritisation. 
 
 [My MoSCoW board can be found here](https://github.com/users/monkphin/projects/3/views/1)
+
 [My Kanban board can be found here](https://github.com/users/monkphin/projects/1)
 
 
@@ -137,8 +141,6 @@ This is a project I've been mulling over for several years, so it was very easy 
 The early design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account, modify the user's account, contact the site owner for support or other reasons and administer the website and its users for the site admin. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site.
 
 It needs to support all of the above while still being somewhat simplistic and easy to use, as well as fully responsive with an interface that allows users to read through and emulate paint recipes, ideally with images to support each stage to show the desired results of the specific part of the instructions being worked on. Recipes should be presented in a simple, non distracting manner which allows the hobbyist to focus on the specific stage they're working on, while still letting them check the stage before and after the current one if needed.
-
-
 
 # Wireframes:
 
@@ -754,7 +756,7 @@ Modals have been implemented to add a layer of protection where deletion of acco
  - [Javascript](https://developer.mozilla.org/en-US/docs/Web/javascript) - Used for front end interactions and adjustments. 
  - [Python](https://www.python.org/) - The backend programming language. 
 
- ### Version Control and Deployment. 
+ ### Version Control and Deploying. 
  - [Github](https://github.com/) - Used to store the website's codebase in a repo. 
  - [Git](https://git-scm.com/) - A CLI based tool used for version control and uploading to Github. 
  - [Heroku](https://www.heroku.com/) - Hosting the final deployed version of the website. 
@@ -804,7 +806,7 @@ A new repo was generated using the Code Institutes ci-fill-template using the be
 5. Select the visibility as either public or private. Since this needs to be visible for assessment and marking, the default 'Public' option was left checked.
 6. Click the Create repository button and wait for a few moments, once this has been cloned into your account the page will reload and you'll be presented with the code space for the repo.
 
-## Cloning to your workspace for editing
+## Cloning Locally
 
 I work with VSCode, so use the built in CLI to run the commands needed to clone the repo to my local machine for editing. 
 
