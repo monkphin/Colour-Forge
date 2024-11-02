@@ -752,6 +752,8 @@ Users are notified of success or failure of actions taken on the site via alerts
 
 Modals have been implemented to add a layer of protection where deletion of accounts and recipes are concerned, basically creating a two stage delete process to help limit accidental data loss. For Admins they're given a slightly different version of this Modal when taking action on an item that they don't own, which highlights that they're taking action on another user's recipe or account and requires them to enter their password as a final check to ensure they mean to take this action. 
 
+Many routes on the website require a user to either be logged in or be an administrator to access, with the route redirecting them elsewhere if they lack sufficient access rights. 
+
 # Technology
 ## Frameworks and Programs
  ### Languages
