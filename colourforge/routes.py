@@ -299,7 +299,6 @@ def autocomplete_tags():
 
 
 @routes.route('/search', methods=['GET'])
-@login_required
 def search():
     """
     Handle Recipe Search Functionality Based on Tags.

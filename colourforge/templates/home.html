@@ -51,13 +51,13 @@
                       alt="{{ stage.recipe_images[0].alt_text }}">
                 </a>
               {% else %}
-                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="links">
                   <img src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
                 </a>
               {% endif %}
             </div>
             <div class="card-content">
-              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="links">
                 <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
               </a>
               <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>

@@ -164,6 +164,7 @@
     <!-- Delete Confirmation Modal -->
     <div id="modal-delete-{{ user.id }}" class="modal admin-modal">
       <form
+        class="delete-account-form"
         action="{{ url_for('admin.delete_account', user_id=user.id) }}"
         method="POST">
         <div class="modal-content">
@@ -178,7 +179,7 @@
                 id="delete-user-{{ user.id }}"
                 type="password"
                 name="delete_user_password"
-                class="validate"
+                class="validate  delete-password-input"
                 required>
               <label for="delete-user-{{ user.id }}">Please enter your admin password to delete the user</label>
             </div>
@@ -186,7 +187,7 @@
         </div>
         <div class="modal-footer">
           <button class="modal-close btn green darken-4" type="button">Cancel</button>
-          <button type="submit" class="btn red darken-4">
+          <button type="submit" class="btn red darken-4 delete-account-button"">
             Delete
           </button>
         </div>
