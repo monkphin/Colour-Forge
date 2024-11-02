@@ -124,7 +124,6 @@ nav ul a:hover {
 nav ul a.active {
 	background-color: #b71c1c;
 	color: #ffffff;
-	font-weight: bold;
 	text-decoration: underline;
 }
 
@@ -132,7 +131,6 @@ nav ul a.active {
 nav ul a:active {
 	background-color: #6d1b1b;
 	color: #ffffff;
-	font-weight: bold;
 }
 
 /* Fix Dropdown width */ 

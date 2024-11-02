@@ -83,20 +83,28 @@ routes = Blueprint('routes', __name__)
 def home():
     """
     Handles GET requests to display a paginated list of all recipes available
-    in the application. The page number is retrieved from query parameters,
-    defaulting to 1 if not provided.
+    in the application, excluding 'Demo Recipe' unless it belongs to the current
+    user. The page number is retrieved from query parameters and defaults to 1 
+    if not provided.
 
     Returns:
         Response: The rendered 'home.html' template populated with paginated
         recipes, current page, total pages, and the current user context.
     """
-    # Only show the demo recipe if it was created by the logged in user
-    recipes = Recipe.query.filter (
-        or_(
-            Recipe.user_id == current_user.id,
-            Recipe.recipe_name != "Demo Recipe"            
-        )
-    ).order_by(Recipe.recipe_name).all()
+    # Check if user is authed and display appropriate cards, stripping Demos
+    if current_user.is_authenticated:
+        recipes = (Recipe.query
+                   .filter(or_(Recipe.recipe_name != "Demo Recipe",
+                               Recipe.user_id == current_user.id
+                               )
+                          )
+                    .order_by(Recipe.recipe_name)
+                    .all())
+    else:
+        recipes = (Recipe.query
+                   .filter(Recipe.recipe_name != "Demo Recipe")
+                   .order_by(Recipe.recipe_name)
+                   .all())
 
     # Pagination logic
     page = request.args.get('page', 1, type=int)
@@ -250,8 +258,8 @@ def edit_recipe(recipe_id):
     # Ensure user owns the recipe
     if recipe.user_id != current_user.id and not current_user.is_admin:
         flash(
-            "You do not have permission to edit this recipe.",
-            category="error"
+            "This recipe isn't yours, you can only edit your own recipes.",
+            category="info"
             )
         return redirect(url_for('routes.home'))
 
