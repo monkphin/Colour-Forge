@@ -38,7 +38,7 @@ A paint library and painting recipe book for miniature painters.
   - [Icons](#icons)
   - [Features](#features)
 
-[Security and best Practices](#security-and-best-practices)  
+[Security, Defensive Programming and best Practices](#security-defensive-programming-and-best-practices)  
 
 [Technology](#technology)
   - [Frameworks and Programs](#frameworks-and-programs)
@@ -743,7 +743,7 @@ One of the bigger challenges as a miniature painter is to keep track of your pro
 
 - Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
 
-# Security and best Practices
+# Security, Defensive Programming and best Practices
 User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worthwhile. 
 
 Users are informed of account level changes via emails, ensuring they're kept aware of any changes made to their accounts, this also includes admin led account level changes.
