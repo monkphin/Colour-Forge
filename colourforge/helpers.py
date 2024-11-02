@@ -32,8 +32,8 @@ ensuring a consistent tagging system for efficient categorization and
 searching.
 """
 
-
-from flask import request, render_template
+import os
+from flask import request, flash, render_template
 from colourforge import app, db, cloudinary, cloudinary_url
 from flask_login import current_user
 from colourforge.models import (
@@ -210,7 +210,7 @@ def upload_image(image):
     """
     Handles the uploading of an image file to Cloudinary. Retrieves the secure
     URL, thumbnail URL, and public ID of the uploaded image. If no image is
-    provided, returns None for all values.
+    provided, or validation checks fail returns None for all values.
 
     Args:
         image (FileStorage): The image file to be uploaded.
@@ -219,6 +219,22 @@ def upload_image(image):
         tuple: A tuple containing (image_url, thumbnail_url, public_id).
                Returns (None, None, None) if no image is provided.
     """
+    if image.filename == '':
+        flash("Your image needs a filename", category='error')
+        return None, None, None
+    
+    #Find Filesize 
+    image.stream.seek(0, os.SEEK_END)
+    size = image.stream.tell()
+    image.stream.seek(0)
+
+    if size >= 10 * 1024 * 1024:
+        flash(
+            """Your image filesize is too large, a placeholder has been
+            used in its place""",
+            category='error')
+        return PLACEHOLDER_IMAGE_URL, PLACEHOLDER_THUMBNAIL_URL, None 
+
     if image and image.filename != '':
         upload_result = cloudinary.uploader.upload(image)
         image_url = upload_result.get('secure_url')
@@ -323,10 +339,11 @@ def instruction_handler(
             alt_text = "No description provided"
 
         # Upload to Cloudinary if present
-        image_url, thumbnail_url, public_id = upload_image(image)
+        if image  and image.filename != '':
+            image_url, thumbnail_url, public_id = upload_image(image)
 
         # If an image was not added, use a placeholder
-        if not image_url:
+        else:
             image_url = PLACEHOLDER_IMAGE_URL
             thumbnail_url = PLACEHOLDER_THUMBNAIL_URL
             alt_text = 'Default Image'
