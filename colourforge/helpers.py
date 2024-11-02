@@ -222,8 +222,8 @@ def upload_image(image):
     if image.filename == '':
         flash("Your image needs a filename", category='error')
         return None, None, None
-    
-    #Find Filesize 
+
+    # Find Filesize
     image.stream.seek(0, os.SEEK_END)
     size = image.stream.tell()
     image.stream.seek(0)
@@ -233,7 +233,7 @@ def upload_image(image):
             """Your image filesize is too large, a placeholder has been
             used in its place""",
             category='error')
-        return PLACEHOLDER_IMAGE_URL, PLACEHOLDER_THUMBNAIL_URL, None 
+        return PLACEHOLDER_IMAGE_URL, PLACEHOLDER_THUMBNAIL_URL, None
 
     if image and image.filename != '':
         upload_result = cloudinary.uploader.upload(image)
@@ -339,7 +339,7 @@ def instruction_handler(
             alt_text = "No description provided"
 
         # Upload to Cloudinary if present
-        if image  and image.filename != '':
+        if image and image.filename != '':
             image_url, thumbnail_url, public_id = upload_image(image)
 
         # If an image was not added, use a placeholder
