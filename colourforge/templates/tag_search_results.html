@@ -29,7 +29,9 @@
                     {% endfor %}
                   </div>
                   <div class="card-content">
-                    <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                    <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                      <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                    </a>
                     <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
                     <p>
                       <span class="activator card-title">
@@ -66,7 +68,9 @@
                       {% endfor %}
                     </div>
                     <div class="card-content">
-                      <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                      <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                        <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
+                      </a>
                       <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
                       <p>
                         <span class="activator card-title">
