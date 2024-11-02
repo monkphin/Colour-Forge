@@ -55,7 +55,7 @@ login_manager.init_app(app)
 
 
 # Adding import to the top creates a loop, so have to import here
-from colourforge.models import User
+from colourforge.models import User  # noqa
 
 
 @login_manager.user_loader

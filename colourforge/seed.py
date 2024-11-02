@@ -115,24 +115,24 @@ use this if you're happy to lose this content.
     # I have been advise by my mentor that URLs can be longer than 79 chars.
     image1 = RecipeImage(
         stage=stage1,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg',
-        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg',
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg', # noqa
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg', #noqa
         alt_text='Default Image',
         public_id=None
     )
 
     image2 = RecipeImage(
         stage=stage2,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-2.jpg',
-        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-2.jpg',
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-2.jpg',  # noqa
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-2.jpg',  # noqa
         alt_text='A model of a frog, in red samurai armour.',
         public_id=None
     )
 
     image3 = RecipeImage(
         stage=stage3,
-        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
-        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
+        image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',  # noqa
+        thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',  # noqa
         alt_text='Rummy Nate in glorious full colour.',
         public_id=None
     )
