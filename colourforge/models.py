@@ -251,7 +251,7 @@ class RecipeTag(db.Model):
 
     # schema for the recipe_tags model
     tag_id = db.Column(db.Integer, primary_key=True)
-    tag_name = db.Column(db.String(100), unique=True, nullable=True)
+    tag_name = db.Column(db.String(20), unique=True, nullable=True)
 
     def __repr__(self):
         return f"<Tag {self.tag_name}>"

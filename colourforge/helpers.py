@@ -127,16 +127,27 @@ def tag_handler(recipe, tag_names):
         recipe (Recipe): The Recipe object to which tags are being added.
         tag_names (list): A list of tag names to be associated with the recipe.
     """
+    MAX_TAG_LENGTH = 20
+
     if tag_names:
         for tag_name in tag_names:
             tag_name = tag_name.strip()
             if tag_name:
+                if len(tag_name) > MAX_TAG_LENGTH:
+                    flash(
+                        f"""Tag {tag_name} is too long. Tags must be
+                        {MAX_TAG_LENGTH} characters or less.""",
+                        category='error'      
+                    )
+                    # Skip over this tag and continue iterating through the rest
+                    continue
+
+                # Check if tag exists
                 tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
 
                 if not tag:
                     tag = RecipeTag(tag_name=tag_name)
                     db.session.add(tag)
-                    # Do not commit here to batch transactions
 
                 # Check if the tag is already associated with this recipe
                 existing_tag = EntityTag.query.filter_by(
