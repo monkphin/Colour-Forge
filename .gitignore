@@ -10,3 +10,4 @@ cloudinary_python.txtsendgrid.env
 sendgrid.env
 testmail.py
 reset_db.py
+.DS_STORE
