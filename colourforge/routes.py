@@ -58,6 +58,7 @@ from flask import (
 
 from flask_login import login_required, current_user
 from math import ceil
+from sqlalchemy import or_
 
 # Local Imports
 from colourforge import db, cloudinary
@@ -89,9 +90,15 @@ def home():
         Response: The rendered 'home.html' template populated with paginated
         recipes, current page, total pages, and the current user context.
     """
-    # Get all recipes
-    recipes = Recipe.query.order_by(Recipe.recipe_name).all()
+    # Only show the demo recipe if it was created by the logged in user
+    recipes = Recipe.query.filter (
+        or_(
+            Recipe.user_id == current_user.id,
+            Recipe.recipe_name != "Demo Recipe"            
+        )
+    ).order_by(Recipe.recipe_name).all()
 
+    # Pagination logic
     page = request.args.get('page', 1, type=int)
     per_page = 6  # Recipes per page
     total = len(recipes)

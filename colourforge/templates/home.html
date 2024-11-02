@@ -38,42 +38,42 @@
   <h1 class="center-align">Member Paint Recipes</h1>
   <div class="row">
     {% for recipe in recipes %}
-    <div class="row-height">
-      <div class="col s12 m6 l4 recipe-cards">
-        <div class="card center-align">
-          <div class="card-image waves-effect waves-block waves-light">
-            {% set stage = recipe.stages | selectattr('is_final_stage') | first %}
-            {% if stage and stage.recipe_images %}
+      <div class="row-height">
+        <div class="col s12 m6 l4 recipe-cards">
+          <div class="card center-align">
+            <div class="card-image waves-effect waves-block waves-light">
+              {% set stage = recipe.stages | selectattr('is_final_stage') | first %}
+              {% if stage and stage.recipe_images %}
+                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                  <img src="{{ stage.recipe_images[0].thumbnail_url }}"
+                      alt="{{ stage.recipe_images[0].alt_text }}">
+                </a>
+              {% else %}
+                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
+                  <img src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
+                </a>
+              {% endif %}
+            </div>
+            <div class="card-content">
               <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                <img src="{{ stage.recipe_images[0].thumbnail_url }}"
-                    alt="{{ stage.recipe_images[0].alt_text }}">
+                <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
               </a>
-            {% else %}
-              <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-                <img src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
-              </a>
-            {% endif %}
-          </div>
-          <div class="card-content">
-            <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
-              <h4 class="grey-text text-darken-4 recipe-title">{{ recipe.recipe_name }}</h4>
-            </a>
-            <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
-            <p>
-              <span class="activator card-title">
-                <i class="fas fa-caret-up"> Recipe Description</i>
+              <p class="grey-text text-darken-4">Creator: {{ recipe.user.username }}</p>
+              <p>
+                <span class="activator card-title">
+                  <i class="fas fa-caret-up"> Recipe Description</i>
+                </span>
+              </p>
+            </div>
+            <div class="card-reveal">
+              <span class="card-title">
+                <i class="fas fa-caret-down"> Close</i>
               </span>
-            </p>
-          </div>
-          <div class="card-reveal">
-            <span class="card-title">
-              <i class="fas fa-caret-down"> Close</i>
-            </span>
-            <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+              <p class="preserve-whitespace">{{ recipe.recipe_desc }}</p>
+            </div>
           </div>
         </div>
       </div>
-    </div>
     {% endfor %}
   </div>
   
