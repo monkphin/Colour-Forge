@@ -8,7 +8,7 @@ within the Colourforge application. It manages interactions with the database,
 handles image uploads via Cloudinary, and ensures data integrity through proper
 tagging and association of recipe components. The module includes helper
 functions to streamline the management of recipe stages, images, and tags,
-facilitating both creation and modification workflows.
+allowing for both creation and modification workflows.
 
 Functions:
 --------------------
@@ -210,8 +210,7 @@ def upload_image(image):
     """
     Handles the uploading of an image file to Cloudinary. Retrieves the secure
     URL, thumbnail URL, and public ID of the uploaded image. If no image is
-    provided, returns
-    None for all values.
+    provided, returns None for all values.
 
     Args:
         image (FileStorage): The image file to be uploaded.
@@ -426,8 +425,8 @@ def process_stages_and_images(
         delete_image_flags
         ):
     """
-    Handles the comprehensive processing of recipe stages and their associated
-    images during the editing workflow. This includes deleting stages no longer
+    Handles the processing of recipe stages and their associated images
+    during the editing workflow. This includes deleting stages no longer
     present, updating existing stages with new instructions and images, and
     adding new stages as needed. Ensures that the recipe's stages are correctly
     ordered and that the final stage is appropriately flagged.

@@ -3,9 +3,9 @@ Module: admin.py
 
 Description:
 ----------
-This module handles the admin blueprint for Colourforge Application.
-It provides administrative functionalities such as user management, recipe
-moderation, and other admin-level operations.
+This module handles the admin blueprint for the Colourforge Application.
+It provides administrative functionalities such as user management and recipe
+moderation.
 
 Functions:
 ----------
@@ -25,7 +25,6 @@ users.
 Notes:
 ------
 - Access to routes defined in this module is restricted to admin users.
-- Ensure that 'current_user' is properly managed by Flask-Login.
 
 """
 
@@ -177,7 +176,7 @@ def reset_password(user_id):
     The admin must provide a new password (twice for confirmation) and
     their own password for authentication.
 
-    An email notification is sent to the user’s email address to inform
+    An email notification is sent to the user's email address to inform
     them of the password change.
 
     Args:
@@ -321,7 +320,7 @@ def toggle_admin(user_id):
 def delete_account(user_id):
     """
     Enables an administrator to delete a user's account from the
-    system.
+    database.
     The admin must provide their own password to authorize the deletion.
     Self-deletion is prohibited to ensure that the site has at least one
     functioning admin user and prevent accidental self deletion.
@@ -526,7 +525,7 @@ def confirm_edit(recipe_id):
 @login_required
 def confirm_delete(recipe_id):
     """
-    This function allows a logged in admin user to delete a users recipe from
+    This function allows a logged in admin user to delete a users recipe
     after verifying their admin password.
     The deletion process involves removing the recipe and all its associated
     data using a helper function.

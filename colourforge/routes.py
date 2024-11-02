@@ -22,7 +22,7 @@ the currently logged-in user.
 
 - **Recipe Page (`/recipe_page/<int:recipe_id>`):** Displays detailed
 information about a specific recipe, accessible to all users for sharing with
-the wider community over the internet.
+the wider community and over the internet.
 
 - **Add Recipe (`/add_recipe`):** Provides a form for authenticated users to
 create new recipes, including stages, images, and tags.
@@ -149,8 +149,9 @@ def recipes():
 def recipe_page(recipe_id):
     """
     Accessible to all users, this route displays detailed information about a
-    specific recipe, including its stages and associated images. It is intended
-    for sharing recipes publicly.
+    specific recipe, including its stages and associated images. Recipes
+    do not require a user to be logged in to view, enabling them to be
+    shared publicly.
 
     Args:
         recipe_id (int): The unique identifier of the recipe to display.
@@ -176,7 +177,7 @@ def add_recipe():
     """
     Handles both GET and POST requests. On GET requests, renders the form for
     adding a new recipe. On POST requests, processes the submitted form data to
-    create a new recipe, including its stages, images, and tags. Utilizes
+    create a new recipe, including its stages, images, and tags. Utilises
     helper functions to manage database interactions and ensures that the
     recipe is properly associated with the current user.
 

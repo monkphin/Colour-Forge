@@ -6,7 +6,7 @@ Description:
 This module handles the authentication Blueprint for the Colourforge
 Application.
 It deals with user authentication functionalities, including user registration,
-login, logout,account management (such as changing email and resetting
+login, logout, account management (such as changing email and resetting
 password), and account deletion.
 All routes within this Blueprint are prefixed with '/auth' and manage
 user-related operations ensuring secure access and data integrity.
@@ -366,9 +366,9 @@ def delete_account():
     """
     Allows a logged-in user to delete their account by providing their current
     password. Ensures that administrators cannot delete their own accounts to
-    maintain system integrity. Upon successful deletion, sends an account
-    deletion notification email, logs the user out, and redirects them to the
-    home page.
+    ensure at least one admin exists. Upon successful deletion, sends an
+    account deletion notification email, logs the user out, and redirects them
+    to the home page.
 
     Returns:
         Response:
