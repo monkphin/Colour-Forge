@@ -739,6 +739,8 @@ One of the bigger challenges as a miniature painter is to keep track of your pro
 
 - Highlighted Recipes. Miniature painters will always have things they are proud to share and things that they don't mind sharing but may not want in direct line of site for the entire world to see, such as it could be on the home page. Having a featured recipe tag would allow for only selected recipes to be used on the home page for both logged in and logged out users. 
 
+- Adjusting how directly linked recipe URLs are formed. Currently the site uses the recipe_id in the URL string, ideally I'd like the recipe name to be used. In addition I'd like to also have the image preview on shared links be the recipes final stage image, as is used for the recipe description to ensure cohesiveness. While this seems to work in some cases it doesn't in others. 
+
 # Security and best Practices
 User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worthwhile. 
 
