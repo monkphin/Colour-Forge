@@ -681,6 +681,8 @@ Additionally, I have noticed an issue with the admin menu drop-down on the nav b
 
 Additionally, while I have already mentioned it in the resolved bugs section, I feel it's worth again calling out the issues with recipe ordering, since while I have a fix in place, it is, at best a band-aid solution to what I think maybe a much larger issue which warrants further investigation, particularly since the fix I have in place would cause problems with potential future functionality where reordering the recipe stages or adding in new between existing ones is concerned. 
 
+I am not aware of other bugs or issues with the site currently. 
+
 # HTML Validation
 
 W3Schools HTML Validator was used to test all HTML. Since much of the site is locked behind a login requirement the testing tool cannot test directly from the website, so I have had to view source and paste for each page that needed to be tested. 
