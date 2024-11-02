@@ -118,7 +118,7 @@ use this if you're happy to lose this content.
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-1.jpg',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-1.jpg',
         alt_text='Default Image',
-        public_id='placeholder'
+        public_id=None
     )
 
     image2 = RecipeImage(
@@ -126,7 +126,7 @@ use this if you're happy to lose this content.
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-2.jpg',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-2.jpg',
         alt_text='A model of a frog, in red samurai armour.',
-        public_id='demo-image-1'
+        public_id=None
     )
 
     image3 = RecipeImage(
@@ -134,7 +134,7 @@ use this if you're happy to lose this content.
         image_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/v1728052910/placeholder-3.jpg',
         thumbnail_url='https://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_200,w_200/placeholder-3.jpg',
         alt_text='Rummy Nate in glorious full colour.',
-        public_id='demo-image-2'
+        public_id=None
     )
 
     # Add images to the session
