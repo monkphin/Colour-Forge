@@ -46,16 +46,16 @@ document.addEventListener("DOMContentLoaded", function() {
      * Initializes the Materialize Collapsible component for expandable content sections.
      * Updates toggle icons based on collapse state.
      */
-    var elems = document.querySelectorAll(".collapsible");
-    var instances = M.Collapsible.init(elems, {
+    const elems = document.querySelectorAll(".collapsible");
+    const instances = M.Collapsible.init(elems, {
         /**
          * Event handler when a collapsible item is opening.
          * @param {Element} el - The collapsible item element that is opening.
          */
         onOpenStart: function(el) {
-            var header = el.querySelector(".collapsible-header");
+            const header = el.querySelector(".collapsible-header");
             if(header) {
-                var icon = header.querySelector(".toggle-icon");
+                const icon = header.querySelector(".toggle-icon");
                 if(icon) {
                     // Change icon to minus when opening
                     icon.classList.remove("fa-plus");
@@ -68,9 +68,9 @@ document.addEventListener("DOMContentLoaded", function() {
          * @param {Element} el - The collapsible item element that is closing.
          */
         onCloseStart: function(el) {
-            var header = el.querySelector(".collapsible-header");
+            const header = el.querySelector(".collapsible-header");
             if(header) {
-                var icon = header.querySelector(".toggle-icon");
+                const icon = header.querySelector(".toggle-icon");
                 if(icon) {
                     // Change icon to plus when closing
                     icon.classList.remove("fa-minus");
@@ -82,7 +82,7 @@ document.addEventListener("DOMContentLoaded", function() {
     // Handle the first collapsible stage on page load
     const firstStageHeader = document.querySelector(".collapsible-header.first-stage");
     if(firstStageHeader) {
-        var firstStageIcon = firstStageHeader.querySelector(".toggle-icon");
+        const firstStageIcon = firstStageHeader.querySelector(".toggle-icon");
         if(firstStageIcon) {
             firstStageIcon.classList.remove("fa-plus");
             firstStageIcon.classList.add("fa-minus");
@@ -102,7 +102,7 @@ document.addEventListener("DOMContentLoaded", function() {
     /**
      * Initializes the Materialize Dropdown component for dropdown menus.
      */
-    var dropdownElems = document.querySelectorAll(".dropdown-trigger");
+    const dropdownElems = document.querySelectorAll(".dropdown-trigger");
     M.Dropdown.init(dropdownElems, {
         constrainWidth: false,
         coverTrigger: false,
@@ -133,7 +133,7 @@ document.addEventListener("DOMContentLoaded", function() {
     /**
      * Prevents the Enter key from submitting forms unless the form contains a search input.
      */
-    var forms = document.querySelectorAll("form");
+    const forms = document.querySelectorAll("form");
     forms.forEach(function(form) {
         // Skip the login and Register Forms
         if(form.id === "loginForm" || form.id === "registrationForm") {
@@ -141,7 +141,7 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         form.addEventListener("keydown", function(event) {
             // Check if the form contains a search input element
-            var containsSearchInput = form.querySelector("input[type='search']") !== null;
+            const containsSearchInput = form.querySelector("input[type='search']") !== null;
             // Allow Enter key for forms with a search input, block for others.
             if(!containsSearchInput && event.key === "Enter" && event.target.tagName !== "TEXTAREA") {
                 event.preventDefault();
@@ -186,14 +186,37 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     updateRemoveButtonState();
 
-    // **Direct Event Listeners for Add and Remove Stage Buttons**
-    
     // Event listener for Add Stage button
     const addFieldButton = document.querySelector(".add_field");
     if (addFieldButton) {
         addFieldButton.addEventListener("click", function() {
             stageCount++; // Increment stage count
             // Logic to add a new stage...
+            // After adding a stage, update the button state
+            updateRemoveButtonState();
+        });
+    }
+
+    // Event listener for Remove Stage button
+    const removeFieldButton = document.querySelector(".remove_field");
+    if (removeFieldButton) {
+        removeFieldButton.addEventListener("click", function() {
+            if(stageCount > 1) {
+                // Logic to remove the last stage...
+                stageCount--; // Decrement stage count
+                // After removing a stage, update the button state
+                updateRemoveButtonState();
+            }
+        });
+    }
+
+
+    /**
+     * Generates the HTML for a new Recipe Stage
+     */
+    document.addEventListener("click", function(event) {
+        if(event.target.closest(".add_field")) {
+            stageCount++; // Increment stage count
             const newStage = `
       <div class="row multi-stage" data-stage-id="">
         <!-- Hidden input for new stage (no ID) -->
@@ -254,11 +277,7 @@ document.addEventListener("DOMContentLoaded", function() {
             } else {
                 // If no existing stages, append the new stage to a parent container
                 const container = document.querySelector(".stages-container");
-                if(container) {
-                    container.insertAdjacentHTML("beforeend", newStage);
-                } else {
-                    console.error("No container found for adding new stages.");
-                }
+                container.insertAdjacentHTML("beforeend", newStage);
             }
             // Re-initialize Materialize Textareas and Labels for new elements when new stage added.
             setTimeout(function() {
@@ -268,26 +287,20 @@ document.addEventListener("DOMContentLoaded", function() {
             autoResizeTextarea();
 
             updateRemoveButtonState();
-        });
-    }
-
-    // Event listener for Remove Stage button
-    if (removeStageButton) {
-        removeStageButton.addEventListener("click", function() {
+        }
+    });
+    // Remove the last added stage when remove stage button clicked.
+    document.addEventListener("click", function(event) {
+        if(event.target.closest(".remove_field")) {
             if(stageCount > 1) {
-                // Logic to remove the last stage...
                 const stages = document.querySelectorAll(".multi-stage");
                 const lastStage = stages[stages.length - 1];
-                if(lastStage && lastStage.parentNode) {
-                    lastStage.parentNode.removeChild(lastStage);
-                    stageCount--; // Decrement stage count
-                    updateRemoveButtonState();
-                } else {
-                    console.error("No stage found to remove.");
-                }
+                lastStage.parentNode.removeChild(lastStage);
+                stageCount--;
+                updateRemoveButtonState();
             }
-        });
-    }
+        }
+    });
 
     /**
      * Disables the submit button after form submission to prevent multiple submissions.
@@ -296,7 +309,7 @@ document.addEventListener("DOMContentLoaded", function() {
         // Exclude the contact form since reCAPTCHA handles it differently
         if(form.id !== "contact-form") {
             form.addEventListener("submit", function(event) {
-                var submitButton = form.querySelector("button[type='submit']");
+                const submitButton = form.querySelector("button[type='submit']");
                 if(submitButton) {
                     submitButton.disabled = true;
                 }
@@ -342,8 +355,6 @@ document.addEventListener("DOMContentLoaded", function() {
                     this.input.value = before + text + ", ";
                 },
             });
-        }).catch((error) => {
-            console.error('Error fetching tags:', error);
         });
     }
 
@@ -465,7 +476,7 @@ updateDeleteButtonsState();
  * @param {string} token - The reCAPTCHA token.
  */
 function onSubmit(token) {
-    var submitButton = document.getElementById("submitButton");
+    const submitButton = document.getElementById("submitButton");
     if(submitButton) {
         submitButton.disabled = true;
     }
