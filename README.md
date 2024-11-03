@@ -724,6 +724,8 @@ Again to expand on the social aspect, it may be useful to have users be able to 
 - Multiple Images per stage
 While this is technically supported now. I have not designed the UI with this in mind. I observed several times via bugs I encountered and other testing I was doing that I could sometimes cause a stage in a recipe to show multiple images. This could be useful to show different angles where it may be helpful to show how an effect can look. 
 
+- Image previews on upload - currently I'm presenting a text field to show the file has been added to the form. However this is not the best user experience. A better approach would be to have the image be previewed when added. I beleive this could be achieved via Javascript and I have found [the following](https://codepen.io/Ahmed_B_Hameed/pen/yayevp) which may help achieve this. 
+
 - Reordering of stages
 While I suspect this may be rarely used, as a user refines their recipe it may be useful to be able to shift the orders or stages around or even add a new stage in the middle of existing ones, something which currently requires all later stages to be removed and readded, including adding all images and text back. 
 
@@ -735,9 +737,11 @@ One of the bigger challenges as a miniature painter is to keep track of your pro
 
 - Hiding Demo recipes on all pages except the 'My Library' page and perhaps showing only the users own demo recipe to them on the home page. As things stand, having the demo recipe on display is fine while this is not in active use, since it helps when the project is being assessed. However if I move this into a live project, having the home page be inundated with Demo Recipes will be something of a hindrance and annoyance to the sites users. 
 
-- Setting Recipes to be private. In some cases a user may not want to show how to create a certain effect, the community has some fairly high calibre and prestigious painting contests around the world. So I could understand why a competitive painter may not want to share how to perform a certain technique or achieve a certain colour until after an event has closed, if at all, while still logging how to do this. 
+- Setting Recipes to be private. 
+In some cases a user may not want to show how to create a certain effect, the community has some fairly high calibre and prestigious painting contests around the world. So I could understand why a competitive painter may not want to share how to perform a certain technique or achieve a certain colour until after an event has closed, if at all, while still logging how to do this. 
 
-- Highlighted Recipes. Miniature painters will always have things they are proud to share and things that they don't mind sharing but may not want in direct line of site for the entire world to see, such as it could be on the home page. Having a featured recipe tag would allow for only selected recipes to be used on the home page for both logged in and logged out users. 
+- Highlighted Recipes. 
+Miniature painters will always have things they are proud to share and things that they don't mind sharing but may not want in direct line of site for the entire world to see, such as it could be on the home page. Having a featured recipe tag would allow for only selected recipes to be used on the home page for both logged in and logged out users. 
 
 - Adjusting how directly linked recipe URLs are formed. Currently the site uses the recipe_id in the URL string, ideally I'd like the recipe name to be used. In addition I'd like to also have the image preview on shared links be the recipes final stage image, as is used for the recipe description to ensure cohesiveness. While this seems to work in some cases it doesn't in others. 
 

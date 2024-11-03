@@ -237,7 +237,7 @@ nav ul a:active {
 }
 
 /* Remove Scrollbars from Admin Modals */
-.admin-modal {
+.delete-modal {
 	overflow: hidden;
 }
 
@@ -346,6 +346,20 @@ button:hover,
 	pointer-events: none;
 	opacity: 0.8;
 	cursor: not-allowed;
+}
+
+/* Flex styling for stage-buttons container */
+.stage-buttons {
+    display: flex;
+    justify-content: center;  /* Centers buttons within the column */
+    align-items: center;      /* Aligns buttons vertically */
+    gap: 10px;                /* Adds space between buttons */
+}
+
+/* Inline-flex for tooltip-container to prevent line breaks */
+.stage-buttons .tooltip-container {
+    display: inline-flex;
+    align-items: center;
 }
 
 /* =============================================================
@@ -848,7 +862,7 @@ button:hover,
     .tooltip-container[data-tooltip]::after,
     .textbox-tooltip-container[data-tooltip]::after {
         white-space: normal;       
-        max-width: 90vw;         
+		min-width: 18vw;;         
         left: 50%;                
         transform: translateX(-50%); 
     }
@@ -905,7 +919,7 @@ button:hover,
 	}
 
   /* Width adjustments for Admin Modals on larger screens */
-	.admin-modal {
+	.delete-modal {
 		width: 600px;
 	}
 }

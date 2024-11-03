@@ -79,44 +79,54 @@
 
         <!-- Delete Account Section -->
         <h6>Delete Account</h6>
-        <form
-          class="delete-account-form center-align"
-          id="delete-account-form"
-          method="POST"
-          action="{{ url_for('auth.delete_account', user_id=user.id) }}">
-          <div class="input-field col s12">
-            <input
-              id="password-delete"
-              type="password"
-              name="password-delete"
-              class="validate delete-password-input" >
-            <label for="password-delete">Please enter your password</label>
-          </div>
-          
-          <!-- Tooltip Container Wrapper -->
-          <div class="tooltip-container" data-tooltip="Please enter your password to delete your account.">
-            <button
-              id="modalDelete"
-              class="btn red darken-4 modal-trigger delete-account-button disabled"
-              type="button"
-              data-target="modal1"
-              aria-disabled="true">
-              Delete Account
-            </button>
-          </div>
-          
-        </form>
+        <div class="center-align">
+          <button
+            id="modalDelete"
+            class="btn red darken-4 modal-trigger delete-button"
+            type="button"
+            data-target="modal-delete">
+            Delete Account
+          </button>
+        </div>
+  
+        <!-- Delete Confirmation Modal -->
+        <div id="modal-delete" class="modal delete-modal">
+          <form
+            class="delete-account-form"
+            action="{{ url_for('auth.delete_account', user_id=user.id) }}"
+            method="POST">
+            <div class="modal-content">
+              <h4>Confirm Account Deletion!</h4>
+              <p>Are you sure you want to delete your account?</p>
 
-        <!-- Modal Structure -->
-        <div id="modal1" class="modal center-align">
-          <div class="modal-content">
-            <h4>Confirm Account Deletion!</h4>
-            <p>Are you sure you want to delete your account?</p>
-          </div>
-          <div class="modal-footer">
-            <button class="modal-close btn green darken-4" type="button">Cancel</button>
-            <button type="submit" class="btn red darken-4" form="delete-account-form">Delete</button>
-          </div>
+              <!-- Password Input in Modal -->
+              <div class="row">
+                <div class="input-field col s12">
+                  <input
+                    id="password-delete"
+                    type="password"
+                    name="password-delete"
+                    class="validate delete-password-input"
+                    required>
+                  <label for="password-delete">Please enter your password to delete your account</label>
+                </div>
+              </div>
+            </div>
+
+            <div class="modal-footer">
+              <div class="row">
+                <div class="col s12 m6">
+                  <button class="modal-close btn green darken-4" type="button">Cancel</button>
+                </div>
+                <!-- Tooltip Container with Disabled Button -->
+                <div class="col s12 m6 tooltip-container" data-tooltip="Please enter your password to delete your account.">
+                  <button type="submit" class="btn red darken-4 delete-account-button disabled" aria-disabled="true">
+                    Delete Account
+                  </button>
+                </div>
+              </div>
+            </div>
+          </form>
         </div>
 
       </div>

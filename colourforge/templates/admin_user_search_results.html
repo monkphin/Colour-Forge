@@ -295,7 +295,7 @@
         {% endif %}
         
     <!-- Delete Confirmation Modal -->
-    <div id="modal-delete-{{ user.id }}" class="modal admin-modal">
+    <div id="modal-delete-{{ user.id }}" class="modal delete-modal">
       <form
         class="delete-account-form"
         action="{{ url_for('admin.delete_account', user_id=user.id) }}"
@@ -320,10 +320,10 @@
         </div>
         <div class="modal-footer">
           <div class="row">
-            <div class="col s6">
+            <div class="col s12 m6">
               <button class="modal-close btn green darken-4" type="button">Cancel</button>
             </div>
-            <div class="tooltip-container col s6" data-tooltip="Please enter your password to delete your account.">
+            <div class="col s12 m6 tooltip-container" data-tooltip="Please enter your password to delete your account.">
               <button type="submit" class="btn red darken-4 delete-account-button disabled" aria-disabled="true">
                 Delete Account
               </button>
