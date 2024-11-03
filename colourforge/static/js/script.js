@@ -421,7 +421,6 @@ function updateDeleteButtonsState() {
             if (shouldDisable) {
                 // Add tooltip explanation
                 tooltipContainer.setAttribute('data-tooltip', 'Please enter your password to delete your account.');
-                tooltipContainer.setAttribute('title', 'Please enter your password to delete your account.'); // Fallback
                 deleteButton.setAttribute('aria-disabled', 'true');
                 console.log(`Form ${index + 1}: Tooltip added.`);
                 
@@ -431,7 +430,6 @@ function updateDeleteButtonsState() {
             } else {
                 // Remove tooltip explanation
                 tooltipContainer.removeAttribute('data-tooltip');
-                tooltipContainer.removeAttribute('title'); // Remove fallback
                 deleteButton.removeAttribute('aria-disabled');
                 console.log(`Form ${index + 1}: Tooltip removed.`);
                 
