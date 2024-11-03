@@ -480,7 +480,7 @@ function onSubmit(token) {
     if(submitButton) {
         submitButton.disabled = true;
     }
-    document.getElementById("contact-form").submit();
+    document.getElementById("contact-form").requestSubmit();
 }
 
 /**
