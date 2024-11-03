@@ -67,7 +67,7 @@ h1, h2, h3, h4, h5, h6 {
 
 .links {
 	position: relative;
-	color: #000;
+	color: #1a0dab !important;
 	text-decoration: none;
 }
 
@@ -356,7 +356,8 @@ button:hover,
 	align-items: center;
       /* Aligns buttons vertically */
 	gap: 10px;
-                /* Adds space between buttons */;
+                /* Adds space between buttons */
+	;
 }
 
 /* Inline-flex for tooltip-container to prevent line breaks */
