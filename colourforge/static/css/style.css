@@ -350,16 +350,19 @@ button:hover,
 
 /* Flex styling for stage-buttons container */
 .stage-buttons {
-    display: flex;
-    justify-content: center;  /* Centers buttons within the column */
-    align-items: center;      /* Aligns buttons vertically */
-    gap: 10px;                /* Adds space between buttons */
+	display: flex;
+	justify-content: center;
+  /* Centers buttons within the column */
+	align-items: center;
+      /* Aligns buttons vertically */
+	gap: 10px;
+                /* Adds space between buttons */;
 }
 
 /* Inline-flex for tooltip-container to prevent line breaks */
 .stage-buttons .tooltip-container {
-    display: inline-flex;
-    align-items: center;
+	display: inline-flex;
+	align-items: center;
 }
 
 /* =============================================================
@@ -369,49 +372,49 @@ button:hover,
 /* Tooltip Container Styling */
 .tooltip-container,
 .textbox-tooltip-container {
-    position: relative;
-    cursor: not-allowed;
+	position: relative;
+	cursor: not-allowed;
 }
 
 .textbox-tooltip-container {
-    display: block;
+	display: block;
 }
 
 /* Tooltip styling using data-tooltip attribute on the container */
 .tooltip-container[data-tooltip]::after,
 .textbox-tooltip-container[data-tooltip]::after {
-    content: attr(data-tooltip);
-    position: absolute;
-    bottom: 125%;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: #555;
-    color: #fff;
-    padding: 5px 10px;
-    border-radius: 6px;
-    white-space: normal;
-    max-width: 200px;    
-    word-wrap: break-word; 
-    opacity: 1;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 1000;
+	content: attr(data-tooltip);
+	position: absolute;
+	bottom: 125%;
+	left: 50%;
+	transform: translateX(-50%);
+	background-color: #555;
+	color: #fff;
+	padding: 5px 10px;
+	border-radius: 6px;
+	white-space: normal;
+	max-width: 200px;
+	word-wrap: break-word;
+	opacity: 1;
+	transition: opacity 0.3s;
+	pointer-events: none;
+	z-index: 1000;
 }
 
 .tooltip-container[data-tooltip]::before,
 .textbox-tooltip-container[data-tooltip]::before {
-    content: '';
-    position: absolute;
-    bottom: 115%;
-    left: 50%;
-    transform: translateX(-50%);
-    border-width: 5px;
-    border-style: solid;
-    border-color: #555 transparent transparent transparent;
-    opacity: 1;
-    transition: opacity 0.3s;
-    pointer-events: none;
-    z-index: 1000;
+	content: '';
+	position: absolute;
+	bottom: 115%;
+	left: 50%;
+	transform: translateX(-50%);
+	border-width: 5px;
+	border-style: solid;
+	border-color: #555 transparent transparent transparent;
+	opacity: 1;
+	transition: opacity 0.3s;
+	pointer-events: none;
+	z-index: 1000;
 }
 
 /* Initially hide tooltips */
@@ -419,7 +422,7 @@ button:hover,
 .tooltip-container[data-tooltip]::before,
 .textbox-tooltip-container[data-tooltip]::after,
 .textbox-tooltip-container[data-tooltip]::before {
-    opacity: 0;
+	opacity: 0;
 }
 
 /* Show tooltips on hover and focus */
@@ -431,7 +434,7 @@ button:hover,
 .tooltip-container[data-tooltip]:focus::before,
 .textbox-tooltip-container[data-tooltip]:hover::before,
 .textbox-tooltip-container[data-tooltip]:focus::before {
-    opacity: 1;
+	opacity: 1;
 }
 
 /* =============================================================
@@ -859,19 +862,20 @@ button:hover,
 		max-height: 180px;
 	}
 
-    .tooltip-container[data-tooltip]::after,
+	.tooltip-container[data-tooltip]::after,
     .textbox-tooltip-container[data-tooltip]::after {
-        white-space: normal;       
-		min-width: 18vw;;         
-        left: 50%;                
-        transform: translateX(-50%); 
-    }
+		white-space: normal;
+		min-width: 18vw;
+		;         
+        left: 50%;
+		transform: translateX(-50%);
+	}
 
-    .tooltip-container[data-tooltip]::before,
+	.tooltip-container[data-tooltip]::before,
     .textbox-tooltip-container[data-tooltip]::before {
-        left: 50%;                 
-        transform: translateX(-50%); 
-    }
+		left: 50%;
+		transform: translateX(-50%);
+	}
 }
 
 @media (min-width: 640px) {
