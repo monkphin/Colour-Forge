@@ -60,9 +60,15 @@ A paint library and painting recipe book for miniature painters.
 
 
 # Site Concept
-Colour Forge is an online paint catalogue and recipe tracking tool for miniature painters, created to allow miniature painters a way of cataloguing the paints they own, allowing them to check what they may need while in hobby shops to help avoid purchasing the wrong paints for their ongoing projects, as well as creating recipes - effectively instructions for how to paint certain colours or miniatures, ensuring repeatability and consistency over multiple models.
+Colour Forge is an online paint catalogue and recipe tracking tool for miniature painters. It’s designed to help hobbyists organize their paint collections, allowing them to check what they have and avoid purchasing duplicate paints while shopping. The tool also allows users to create "recipes" (detailed guides on how to paint specific colors or miniatures) ensuring consistency and repeatability across multiple models.
 
-This is a project that I've been contemplating for several years, which has caused a little feature creep to occur here and there as well as causing it to be a tad ambitious in scope for an MVP project, which resulted in having to scale back some planned functionality to allow me to have a working project to hand in. A common problem many hobbyists such as myself have is keeping track of their collections of paint, knowing what they're out of when they're near a hobby store as well as remembering specific methods for painting miniatures in a collection that they've not worked on for a while, meaning its very easy to end up with slight discrepancies between some miniatures appearance in a collection. The aim of this project is to help mitigate some of those issues by providing an easy to access online resource for hobbyists to use. As such, some of the site owner goals and user stories reflect this more expansive ambition for the project and as such via MoSCoW prioritisation have been allowed to be shifted in or out of the scope for MVP as features were brought online based on what was deemed to bring the most benefits, have a higher priority or take the most additional work, something which I know development teams have to consider when developing real world applications. I created and used a Kanban to help track specific parts of the project from conception, to styling and finally completion, which I used in conjunction with my MoSCoW board to help with planning and prioritisation. 
+This is a project that I've been contemplating for several years, which has caused a some feature creep to occur, as well as the the initial scope to be a quite ambitious for an MVP project. Because of this, I had to scale back some planned functionality to focus on creating a working version for submission. 
+
+A common issue for hobbyists like myself is keeping track of our paint collections to know what we need when we're at a hobby store, as well as remembering specific techniques for miniatures in a project that we've not worked on for a while.
+
+The aim of this project is to help mitigate some of those issues by providing an accessible online resource for hobbyists. As such, the project’s goals and user stories reflect a more expansive project. Using MoSCoW prioritization, I was able to shift features in and out of the MVP scope based on their priority and required effort—something I know is often necessary for development teams working on real-world applications.
+
+To manage and prioritize tasks I created and used a Kanban board to help track specific parts of the project from conception to completion, which I used in conjunction with my MoSCoW board to help with planning and prioritisation. 
 
 [My MoSCoW board can be found here](https://github.com/users/monkphin/projects/3/views/1)
 
@@ -133,14 +139,14 @@ This is a project that I've been contemplating for several years, which has caus
 - 27. As a user I would like to be able to have a link for my recipes so that I can share them with other users. 
 
 # Scope
-Something that was highlighted from meetings with my mentor was that the initial concept I had may have been a little ambitious for the time frames given and the amount of work needed, so it was suggested that I scale back and add in features later as time is available. As such, it was decided that the MVP for the website would be around Paint Recipes, since this allowed multiple one-to-many tables to exist, as well as a many-to-many table for the Recipe Tags. It also created a core focus around a need that miniature painters have, which is documenting their process for painting minis so that they can easily remember how they may have approached painting a certain set of miniatures if they have taken a break from painting for a while, as well as share these recipes with others. Since the recipes were deliberately left visible to non logged in users, it was also suggested that all user recipes should be visible on the homepage, essentially creating more social features, which is something I was quite keen to focus on since it aligned with my own longer-term goals for the website.
+- Something that was highlighted from meetings with my mentor was that the initial concept I had may have been a little ambitious for the time frames given and the amount of work needed, so it was suggested that I scale back and add in features later as time is available. It was suggested that I scale back, focusing on a core MVP, with the option to add features later as time permits. We decided that the MVP would center around Paint Recipes, as this allowed for the implementation of multiple one-to-many relationships and a many-to-many relationship for Recipe Tags. It also helped to create a core focus around a common need amongst miniature painters:documenting their painting processes to remember specific techniques when revisiting projects after a break, as well as sharing these recipes with others. Since recipes are visible to non-logged-in users, we also decided to display all user recipes on the homepage, adding a social aspect that aligns with my long-term goals for the site.
 
-This is a project I've been mulling over for several years, so it was very easy for it to suffer from scope creep as I started to design and develop functions and features. However, once I'd implemented CRUD functionality for paint recipes, I opted to focus on user and site administration, since while adding paint libraries is useful, I felt it was secondary to providing the site owner a way of assisting users who may have account or recipe issues, or to allow the owner to delete recipes or remove users who were using the service improperly, this also leans into the social aspect of the site as well as ensuring the site has some form of cover in place since it allows a site admin to ensure that the various recipes being shared are suitable for the site and not uploading content that may cause legal issues for the site owner. Naturally, this is still quite immature, simply focusing on modifying/deleting content. But the core functionality is there.
+- After implementing basic CRUD functionality for paint recipes, I chose to focus on user and site administration. While a paint library is useful, I felt it was secondary to providing the site owner with tools to assist users with account or recipe issues, or to moderate recipes and remove users if necessary. This provides some essential enhancements to the social aspect of the site in addition to providing a safety net for the site owner, allowing them to ensure that shared content is suitable for the site and avoids potential legal issues. This administration functionality is still basic, focused on modifying and deleting content, but the core functionality is in place.
 
 # Design
-The early design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account, modify the user's account, contact the site owner for support or other reasons and administer the website and its users for the site admin. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site.
+- The initial design needed to factor in the two core uses of the site, collating, cataloguing and editing a library of paints as well as creating, editing and sharing paint recipes. It also needs to support the ability to sign up for an account. Additional functionality would include some form of social sharing of recipes, either directly on the site, or indirectly via sharing links to other users or users who do not have an account yet, which should help to drive adoption as users share their recipes directly from the site.
 
-It needs to support all of the above while still being somewhat simplistic and easy to use, as well as fully responsive with an interface that allows users to read through and emulate paint recipes, ideally with images to support each stage to show the desired results of the specific part of the instructions being worked on. Recipes should be presented in a simple, non distracting manner which allows the hobbyist to focus on the specific stage they're working on, while still letting them check the stage before and after the current one if needed.
+- It needs to support all of the above while still being simple and easy to use, as well as fully responsive with an interface that allows users to read through and emulate paint recipes, ideally with images to support each stage to show the desired results of the specific section of the instructions being worked on. Recipes should be presented in a simple, non distracting manner which allows the hobbyist to focus on the specific stage they're working on, while still letting them check the stage before and after the current one if needed.
 
 # Wireframes:
 
@@ -265,7 +271,7 @@ In addition, I also added a custom 500, which was styled in much the same way.
 <br>
 
 ### Feature Creep
-Due to feature creep, I added in a few additional pages that were thought to be beyond scope, or not factored into the initial planning, such as the admin pages or the contact page. In cases where this occurred I was able to fall back on existing wireframes and choices made around them to quickly get them looking like they were a cohesive part of the website without adding too much additional overhead or work, or needing to really mock up anything via new wireframes for them. 
+Due to feature creep, I added in a few additional pages that were thought to be beyond scope, or not factored into the initial planning; such as the admin pages or the contact page. In cases where this occurred I was able to fall back on existing wireframes and choices made around them to quickly get them looking like they were a cohesive part of the website without adding too much additional overhead or work such as needing to mock up new wireframes to ensure they fit the core design of the site. 
 
 
 ## Schema
@@ -276,44 +282,48 @@ These early attempts can be seen in the two below screenshots.
 
 <details>
 <summary>Initial Concept ERDs</summary>
-<img src="docs/3-table-erd.png">
-<img src="docs/4-table-erd.png">
+<img src="docs/erds/3-table-erd.png">
+<img src="docs/erds/4-table-erd.png">
 </details>
 
 After talking my idea over with my mentor, it very quickly became apparent the two DB’s I’d mocked up were not going to be fit for purpose. As such, I redesigned the table to get something closely resembling what is in place currently, which can be found in the below screenshot. 
 
 <details>
 <summary>Final ERD</summary>
-<img src="docs/table-erd.png">
+<img src="docs/erds/table-erd.png">
 </details>
 
 Due to the relative complexity of the initial project plan, I have scaled back a little to focus on just the paint recipes section, since this requires 6 tables to get working how I would like it to.
-While working on the project, and adding in additional features such as administration rights, it was obvious that some of the tables would need some tweaks added over the original design, such as the ability for a user to be flagged as having administration privilege or having a public ID which was needed to allow for images to be deleted from Cloudinary, thumbnail_url, which was added when I realised Cloudinary could auto-gen thumbnails on upload, so could circumvent the need to render images to be smaller than their dimensions when using them for thumbnails, or the entity_type field to flag what type of entity the tag should be associated with, such as recipes or paints, which was added for future use - there were other fields and tables I could have also added here, surrounding things like self-serve password resets, which my research suggested would possibly benefit from having a separate table in place to assist with, or fields to flag if a recipe should be public or not, but these felt easier to add in later than the entity type field since this felt like it would take more effort to back populate if it was added in at a later date.
+
+While working on the project, and adding in additional features such as administration rights, it was obvious that some of the tables would need some tweaks added over the original design, such as the ability for a user to be flagged as having administration privilege or adjusting the image table to take advantage of functionality I wasn't aware that Cloudinary offered. 
 
 Below is the schema as it stands currently, along with an ERD diagram to demonstrate the tables and relationships. 
 
 <details>
 <summary>Updated ERD</summary>
-<img src="docs/final-erd.png">
+<img src="docs/erds/final-erd.png">
 </details>
 
-### user 
+### users 
 This is the table where all the user data will be stored, such as username, password, email etc.
- - id - an auto-incrementing field, which stores the table's primary key.
+
+ - id - an auto-incrementing field, which stores the table's primary key to allow each user to be uniquely identified. 
  - email - a text field, used for storing each user's email address to allow for login and password reset functionality.
  - username - a text field where the user could store their username which would be used to display personalised messaging as well as allow for login.
- - password - a text field for the user’s password.
- - is_admin - a Boolean which is used to track if a user should have access to the admin features or not. 
+ - password - a text field for the user’s password, which is stored in a hashed format to keep credentials secure.
+ - is_admin - a Boolean field which is used to track if a user should have access to the admin features or not. 
 
 ### recipes
-This is where the user's recipes will be stored. It will have a foreign key for the user's table, to allow for a one-to-many relationship to the user's table so each user may create many recipes.
+This is where the user's recipes will be stored. It will have a foreign key for the users table, to allow for a one-to-many relationship to the user's table so each user may create many recipes.
+
  - recipe_Id - an auto-incrementing field which stores the table's primary key.
- - user_id - the foreign key used for the one-to-many relationship to the user's table.
+ - user_id - the foreign key used for the one-to-many relationship to the users table.
  - recipe_name - a text field for storing the name of each recipe, e.g. 'Space Marine Captain', 'Dark Eldar Reavers', ‘Supermarine Spitfire’ etc.
  - recipe_desc - a text field used to store a description of the recipe, where the user can describe what the recipe is for and any paints used in it.
 
 ### recipe_stages
 This table is for each specific stage of the recipe. A recipe should consist of at least one stage and be able to extend as far as is needed to meet the user's requirements. This has a one-to-many relationship with the recipes table.
+
  - stage_id - an auto-incrementing field, which stores the table's primary key.
  - recipe_id - the foreign key to link to the recipes table for the one-to-many relationship since each recipe will have one or more stages.
  - stage_num - a numerical value the user can enter to delineate the order of stages. Eg stage 1, stage 2 etc.
@@ -322,8 +332,9 @@ This table is for each specific stage of the recipe. A recipe should consist of 
 
 ### recipe_images
 This table is used to store images for each stage of the recipe, ideally, a placeholder image should be stored here if the user opts to not upload an image of their own. It has a one-to-many relationship to the recipe_stages table, allowing each stage to have multiple images if needed.
+
  - image_id - an auto-incrementing field, which stores the table's primary key.
- - stage_id - the foreign key used to link to the recipe stages table for the one-to-many relationship, since each stage could have multiple images.
+ - stage_id - the foreign key used to link to the recipe_stages table for the one-to-many relationship, since each stage could have multiple images.
  - image_url - the URL string of the uploaded image, automatically inserted when the user uploads an image.
  - thumbnail_url - the URL of the thumbnail generated when adding an image to Cloudinary.  
  - alt_text - a text string for the image alt text to ensure basic accessibility standards are met.
@@ -331,52 +342,60 @@ This table is used to store images for each stage of the recipe, ideally, a plac
 
 ### entity_tags  
 This table isn't directly editable by the user, instead it's used to allow for a many-to-many relationship between the recipes table and the recipe_tags table.
+
  - recipe_id - a foreign key, linking to the recipes table.
- - tag_id - a foreign key linking to the tags table.
- - entity_type - this isn't used in the MVP release, which features just the user's recipes - in the final version this will be used to identify the type of entity that the tag  relates to, eg 'paint', 'recipe', 'miniature' and so on, preventing recipe tags being seen and used for paints and vice versa. 
+ - tag_id - a foreign key linking to the recipe_tags table.
+ - entity_type - Although unused in the MVP release (which includes only recipes), this field is designed to identify the type of entity associated with each tag (e.g., "paint," "recipe," "miniature"). This will prevent recipe tags from appearing in the context of paints, for example. Including this field now allows for easier integration of the paint library functionality in the future, avoiding the need to modify or reassign existing tags.
 
 
 ### recipe_tags
 This table exists purely to store the tags that each user adds. Since it has a many-to-many relationship thanks to the recipe_tags table, each user can use any tag that is added in any recipe they may create, which should help limit potential data duplication as more users join the service.
+
  - tag_id - an auto-incrementing field, which stores the table's primary key.
  - tag_name - a text field where the tag name will be stored.
 
 While I have larger plans around the ability to catalogue paints owned by a user and link them to their recipes, there was a high chance due to time constraints that this would not make into an MVP release, as such the above schema was designed with a degree of adaptability in mind, allowing me to add in additional tables to handle other data, either via many to many relationships or one to many relationships.  
 
 # UX
-When a user first visits the site, they will be presented with the homepage, the appearance of which will change depending on if the user is logged in or not. For a non logged in user, will see a carousel that shows some of the recipes that users of the site have created, which are fully accessible to non-members so they can peruse some of what the site has to offer. They’re invited from both the nav bar and a button on the home page to either log in or register. Once logged in the homepage view changes to display a paginated list of recipes contributed by all users of the website. This will show in either a 3x2, a 2x3 or a 1x6 array of cards depending on the size of the screen in use. Each recipe card displays a thumbnail, title and creator. Each card can show the recipe description using the Materialize ‘Card Reveal’ function From here each recipe can be viewed and read freely, these can even be shared with non registered users of the website as a way of allowing users to not only share paint recipes others may find useful, but as a method of trying to attract new users by, effectively, advertising the site via its shared recipes. In addition to the list of recipes the homepage shows an ‘Add Recipe’ and currently, a non-functional ‘Add Paint’ card, these two cards allow the user to go directly to the ‘Add Recipe’ page to create a new paint recipe and advertise the planned paint library feature. 
+- When a user first visits the site, the land on the home page which changes based on their login status. Non-logged-in users, will see a carousel which feature some of the site members recipes, which they can browse to explore some of what the site has to offer They’re invited from both the nav bar and a button on the home page to either log in or register and have a small bit of text which functions as a call to action to encourage them to register. 
 
-For the nav bar, a logged-out user will only see the login, about us, register and contact options. After landing on the home page a logical place to visit would be the about page, which informs potential new users what the site's purpose is and how it may be able to help them. The contact form is publicly accessible to allow users to contact the admin in case of issues with their account since currently a self-serve password reset function has not been implemented. However, there are advantages to leaving this form public-facing even after this feature has been added, since it allows unregistered users to raise concerns and questions before joining. 
+- Once logged in the homepage displays a paginated list of user contributed recipes. This is filtered to only show the current users auto created demo recipe to prevent the possibility of confusion that seeing multiple users demo recipes could cause. The recipes are shown in a responsive card layout (3x2, 2x3 or 1x6, depending on screen size.) Each recipe card includes a thumbnail, title and creator - the thumbnail and title are both links to access the recipes page. Each card uses the Materialize ‘Card Reveal’ to show the recipes description. Recipes are freely viewable and fully shareable, allowing users to showcase their work elsewhere on the internet and potentially attract new users to the site when none registered users see them. The top of the page also includes a pair of cards, one to let the user create a new recipe from the home page, the other advertising the ability to add paint to a library, the button for this option is currently disabled due to the functionality not being implemented in the MVP release. 
 
-A logged-in user will see the ‘My Recipes’ section immediately after the home button, which is positioned to ensure users can get quick access to their recipe library, allowing them to log in, locate a recipe they have created and get to work relatively quickly. The My Recipes page lists -only- the user's own created recipes providing them with an uncluttered list of cards which are again paginated and will present no more than 6 per page in varying widths/heights depending on the device in use. This page also includes another card to allow the user to add a new recipe, which is always present at the top of the page, ensuring that the ability to create new recipes is never more than a click or two away from wherever the user is on the site. 
+ - The nav bar for logged-out users includes only the options to log in, register, view the about page, access the contact form and search the sites recipes via the recipes tags. After landing on the home page a new user may visit the about page to learn a little more about the site and what benefits it can offer. The contact form is publicly accessible to allow users to contact the admin in case of issues with their account as a self-serve password reset function is not yet implemented. Additionally keeping the form public allows none registered visitors to contact the admin with any questions they have prior to registration. 
 
-Next up we have the ‘Account’ page, which allows the user to edit and maintain their own account, this includes the ability to change their email address, password and delete their account. In all cases there is a requirement for the user to enter their password, to firstly ensure that users can’t mistakenly fill in and action the specific part of the form without deliberately entering their password to do so, but also to prevent a third party from making changes if the user leaves the page up on their computer while away from their desk. 
+ - For logged-in users the nav bar includes a ‘My Recipes’ section right after the home button, providing quick access to their recipe library. The My Recipes page displays the user's own recipes in paginated list of up to 6 cards per page, which are arranged responsively based on device size. An 'Add Recipe' card is at the top of the page, ensuring that the ability to create new recipes is never more than a click or two away from wherever the user is on the site. 
 
-Beyond this, we have the Logout, contact and search functions. Logout behaves as expected and provides a logged-in user a quick way to safely log out of the website when they’re done using it. Contact functions much like it does for non logged in users, presenting a simple contact form. The search button when clicked will present the user with a drop-down bar that contains a search field. This is currently configured purely to search for recipe tags, with the search results opening in a new page which uses the same familiar card layout. 
+ - The ‘Account’ page allows users to manage their account settings, including the ability to change their email address, password and delete their account. In all cases the user is required to enter their password, firstly to prevent accidental changes and secondly to safeguard against unauthorised edits if the page is left open.  
 
-Finally, for administration accounts, we have an extra, admin user only, hidden menu that uses drop-downs when on the desktop, or just lists both menu options in the slide out menu when on smaller screens. This allows admins to administer either members' or the member's recipes, giving them the ability to quickly fix account issues or remove problematic content. Both these pages use the familiar card layout, though the member admins' content more closely matches that which is seen on the Account page, with each user's details being presented in its own card. 
+ - Additionally there are Logout, Contact and Search options. Logout provides a user a way to safely log out. Contact functions the same as it does for non logged in users, presenting a simple contact form. The search button reveals a dropdown search bar to search for recipe tags, with search results rendering in the same card based layout used so far.  
 
-When adding a recipe, the user is presented with a simple form, with a few ‘required’ fields such as the recipe name, description and stage instructions. The image and Image Description fields are both optional, with the Image Description field being used for image alt texts. At the bottom of this page are three buttons, two to add or remove stages, which effectively recreate or remove the ‘stage’ section of the form (though the remove button can only remove as far bas as stage 2, since removing stage 1 would prevent the user from being able to fill in the instructions field and prevent them from submitting the recipe.) removing a stage will clear its contents since these are not stored until the ‘Add Recipe’ button is pressed and the recipe is saved to the DB. 
+ - For admin accounts, there is an additional hidden menu, displayed a drop-down larger screens and a list in the slide out menu when on smaller screens. This menu allowing admins to manage users and their recipes, giving them the ability to quickly fix account issues or remove problematic content. Both these pages use the same familiar card layout, with the user admin view resembling the Account page, displaying each user’s details in individual cards.
 
-It is also worth calling out the edit recipe page here, since while this is mostly the same as the add recipe page there is a subtle difference - since the recipe exists in the DB and the image is already on Cloudinary, this can be called to be rendered on the page. By default the image will replace the add image and image description button. However there is also a Delete Image button, which will remove the image and replace it with the add image and add description button, as well as a cancel button, allowing the user to change their mind and use the existing image still. 
+ - When adding a recipe, users see a simple form with a few required fields, including recipe name, description, and stage instructions. The Image and Image Description fields are optional, with the latter used for alt text. At the bottom are three buttons: "Add Stage," "Remove Stage," and "Add Recipe." The Add/Remove buttons let users add or delete stages, with deletion limited to stage 2 or higher to ensure the instructions field is always filled, tool tips exist on the disabled button to explain this. Removing a stage clears its contents since data isn’t saved until the “Add Recipe” button is clicked, storing the recipe in the database.
 
-While this has covered a lot of features there are still others that have not been mentioned, such as modals to show larger versions of the images in recipes, and defensive modals to give a user a chance to change their mind on the deletion of a recipe or their account. Admin-specific modals to remind them that they’re editing someone else's content which asks for a password confirmation before allowing them to proceed, emails to update the user of account level changes, as well as flashed alert messages to advise the user of the success or failure of their actions and possible reasons for those failures, such as forgetting to add their passwords etc. These are all important parts of the UX of the site since they provide feedback and reassurance to users in addition to additional layers of protection against making mistakes such as deleting something the user didn't mean to. 
+ - The Edit Recipe page is similar to the Add Recipe page, with a few key differences. Since the recipe exists in the database and the image is already on Cloudinary, the image and its description are displayed by default, replacing the "Add Image" and "Image Description" fields. There’s also a "Delete Image" button, which removes the image and brings back the "Add Image" and "Add Description" buttons, along with a cancel option, allowing users to revert to the existing image if they change their mind.
+
+ - Additional features enhance the site’s UX, including modals for viewing larger recipe images and defensive modals to confirm actions like recipe deletion. Account deletion modals include a password field, with the delete button disabled until text is entered. Admin-specific modals provide reminders when editing another user’s content and require password confirmation before proceeding. Users receive email notifications for account-level changes, and flashed alert messages provide feedback on action success or failure, with tips for resolving issues like missing passwords. These elements create a user-friendly experience by providing feedback, reassurance, and protection against accidental actions.
 
 # Colour Palette
-The colour palette was a fairly late choice, with initial colours being based around some of the stock template colours from Materialize. These were adjusted to be darker to increase the contrast where needed between any text that is rendered on sections that have colour, but otherwise beyond ensuring that the colours weren't too distracting from the core of the content and ensuring good levels of contrast the core colouring was kept very simple, sticking to just a deep red for the top menu and footer, with darker versions of the colour for highlighted options in the menu bar and footer. The button colours were all picked to be fairly in line with the button use - blues and greens for buttons that provide either 'positive' or 'neutral' functionality, such as adding recipes, increasing/decreasing stages, back buttons, etc. With reds are used for more negative outcome buttons, such as deleting entries. Effectively this is leaning on existing understanding of how colour is used to represent things, green for go, red for stop etc.
+ - The color palette was chosen later in development, initially based on Materialize stock colors. These were darkened to improve contrast, especially for text readability, while keeping the colors simple and unobtrusive. 
+ - A deep red is used for the top menu and footer, with darker shades for highlighted options, this same deep red is used when hovering over text links. 
+ - Button colors align with their functions: blues and greens for "positive" or "neutral" actions like adding recipes and navigation, and reds for "negative" actions like deletion. This approach leverages familiar color associations—green for go, red for stop—to enhance user experience.
+
 
 # Typography
-Much like the colour palette, the fonts were a fairly late choice in terms of development, since the main focus was getting the core CRUD functionality working, rather than making things look good to begin with. Three fonts were picked to give some slight visual difference between text, headings and the nav bar and all were provided by Google Fonts. These were all picked due to their clean, simple typeface, ensuring no serif use to make sure they're legible over multiple sized devices for as many types of user as is possible, since the hobby community does feature many people who are members of the neurodiverse community. 
+ - Like the color palette, fonts were chosen later in development, as initial focus was on core CRUD functionality. Three Google Fonts were selected to provide visual distinction between text, headings, and the nav bar. Each font is clean and sans-serif, ensuring readability across various devices and user types, including those in the neurodiverse community.
+
 
 <img src="docs/fonts.png">
 
 # Images
-Local images are relatively minimal here, with much of the image content being provided by the users. However, the site logo and images used for the Add Paint and Add Recipe cards are the only 'static' images that the site uses and the only ones which are pulled from the host the site sits on. All other images in use are hosted on Cloudinary and are mostly provided by users, with three exceptions - the black and white and full-colour versions of the site logo and a single painted miniature image, all of which are used for the 'demo recipe' which is created when a user creates a new account. Credits for the images will be provided at the end of the readme.
+ - Local images are minimal, with most images provided by users. The only "static" images hosted on the site are the logo and images for the Add Paint and Add Recipe cards. All other images are hosted on Cloudinary, mainly user-generated, with three exceptions for the "demo recipe" created for new users: black-and-white and full-color versions of the logo, and a single painted miniature image. Credits for these images are listed in the README.
 
-The site Logo was kindly donated by a good friend who was aware of the project and is a call back to some character art that was used for Citadel paint sets in the 90s and early 00s, which many in the community often look fondly on. 
+ - The site logo, generously donated by a friend familiar with the project, is a nod to classic Citadel paint set character art from the ’90s and early ’00s, a design fondly remembered by many in the community.
 
 # Icons
-Icons were provided by Font Awesome and were used for a few different features on the site, from social links in the footer to iconography to help demonstrate functionality on the collapsible or drawers on the recipe cards.
+ - Icons on the site are provided by Font Awesome and are used for various features, including social links in the footer and icons that illustrate functionality on collapsible sections and drawers within recipe cards.
 
 # Features
  All the below features have been designed with mobile first in mind and are fully responsive using a mix of custom CSS and the materialize grid system to enable the site to adjust and adapt to varying screen resolutions and device sizes. 
