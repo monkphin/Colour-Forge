@@ -14,7 +14,7 @@
 
         <!-- Change Email Section -->
         <h6>Change Email</h6>
-        <form action="{{ url_for('auth.change_email') }}" method="POST">
+        <form class="center-align" action="{{ url_for('auth.change_email') }}" method="POST">
           <div class="input-field col s12">
             <input
               id="email"
@@ -39,6 +39,7 @@
         <!-- Change Password Section -->
         <h6>Change Password</h6>
         <form
+          class="center-align"
           method="POST"
           action="{{ url_for('auth.reset_password', user_id=user.id) }}">
           <div class="row">
@@ -79,7 +80,7 @@
         <!-- Delete Account Section -->
         <h6>Delete Account</h6>
         <form
-          class="delete-account-form"
+          class="delete-account-form center-align"
           id="delete-account-form"
           method="POST"
           action="{{ url_for('auth.delete_account', user_id=user.id) }}">

@@ -50,6 +50,7 @@
 
           <!-- Form to Change Email -->
           <form
+            class="center-align"
             method="POST"
             action="{{ url_for('admin.change_email', user_id=user.id) }}">
             <div class="input-field col s12">
@@ -77,6 +78,7 @@
 
           <!-- Form to Reset Password -->
           <form
+            class="center-align"
             method="POST"
             action="{{ url_for('admin.reset_password', user_id=user.id) }}">
             <div class="row">
@@ -186,11 +188,15 @@
           </div>
         </div>
         <div class="modal-footer">
-          <button class="modal-close btn green darken-4" type="button">Cancel</button>
-          <div class="tooltip-container" data-tooltip="Please enter your password to delete your account.">
-            <button type="submit" class="btn red darken-4 delete-account-button disabled" aria-disabled="true">
-              Delete Account
-            </button>
+          <div class="row">
+            <div class="col s6">
+              <button class="modal-close btn green darken-4" type="button">Cancel</button>
+            </div>
+            <div class="tooltip-container col s6" data-tooltip="Please enter your password to delete your account.">
+              <button type="submit" class="btn red darken-4 delete-account-button disabled" aria-disabled="true">
+                Delete Account
+              </button>
+            </div>
           </div>
         </div>
       </form>
