@@ -351,11 +351,8 @@ button:hover,
 /* Tooltip Container Styling */
 .tooltip-container {
 	position: relative;
- /* Required for tooltip positioning */
 	display: inline-block;
- /* Allows tooltip to align properly */
 	cursor: not-allowed;
- /* Optional: Change cursor to indicate non-interactive */;
 }
 
 /* Tooltip styling using data-tooltip attribute on the container */
@@ -385,7 +382,6 @@ button:hover,
 	content: '';
 	position: absolute;
 	bottom: 115%;
- /* Adjust as needed to position the arrow */
 	left: 50%;
 	transform: translateX(-50%);
 	border-width: 5px;
