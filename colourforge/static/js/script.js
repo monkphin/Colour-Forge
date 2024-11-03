@@ -186,30 +186,6 @@ document.addEventListener("DOMContentLoaded", function() {
     }
     updateRemoveButtonState();
 
-    // Event listener for Add Stage button
-    const addFieldButton = document.querySelector(".add_field");
-    if (addFieldButton) {
-        addFieldButton.addEventListener("click", function() {
-            stageCount++; // Increment stage count
-            // Logic to add a new stage...
-            // After adding a stage, update the button state
-            updateRemoveButtonState();
-        });
-    }
-
-    // Event listener for Remove Stage button
-    const removeFieldButton = document.querySelector(".remove_field");
-    if (removeFieldButton) {
-        removeFieldButton.addEventListener("click", function() {
-            if(stageCount > 1) {
-                // Logic to remove the last stage...
-                stageCount--; // Decrement stage count
-                // After removing a stage, update the button state
-                updateRemoveButtonState();
-            }
-        });
-    }
-
 
     /**
      * Generates the HTML for a new Recipe Stage
@@ -389,7 +365,7 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
     /**
-     * Automatically dismisses alerts (flash messages) after a specified time.
+     * Automatically dismisses alerts (flash messages) after 5 seconds.
      * @param {number} timeout - Time in milliseconds before auto-dismissal.
      */
     document.querySelectorAll(".flash-message").forEach(function(message) {
@@ -399,7 +375,7 @@ document.addEventListener("DOMContentLoaded", function() {
             setTimeout(function() {
                 message.remove();
             }, 600);
-        }, 3000);
+        }, 5000);
     });
 });
 
@@ -449,7 +425,6 @@ function updateDeleteButtonsState() {
 
 // Initial state check with delay for autofill
 setTimeout(() => {
-    console.log("Initial state check after delay.");
     updateDeleteButtonsState();
 }, 1000);
 
