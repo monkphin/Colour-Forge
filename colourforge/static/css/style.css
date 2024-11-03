@@ -895,6 +895,6 @@ button:hover,
 @media (min-width: 1468px) {
     /* Adjust card height and layout for large screens */
 	.recipe-cards .card {
-		min-height: 605px;
+		height: 605px;
 	}
 }

@@ -150,67 +150,50 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-/**
- * Initializes the dynamic addition and removal of recipe stages.
- */
-// Set stageCount based on existing stages or default to 1 if none present.
-let stageCount = document.querySelectorAll(".multi-stage").length || 1;
-const removeStageButton = document.querySelector(".remove_field");
-
-// Function to enable or disable the remove stage button
-function updateRemoveButtonState() {
-    if (removeStageButton) {
-        if (stageCount > 1) {
-            // Enable the Remove Stage button
-            removeStageButton.disabled = false;
-            removeStageButton.classList.remove('disabled');
-
-            // Access the tooltip container (parent of the button)
-            const tooltipContainer = removeStageButton.parentElement;
-
-            // Remove tooltip attributes
-            tooltipContainer.removeAttribute('data-tooltip');
-            tooltipContainer.removeAttribute('title');
-        } else {
-            // Disable the Remove Stage button
-            removeStageButton.disabled = true;
-            removeStageButton.classList.add('disabled');
-
-            // Access the tooltip container (parent of the button)
-            const tooltipContainer = removeStageButton.parentElement;
-
-            // Add tooltip explanation
-            tooltipContainer.setAttribute('data-tooltip', 'Cannot remove stage when only one stage exists.');
-        }
-    }	
-}
-updateRemoveButtonState();
-
-// Event listener for Add Stage button
-document.querySelector(".add_field").addEventListener("click", function() {
-    stageCount++; // Increment stage count
-    // Logic to add a new stage...
-    // After adding a stage, update the button state
-    updateRemoveButtonState();
-});
-
-// Event listener for Remove Stage button
-document.querySelector(".remove_field").addEventListener("click", function() {
-    if(stageCount > 1) {
-        // Logic to remove the last stage...
-        stageCount--; // Decrement stage count
-        // After removing a stage, update the button state
-        updateRemoveButtonState();
-    }
-});
-
-
     /**
-     * Generates the HTML for a new Recipe Stage
+     * Initializes the dynamic addition and removal of recipe stages.
      */
-    document.addEventListener("click", function(event) {
-        if(event.target.closest(".add_field")) {
+    // Set stageCount based on existing stages or default to 1 if none present.
+    let stageCount = document.querySelectorAll(".multi-stage").length || 1;
+    const removeStageButton = document.querySelector(".remove_field");
+
+    // Function to enable or disable the remove stage button
+    function updateRemoveButtonState() {
+        if (removeStageButton) {
+            if (stageCount > 1) {
+                // Enable the Remove Stage button
+                removeStageButton.disabled = false;
+                removeStageButton.classList.remove('disabled');
+
+                // Access the tooltip container (parent of the button)
+                const tooltipContainer = removeStageButton.parentElement;
+
+                // Remove tooltip attributes
+                tooltipContainer.removeAttribute('data-tooltip');
+                tooltipContainer.removeAttribute('title');
+            } else {
+                // Disable the Remove Stage button
+                removeStageButton.disabled = true;
+                removeStageButton.classList.add('disabled');
+
+                // Access the tooltip container (parent of the button)
+                const tooltipContainer = removeStageButton.parentElement;
+
+                // Add tooltip explanation
+                tooltipContainer.setAttribute('data-tooltip', 'Cannot remove stage when only one stage exists.');
+            }
+        }	
+    }
+    updateRemoveButtonState();
+
+    // **Direct Event Listeners for Add and Remove Stage Buttons**
+    
+    // Event listener for Add Stage button
+    const addFieldButton = document.querySelector(".add_field");
+    if (addFieldButton) {
+        addFieldButton.addEventListener("click", function() {
             stageCount++; // Increment stage count
+            // Logic to add a new stage...
             const newStage = `
       <div class="row multi-stage" data-stage-id="">
         <!-- Hidden input for new stage (no ID) -->
@@ -252,11 +235,11 @@ document.querySelector(".remove_field").addEventListener("click", function() {
           <!-- Alt Text Field -->
           <div class="input-field">
             <input
-              id="image_desc_1"
+              id="image_desc_${stageCount}"
               name="image_desc[]"
               type="text"
               class="validate">
-            <label for="image_desc_1">Image Description (Optional)</label>
+            <label for="image_desc_${stageCount}">Image Description (Optional)</label>
           </div>
           <!-- Hidden input to track image deletion -->
           <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
@@ -271,7 +254,11 @@ document.querySelector(".remove_field").addEventListener("click", function() {
             } else {
                 // If no existing stages, append the new stage to a parent container
                 const container = document.querySelector(".stages-container");
-                container.insertAdjacentHTML("beforeend", newStage);
+                if(container) {
+                    container.insertAdjacentHTML("beforeend", newStage);
+                } else {
+                    console.error("No container found for adding new stages.");
+                }
             }
             // Re-initialize Materialize Textareas and Labels for new elements when new stage added.
             setTimeout(function() {
@@ -281,20 +268,26 @@ document.querySelector(".remove_field").addEventListener("click", function() {
             autoResizeTextarea();
 
             updateRemoveButtonState();
-        }
-    });
-    // Remove the last added stage when remove stage button clicked.
-    document.addEventListener("click", function(event) {
-        if(event.target.closest(".remove_field")) {
+        });
+    }
+
+    // Event listener for Remove Stage button
+    if (removeStageButton) {
+        removeStageButton.addEventListener("click", function() {
             if(stageCount > 1) {
+                // Logic to remove the last stage...
                 const stages = document.querySelectorAll(".multi-stage");
                 const lastStage = stages[stages.length - 1];
-                lastStage.parentNode.removeChild(lastStage);
-                stageCount--;
-                updateRemoveButtonState();
+                if(lastStage && lastStage.parentNode) {
+                    lastStage.parentNode.removeChild(lastStage);
+                    stageCount--; // Decrement stage count
+                    updateRemoveButtonState();
+                } else {
+                    console.error("No stage found to remove.");
+                }
             }
-        }
-    });
+        });
+    }
 
     /**
      * Disables the submit button after form submission to prevent multiple submissions.
@@ -325,34 +318,34 @@ document.querySelector(".remove_field").addEventListener("click", function() {
      * Handles the Awesomplete tag suggestion and autocomplete functionality.
      * Taken from https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9
      */
-    document.addEventListener("DOMContentLoaded", function() {
-        const inputField = document.getElementById("tags_input");
-        if(inputField) {
-            const tagsUrl = inputField.getAttribute("data-url");
-            fetch(tagsUrl, {
-                method: "GET"
-            }).then((response) => {
-                if(!response.ok) {
-                    throw new Error(`HTTP error! Status: ${response.status}`);
-                }
-                return response.json();
-            }).then((tags) => {
-                const awesompleteInstance = new Awesomplete(inputField, {
-                    list: tags,
-                    minChars: 1,
-                    maxItems: 10,
-                    autoFirst: true,
-                    filter: function(text, input) {
-                        return Awesomplete.FILTER_CONTAINS(text, input.match(/[^,]*$/)[0]);
-                    },
-                    replace: function(text) {
-                        const before = this.input.value.match(/^.+,\s*|/)[0];
-                        this.input.value = before + text + ", ";
-                    },
-                });
+    const inputField = document.getElementById("tags_input");
+    if(inputField) {
+        const tagsUrl = inputField.getAttribute("data-url");
+        fetch(tagsUrl, {
+            method: "GET"
+        }).then((response) => {
+            if(!response.ok) {
+                throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response.json();
+        }).then((tags) => {
+            const awesompleteInstance = new Awesomplete(inputField, {
+                list: tags,
+                minChars: 1,
+                maxItems: 10,
+                autoFirst: true,
+                filter: function(text, input) {
+                    return Awesomplete.FILTER_CONTAINS(text, input.match(/[^,]*$/)[0]);
+                },
+                replace: function(text) {
+                    const before = this.input.value.match(/^.+,\s*|/)[0];
+                    this.input.value = before + text + ", ";
+                },
             });
-        }
-    });
+        }).catch((error) => {
+            console.error('Error fetching tags:', error);
+        });
+    }
 
     /**
      * Submits the admin toggle form when the admin checkbox is changed.
