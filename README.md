@@ -210,7 +210,7 @@ The profile page will allow the user to manage their profile as needed, requesti
 
 I had a couple of ideas for how to present the items for both the library and recipes lists - the most obvious one being a list of items for each. This could either be infinitely scrolling or use pagination to handle longer lists.
 
-The alternative to the list to show the user their library or recipes was to use cards, allowing for a slightly cleaner and more mobile-friendly look, due to the cards presenting a larger interaction surface than a list would. Again much like the lists this could either infinitely scroll or allow for pagination for large library/recipe collection handling. Ultimately, this was the option I chose, since I felt it best presented the data in a more visually appealing and rich manner. 
+ - The alternative to the list to show the user their library or recipes was to use cards, allowing for a slightly cleaner and more mobile-friendly look, due to the cards presenting a larger interaction surface than a list would. Again much like the lists this could either infinitely scroll or allow for pagination for large library/recipe collection handling. Ultimately, this was the option I chose, since I felt it best presented the data in a more visually appealing and rich manner. 
 
 <details>
 <summary>Mobile</summary>
@@ -228,13 +228,13 @@ The alternative to the list to show the user their library or recipes was to use
 ### Single Paint and Recipe pages. 
 I had a couple of ideas for how to handle showing the individual paints for the library, one was to simply have each paint as its own page, this provides the maximum amount of room on smaller devices to show information. It may also be easier to handle in terms of building. The accordion at the bottom of the page will show some simple details about each recipe mentioned and will function as another path to get to the specific recipe in question. The wireframes also show what it should look like when deleting, editing and successfully editing the page. If I choose to use a 4 table DB, when entering a paint name it would be useful if this started to auto-complete based on the data in the stock list, when selected could autofill all the other fields, which the user could then edit and manipulate as needed before saving.
 
-The other option, which I think is more visually pleasing, but potentially more limiting in terms of space would be to use some form of modal when selecting the paint. The wireframes also show what it should look like when deleting, editing and successfully editing the page.
+ - The other option, which I think is more visually pleasing, but potentially more limiting in terms of space would be to use some form of modal when selecting the paint. The wireframes also show what it should look like when deleting, editing and successfully editing the page.
 
-Much like with the paint library, I thought it would be worthwhile to mock up a couple of options for how the recipe items should look when accessed. Again, having these rendered as single pages allows for the most amount of room to be used for the content on smaller screens. In this case, the accordion is being used to show each stage of the paint recipe and will contain simple instructions and images. The images should be able to be expanded via modals or light boxes. Again, the images show deletion alerts, the edit screen and an update confirmation.
+ - Much like with the paint library, I thought it would be worthwhile to mock up a couple of options for how the recipe items should look when accessed. Again, having these rendered as single pages allows for the most amount of room to be used for the content on smaller screens. In this case, the accordion is being used to show each stage of the paint recipe and will contain simple instructions and images. The images should be able to be expanded via modals or light boxes. Again, the images show deletion alerts, the edit screen and an update confirmation.
 
-I also tested what the recipe pages could look like containing the same data in a modal, which again may be more aesthetically pleasing but has other considerations which make it less ideal, including less space to work with, possible complexity of code, etc.
+ - I also tested what the recipe pages could look like containing the same data in a modal, which again may be more aesthetically pleasing but has other considerations which make it less ideal, including less space to work with, possible complexity of code, etc.
 
-In both cases, I opted for single pages, rather than modals, this gave the content more room to breath on smaller screens and allowed the use of modal pop ups to show larger images for each recipe stage, as well as have a button to take the user directly to the full resolution version of the image in a new tab. 
+ - In both cases, I opted for single pages, rather than modals, this gave the content more room to breath on smaller screens and allowed the use of modal pop ups to show larger images for each recipe stage, as well as have a button to take the user directly to the full resolution version of the image in a new tab. 
 
 <details>
 <summary>Mobile</summary>
@@ -255,9 +255,9 @@ In both cases, I opted for single pages, rather than modals, this gave the conte
 
 ### Custom 404
 
-The custom 404 functions as a way of handling users who may end up in places that they shouldn't when accessing the site. This features the same core layout that features throughout the rest of the site and allows the user to navigate back to the home page or use the menu to get to other locations.
+ The custom 404 functions as a way of handling users who may end up in places that they shouldn't when accessing the site. This features the same core layout that features throughout the rest of the site and allows the user to navigate back to the home page or use the menu to get to other locations.
 
-In addition, I also added a custom 500, which was styled in much the same way. 
+ - In addition, I also added a custom 500, which was styled in much the same way. 
 
 <details>
 <summary>Mobile</summary>
@@ -278,7 +278,7 @@ Due to feature creep, I added in a few additional pages that were thought to be 
 I knew from the start that this would likely benefit more from a relational database, so choosing to use PostGresQL was a near automatic choice. 
 Initially I had a few ideas for this, but didn't fully take into account how the data would need to be handled within the database to ensure it was easily modifiable and manipulatable, as well as supporting the one-to-many and many-to-many relationships that I was going to need to take advantage of for the data being used.
 
-These early attempts can be seen in the two below screenshots. 
+ - These early attempts can be seen in the two below screenshots. 
 
 <details>
 <summary>Initial Concept ERDs</summary>
@@ -295,7 +295,7 @@ After talking my idea over with my mentor, it very quickly became apparent the t
 
 Due to the relative complexity of the initial project plan, I have scaled back a little to focus on just the paint recipes section, since this requires 6 tables to get working how I would like it to.
 
-While working on the project, and adding in additional features such as administration rights, it was obvious that some of the tables would need some tweaks added over the original design, such as the ability for a user to be flagged as having administration privilege or adjusting the image table to take advantage of functionality I wasn't aware that Cloudinary offered. 
+ - While working on the project, and adding in additional features such as administration rights, it was obvious that some of the tables would need some tweaks added over the original design, such as the ability for a user to be flagged as having administration privilege or adjusting the image table to take advantage of functionality I wasn't aware that Cloudinary offered. 
 
 Below is the schema as it stands currently, along with an ERD diagram to demonstrate the tables and relationships. 
 
