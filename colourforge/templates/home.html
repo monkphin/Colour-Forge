@@ -51,7 +51,7 @@
                       alt="{{ stage.recipe_images[0].alt_text }}">
                 </a>
               {% else %}
-                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}" class="links">
+                <a href="{{ url_for('routes.recipe_page', recipe_id=recipe.recipe_id) }}">
                   <img src="{{ url_for('static', filename='images/placeholder-mid.webp') }}" alt="Default Image">
                 </a>
               {% endif %}
@@ -86,7 +86,7 @@
         <!-- Previous Button -->
         {% if page > 1 %}
           <li class="waves-effect">
-            <a href="{{ url_for('routes.home', page=page-1) }}">
+            <a href="{{ url_for('routes.home', page=page-1) }}>
               <i class="fas fa-chevron-left"></i>
             </a>
           </li>
@@ -110,7 +110,7 @@
         <!-- Next Button -->
         {% if page < total_pages %}
           <li class="waves-effect">
-            <a href="{{ url_for('routes.home', page=page+1) }}">
+            <a href="{{ url_for('routes.home', page=page+1) }}>
               <i class="fas fa-chevron-right"></i>
             </a>
           </li>

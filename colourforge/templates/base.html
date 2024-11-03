@@ -131,15 +131,15 @@
       <ul class="sidenav" id="mobile-nav">
         <li class="image-container"><img class="site_logo" src="{{ url_for('static', filename='images/colour-logo-x-small.webp') }}" alt="site logo" ></li>
         {% if current_user.is_authenticated %}
-        <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-        <li><a href="{{ url_for('routes.recipes') }}">My Recipes</a></li>
-        <li><a href="{{ url_for('auth.account') }}">Account</a></li>
+        <li><a href="{{ url_for('routes.home') }}" class="links">Home</a></li>
+        <li><a href="{{ url_for('routes.recipes') }}" class="links">My Recipes</a></li>
+        <li><a href="{{ url_for('auth.account') }}" class="links">Account</a></li>
         {% if current_user.is_admin %}
-        <li><a href="{{ url_for('admin.admin_dash') }}">User Admin</a></li>
-        <li><a href="{{ url_for('admin.recipe_admin') }}">Recipe Admin</a></li>
+        <li><a href="{{ url_for('admin.admin_dash') }}" class="links">User Admin</a></li>
+        <li><a href="{{ url_for('admin.recipe_admin') }}" class="links">Recipe Admin</a></li>
         {% endif %}
-        <li><a href="{{ url_for('auth.logout') }}">Log Out</a></li>
-        <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+        <li><a href="{{ url_for('auth.logout') }}" class="links">Log Out</a></li>
+        <li><a href="{{ url_for('routes.contact') }}" class="links">Contact Us</a></li>
         <li>
           <form action="{{ url_for('routes.search') }}" method="GET">
             <div class="input-field">
@@ -157,11 +157,11 @@
           <label for="mobile-search" class="hidden">Search for Recipe Tags...</label>
         </li>
         {% else %}
-        <li><a href="{{ url_for('routes.home') }}">Home</a></li>
-        <li><a href="{{ url_for('routes.about') }}">About Us</a></li>
-        <li><a href="{{ url_for('auth.login') }}">Log In</a></li>
-        <li><a href="{{ url_for('auth.register') }}">Register</a></li>
-        <li><a href="{{ url_for('routes.contact') }}">Contact Us</a></li>
+        <li><a href="{{ url_for('routes.home') }}" class="links">Home</a></li>
+        <li><a href="{{ url_for('routes.about') }}" class="links">About Us</a></li>
+        <li><a href="{{ url_for('auth.login') }}" class="links">Log In</a></li>
+        <li><a href="{{ url_for('auth.register') }}" class="links">Register</a></li>
+        <li><a href="{{ url_for('routes.contact') }}" class="links">Contact Us</a></li>
         <li>
           <form action="{{ url_for('routes.search') }}" method="GET">
             <div class="input-field">
