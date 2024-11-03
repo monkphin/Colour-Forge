@@ -150,25 +150,60 @@ document.addEventListener("DOMContentLoaded", function() {
         });
     });
 
-    /**
-     * Initializes the dynamic addition and removal of recipe stages.
-     */
-    // Set stageCount based on existing stages or default to 1 if none present.
-    let stageCount = document.querySelectorAll(".multi-stage").length || 1;
-    const removeStageButton = document.querySelector(".remove_field");
+/**
+ * Initializes the dynamic addition and removal of recipe stages.
+ */
+// Set stageCount based on existing stages or default to 1 if none present.
+let stageCount = document.querySelectorAll(".multi-stage").length || 1;
+const removeStageButton = document.querySelector(".remove_field");
 
-    // Function to enable or disable the remove stage button
-    function updateRemoveButtonState() {
-		if (removeStageButton) {
-	        if (stageCount > 1) {
-    	        removeStageButton.disabled = false;
-        	} else {
-            	removeStageButton.disabled = true;
-        	}
+// Function to enable or disable the remove stage button
+function updateRemoveButtonState() {
+    if (removeStageButton) {
+        if (stageCount > 1) {
+            // Enable the Remove Stage button
+            removeStageButton.disabled = false;
+            removeStageButton.classList.remove('disabled');
 
-		}	
-	}
-	updateRemoveButtonState();
+            // Access the tooltip container (parent of the button)
+            const tooltipContainer = removeStageButton.parentElement;
+
+            // Remove tooltip attributes
+            tooltipContainer.removeAttribute('data-tooltip');
+            tooltipContainer.removeAttribute('title');
+        } else {
+            // Disable the Remove Stage button
+            removeStageButton.disabled = true;
+            removeStageButton.classList.add('disabled');
+
+            // Access the tooltip container (parent of the button)
+            const tooltipContainer = removeStageButton.parentElement;
+
+            // Add tooltip explanation
+            tooltipContainer.setAttribute('data-tooltip', 'Cannot remove stage when only one stage exists.');
+        }
+    }	
+}
+updateRemoveButtonState();
+
+// Event listener for Add Stage button
+document.querySelector(".add_field").addEventListener("click", function() {
+    stageCount++; // Increment stage count
+    // Logic to add a new stage...
+    // After adding a stage, update the button state
+    updateRemoveButtonState();
+});
+
+// Event listener for Remove Stage button
+document.querySelector(".remove_field").addEventListener("click", function() {
+    if(stageCount > 1) {
+        // Logic to remove the last stage...
+        stageCount--; // Decrement stage count
+        // After removing a stage, update the button state
+        updateRemoveButtonState();
+    }
+});
+
 
     /**
      * Generates the HTML for a new Recipe Stage
@@ -198,7 +233,7 @@ document.addEventListener("DOMContentLoaded", function() {
         <!-- Image Upload Handling -->
         <div class="col s12 m5">
           <div class="file-field input-field">
-           <div class="row">
+           <div class="row center-align">
             <div class="col s12 l6">
               <div class="btn teal darken-2">
                 <span>Add Image</span>
@@ -221,7 +256,7 @@ document.addEventListener("DOMContentLoaded", function() {
               name="image_desc[]"
               type="text"
               class="validate">
-            <label for="image_desc_1">Image Description</label>
+            <label for="image_desc_1">Image Description (Optional)</label>
           </div>
           <!-- Hidden input to track image deletion -->
           <input type="hidden" name="delete_image_${stageCount}" value="false" class="delete_image_flag">
@@ -285,32 +320,6 @@ document.addEventListener("DOMContentLoaded", function() {
             mobileSearchBox.value = "";
         });
     }
-
-    /** 
-     * Checks to see if a password has been entered in the password field to allow button to be enabled 
-     */ 
-    // Function to enable or disable delete account buttons
-    function updateDeleteButtonsState() {
-        // Select all delete account forms
-        const forms = document.querySelectorAll(".delete-account-form");
-        forms.forEach(function(form) {
-            const passwordInput = form.querySelector(".delete-password-input");
-            const deleteButton = form.querySelector(".delete-account-button");
-            if (passwordInput && deleteButton) {
-                deleteButton.disabled = passwordInput.value.trim() === "";
-            }
-        });
-    }
-
-    // Event listener for input events on password fields
-    document.body.addEventListener("input", function(event) {
-        if (event.target.classList.contains("delete-password-input")) {
-            updateDeleteButtonsState();
-        }
-    });
-
-    // Initialize the state of all delete buttons on page load
-    updateDeleteButtonsState();
 
     /**
      * Handles the Awesomplete tag suggestion and autocomplete functionality.
@@ -389,6 +398,76 @@ document.addEventListener("DOMContentLoaded", function() {
         }, 3000);
     });
 });
+
+/**
+ * Function to enable or disable delete account buttons with tooltip management.
+ */
+function updateDeleteButtonsState() {
+    const forms = document.querySelectorAll(".delete-account-form");
+    forms.forEach(function(form, index) {
+        const passwordInput = form.querySelector(".delete-password-input");
+        const deleteButton = form.querySelector(".delete-account-button");
+        if (passwordInput && deleteButton) {
+            const shouldDisable = passwordInput.value.trim() === "";
+            console.log(`Form ${index + 1}: Password is ${shouldDisable ? 'empty' : 'filled'}.`);
+
+            // Enable or disable the button based on password input
+            deleteButton.disabled = shouldDisable;
+            deleteButton.classList.toggle('disabled', shouldDisable);
+            console.log(`Form ${index + 1}: Delete button is now ${shouldDisable ? 'disabled' : 'enabled'}.`);
+
+            // Access the tooltip container (parent of the button)
+            const tooltipContainer = deleteButton.parentElement;
+            if (shouldDisable) {
+                // Add tooltip explanation
+                tooltipContainer.setAttribute('data-tooltip', 'Please enter your password to delete your account.');
+                tooltipContainer.setAttribute('title', 'Please enter your password to delete your account.'); // Fallback
+                deleteButton.setAttribute('aria-disabled', 'true');
+                console.log(`Form ${index + 1}: Tooltip added.`);
+                
+                // Remove modal-trigger class to prevent modal from opening
+                deleteButton.classList.remove('modal-trigger');
+                console.log(`Form ${index + 1}: modal-trigger class removed.`);
+            } else {
+                // Remove tooltip explanation
+                tooltipContainer.removeAttribute('data-tooltip');
+                tooltipContainer.removeAttribute('title'); // Remove fallback
+                deleteButton.removeAttribute('aria-disabled');
+                console.log(`Form ${index + 1}: Tooltip removed.`);
+                
+                // Add modal-trigger class to enable modal
+                deleteButton.classList.add('modal-trigger');
+                console.log(`Form ${index + 1}: modal-trigger class added.`);
+            }
+        } else {
+            console.log(`Form ${index + 1}: Missing password input or delete button.`);
+        }
+    });
+}
+
+// Initial state check with delay for autofill
+setTimeout(() => {
+    console.log("Initial state check after delay.");
+    updateDeleteButtonsState();
+}, 1000);
+
+// Event listeners for input and change events on password fields
+document.body.addEventListener("input", function(event) {
+    if (event.target.classList.contains("delete-password-input")) {
+        console.log("Password input detected change (input event).");
+        updateDeleteButtonsState();
+    }
+});
+
+document.body.addEventListener("change", function(event) {
+    if (event.target.classList.contains("delete-password-input")) {
+        console.log("Password input detected change (change event).");
+        updateDeleteButtonsState();
+    }
+});
+
+// Initialize the state of all delete buttons on page load
+updateDeleteButtonsState();
 
 /**
  * Handles reCAPTCHA submission and disables the submit button.

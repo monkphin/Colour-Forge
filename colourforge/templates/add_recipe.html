@@ -40,7 +40,7 @@
           name="tags"
           data-url="{{ url_for('routes.autocomplete_tags') }}" 
           class="validate"
-          placeholder="Searchable Tags (comma separated)"
+          placeholder="Searchable Tags (Optional, comma separated)"
         >          
         <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
       </div>
@@ -80,7 +80,7 @@
               name="image_desc[]"
               type="text"
               class="validate">
-            <label for="image_desc_1">Image Description</label>
+            <label for="image_desc_1">Image Description (Optional)</label>
           </div>
         </div> 
       </div>
@@ -90,7 +90,14 @@
     <div class="row">
       <div class="col s12 center-align">
         <button type="button" class="add_field btn teal darken-2">Add Stage</button>
-        <button type="button" class="remove_field btn teal darken-2">Remove Stage</button>
+        <div class="tooltip-container">
+          <button
+            type="button"
+            class="remove_field btn teal darken-2 disabled"
+            disabled>
+            Remove Stage
+          </button>
+        </div>
       </div>
     </div>
 
