@@ -348,6 +348,10 @@ button:hover,
 	cursor: not-allowed;
 }
 
+/* =============================================================
+   Tooltip Styles
+   ============================================================= */
+
 /* Tooltip Container Styling */
 .tooltip-container {
 	position: relative;
@@ -355,7 +359,16 @@ button:hover,
 	cursor: not-allowed;
 }
 
+/* Tooltip Container textbox Styling */
+.textbox-tooltip-container {
+	position: relative;
+	display: block;
+	cursor: not-allowed;
+}
+
 /* Tooltip styling using data-tooltip attribute on the container */
+.textbox-tooltip-container[data-tooltip]:hover::after,
+.textbox-tooltip-container[data-tooltip]:focus::after,
 .tooltip-container[data-tooltip]:hover::after,
 .tooltip-container[data-tooltip]:focus::after {
 	content: attr(data-tooltip);
@@ -377,6 +390,8 @@ button:hover,
 }
 
 /* Tooltip arrow */
+.textbox-tooltip-container[data-tooltip]:hover::before,
+.textbox-tooltip-container[data-tooltip]:focus::before,
 .tooltip-container[data-tooltip]:hover::before,
 .tooltip-container[data-tooltip]:focus::before {
 	content: '';
