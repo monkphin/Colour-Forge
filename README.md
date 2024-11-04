@@ -795,74 +795,81 @@ Emails are sent in the following situations:
 
 While developing the initial routes for adding and editing recipes, I encountered routes that were overly large and cumbersome to debug. To address this, I began refactoring by breaking these two routes into helper functions. This approach not only simplified debugging but also enhanced code maintainability. I organized these helper functions into their own file, ensuring a separation of concerns between functions and the routes that drive the front end of the website.
 
-As I integrated additional features, such as user authentication, I continued this level of segmentation by creating dedicated Auth and Admin files for authentication and administration routes, respectively. Similarly, other functions like email handling and demo recipe creation were organized into separate modules. This approach ensures that each feature and function is relatively modular, making the codebase more manageable and scalable as the project grows. To date, only the routes file has had any form of refatoring apploied to it. However the other routes and functions are overall much more simpler and easy to maintain while than the routes for recipe handling were. 
+As I integrated additional features, such as user authentication, I continued this level of segmentation by creating dedicated Auth and Admin files for authentication and administration routes, respectively. Similarly, other functions like email handling and demo recipe creation were organized into separate modules. This approach ensures that each feature and function is relatively modular, making the codebase more manageable and scalable as the project grows. To date, only the routes file has had any form of refactoring applied to it. However the other routes and functions are overall much more simpler and easy to maintain while than the routes for recipe handling were. 
 
 # Future Features
-As mentioned early in this document I have had to cut several features due to time or relative complexity. These are documented on the [Kanban](https://github.com/users/monkphin/projects/1/views/1) board I was using to track progress, specifically under the 'Future Improvements' section. 
+As mentioned earlier, several features had to be postponed due to time constraints and relative complexity. These deferred features are documented on the [Kanban](https://github.com/users/monkphin/projects/1/views/1) board under the 'Future Improvements' section. Additionally, during the project, a few ideas emerged organically that would require further research before implementation or were beyond the initial scope. These ideas are also documented below.
 
  - Paint Library
- The most obvious future improvement would be to add the ability to add a paint library, this was part of the original plan, but had to be deferred in order to ensure that I completed the project in a reasonable time. This would allow users to add paints from their collection, track when they're running low so they could check on what paints they need when they're next in a hobby shop, or place orders online. Ideally this should allow users to go directly to a retailer of their choices' website to allow them to order replacements directly as needed. 
-
+The most notable future enhancement is the addition of a Paint Library. Although originally planned, this feature was deferred to ensure timely project completion. The Paint Library would enable users to add Paints they own to help track what paints they have or may need to acquire, allow usage tracking so users know when to order more, have links to vendors allowing users to quickly click through to a selection of companies who will be able to sell and ship paints to them. 
+<br>
  - Global Paint Library. 
- Part of my initial plan was to have the more popular vendors' paints already exist in a table, with paint names, colours, bottle volume etc so that users could add their paints to the library directly from this list, as well as adding their own custom paints. This should allow for a much quicker method for users to add to their libraries than having to enter each and every paint individually in full. A quite onerous task at the best of times and one that may be continually put off without support for this. 
-
+Pre-populate a table with paints from popular vendors, including details like paint names, colors, and bottle volumes. Users can quickly add paints to their library from this list or input custom paints, promoting consistent data handling and easier library management.
+<br>
 - Linking the paint library to Recipes
-This would allow users to see exactly which paints are in use by which recipe. Similarly it would, if implemented right, allow users to see all recipes that use a certain paint. 
-
+Enable users to see which paints are used in each recipe and view all recipes that utilize a specific paint, enhancing discoverability and organization.
+<br>
 - Full ReCaptcha functionality
-As things stand, I have only implemented front end ReCaptcha, while this seems to have stemmed the tide of spam mail, some still leaks through, so backend ReCaptha would be useful to help eliminate more of the spam mail I am getting from the form. 
-
-- Tag removal
-Currently when a tag is removed from all recipes it stays in the database, while tags don't take up much by way of room, over time the table for them could become unwieldy so being able to delete a tag when its no longer in use would be useful for good database health and maintenance. 
-
+Implement backend ReCaptcha to complement the existing frontend ReCaptcha, further reducing spam submissions from forms.
+<br>
+- Automatic Tag removal
+Automatically delete tags that are no longer associated with any recipes to maintain a clean and efficient database.
+<br>
 - Colour Combinations. 
-I envisage this working in a similar manner to paint recipes, where users can create colour combinations that they use for specific highlight and shading effects, effectively letting them create complimentary triads of colours.
-
+Introduce the ability to catalog colour triads (complementary paints for shades, core colours, and highlights) to help users maintain consistency in their painting techniques.
+<br>
 - Chips function as links
-This is an extension of the tags feature, allowing a user to simply click on a tag in a recipe to then bring up a list of all recipes that share that tag giving users another way to 'search' for tags based on what's visually in front of them rather than having to open a search form. 
-
-- Usernames function as links
-Leaning more into the social aspect of the site, it would be good for users to see the page of other users, allowing them to see a user's entire collection of recipes or paints. 
-
+Extend the tags feature so that clicking on a tag in a recipe displays all recipes sharing that tag, providing an intuitive way to explore related content.
+<br>
+- Visible Personal pages
+Create personal pages for users where they can showcase their entire collection of recipes, fostering a more social and community-driven platform.
+<br>
 - Messaging or Commenting functions. 
-Again to expand on the social aspect, it may be useful to have users be able to contact each other without leaving the site to share recipes, suggest improvements, give compliments and feedback etc. 
-
+Enable users to communicate directly within the site to share recipes, suggest improvements, and provide feedback, enhancing community interaction.
+<br>
 - Multiple Images per stage
-While this is technically supported now. I have not designed the UI with this in mind. I observed several times via bugs I encountered and other testing I was doing that I could sometimes cause a stage in a recipe to show multiple images. This could be useful to show different angles where it may be helpful to show how an effect can look. 
-
-- Image previews on upload - currently I'm presenting a text field to show the file has been added to the form. However this is not the best user experience. A better approach would be to have the image be previewed when added. I beleive this could be achieved via Javascript and I have found [the following](https://codepen.io/Ahmed_B_Hameed/pen/yayevp) which may help achieve this. 
-
+Support multiple images for each stage in a recipe to display different angles or variations of an effect, improving instructional clarity. 
+<br>
+- Image previews on upload 
+Implement image previews upon upload, replacing the current text field notification to enhance user experience. I have found [the following](https://codepen.io/Ahmed_B_Hameed/pen/yayevp) which may help achieve this. 
+<br>
 - Reordering of stages
-While I suspect this may be rarely used, as a user refines their recipe it may be useful to be able to shift the orders or stages around or even add a new stage in the middle of existing ones, something which currently requires all later stages to be removed and readded, including adding all images and text back. 
-
+Allow users to reorder stages within a recipe, enabling them to adjust the sequence without removing and re-adding stages.
+<br>
 - Self Serve password reset
-I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. MOre info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
-
+I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. More info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
+<br>
 - Project progress tracking. 
-One of the bigger challenges as a miniature painter is to keep track of your projects, how many minis need painting, how many are painted, where they're up to in the process and so on. Something that would be super useful is the ability to create and track paint projects, this could even log the number of minis painted per year, allowing users to set goals and milestones. 
-
-- Hiding Demo recipes on all pages except the 'My Library' page and perhaps showing only the users own demo recipe to them on the home page. As things stand, having the demo recipe on display is fine while this is not in active use, since it helps when the project is being assessed. However if I move this into a live project, having the home page be inundated with Demo Recipes will be something of a hindrance and annoyance to the sites users. 
-
+Introduce tools for users to create and track paint projects, log the number of minis painted, and set goals and milestones, aiding in project management.
+<br>
 - Setting Recipes to be private. 
-In some cases a user may not want to show how to create a certain effect, the community has some fairly high calibre and prestigious painting contests around the world. So I could understand why a competitive painter may not want to share how to perform a certain technique or achieve a certain colour until after an event has closed, if at all, while still logging how to do this. 
-
+Allow users to mark certain recipes as private, preventing them from being publicly visible while still logging the recipe details.
+<br>
 - Highlighted Recipes. 
-Miniature painters will always have things they are proud to share and things that they don't mind sharing but may not want in direct line of site for the entire world to see, such as it could be on the home page. Having a featured recipe tag would allow for only selected recipes to be used on the home page for both logged in and logged out users. 
-
-- Adjusting how directly linked recipe URLs are formed. Currently the site uses the recipe_id in the URL string, ideally I'd like the recipe name to be used. In addition I'd like to also have the image preview on shared links be the recipes final stage image, as is used for the recipe description to ensure cohesiveness. While this seems to work in some cases it doesn't in others. 
-
-- Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
+Enable featured recipe tags to display selected recipes on the home page for both logged-in and logged-out users, showcasing standout content.
+<br>
+- Adjusting how directly linked recipe URLs are formed. 
+Modify URLs to use recipe names instead of recipe_id and ensure that shared links display the recipe's final stage image consistently.
+<br>
+- Custom Recipe Stage Titles 
+Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
 
 # Security, Defensive Programming and best Practices
-User passwords are hashed, using SHA512 Bit encryption. This may be a tad stronger than is needed, but some reading suggested SHA256 is susceptible to brute force attacks, as such I felt the extra degree of encryption offered by this was worthwhile. 
+ - Password Security 
+ User passwords are hashed using SHA-512 encryption. Using SHA-512 provides an added layer of protection against brute force attacks. This decision ensures that user credentials are safeguarded with robust encryption, enhancing overall site security.
+<br>
+ - Account Change Notification
+ Users receive email notifications for any account-level changes, including those initiated by administrators. This ensures that users are consistently informed about modifications to their accounts, providing transparency and enhancing trust in the platform.
+<br>
+ - Action Feedback
+ Users are notified of the success or failure of their actions through flash alerts. These alerts include reasons for any failures, helping users understand and rectify issues promptly.
+<br>
+ - Modal Based Deletion Protection 
+ To prevent accidental deletion, modals have been implemented for deleting accounts and recipes, creating a two-stage deletion process. For administrators performing actions on items they do not own, a specific admin-centric modal is presented. This modal highlights that the action affects another user's recipe or account and requires the admin to re-enter their password as a final confirmation. Similarly for account deletion, the modal used requires users to enter their password ensuring deliberate and secure actions. 
+<br>
+ - Route Access Control
+ Many routes on the website are protected and require users to be either logged in or possess administrator privileges. Unauthorized access attempts result in redirection to appropriate pages, such as the login page for unauthenticated users or the home page for users lacking sufficient access rights. This ensures that sensitive areas of the site remain secure and accessible only to authorized individuals.
 
-Users are informed of account level changes via emails, ensuring they're kept aware of any changes made to their accounts, this also includes admin led account level changes.
-
-Users are notified of success or failure of actions taken on the site via alerts that are flashed, which should include reasons for why an action may have failed. 
-
-Modals have been implemented to add a layer of protection where deletion of accounts and recipes are concerned, basically creating a two stage delete process to help limit accidental data loss. For Admins they're given a slightly different version of this Modal when taking action on an item that they don't own, which highlights that they're taking action on another user's recipe or account and requires them to enter their password as a final check to ensure they mean to take this action. 
-
-Many routes on the website require a user to either be logged in or be an administrator to access, with the route redirecting them elsewhere if they lack sufficient access rights. 
 
 # Technology
 ## Frameworks and Programs
@@ -884,7 +891,7 @@ Many routes on the website require a user to either be logged in or be an admini
  - [Awesomeplete](https://projects.verou.me/awesomplete/) - Used to provide auto complete functions for Tags
 
  ### Database
- - [PostGresQL](https://www.postgresql.org/) - A relational database used to store the data for the site. 
+ - [PostGreSQL](https://www.postgresql.org/) - A relational database used to store the data for the site. 
 
  ### Coding Environment 
  - [VSCode](https://code.visualstudio.com/) - My IDE of choice. 
@@ -909,7 +916,7 @@ Testing is covered in the following document: [Testing And Validation](TESTING.m
 
 # Version control and Deployment
 
-The live site has been deployed to Heroku which was configured to auto update from Github on every commit. It uses a PostGresQL relational Database provided by COde Institute, however I will be migrating this to a Heroku deployed PostGresDB once it has been marked. 
+The live site is deployed on Heroku, configured to automatically update from GitHub with every commit. It currently utilizes a PostgreSQL relational database provided by Code Institute. Upon project completion and marking, I plan to migrate the database to a Heroku-hosted PostgreSQL instance to allow me to continue developing and running the site as an ongoing project.
 
 ## Repo Creation
 
@@ -1232,7 +1239,7 @@ Finally, you can, as mentioned use the Heroku CLI. Where previously you would ne
   This was used as an initial jumping off point for the layout of the site and is very much baked into the overall look and feel I am using       
  - [Elixer Forum](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9)    
   This provided a lot of the javascript used to get Awesomeplete working. I can take no credit for the Javascript in place for this functionality 
- -[minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)    
+ - [minifreakstudios](https://minifreakstudios.com/painting/commissioned-painting-for-warhammer-minis/)    
    Placeholder image for Recipes.
  - [GettyImages](https://www.gettyimages.co.uk/)    
    Placeholder image for Paint Library. 
