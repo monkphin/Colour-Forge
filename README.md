@@ -652,7 +652,7 @@ Visibility and Access Control: The Edit and Delete buttons are exclusively visib
 <br>
  - Modal Protections:
 
-    - Delete Confirmation Modal: When a user clicks the Delete Button, a confirmation modal appears to warn them before the recipe is permanently deleted. This modal helps prevent accidental deletions by requiring explicit user confirmation.
+  - Delete Confirmation Modal: When a user clicks the Delete Button, a confirmation modal appears to warn them before the recipe is permanently deleted. This modal helps prevent accidental deletions by requiring explicit user confirmation.
 
 <br>
 <details>
