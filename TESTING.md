@@ -748,13 +748,13 @@ A few issues were highlighted, specifically around duplication of the link to th
 ## Logged Out Pages
 <details>
 <summary>Homepage</summary>
-<img src="docs/wave/wave-home-loggedout.png">
+<img src="docs/wave/wave-home-logged-out.png">
 </details>
 <br>
  
 <details>
-<summary>About Page (to add)</summary>
-<img src="docs/wave/WAVE">
+<summary>About Page</summary>
+<img src="docs/wave/wave-about-logged-out.png">
 </details>
 <br>
  
@@ -785,69 +785,69 @@ A few issues were highlighted, specifically around duplication of the link to th
  
 <details>
 <summary>My Recipes Page</summary>
-<img src="docs/wave/WAVE-MyRecipes-LoggedIn.png">
+<img src="docs/wave/wave-myrecipes-loggedin.png">
 </details>
 <br>
  
 <details>
-<summary>Account Page (to add)</summary>
-<img src="docs/wave/WAVE-Acc.png">
+<summary>Account Page</summary>
+<img src="docs/wave/wave-accountpage-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Tag Search Results</summary>
-<img src="docs/wave/WAVE-TagSearchResults-LoggedIn.png">
+<img src="docs/wave/wave-tagsearchresults-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Add Recipe Page Results</summary>
-<img src="docs/wave/WAVE-Addrecipe-LoggedIn-SingleStage.png">
-<img src="docs/wave/WAVE-AddRecipe-LoggedIn-MultiStage.png">
+<img src="docs/wave/wave-addrecipe-loggedin-singlestage.png">
+<img src="docs/wave/wave-addrecipe-loggedin-multistage.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Page Results</summary>
-<img src="docs/wave/WAVE-RecipePage-Loggedin.png">
+<img src="docs/wave/wave-recipepage-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Edit Recipe Results</summary>
-<img src="docs/wave/WAVE-EditRecipe-LoggedIn.png">
+<img src="docs/wave/wave-eEditrecipe-loggedIn.png">
 </details>
 <br>
  
 <details>
 <summary>Error Page Results</summary>
-<img src="docs/wave/WAVE-ErrorPages-LoggedIn.png">
+<img src="docs/wave/wave-errorpages-loggedin.png">
 </details>
 <br>
  
 ## Admin Pages
 <details>
 <summary>User Admin Results</summary>
-<img src="docs/wave/WAVE-Admin-LoggedIn.png">
+<img src="docs/wave/wave-admin-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>User Admin Search Results</summary>
-<img src="docs/wave/WAVE-AdminSearchResults-LoggedIn.png">
+<img src="docs/wave/wave-adminsearchresults-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/wave/WAVE-RecipeAdmin-LoggedIn.png">
+<img src="docs/wave/wave-recipeadmin-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/wave/WAVE-RecipeAdminSearch-LoggedIn.png">
+<img src="docs/wave/waveE-recipeadminsearch-loggedin.png">
 </details>
 <br>
  
