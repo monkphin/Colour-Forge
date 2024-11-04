@@ -936,6 +936,7 @@ Having stage titles rendered on the recipe page could be nice so a user knows wh
 
  - Action Feedback
  Users are notified of the success or failure of their actions through flash alerts. These alerts include reasons for any failures, helping users understand and rectify issues promptly.
+
 <br>
 <details>
 <summary>Examples of flashed messages</summary>
@@ -945,8 +946,10 @@ Having stage titles rendered on the recipe page could be nice so a user knows wh
 <img src="docs/flashes/error.png">
 </details>
 <br>
+
  - Modal Based Deletion Protection 
  To prevent accidental deletion, modals have been implemented for deleting accounts and recipes, creating a two-stage deletion process. For administrators performing actions on items they do not own, a specific admin-centric modal is presented. This modal highlights that the action affects another user's recipe or account and requires the admin to re-enter their password as a final confirmation. Similarly, for account deletion, the modal used requires users to enter their password ensuring deliberate and secure actions. 
+
 <br>
 <details>
 <summary>User Deletion Modals</summary>
