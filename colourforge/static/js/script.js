@@ -227,7 +227,7 @@ document.addEventListener("DOMContentLoaded", function() {
                 <input
                   class="file-path validate"
                   type="text"
-                  placeholder="Stage ${stageCount} image" >
+                  placeholder="Stage ${stageCount} image" readonly>
               </div>
             </div>
           </div> 
