@@ -137,10 +137,12 @@ def tag_handler(recipe, tag_names):
                     flash(
                         f"""Tag {tag_name} is too long. Tags must be
                         {MAX_TAG_LENGTH} characters or less.""",
-                        category='error'      
+                        category='error'
                     )
-                    # Skip over this tag and continue iterating through the rest
-                    continue
+                    """
+                    Skip over this tag and continue iterating through the
+                    rest
+                    """
 
                 # Check if tag exists
                 tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
@@ -179,10 +181,12 @@ def edit_tag_handler(recipe, tag_names):
         tag_names (list): A list of new tag names to be associated with the
         recipe.
     """
-     # Ensure tag_names is a list and process it
+    # Ensure tag_names is a list and process it
     if tag_names:
         # Strip whitespace and filter out empty tags
-        tag_names = [tag_name.strip() for tag_name in tag_names if tag_name.strip()]
+        tag_names = [
+            tag_name.strip() for tag_name in tag_names if tag_name.strip()
+        ]
 
     # Retrieve current tags associated with the recipe
     current_tags = EntityTag.query.filter_by(recipe_id=recipe.recipe_id).all()

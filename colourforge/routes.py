@@ -83,9 +83,9 @@ routes = Blueprint('routes', __name__)
 def home():
     """
     Handles GET requests to display a paginated list of all recipes available
-    in the application, excluding 'Demo Recipe' unless it belongs to the current
-    user. The page number is retrieved from query parameters and defaults to 1 
-    if not provided.
+    in the application, excluding 'Demo Recipe' unless it belongs to the
+    current user. The page number is retrieved from query parameters and
+    defaults to 1 if not provided.
 
     Returns:
         Response: The rendered 'home.html' template populated with paginated
@@ -97,9 +97,7 @@ def home():
                    .filter(or_(Recipe.recipe_name != "Demo Recipe",
                                Recipe.user_id == current_user.id
                                )
-                          )
-                    .order_by(Recipe.recipe_name)
-                    .all())
+                           ).order_by(Recipe.recipe_name).all())
     else:
         recipes = (Recipe.query
                    .filter(Recipe.recipe_name != "Demo Recipe")

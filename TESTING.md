@@ -8,7 +8,7 @@
  - [HTML Validation](#html-validation)
  - [CSS Validation](#css-validation)
  - [Accessibility](#accessibility)
- - [Performance](#performance)
+ - [Performance](#lighthouse-performance-testing)
  - [User Testing](#user-testing)
  - [User Story Testing](#user-story-testing)
  - [Javascript Testing](#javascript-testing)
@@ -842,8 +842,7 @@ A few issues were highlighted, specifically around duplication of the link to th
 </details>
 <br>
 
-# Performance
-
+# Lighthouse Performance Testing
 Performance testing was conducted with Google's Lighthouse, which is part of its DevTools package in Chrome. 
 
 Due to the site's reliance on several external resources, which in some cases are on free tiers, which can impact performance, I fully expected performance tests to not be great for this app, since external services can be a factor when it comes to load times that are beyond the control of the site owner. Similarly the nature of the site being image and DB query heavy will be contributing factors since the images can, often intentionally so, be large. Similarly there can be multiple calls made to the DB per page where multi stage recipes are concerned. This is part of the reason I opted to use CloudFlare for caching content when the site has been browsed, since this can help to mitigate load times where possible. 
@@ -856,98 +855,104 @@ I suspect I may be able to implement things like pre-caching of CSS, javascript 
 ## Logged Out
 <details>
 <summary>Home Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-Home-LoggedOut.png">
+<img src="docs/lighthouse/lighthouse-home-logged-out.png">
+</details>
+<br>
+
+<details>
+<summary>About Page Results</summary>
+<img src="docs/lighthouse/lighthouse-about-logged-out.png">
 </details>
 <br>
 
 <details>
 <summary>Login Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-Login-LoggedOut.png">
+<img src="docs/lighthouse/lighthouse-login-logged-out.png">
 </details>
 <br>
 
 <details>
 <summary>Registration Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-Register-LoggedOut.png">
+<img src="docs/lighthouse/lighthouse-register-logged-out.png">
 </details>
 <br>
 
 <details>
 <summary>Contact Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-Contact-LoggedOut.png">
+<img src="docs/lighthouse/lighthouse-contact-logged-out.png">
 </details>
 <br>
 
 ## Logged In
 <details>
 <summary>Logged in Home Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-Home-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-home-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>My Recipes Results</summary>
-<img src="docs/lighthouse/Lighthouse-MyRecipes-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-my-recipes-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Account Results</summary>
-<img src="docs/lighthouse/Lighthouse-Account-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-account-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Recipe Page Results</summary>
-<img src="docs/lighthouse/Lighthouse-RecipePage-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-recipe-page-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Add Recipe Results</summary>
-<img src="docs/lighthouse/Lighthouse-AddRecipe-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-add-recipe-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Edit Recipe Results</summary>
-<img src="docs/lighthouse/Lighthouse-EditRecipe-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-edit-recipe-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Tag Search Results</summary>
-<img src="docs/lighthouse/Lighthouse-TagSearch-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-tag-search-logged-in.png">
 </details>
 <br>
 
 ## Admin Pages
 <details>
 <summary>User Admin Results</summary>
-<img src="docs/lighthouse/Lighthouse-Admin-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-admin-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>User Admin Search Results</summary>
-<img src="docs/lighthouse/Lighthouse-AdminSearch-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-admin-search-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Recipe Admin Results</summary>
-<img src="docs/lighthouse/Lighthouse-RecipeAdmin-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-recipe-admin-logged-in.png">
 </details>
 <br>
 
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/lighthouse/Lighthouse-RecipeAdminSearch-LoggedIn.png">
+<img src="docs/lighthouse/lighthouse-recipe-admin-search-logged-in.png">
 </details>
 <br>
 
 # User Testing
-User level testing was conducted throughout development by contacting a small group of fellow hobbyists who I know are often keen to share information on how they approach painting, which lead to a few issues being discovered, which have been highlighted elsewhere, including the ability to add multiple duplicate entries, issues with shared images being deleted by a single user deleting a recipe. 
+User level testing was conducted throughout development by contacting a small group of fellow hobbyists who I know are often keen to share information on how they approach painting, which lead to a few issues being discovered, which have been highlighted elsewhere. Some of the discovered issues include the ability to add multiple duplicate entries, issues with shared images being deleted by a single user deleting a recipe and issues with tag length. User testing has proven to be invaluable in hunting for bugs and testing scenarios outside of those that I might envisage on my own.
 
 # User Story Testing
 
@@ -1009,29 +1014,17 @@ PEP8 Compliance testing was conducted with the Code Institute provided [Python L
 
 | File Name   | Result                               |
 | ----------- | ------------------------------------ |
-| __init__.py | One issue detected, see notes below  |
+| __init__.py | Pass                                 |
 | admin.py    | Pass                                 |
 | auth.py     | Pass                                 |
-| helpers.py  | Two issues detected, see notes below |
+| helpers.py  | Pass                                 |
 | mail.py     | Pass                                 |
 | models.py   | Pass                                 |
 | routes.py   | Pass                                 |
-| seed.py     | Six issues detected, see notes below |
+| seed.py     | Pass                                 |
 
-### Init File
-The file has an issue where an import is declared mid-way through the document. Specifically on line 58
-```
-from colourforge.models import User
-```
-If I declare this at the top of the document I get circular import errors. I cannot work out what is causing this to prevent it being an issue. 
-
-### helpers.py
-This file has two lines that are two long. Specifically lines 50 and 52, with them being 86 and 93 characters in length respectively. 
-
-Both these lines are URL strings for images which are set as variables to be used in a few places in the document. I have been advised by my mentor that long URLs are fine for being longer than 79 characters since it's easier to read when they're on a single line rather than split and concatenated back together. 
-
-### seed.py 
-Much like the helpers file this is throwing errors due to long line lengths. Specifically 118, 119, 126, 127, 134 and 135, with the evenly numbered lines being 100 characters long and the oddly numbered lines being 111 characters long. Again, these are two URL strings which are used by the variables they're assigned to to populate URLs into the DB when the file is accessed and are more readable as a single long string than split over two lines. 
+Several lines in the __init__.py, helpers.py and seed.py file all use noqa to help with validation of the files for PEP8 Compliance. 
+These are used under advisement from my mentor, or from notes from parts of the course, where I have had to implement things in ways that would otherwise cause issues for PEP8. 
 
 # Device and Browser Testing
 
