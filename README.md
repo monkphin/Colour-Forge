@@ -576,19 +576,23 @@ The Recipe Admin section provides administrators with a list of all the recipes 
 One of the core functions of the site is its Recipe Pages, where users can read and view both their own and others' paint recipes. These pages are accessible to both logged-in, registered users and non-logged-in, non-registered visitors, allowing for the free sharing of recipes with the broader internet community. This openness aligns with the spirit of sharing painting methods and techniques to achieve specific results, which is present in the wider hobby community. Users can access a recipe page by clicking on the image or Recipe Name displayed on each recipe card. The Recipe Pages incorporate several Materialize components, including Chips, Modals, and Collapsibles, to enhance interactivity and user experience.
 
  - Chips are used to display the tags associated with each recipe, providing users with a clear understanding of the recipe's focus and categorization. Currently, these tags are primarily used for searching, enabling users to filter and locate recipes based on specific criteria. However, future iterations may expand the functionality of Chips, as detailed in the [Future Improvements](#future_improvements) section further into the ReadMe. 
+
 <br>
 <details>
 <summary>Materialize Chips</summary>
 <img src="docs/features/tags.png">
 </details>
 <br>
+
  - When creating recipes, certain assumptions guide the presentation of images. Typically, each image represents the completion of a specific stage in creating an effect on a mini. For example the first stage usually involves applying an undercoat or the initial layer of paint, while the final stage showcases the completed effect after all painting steps are finished. Consequently, the recipe's image displayed on both the recipe card and at the top of the page is programmatically set to the image from the last stage of the recipe. This approach ensures that the displayed image accurately reflects the final appearance of the recipe, adhering to the common practices observed within the hobbyist community.
+
 <br>
 <details>
 <summary>Description Cards</summary>
 <img src="docs/features/description-card.png">
 </details>
 <br>
+
  - Directly below the recipe overview, the Recipe Instructions are presented in a collapsible list, with each stage of the recipe represented as an individual list item. Based on discussions with my mentor and insights from user testing, it became evident that users found it unclear how to interact with the collapsible list when all stages were initially closed upon loading the page. To address this, we implemented a design change where the first stage automatically opens when a user accesses the recipe, providing immediate guidance on how to navigate the instructions.
 
  - To further enhance usability and clarity, Font Awesome plus and minus icons have been integrated into the collapsible elements. These icons visually indicate the expandable and collapsible nature of each stage, helping users understand that they can click to reveal or hide additional information. Leveraging a Materialize pop-out functionality, the collapsible list smoothly expands and contracts the various stages as users interact with them, ensuring a seamless and intuitive user experience.
