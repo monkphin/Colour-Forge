@@ -1064,5 +1064,20 @@ I tested my project both when deployed locally and on the Heroku server using Go
 
 
 # Automated testing
-Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that there were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. The main reason for choosing to fall back on live user testing was a mix of time constraints around needing to understand how to conduct testing with Python as well as feeling I was mostly going to end up falling back on scripts and documentation from various sources online rather than writing my own to help limit how much time I had to dedicate to it, which since this would preclude it from being considered in the marking process made me feel it wasn't worth investing the time in implementing. 
+Automated testing was something I had attempted to consider, but ended up being skipped in favour of live use testing, where since the site was published on Heroku I could invite a limited selection of users to test the site and put it through its paces. This helped highlight a few issues as testing occurred, such as being able to submit duplicate DB entries by repeatedly clicking the button, adding multiple images to a stage via button spam, finding that there were issues with ordering when saving a single stage of a recipe and so on. User testing occurred from the moment I had basic functionality in place right through to two weeks before the due date for the project, giving me around 3-4 weeks of fairly constant user testing to work with. The main reason for choosing to fall back on live user testing was a mix of time constraints around needing to understand how to conduct testing with Python as well as feeling I was mostly going to end up falling back on scripts and documentation from various [sources](https://testdriven.io/blog/flask-pytest/) online rather than writing my own to help limit how much time I had to dedicate to it, which since this would preclude it from being considered in the marking process made me feel it wasn't worth investing the time in implementing. 
 
+An example of some of the code I would have been using is: 
+
+```
+def test_user_create():
+    """
+    GIVEN a User model
+    When a new User is created
+    THEN check the username, email, password and is_admin fields are defined correctly
+    """
+    user = User('test_user', 'email@domain.com', 'hashedpassword', False)
+    assert user.username == 'test_user'
+    assert user.email == 'email@domain.com'
+    assert user.password == 'hashedpassword'
+    assert user.is_admin is False
+```

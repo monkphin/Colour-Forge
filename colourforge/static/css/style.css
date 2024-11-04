@@ -402,22 +402,6 @@ button:hover,
 	z-index: 1000;
 }
 
-.tooltip-container[data-tooltip]::before,
-.textbox-tooltip-container[data-tooltip]::before {
-	content: '';
-	position: absolute;
-	bottom: 115%;
-	left: 50%;
-	transform: translateX(-50%);
-	border-width: 5px;
-	border-style: solid;
-	border-color: #555 transparent transparent transparent;
-	opacity: 1;
-	transition: opacity 0.3s;
-	pointer-events: none;
-	z-index: 1000;
-}
-
 /* Initially hide tooltips */
 .tooltip-container[data-tooltip]::after,
 .tooltip-container[data-tooltip]::before,
@@ -866,8 +850,7 @@ button:hover,
 	.tooltip-container[data-tooltip]::after,
     .textbox-tooltip-container[data-tooltip]::after {
 		white-space: normal;
-		min-width: 18vw;
-		;         
+		min-width: 10vw;   
         left: 50%;
 		transform: translateX(-50%);
 	}

@@ -33,17 +33,17 @@
       </div>
 
       <!-- Tags field -->
-      <div class="textbox-tooltip-container" data-tooltip="Tags can be upto 20 characters each">
         <div class="input-field col s12">
-          <input
-            type="text"
-            id="tags_input"
-            name="tags"
-            data-url="{{ url_for('routes.autocomplete_tags') }}" 
-            class="validate"
-            placeholder="Searchable Tags (Optional, comma separated)"
-          >          
-          <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
+          <div class="textbox-tooltip-container" data-tooltip="Tags can be upto 20 characters each">  
+            <input
+              type="text"
+              id="tags_input"
+              name="tags"
+              data-url="{{ url_for('routes.autocomplete_tags') }}" 
+              class="validate"
+              placeholder="Searchable Tags (Optional, comma separated)"
+            >        
+            <label for="tags_input">Searchable Tags (Optional, comma separated)</label>
         </div>
       </div>
     </div>
