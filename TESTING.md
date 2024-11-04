@@ -490,7 +490,7 @@ To resolve this, I implemented a custom text box with accompanying JavaScript fo
  
 <br> 
 <details>
-<summary>Reflow Bug</summary>
+<summary>Text Box Bug</summary>
 <img src="docs/bugs/crushed-site-1.png">
 <img src="docs/bugs/crushed-site-2.png">
 </details>
@@ -521,7 +521,6 @@ This was the recipe before editing.
 |      137 |        53 |         3 | Testing 3    | t               |
  
 This was the recipe after editing. 
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 | stage_id | recipe_id | stage_num |           instructions                          | is_final_stage |
 | -------- | --------- | --------- | ----------------------------------------------- |--------------- |
 |      136 |        53 |         2 | Testing 2                                       | f              |
@@ -566,7 +565,7 @@ Even though the site would throw an error, the recipe was still able to be saved
 </details>
 <br>
 
-After managing to get the check to work, I found it was still allowing the recipe to be saved, but with a missing image icon.
+After managing to get the check to work, I found it was still allowing the recipe to be saved, but with a missing image icon, what should have been happening was the HTML fall back image should have been using however while investigating this I didnt ralise that had an issue preventing it from working - something which is covered further below.
 
 <br> 
 <details>
@@ -585,7 +584,7 @@ I am also not entirely happy with how the flashed alerts are handled here, since
 
 <br>
 <details>
-<summary>Broken Image stage</summary>
+<summary>Fixed broken image card</summary>
 <img src="docs/bugs/resolved-large-images.png">
 </details>
 <br>
