@@ -850,8 +850,8 @@ button:hover,
 	.tooltip-container[data-tooltip]::after,
     .textbox-tooltip-container[data-tooltip]::after {
 		white-space: normal;
-		min-width: 10vw;   
-        left: 50%;
+		min-width: 10vw;
+		left: 50%;
 		transform: translateX(-50%);
 	}
 
