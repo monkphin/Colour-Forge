@@ -661,7 +661,7 @@ Visibility and Access Control: The Edit and Delete buttons are exclusively visib
 </details>
 <br>
 
-    - Admin-Specific Modal: If an admin attempts to Edit or Delete a recipe that they do not own, a specialised modal will notify them that the recipe belongs to another user. This modal additionally requires the admin to re-enter their password before proceeding, adding an extra layer of security to safeguard against unauthorised actions.
+  - Admin-Specific Modal: If an admin attempts to Edit or Delete a recipe that they do not own, a specialised modal will notify them that the recipe belongs to another user. This modal additionally requires the admin to re-enter their password before proceeding, adding an extra layer of security to safeguard against unauthorised actions.
 
 <br>
 <details>
