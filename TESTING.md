@@ -20,44 +20,41 @@
 # Testing and Validation
 
 ## Use based functionality testing
-While working on building basic functionality. It occurred to me that I would ideally need to test each specific function as I brought it online. As such, I commented out the majority of the models.py file and reduced it to just the recipes table with no relationships. I then created a new file called reset_db.py whose function was effectively purely to tear down and rebuild the db to save me having to do this manually each time I needed to online a new feature for testing. This way, I could keep my data clean and fresh each time a new feature was added. This idea came about because I dove in and created the entire DB schema with all relationships in place which when trying to test just adding a recipe name and description caused errors since I had nothing in place to ensure the foreign keys were being updated and that the data was fully linked and working, which caused Werkzueg errors to occur constantly. I also added some limited print output to ensure the data was being correctly captured before sending it to the DB. 
+While building the basic functionality, I realized the best approach would be test each specific feature as it was developed. Since I had created the modals file in its entirety before starting development of functions, I commented out the majority of the models.py file, initially retaining only the recipes table without any relationships. I then spent a lot of time checking the database directly via the CLI to see what data was being written. Additionally, I created a reset_db.py script designed to tear down and rebuild the database automatically. This approach saved me from manually resetting the database each time I needed to test a new feature, ensuring that my data remained clean and fresh.
 
-This method of testing was moved on from after I started to get more to grips with accessing and writing data to the database, instead relying more on directly checking to see if data had updated on the website. Sadly, I neglected to record much, if any data from that point on, since I was more focused on getting functionality online and working as well as reacting to realisations about tweaks or changes that were needed. 
+To aid in testing I added limited print statements to the code so that I could see what data was being captured by the various forms before submission to the DB to ensure parity of data between the two. 
+
+As I became more comfortable with writing and querying data on the DB, I moved away from this more manual approach, where I was checking print statements and monitoring the database directly and instead relied more on checking updates to the website directly, falling back to checking the DB where I needed to confirm none visible data, such as if booleans were set to true or false. Unfortunately, during this phase, I neglected to record detailed test data, as my primary focus shifted to ensuring functionality was online and responding to necessary tweaks and changes.
+
+The results of my initial testing can be found below. 
 
 ### add recipe
 <details>
-<summary>basic functionality to write to the recipes table</summary>
+<summary>Output of writing to the recipes table</summary>
 <img src="docs/add_recipe_test.png">
 
-Output of writing to the recipes table<br>
-
-Recipe Name: This is a test of the add recipe function<br>
-Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.<br>
 
 ```
-127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: This is a test of the add recipe function
+Recipe Description: Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data.
+
+127.0.0.1 - - [29/Sep/2024 16:46:15] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 16:46:15] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
 
-Recipes table contents<br>
-open_punch_bath_8981=> \dt<br>
-           List of relations<br>
+
+List of relations<br>
 | Schema |  Name   | Type  |    Owner    |
 |------- | ------- | ----- | ------------|
 | public | recipes | table | urbqgoc5q8y |
 
-(1 row)
-
-open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |                recipe_name                 |                                                                recipe_desc                                                               |
 | --------- | ------------------------------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- |
 |    1      | This is a test of the add recipe function  | Testing the ability to add recipes. Nothing to see here. Once this works I will start to build the recipes page to show the stored data. |
-
-(1 row)
 </details>
 
 <details>
@@ -65,77 +62,62 @@ open_punch_bath_8981=> select * from recipes;<br>
 <img src="docs/add_recipe_test2.png">
 
 ```
-Recipe Name: This is a test of the recipe stages<br>
-Recipe Description: Testing to see if a single stage can be added OK<br>
-2<br>
-Instructions List: ['Just a single stage test. ']<br>
-Is Final Stage?: None<br>
-127.0.0.1 - - [29/Sep/2024 21:22:27] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 21:22:27] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: This is a test of the recipe stages
+Recipe Description: Testing to see if a single stage can be added OK
+2
+Instructions List: ['Just a single stage test. ']
+Is Final Stage?: None
+127.0.0.1 - - [29/Sep/2024 21:22:27] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 21:22:27] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:22:28] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
 
-open_punch_bath_8981=> \dt<br>
-           List of relations<br>
+List of relations<br>
 | Schema |     Name      | Type  |    Owner     |
 | ------ | ------------- | ----- | ------------ |
 | public | recipe_stages | table | urbqgoc5q8y  |
 | public | recipes       | table | urbqgoc5q8y  |
 
-(2 rows)
-
-open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |             recipe_name             |                   recipe_desc                     |
 | --------  |------------------------------------ | ------------------------------------------------- |
 |     1     | This is a test of the recipe stages | Testing to see if a single stage can be added OK  |
 
-(1 row)
-
-open_punch_bath_8981=> select * from recipe_stages;<br>
 
 | stage_id | recipe_id | stage_num |        instructions        | is_final_stage   |
 | -------- | --------- | --------- | -------------------------- | ---------------- |
 |    1     |         1 |         1 | Just a single stage test.  | f                | 
-
-(1 row)
 </details>
 
 
 <details>
-<summary>basic functionality to write to the recipes table and add multiple stages to the recipes_stages table</summary>
+<summary>Output of writing to the to the recipes table and adding multiple stages to the recipes_stages table</summary>
 <img src="docs/add_recipe_test3.png">
 
 ```
-Recipe Name: Testing adding 2 stages<br>
-Recipe Description: This is a test of 2 stages<br>
-3<br>
-Instructions List: ['This is the first stage.', 'This is the second stage. ']<br>
-Is Final Stage?: None<br>
-127.0.0.1 - - [29/Sep/2024 21:25:01] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 21:25:01] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+Recipe Name: Testing adding 2 stages
+Recipe Description: This is a test of 2 stages
+3
+Instructions List: ['This is the first stage.', 'This is the second stage. ']
+Is Final Stage?: None
+127.0.0.1 - - [29/Sep/2024 21:25:01] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 21:25:01] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:25:02] "GET /static/css/style.css HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |       recipe_name       |        recipe_desc         |
 | --------- | ----------------------- | -------------------------- |
 |      1    | Testing adding 2 stages | This is a test of 2 stages |
 
-(1 row)
-
-open_punch_bath_8981=> select * from recipe_stages;<br>
 | stage_id | recipe_id | stage_num |        instructions        | is_final_stage  |
 | -------- | --------- | --------- | -------------------------- | --------------- |
 |     1    |      1    |      1    | This is the first stage.   | f               |
 |     2    |      1    |      2    | This is the second stage.  | f               |
 
-(2 rows)
 </details>
 
 <details>
@@ -143,28 +125,22 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <img src="docs/add_recipe_test4.png">
 
 ```
-Recipe Name: Testing three stages with a final stage<br>
-Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. <br>
-4<br>
-Instructions List: ['This is stage 1 of the third test', 'This is stage 2 of the third test', 'This is stage 3 of the third test']<br>
-Is Final Stage?: on<br>
-127.0.0.1 - - [29/Sep/2024 21:28:22] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: Testing three stages with a final stage
+Recipe Description: This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. 
+4
+Instructions List: ['This is stage 1 of the third test', 'This is stage 2 of the third test', 'This is stage 3 of the third test']
+Is Final Stage?: on
+127.0.0.1 - - [29/Sep/2024 21:28:22] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:28:22] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> select * from recipes;<br>
-
 
 | recipe_id |               recipe_name               |                                                                       recipe_desc                                                                      |
 | --------- | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------ |
 |     1     | Testing three stages with a final stage | This is a test of all functions added so far, recipe name, recipe description, multiple recipe stages and finally if the final stage bool is honoured. |
 
-(1 row)<br>
-<br>
-open_punch_bath_8981=> select * from recipe_stages;<br>
 | stage_id | recipe_id | stage_num |           instructions            | is_final_stage |
 | -------- | --------- | --------- | --------------------------------- | -------------- |
 |     1    |      1    |      1    | This is stage 1 of the third test | t              |
@@ -172,26 +148,27 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |     3    |      1    |      3    | This is stage 3 of the third test | t              | 
 </details>
 
+<br>
 It seemed this was assigning true to all stages, rather than just the last. This caused me to rethink how this should be handled, either giving the user an option per stage, which seems like too clunky a solution. Or to automatically assume the last stage added is the last stage of the instructions, which would make more sense since this is where we would normally expect the image used in the card for the recipe to be selected from. 
+<br>
+<br>
 
 <details>
 <summary>Output of writing to the recipe and recipe_stages tables and testing the new Boolean logic</summary>
 <img src="docs/add_recipe_test5.png">
 
 ```
-Recipe Name: Retest of multiple stages, with the new logic for the final stage added<br>
-Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image<br>
-5<br>
-Instructions List: ['This stage 1 of the test of the adjusted Boolean handling', 'This stage 2 of the test of the adjusted Boolean handling', 'This stage 3 of the test of the adjusted Boolean handling', 'This stage 4 of the test of the adjusted Boolean handling']<br>
-Is Final Stage?: None<br>
-127.0.0.1 - - [29/Sep/2024 21:43:16] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 21:43:16] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
+Recipe Name: Retest of multiple stages, with the new logic for the final stage added
+Recipe Description: This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image
+5
+Instructions List: ['This stage 1 of the test of the adjusted Boolean handling', 'This stage 2 of the test of the adjusted Boolean handling', 'This stage 3 of the test of the adjusted Boolean handling', 'This stage 4 of the test of the adjusted Boolean handling']
+Is Final Stage?: None
+127.0.0.1 - - [29/Sep/2024 21:43:16] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 21:43:16] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:43:17] "GET /static/images/logo.png HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                |
 | --------- | ----------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | 
@@ -212,24 +189,22 @@ open_punch_bath_8981=> select * from recipes;<br>
 </details>
 
 <details>
-<summary>Output of writing to the recipe and recipe_stages tables and testing the fix Boolean logic</summary>
+<summary>Output of writing to the recipe and recipe_stages tables and testing the fixed Boolean logic</summary>
 <img src="docs/add_recipe_test6.png">
 
 ```
-Recipe Name: Test of adjusted logic for Bool handling<br>
-Recipe Description: THis is hopefully a final test for the adjusted Boolean logic<br>
-3<br>
-Instructions List: ['Stage 1 of the adjusted logic test', 'Stage 2 of the adjusted logic test']<br>
-Is Final Stage?: None<br>
-127.0.0.1 - - [29/Sep/2024 21:55:34] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
+Recipe Name: Test of adjusted logic for Bool handling
+Recipe Description: THis is hopefully a final test for the adjusted Boolean logic
+3
+Instructions List: ['Stage 1 of the adjusted logic test', 'Stage 2 of the adjusted logic test']
+Is Final Stage?: None
+127.0.0.1 - - [29/Sep/2024 21:55:34] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:55:34] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [29/Sep/2024 21:55:39] "GET /static/css/style.css HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> select * from recipes;<br>
 
 | recipe_id |                               recipe_name                               |                                                                                                                                recipe_desc                                                                                                                                 |
 | --------  | ----------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
@@ -237,10 +212,6 @@ open_punch_bath_8981=> select * from recipes;<br>
 |     2     | Retest of multiple stages, with the new logic for the final stage added | This is hopefully a final test of the add recipe function, featuring the ability to add multiple stages and for the last stage to automatically have its bool set as 'true' to denote it as the last stage, meaning its attached image will be used for the recipes image  |
 |     3     | Testing adjusted logic for last stage check                             | Adjusted logic check for final stage logic                                                                                                                                                                                                                                 |
 |     4     | Test of adjusted logic for Bool handling                                | THis is hopefully a final test for the adjusted Boolean logic                                                                                                                                                                                                              |
-
-(4 rows)
-
-open_punch_bath_8981=> select * from recipe_stages;<br>
 
 | stage_id | recipe_id | stage_num |                       instructions                        | is_final_stage |
 | -------- | --------- | --------- | --------------------------------------------------------- | -------------- |
@@ -254,7 +225,6 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |    8     |    4      |    1      | Stage 1 of the adjusted logic test                        | f              |
 |    9     |    4      |    2      | Stage 2 of the adjusted logic test                        | t              |
 
-(9 rows)
 </details>
 
 <details>
@@ -262,133 +232,106 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 <img src="docs/add_recipe_test7.png">
 
 ```
-Recipe Name: This is a test of adding the images to Cloudinary and the DB<br>
-Recipe Description: Testing of image upload for a single stage<br>
-1<br>
-Instructions List: ['This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL. ']<br>
-Is Final Stage?: None<br>
-Image names: [<FileStorage: 'hero-image.png' ('image/png')>]<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: This is a test of adding the images to Cloudinary and the DB
+Recipe Description: Testing of image upload for a single stage
+1
+Instructions List: ['This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL. ']
+Is Final Stage?: None
+Image names: [<FileStorage: 'hero-image.png' ('image/png')>]
+127.0.0.1 - - [30/Sep/2024 18:04:08] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |                         recipe_name                          |                recipe_desc                 |
 | --------- | ------------------------------------------------------------ | ------------------------------------------ |
 |     1     | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage |
 
-(1 row)
-
-open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage |
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | -------------- |
 |     1    |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t              |
 
-(1 row)
-
-open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text                                |
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------- |
 |     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project. |
 
-(1 row)
 </details>
 
 <details>
-<summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
+<summary>Output of writing to the recipe, recipe_stages tables, uploading multiple images to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
 <img src="docs/add_recipe_test8.png">
 
 ```
-Recipe Name: This is a test of adding multiple images<br>
-Recipe Description: Will try for three images this time over 4 stages<br>
-1<br>
-Instructions List: ['This is the first stages image', 'This is the second stages image', 'The third stage will have no alt_text added', 'This will have no image attached ']<br>
-Is Final Stage?: None<br>
-Image names: [<FileStorage: '404-page-desktop.png' ('image/png')>]<br>
-127.0.0.1 - - [30/Sep/2024 18:12:03] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/js/script.js HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: This is a test of adding multiple images
+Recipe Description: Will try for three images this time over 4 stages
+1
+Instructions List: ['This is the first stages image', 'This is the second stages image', 'The third stage will have no alt_text added', 'This will have no image attached ']
+Is Final Stage?: None
+Image names: [<FileStorage: '404-page-desktop.png' ('image/png')>]
+127.0.0.1 - - [30/Sep/2024 18:12:03] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 18:12:03] "GET /static/js/script.js HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 18:04:08] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |                         recipe_name                          |                    recipe_desc                    |
 | --------- | ------------------------------------------------------------ | ------------------------------------------------- |
 |      1    | This is a test of adding the images to Cloudinary and the DB | Testing of image upload for a single stage        |
 |      2    | This is a test of adding multiple images                     | Will try for three images this time over 4 stages |
 
-(2 rows)
-
-open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                instructions                                                 | is_final_stage  |
 | -------- | --------- | --------- | ----------------------------------------------------------------------------------------------------------- | --------------- |
 |    1     |     1     |     1     | This is the first and only stage. The Bool should be true. There should be an image URL and Thumbnail URL.  | t               |
 |    2     |     2     |     1     | This is the first stages image                                                                              | f               |
 
-(2 rows)
-
-open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                 alt_text                                 | 
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------ | 
 |     1    |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727715847/eupydc07vwmej3en6xbs.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/eupydc07vwmej3en6xbs.jpg | This is a hero image for the Pokebattler website for my second project.  | 
 |     2    |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727716322/tnp1ssx1ac3gjs8blb0g.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/tnp1ssx1ac3gjs8blb0g.jpg | Sad Pikachu!                                                             | 
-
-(2 rows)
 </details>
-
+<br>
 The above only seemed to add a single image of the several that were input. On inspection, I'd missed creating the images and alt text entries as arrays. 
+<br>
+<br>
 
 <details>
-<summary>Output of writing to the recipe, recipe_stages tables, uploading to Cloudinary and finally writing the results of the upload to the recipe_images table</summary>
+<summary>Output of writing to the recipe, recipe_stages tables, uploading multiple images to Cloudinary and finally writing the results of the upload to the recipe_images table - retest</summary>
 <img src="docs/add_recipe_test9.png">
 
 ```
-Recipe Name: Testing multiple image uploads<br>
-Recipe Description: This is a test<br>
-3<br>
-Instructions List: ['Stage 1', 'Stage 2', 'Stage 3']<br>
-Is Final Stage?: None<br>
-Image names: ['404-page-desktop.png', 'hero-image.png', 'Screenshot 2024-06-16 123914.png']<br>
-alt text: ['Sad pika', 'Hero Image', 'Local Map']<br>
-127.0.0.1 - - [30/Sep/2024 22:17:19] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: Testing multiple image uploads
+Recipe Description: This is a test
+3
+Instructions List: ['Stage 1', 'Stage 2', 'Stage 3']
+Is Final Stage?: None
+Image names: ['404-page-desktop.png', 'hero-image.png', 'Screenshot 2024-06-16 123914.png']
+alt text: ['Sad pika', 'Hero Image', 'Local Map']
+127.0.0.1 - - [30/Sep/2024 22:17:19] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 22:17:19] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> SELECT * FROM recipes;<br>
 
 | recipe_id |          recipe_name           |  recipe_desc   | 
 | --------- | ------------------------------ | -------------- |
 |     1     | Testing multiple image uploads | This is a test |
 
-(1 row)
-
-open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num | instructions | is_final_stage |
 | -------- | --------- | --------- | ------------ | -------------- |
 |     1    |     1     |     1     | Stage 1      | f              |
 |     2    |     1     |     2     | Stage 2      | f              |
 |     3    |     1     |     3     | Stage 3      | t              |
 
-(3 rows)
-
-open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |  alt_text   |
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------- |
 |    1     |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika    |
 |    2     |     2    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/ixa63ye6aszg97ls8vvu.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ixa63ye6aszg97ls8vvu.jpg | Hero Image  | 
 |    3     |     3    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731038/ocke1j24jnwolatvzmb3.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ocke1j24jnwolatvzmb3.jpg | Local Map   |
-
-(3 rows)
 </details>
 
 <details>
@@ -397,31 +340,25 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 <img src="docs/add_recipe_test10a.png">
 
 ```
-Recipe Name: Test of not adding data to all fields for multiple stages<br>
-Recipe Description: Some stages will have all fields filled. Some will not.<br>
-5<br>
-Instructions List: ['Stage 1 - this is the control and will have data in all fields ', 'Stage 2 - this will only have the instructions ', 'Stage 3 - This will just be an image', "Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this. ", 'Stage 5 - this needed to be filled in to submit, as expected']<br>
-Is Final Stage?: None<br>
-Image names: ['Screenshot 2024-06-08 021116.png', '', 'Screenshot 2024-09-12 223744.png', '', 'Screenshot 2024-07-25 202904.png']<br>
-alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mock-up - In this instance I'm testing adding images and no Instructions"]<br>
-127.0.0.1 - - [30/Sep/2024 22:28:38] "POST /add_recipe HTTP/1.1" 302 -<br>
-127.0.0.1 - - [30/Sep/2024 22:28:38] "GET /recipes HTTP/1.1" 200 -<br>
-127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/css/style.css HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/images/logo.png HTTP/1.1" 304 -<br>
-127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/js/script.js HTTP/1.1" 304 -<br>
+Recipe Name: Test of not adding data to all fields for multiple stages
+Recipe Description: Some stages will have all fields filled. Some will not.
+5
+Instructions List: ['Stage 1 - this is the control and will have data in all fields ', 'Stage 2 - this will only have the instructions ', 'Stage 3 - This will just be an image', "Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this. ", 'Stage 5 - this needed to be filled in to submit, as expected']
+Is Final Stage?: None
+Image names: ['Screenshot 2024-06-08 021116.png', '', 'Screenshot 2024-09-12 223744.png', '', 'Screenshot 2024-07-25 202904.png']
+alt text: ['The Thing', '', '', 'I forgot to add an image', "Phone Mock-up - In this instance I'm testing adding images and no Instructions"]
+127.0.0.1 - - [30/Sep/2024 22:28:38] "POST /add_recipe HTTP/1.1" 302 -
+127.0.0.1 - - [30/Sep/2024 22:28:38] "GET /recipes HTTP/1.1" 200 -
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/css/style.css HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/images/logo.png HTTP/1.1" 304 -
+127.0.0.1 - - [30/Sep/2024 22:28:39] "GET /static/js/script.js HTTP/1.1" 304 -
 ```
-
-open_punch_bath_8981=> SELECT * FROM recipes;<br>
-
 
 | recipe_id |                        recipe_name                        |                       recipe_desc                        | 
 | --------- | --------------------------------------------------------- | -------------------------------------------------------- |
 |      1    | Testing multiple image uploads                            | This is a test                                           |
 |      2    | Test of not adding data to all fields for multiple stages | Some stages will have all fields filled. Some will not.  |
 
-(2 rows)
-
-open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                                                                     instructions                                                                                                     | is_final_stage | 
 | -------- | --------- | ----------| -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------  | -------------- |
 |     1    |     1     |     1     | Stage 1                                                                                                                                                                                                              | f              |
@@ -433,9 +370,7 @@ open_punch_bath_8981=> SELECT * FROM recipe_stages;<br>
 |     7    |     2     |     4     | Stage 4 - this is a possible, but unlikely scenario where an image description is added for an image alt. Once I've wired up the default placeholder image this should be overwritten so I may need logic for this.  | f              |
 |     8    |     2     |     5     | Stage 5 - this needed to be filled in to submit, as expected                                                                                                                                                         | t              |
 
-(8 rows)
 
-open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |                                   alt_text                                    |
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------- |
 |    1     |     1    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731037/zcs4iirp7kqhspzje4lv.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/zcs4iirp7kqhspzje4lv.jpg | Sad pika                                                                      |
@@ -444,30 +379,26 @@ open_punch_bath_8981=> SELECT * FROM recipe_images;<br>
 |    4     |     4    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731716/jwrsx0hlqixuxl2k1fdc.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/jwrsx0hlqixuxl2k1fdc.jpg | The Thing                                                                     |
 |    5     |     6    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731717/ytwtbmoc6wmrxenzk5fj.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/ytwtbmoc6wmrxenzk5fj.jpg |                                                                               |
 |    6     |     8    | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727731718/xeynhlcgz4jbzuysjg34.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/xeynhlcgz4jbzuysjg34.jpg | Phone Mockup - In this instance I'm testing adding images and no Instructions |
-
-(6 rows)
 </details>
-
+<br>
 The above test, while initially using 6 stages for testing, also let me test what would happen if I removed a stage using the remove button before submitting, since the 5th and 6th stages were both initially intended to have the instructions empty, with the sixth stage having just the images alt-text added. Since both stages were unable to be submitted as empty as per design this meant that stage 6 was no longer needed, allowing me to prove the removal of a stage stops it being submitted. 
-
+<br>
+<br>
 <details>
-<summary>Testing writing to all tables needed for adding a recipe, recipes, recipe_stages, recipe_images, recipe_tags and entity_tags  </summary>
+<summary>Testing writing to all tables needed for adding a recipe, recipes, recipe_stages, recipe_images, recipe_tags and entity_tags</summary>
 <img src="docs/add_recipe_test11.png">
 
 ```
-Recipe Name: Dark Angels Desaturated Power Armour<br>
-Recipe Description: This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour<br>
-1<br>
-Instructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, sinInstructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. ", 'Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. ']<br>
-Is Final Stage?: None<br>
-Image names: ['404-page-desktop.png', 'game-wave.png', 'hero-image.png', 'jest.png']<br>
-alt text: ['Undercoated Dark Angel', 'Base coat', 'First Highlight', 'Wash']<br>
-Full form content ImmutableMultiDict([('recipe_name', 'Dark Angels Desaturated Power Armour'), ('recipe_desc', 'This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour'), ('tags', 'Dark Angels,Warhammer,Space Marines,Power Armour,Desaturated'), ('instructions[]', 'Undercoat the model with a flat black paint. '), ('instructions[]', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. "), ('instructions[]', "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. "), ('instructions[]', 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. '), ('image_desc[]', 'Undercoated Dark Angel'), ('image_desc[]', 'Base coat'), ('image_desc[]', 'First Highlight'), ('image_desc[]', 'Wash')])<br>
+Recipe Name: Dark Angels Desaturated Power Armour
+Recipe Description: This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour
+1
+Instructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, sinInstructions List: ['Undercoat the model with a flat black paint. ', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. ", "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. ", 'Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. ']
+Is Final Stage?: None
+Image names: ['404-page-desktop.png', 'game-wave.png', 'hero-image.png', 'jest.png']
+alt text: ['Undercoated Dark Angel', 'Base coat', 'First Highlight', 'Wash']
+Full form content ImmutableMultiDict([('recipe_name', 'Dark Angels Desaturated Power Armour'), ('recipe_desc', 'This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour'), ('tags', 'Dark Angels,Warhammer,Space Marines,Power Armour,Desaturated'), ('instructions[]', 'Undercoat the model with a flat black paint. '), ('instructions[]', "Using Caliban Green as a base coat, heavily drybrush the model - while we want to cover as much as we can, it's not a huge deal if the recesses are missed since the black will provide natural shadows where it is left. "), ('instructions[]', "using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature. "), ('instructions[]', 'Next up, we cover the model in Coelia Greenshade once its dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat. '), ('image_desc[]', 'Undercoated Dark Angel'), ('image_desc[]', 'Base coat'), ('image_desc[]', 'First Highlight'), ('image_desc[]', 'Wash')])
 ```
-
-open_punch_bath_8981=> \dt<br>
-
-           List of relations<br>
+List of relations
 
 | Schema |     Name      | Type  |    Owner    | 
 | ------ |-------------  | ----- | ----------- |
@@ -477,16 +408,10 @@ open_punch_bath_8981=> \dt<br>
 | public | recipe_tags   | table | urbqgoc5q8y |
 | public | recipes       | table | urbqgoc5q8y |
 
-(5 rows)
-
-open_punch_bath_8981=> select * from recipes;<br>
 | recipe_id |             recipe_name              |                                        recipe_desc                                         |
 | --------- | ------------------------------------ | ------------------------------------------------------------------------------------------ |
 |      1    | Dark Angels Desaturated Power Armour | This is a simple 3-4 paint recipe for very dark, very desaturated Dark Angels power armour | 
 
-(1 row)
-
-open_punch_bath_8981=> select * from recipe_stages;<br>
 | stage_id | recipe_id | stage_num |                                                                                                                               instructions                                                                                                                               | is_final_stage  |
 | -------- | --------- | --------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | --------------- |
 |     1    |     1     |     1     | Undercoat the model with a flat black paint.                                                                                                                                                                                                                             | f               |
@@ -494,9 +419,6 @@ open_punch_bath_8981=> select * from recipe_stages;<br>
 |     3    |     1     |     3     | Using Loren Forest we now need to give the mini a much lighter drybrush, this can happily go over flat panels on the armour too, since we'll be cleaning this up in the next stage a little and it will help provide a more organic-looking highlight to the miniature.  | f               |
 |     4    |     1     |     4     | Next up, we cover the model in Coelia Greenshade once it's dried this should start to filter the lighter Loren forest coat and pull it down to be a little closer to the Dark Angels Green base coat.                                                                     | t               |
 
-(4 rows)
-
-open_punch_bath_8981=> select * from recipe_images;<br>
 | image_id | stage_id |                                       image_url                                        |                                        thumbnail_url                                         |        alt_text         |       
 | -------- | -------- | -------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------- | ----------------------- | 
 |    1     |    1     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987873/q5i2ftplla6udtqxdlob.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/q5i2ftplla6udtqxdlob.jpg | Undercoated Dark Angel  | 
@@ -504,9 +426,6 @@ open_punch_bath_8981=> select * from recipe_images;<br>
 |    3     |    3     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987877/bc4onemhmikj4otzngk2.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/bc4onemhmikj4otzngk2.jpg | First Highlight         | 
 |    4     |    4     | https://res.cloudinary.com/dlmbpbtfx/image/upload/v1727987878/g5ccnr4thoblvveatmpq.png | http://res.cloudinary.com/dlmbpbtfx/image/upload/c_fill,h_100,w_100/g5ccnr4thoblvveatmpq.jpg | Wash                    | 
 
-(4 rows)
-
-open_punch_bath_8981=> select * from recipe_tags;<br>
 | tag_id |   tag_name    |
 | ------ | ------------- |
 |    1   | Dark Angels   |
@@ -515,9 +434,6 @@ open_punch_bath_8981=> select * from recipe_tags;<br>
 |    4   | Power Armour  |
 |    5   | Desaturated   |
 
-(5 rows)
-
-open_punch_bath_8981=> select * from entity_tags;<br>
 | recipe_id | tag_id | entity_type  |
 | --------- | ------ | ------------ |
 |     1     |      1 | recipe       |
@@ -525,19 +441,21 @@ open_punch_bath_8981=> select * from entity_tags;<br>
 |     1     |      3 | recipe       |
 |     1     |      4 | recipe       |
 |     1     |      5 | recipe       |
-
-(5 rows)
 </details>
 
 # Bugs, Issues and challenges 
 
 ### Tags
+Implementing the Tags feature presented several challenges, primarily due to the need for a many-to-many relationship and the ability for users to reuse existing tags. Initially, I explored using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) and other tagging tools I found online. However, these approaches did not function as intended, particularly with the Materialize Chips, which hindered both the addition and deletion of tags during editing.
 
-Tags were a challenge to get to work correctly due to not only the need for the many to many relationship to work, but also to have them be able to be re-used by users once they'd been entered so to have existing tags presented as they were being typed. I tried a few alternative approaches to this, including using [Materialize Tags Input](https://henrychavez.github.io/materialize-tags/) as well as a few other tagging tools I found online, but was unable to get to work fully as intended, effectively the main issues I as finding is that I wasn't able to use the Materialize Chips when adding or editing tags, which caused me to shift approach and treat editing and entry more like a text field. After some research I found Awesomeplete which would cover the autocomplete functionality, allowing users to draw on and add to the library of tags available on the site. I was able to get this working using some tweaking to some Javascript I found online, so the section around Awesomeplete in the JS File should not be graded since this was heavily reliant on code from [this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) 
+As a result, I shifted my approach to treat tag entry and editing more like a text field. After further research, I discovered Awesomeplete, which provides the necessary autocomplete functionality, allowing users to draw from and add to the existing tag library. I successfully integrated Awesomeplete by modifying some JavaScript based on the guidance from [this source.](https://elixirforum.com/t/how-to-use-a-js-library-like-awesomplete-within-a-liveview/32251/9) Consequently, the section of the JS file utilizing Awesomeplete should not be graded, as it heavily relies on external code from the referenced source.
 
 ### Refactoring and DRY 
-While working on the app routes for recipe functionality, it quickly became apparent that I would need to start to refactor these down into smaller helper functions, since at one point the edit route alone was pushing around 120 lines of code and was becoming increasingly difficult to understand how different parts of the code were causing issues or impacting other parts of the code. This has the added benefit of encouraging more DRY focused methodology allowing for reuse of code. More refactoring work will be needed, since the core focus of this was on the routes file, the auth and admin files were added later and the routes contained within them were relatively small, so were not a priority for refactoring. 
-In some cases, I am aware of instances where I may be repeating code in the Helpers file, from skimming I've spotted that I'm performing image uploads as part of a specific function, rather than handing this off to the function that is in place to upload images, this is something that will be addressed going forwards as time allows. 
+While developing the app routes for recipe functionality, I realized the need to refactor these routes into smaller helper functions. At one point, the edit route alone spanned over 120 lines of code, making it challenging to debug and understand interactions between different code sections. Refactoring not only simplified these routes but also encouraged a DRY (Don't Repeat Yourself) approach, allowing for code reuse and easier maintenance.
+
+The initial focus of this refactoring was on the main routes file, as it contained the bulk of the logic. While additional auth and admin files were added later, their smaller routes have not yet been prioritized for refactoring.
+
+I’ve identified a few instances where code duplication remains, such as performing image uploads directly within certain functions instead of using a designated image upload helper. As time allows, these redundancies will be addressed to further streamline the codebase.
 
 ### Cloudinary Deletion
 While developing the edit function, I realised that I was leaving images on Cloudinary that were no longer needed, since I hadn't built any logic to remove these. As such where stage deletion or image changes were handled, I added in functions to also delete the image from Cloudinary using the images public ID. 
@@ -546,20 +464,23 @@ While developing the edit function, I realised that I was leaving images on Clou
 I had an issue that was detected late on that allowed the default images used in the demo recipe to be deleted by any user when they delete the Demo Recipe, which is understandably not desirable, since this will impact all users who may join. As such, I added an additional check when deleting images to ensure that the public ID does not start with the word 'Placeholder'. Since I can manually set the PublicID and image names on images hosted on Cloudinary I was able to use this as a way of preventing this from being an issue. 
 
 ### Button Debounce
-While working on getting edit functionality fully online I decided to publish the app to Heroku to allow me to get some user testing as things were moving forwards. This very quickly highlighted an issue where a user could submit the same recipe multiple times which I hadn't factored for. A simple button disable function was implemented in the Javascript to prevent this from occurring. Initially this was only on the add_recipe page, but gradually it was slowly added to every other page where a user could submit a form, since the same issue was present on all form entries. 
+During development, I published the app to Heroku to allow for user testing, which quickly revealed a significant issue where users could accidentally submit the same recipe multiple times by pressing a button multiple times. To address this, I implemented a JavaScript function to disable the submit button upon click, preventing multiple submissions. Initially applied only to the add_recipe page, this functionality was gradually extended to all form submission pages.
 
-While the majority of the site has the submit buttons disabled onclick, to prevent the potential for users to spam adding recipes etc, I cannot get this to work in conjunction with Google ReCaptcha on the email form, since it seems that ReCaptcha takes control of the button when its clicked, which prevents me from disabling this. 
-Further investigation will be needed how to resolve this, however since ReCaptcha was more of a stretch goal for the project, since I'm pushing beyond what should be an MVP here, I feel reasonably comfortable letting this go for the time being, since all that it will mean is that users may be able to send the same email to the inbox multiple times, which has no real impact on the site or its functionality, and instead allows users to repeatedly send a single email in error. 
+While most of the site’s submit buttons are now disabled on click, I encountered an issue with Google ReCaptcha on the email form. ReCaptcha appears to take control of the button on click, which prevents my JavaScript disable function from executing. Further investigation is needed to find a workaround, but since ReCaptcha was very much a stretch goal, I’m comfortable postponing this fix. The main issue it causes is that users may unintentionally send duplicate emails, which has no direct impact on site functionality.
 
 ### Jinja Issues caused by not storing data in the DB
-Found an issue when creating the edit recipe page, where when an image was using placeholders, so had no entry in the DB, since I was just populating these via the HTML it would generate the following Werkzeug error: UndefinedError
+While building the edit recipe page, I encountered an issue where recipes with placeholder images (i.e., no image entry in the database) generated a Werkzeug error:
+```
 jinja2.exceptions.UndefinedError: sqlalchemy.orm.collections.InstrumentedList object has no element 0
-While falling back to rendering a placeholder file locally is fine, I couldn't quite work out how to skip over non-existent DB entries when loading the edit page for recipes that had no images. As such, I adjusted the image handling logic in the routes.py file so that it would insert a URL string into the images table when the user didn't submit an image, allowing this to be loaded and rendered from the Jinja insertions on the edit page. While this works, I will be leaving the HTML fall backs in place as a safety net, though these shouldn't ever be needed, since unless the connection to the DB goes down then the site should always see the entry and if the DB connection fails, the recipes wont be loading anyway. 
+```
+This error occurred because Jinja couldn’t locate non-existent database entries when loading the edit page for recipes without images.
+
+To resolve this, I modified the image handling logic in routes.py to insert a URL string into the images table whenever a user does not submit an image. This ensures that a placeholder image URL is always present, allowing Jinja to render it without errors. I’ve also kept the HTML fall backs in place as a safety net, though these should rarely be needed and will only be required issues where a bug or other issue causes a recipe to not correctly save to the DB. 
 
 ### Card Reflow issues.
-During development a persistent issue was that cards would sometimes grow to be larger than other cards in the same row, causing the row below to reflow into the next row below it.
-To resolve this I ended up adding some significant tweaks via CSS, requiring me to use a lot of Media Queries to ensure that the cards rendered in a reasonably acceptable manner over multiple window sizes and screen resolutions.
-This is very much a band aid solution and ideally this should be resolved by making further adjustments to font sizes, card sizes, text reflow and so on, however this will take time to fully implement.
+During development, I encountered a persistent issue where cards in the same row would sometimes grow larger than others, causing the row below to reflow. To address this, I implemented CSS media queries to ensure that cards render in a reasonably consistent manner across various screen sizes and resolutions.
+
+While this solution works, it’s a temporary fix. Ideally, a more comprehensive approach would involve adjusting font sizes, card dimensions, and text reflow to achieve a fully responsive layout. However, implementing these changes will require additional time.
 
 <details>
 <summary>Reflow Bug</summary>
@@ -568,7 +489,10 @@ This is very much a band aid solution and ideally this should be resolved by mak
 
 ### Text Box issues. 
 Another persistent issue I encountered was with the Materialize text box. For some reason this would not readily adjust when changing screen resolution during testing, consistently causing issues with page overflow which resulted in the page shrinking within the window at varying screen resolutions, compressing the site into itself. 
-I noticed that I'd omitted to include the Javascript provided by Materialize to help with text box resizing, however even with this added I was finding the behaviour was still present. In order to resolve this I had to create my own custom text box, outside of that offered by materialize and come up with some custom javascript to assist with resizing. I'm still unsure why the Materialize solution didn't work, however I feel that adding my own custom box actually improved the UI somewhat, since it allowed me to make text boxes stand out from text fields more, since the Materialize CSS framework presents both as blank lines that the user can type in, where as my custom approach presents the text box as a distinct box which I feel makes it more obvious that it can take a large volume of text, as opposed to a single line. 
+I noticed that I'd omitted to include the Javascript provided by Materialize to help with text box resizing, however even with this added I was finding the behaviour was still present. 
+
+To resolve this, I implemented a custom text box with accompanying JavaScript for resizing. This custom approach not only fixed the resizing issue but also improved the UI by making the text box visually distinct from single-line text fields. Unlike the default Materialize setup, which presents both inputs as blank lines, my custom text box is styled as a distinct box, signalling to users that it can accommodate larger amounts of text.
+
 
 <details>
 <summary>Reflow Bug</summary>
@@ -577,7 +501,7 @@ I noticed that I'd omitted to include the Javascript provided by Materialize to 
 </details>
 
 ### Stage Ordering Issues. 
-Found an issue late in development where when updating a single stage of a multistage recipe, the stages would reorder. This seems very hit and miss where it doesn't always seem to occur on recipe editing. 
+Late in development, I discovered an issue where updating a single stage within a multi-stage recipe would sometimes cause the stages to reorder unexpectedly. This behaviour is inconsistent, as it does not always occur during recipe editing, making it difficult to predict or replicate reliably.
 
 <details>
 <summary>Sorting Bug</summary>
@@ -592,44 +516,43 @@ Found an issue late in development where when updating a single stage of a multi
 </details>
 
 This was the recipe before editing. 
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 | stage_id | recipe_id | stage_num | instructions | is_final_stage 
 | -------- | --------- | --------- | ------------ | --------------- |
 |      135 |        53 |         1 | Testing 1    | f               |
 |      136 |        53 |         2 | Testing 2    | f               |
 |      137 |        53 |         3 | Testing 3    | t               |
 
-(3 rows)
-
-This was it after
+This was the recipe after editing. 
 open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
-| stage_id | recipe_id | stage_num |           instructions           | is_final_stage |
-| -------- | --------- | --------- | -------------------------------- |--------------- |
-|      136 |        53 |         2 | Testing 2                        | f              |
-|      135 |        53 |         1 | Testing 1\r                      | f              |
-|          |           |           | \r                               |                |
-|          |           |           | this should move to stage 2 or 3 |                |
-|      137 |        53 |         3 | Testing 3                        | t              |
+| stage_id | recipe_id | stage_num |           instructions                          | is_final_stage |
+| -------- | --------- | --------- | ----------------------------------------------- |--------------- |
+|      136 |        53 |         2 | Testing 2                                       | f              |
+|      135 |        53 |         1 | Testing 1\r \r this should move to stage 2 or 3 | f              |
+|      137 |        53 |         3 | Testing 3                                       | t              |
 
-(3 rows)
+To address the stage reordering issue, I implemented a forced sort within the for loop on any pages rendering recipe stages. This ensures that stages display in the correct order, regardless of the sequence in the database. While this doesn’t address the underlying cause, it provides a short-term, user-facing solution, allowing time to investigate the root issue.
 
-A quick fix to this was to force a sort on the for loop on any pages that render the recipe stages to ensure that the user sees them in the correct order, irrespective of what order the recipe is in the DB. While this isn't a fix of the underlying issue, it does provide a quick, short term user facing resolution to the issue to allow me time to properly investigate and resolve the underlying issue. Even if/when I resolve the underlying issue this can also happily remain in the HTML for the foreseeable future, since it's a useful fallback in-case of other issues which may cause reordering of stages that I may miss or may crop up as I develop the site further, or as I continue to refine and refactor the code. 
+This sorting can remain as a reliable fallback even after resolving the underlying issue. It acts as an extra safeguard against any unexpected reordering that may arise as the site evolves or undergoes further development and refactoring.
 
-Jinja for loop before the fix:<br>
-{% for stage in recipe.stages %}<br>
-Jinja for loop after the fix:<br>
+Jinja for loop before the fix:
+```
+{% for stage in recipe.stages %}
+```
+Jinja for loop after the fix:
+```
 {% for stage in recipe.stages|sort(attribute='stage_num') %}
+```
 ​​
 ### Large Image Handling.
 Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb.
-Initially, I was considering letting this slide since I suspect images larger than 10 MB will be very rarely encountered. (In testing the only time I found images larger than this is when uploading uncropped photos from a DSLR, which for the sites use case should be rare enough to be almost 0 of the uploads) however, I wasn't happy just leaving it there so I decided to try to resolve this while I had some time. [This following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python), [this turing.com article](https://www.turing.com/kb/how-to-get-the-size-of-file-in-python#making-use-of-file-object) proved useful in outlining methods that I could use to approach the issue to create a filesize check, which via some trial and error I managed to get working.
+Initially, I was considering letting this slide since I suspect images larger than 10 MB will be very rarely encountered. (In testing the only time I found images larger than this is when uploading un-cropped photos from a DSLR, which for the sites use case should be rare enough to be almost 0 of the uploads) however, I wasn't happy just leaving it there so I decided to try to resolve this while I had some time. [This following StackOverflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python), [this turing.com article](https://www.turing.com/kb/how-to-get-the-size-of-file-in-python#making-use-of-file-object) proved useful in outlining methods that I could use to approach the issue to create a filesize check, which via some trial and error I managed to get working.
 
 <details>
 <summary>Large Image Bug</summary>
 <img src="docs/bugs/large-image-error.png">
 </details>
 
-Even though the site would throw an error, the recipe was still able to be saved, just without the large images. However, this created a few issues. THe first of which was that if the image was to be the final stage image this would render the recipe inaccessible since the image is used in the anchor tag to allow users to click through to the recipe page. Additionally, for some reason stages where large images were used and generating the Werkzueg error were not rendering on the recipe page at all.
+Even though the site would throw an error, the recipe was still able to be saved, just without the large images. However, this created a few issues. The first of which was that if the image was to be the final stage image this would render the recipe inaccessible since the image is used in the anchor tag to allow users to click through to the recipe page. Additionally, for some reason stages where large images were used and generating the Werkzueg error were not rendering on the recipe page at all.
 
 <details>
 <summary>Large Image Recipe Card</summary>
@@ -661,8 +584,71 @@ I am also not entirely happy with how the flashed alerts are handled here, since
 <img src="docs/bugs/resolved-large-images.png">
 </details>
 
+### Too long Tags causing errors
+At the time the bug was discovered, tags were allowed to be 100 characters long, due to a misunderstanding of how the table would handle multiple tags when the Modals file was generated. This has since been dropped to 20 characters. 
+
+Tag names that were longer than the maximum amount of characters in the table would cause a crash and generate a Werkzueg error. To resolve this I adjusted the tag_handler function to check for number of characters in a tag and skip adding it if its too long. This also generates a message to the user to advise of the skipped tag. 
+
+This issue combined with the Large Image Handling issue helped highlight that the fall back static HTML rendered image for recipe cards was not functioning as expected. 
+
+Code before the fix
+```
+    if tag_names:
+        for tag_name in tag_names:
+            tag_name = tag_name.strip()
+            if tag_name:
+                tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
+
+                if not tag:
+                    tag = RecipeTag(tag_name=tag_name)
+                    db.session.add(tag)
+                    # Do not commit here to batch transactions
+```
+Code after the fix
+```
+    MAX_TAG_LENGTH = 20
+
+    if tag_names:
+        for tag_name in tag_names:
+            tag_name = tag_name.strip()
+            if tag_name:
+                if len(tag_name) > MAX_TAG_LENGTH:
+                    flash(
+                        f"""Tag {tag_name} is too long. Tags must be
+                        {MAX_TAG_LENGTH} characters or less.""",
+                        category='error'      
+                    )
+                    # Skip over this tag and continue iterating through the rest
+                    continue
+
+                # Check if tag exists
+                tag = RecipeTag.query.filter_by(tag_name=tag_name).first()
+
+                if not tag:
+                    tag = RecipeTag(tag_name=tag_name)
+                    db.session.add(tag)
+```
+
+### Fall back HTML Image not loading when needed
+If, for some reason a recipe does not have a final_stage image the site is designed to have fall backs to allow for the recipe card to still render correctly. Unfortunately this was not working as expected due to the Jinja based logic checks I had in place always returning a truthy value even when this wasn't specifically the case. 
+
+Jinja Implementation before the fix
+```
+{% for stage in recipe.stages %}
+{% if stage.is_final_stage and stage.recipe_images %}
+{% if stage.recipe_images %}
+```
+
+Jinja implentation after the fix
+```
+{% set stage = recipe.stages | selectattr('is_final_stage') | first %}
+{% if stage and stage.recipe_images %}
+```
+
+The above was implemented over multiple HTML pages where HTML fallback options exist. 
+
 # Unresolved Issues
-The site has a couple of minor graphical issues that I have noticed but can't quite pin down. The search box bug is the more frustrating of the two since this is user-facing. The Admin Menu issue is less of a problem since it would only be an issue for a very small subset of users. However, neither of these causes significant issues for functionality and are more very minor UI issues. 
+The site has a minor graphical issue that I have noticed but can't quite pin down.
 
  - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
 
@@ -671,13 +657,24 @@ The site has a couple of minor graphical issues that I have noticed but can't qu
 <img src="docs/bugs/searchbox-bug.png">
 </details>
 
-Additionally, I have noticed an issue with the admin menu drop-down on the nav bar. Although it is set to fit the contents, it seems to insist on word wrapping when the Recipe Admin option is selected. 
+There is evidence of an underlying issue in recipe handling logic, where if something fails in the recipe creation process the recipe will be created still but is missing any data that wasn't written to the DB prior to the point of failure. 
+
+ - Failed Recipes
+ This was highlighted as an issue when I identified the issue with images above 10mb and was confirmed when the issue with long tags was identified. 
+
+ Essentially, whats happening is if their is an error state in any process of the recipe creation process, the recipe is still able to be created and seems to save everything prior to the point of the error occurring. This can result in recipes being saved that are missing parts of the data and are also not fixable via edits. 
+
+ This issue seems to also cause problems with editing recipes past the point of the last data insertion. So if stages were not added, the recipe renders with no stage and stages can not be added when trying to edit the recipe, since the add stage feature assumes that stage 1 will always exist. 
+
+ This issue only occurs when a major error happens in the recipe creation process so, with the various safeguards and fixes I've put in place should happen rarely. But it does warrant further long term investigation and improvement around the recipe creation logic implementing which could, rather than just creating the recipe, warn the user and kick them back to the Add Recipe or Edit Recipe page with some flashed messaging to allow them to make the needed corrections. 
 
 <details>
-<summary>Admin Menu Bug</summary>
-<img src="docs/bugs/user-admin.png">
-<img src="docs/bugs/recipe-admin-bug.png">
+<summary>Broken Recipes</summary>
+<img src="docs/bugs/missing-stage.png">
+<img src="docs/bugs/unviewable-recipes.png">
+<img src="docs/bugs/faulty-recipes.png">
 </details>
+<br>
 
 Additionally, while I have already mentioned it in the resolved bugs section, I feel it's worth again calling out the issues with recipe ordering, since while I have a fix in place, it is, at best a band-aid solution to what I think maybe a much larger issue which warrants further investigation, particularly since the fix I have in place would cause problems with potential future functionality where reordering the recipe stages or adding in new between existing ones is concerned. 
 
