@@ -747,7 +747,7 @@ A few issues were highlighted, specifically around duplication of the link to th
 ## Logged Out Pages
 <details>
 <summary>Homepage</summary>
-<img src="docs/wave/wave-home-logged-out.png">
+<img src="docs/wave/wave-home-loggedout.png">
 </details>
 <br>
  
@@ -815,7 +815,7 @@ A few issues were highlighted, specifically around duplication of the link to th
  
 <details>
 <summary>Edit Recipe Results</summary>
-<img src="docs/wave/wave-eEditrecipe-loggedIn.png">
+<img src="docs/wave/wave-editrecipe-loggedIn.png">
 </details>
 <br>
  
@@ -846,7 +846,7 @@ A few issues were highlighted, specifically around duplication of the link to th
  
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/wave/waveE-recipeadminsearch-loggedin.png">
+<img src="docs/wave/wave-recipeadminsearch-loggedin.png">
 </details>
 <br>
  
