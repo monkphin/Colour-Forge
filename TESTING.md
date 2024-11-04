@@ -707,14 +707,16 @@ W3Schools HTML Validator was used to test all HTML. Since much of the site is lo
 
 # CSS Validation
 
-CSS validation was conducted using the W3 Schools validation service. This highlighted errors with Materialize CSS and a few errors in my own CSS. There are also a group of errors inmy own CSS that are highlighted, specifically around the use of vendor extensions and pseudo-elements, which were required to ensure maximal compatibility. 
+CSS validation was conducted using the W3 Schools validation service. This highlights an error with Materialize's CSS. There are also a group of warnings in my own CSS that are highlighted, specifically around the use of vendor extensions and pseudo-elements, which were required to ensure maximal compatibility. 
 
-There were also two deprecation warnings for Clip and Break-word. Clip was being used in a hidden class, some investigation found that this had been replaced with clip path, so after some reading of MDN docs, I adjusted this to use clip-path instead. Similarly, after reading MDN docs, I replaced break-word with overflow-wrap: anywhere, which is the current equivalent, though is a bit more aggressive on word breaks than break-word was. Once I'd made the needed adjustments 
-
-One issue that seems to have appeared in the last few days which wasn't present before is a materialize caused issue, likely created by a typo in a change to their own CSS. 
 
 <details>
-<summary>Large Image Bug</summary>
+<summary>Site CSS Warnings</summary>
+<img src="docs/css-warnings.png">
+</details>
+
+<details>
+<summary>Materialize CSS Issue</summary>
 <img src="docs/bugs/materialize-css-issue.png">
 </details>
 
