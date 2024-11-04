@@ -468,8 +468,8 @@ These pages are designed to be easy to use, offering a user a way to Register an
 
 
  - On registration a ‘Demo Recipe’ is added to the users account, created via the seed.py file. This demo recipe provides some basic information as to the core function of the recipes on the website and calls out features that may not be obvious at first glance. 
-<br>
 
+<br>
 <details>
 <summary>Login and Register Pages</summary>
 <img src="docs/features/login-desktop.png">
@@ -480,6 +480,7 @@ These pages are designed to be easy to use, offering a user a way to Register an
 
 ## Contact Us Page
 The Contact Us page features a simple contact form designed to allow users to easily contact the site's admins. To minimise spam the form is protected by Google's ReCaptcha service providing front-end security measures. The Contact Form is accessible and visible to both logged-out and logged-in users, providing a reliable method of receiving support or messaging the administrator for any reason. 
+
 <br>
 <details>
 <summary>Contact Page</summary>
@@ -491,6 +492,7 @@ The Contact Us page features a simple contact form designed to allow users to ea
 Once a user has registered and logged into their account, they are able to access the My Recipes page. Similar to the logged-in view of the home page, it features an Add New Recipe card at the top of the page to provide users a second point to create and submit new paint recipes easily. 
 
  - Below this the page features a paginated view of the user's recipes, utilising the same cards rendered 6 at a time, which feature on the logged-in Home Page to ensure consistency and familiarity of experience to the users. 
+
 <br>
 <details>
 <summary>My Recipes Page</summary>
@@ -503,6 +505,7 @@ Once a user has registered and logged into their account, they are able to acces
  The Account Settings page enables the user to modify and update their account information. Currently, users can change their email address, update their password or delete their account. To ensure security and prevent unauthorised modifications any changes require users to enter their password to safeguard against accidental changes or unauthorised access from someone using the user's device unsupervised. 
 
   - Additionally, the Delete Account option incorporates a confirmation modal. This serves as an extra layer of protection against accidental deletions by prompting users to enter their passwords on the modal and ensuring that account deletion is intentional on the user's part. On confirmation, the user's account is permanently removed. 
+
 <br>
 <details>
 <summary>User Deletion Modals</summary>
@@ -514,6 +517,7 @@ Once a user has registered and logged into their account, they are able to acces
 
   - Further to this, the flash messaging system is used to alert the user to potential errors encountered when modifying their account, such as password mismatches or attempts to re-use their existing password. This immediate feedback assists users in understanding and resolving issues. 
 
+<br>
 <details>
 <summary>Account Page</summary>
 <img src="docs/features/account-desktop.png">
@@ -523,6 +527,7 @@ Once a user has registered and logged into their account, they are able to acces
 ## Search
 The final feature available to registered users on the navbar is the search box. To conserve space, the search functionality is integrated into a dropdown box, ensuring the navbar remains uncluttered. Users can search for recipes using recipe tags that may have been added to recipes and the results are rendered much like the user's My Recipes page or the Home Page, presenting the user with a list of cards based on the search results. The search query is also presented as the title of the page, to remind users of their specific search terms. This gives the user a quick way of searching for recipes that may be useful for the project they're working on. However, its effectiveness relies on consistent and accurate tagging of recipes by all users. 
 
+<br>
 <details>
 <summary>Search</summary>
 <img src="docs/features/search-mobile.png">
@@ -533,7 +538,8 @@ The final feature available to registered users on the navbar is the search box.
 ## Admin Panels
 Access to the Admin Panel is restricted exclusively to users who have the 'is_admin' boolean field in the users table set to true. This administrative privilege allows authorised users to manage the site's user base and oversee the recipes submitted by community members. Administrators can perform a variety of tasks, including editing or deleting users' accounts, moderating recipe content and ensuring the overall integrity and quality of the platform. 
 
- <details>
+<br>
+<details>
 <summary>Admin Drop Down</summary>
 <img src="docs/features/adminmenu.png">
 </details>
@@ -549,7 +555,8 @@ The User Management page within the Admin Panel provides administrators with too
 
 - Similar to the Account page, the User Management page utilises flash messages to provide immediate feedback on both successful and unsuccessful actions. These messages inform the admin of scenarios such as incorrect password entries or attempts to reuse an existing password. Additionally, any changes made to a user's account automatically generate an email notification to that user. This notification serves as a confirmation of the action taken, offering reassurance to users and ensuring transparency by informing them of any modifications to their accounts.
 
- <details>
+<br>
+<details>
 <summary>User Admin</summary>
 <img src="docs/features/useradmin-desktop.png">
 <img src="docs/features/useradmin-mobile.png">
@@ -560,6 +567,7 @@ The Recipe Admin section provides administrators with a list of all the recipes 
 
  - While no action can be taken directly on this page, such as editing or deleting, it gives the admin a quick way to search for a user's recipes to investigate and correct issues that may have been raised to them. 
 
+<br>
 <details>
 <summary>Recipe Admin</summary>
 <img src="docs/features/recipeadmin-desktop.png">
@@ -596,6 +604,7 @@ One of the core functions of the site is its Recipe Pages, where users can read 
  - Directly below the recipe overview, the Recipe Instructions are presented in a collapsible list, with each stage of the recipe represented as an individual list item. Based on discussions with my mentor and insights from user testing, it became evident that users found it unclear how to interact with the collapsible list when all stages were initially closed upon loading the page. To address this, we implemented a design change where the first stage automatically opens when a user accesses the recipe, providing immediate guidance on how to navigate the instructions.
 
  - To further enhance usability and clarity, Font Awesome plus and minus icons have been integrated into the collapsible elements. These icons visually indicate the expandable and collapsible nature of each stage, helping users understand that they can click to reveal or hide additional information. Leveraging a Materialize pop-out functionality, the collapsible list smoothly expands and contracts the various stages as users interact with them, ensuring a seamless and intuitive user experience.
+
 <br>
 <details>
 <summary>Old Collapsible Menu</summary>
@@ -607,13 +616,16 @@ One of the core functions of the site is its Recipe Pages, where users can read 
 <img src="docs/features/new-collapsible.png">
 </details>
 <br>
+
  - Each stage within the Recipe Instructions includes an image alongside the specific instructions provided by the user for that particular step, such as "undercoat with black paint." This combination of visual and textual guidance ensures that users can clearly understand and follow each phase of the painting process. 
+
 <br>
 <details>
 <summary>Expanded Recipe Stage</summary>
 <img src="docs/features/open-stage.png">
 </details>
 <br>
+
  - All images on this page are designed to open within a modal window upon being clicked, enabling users to view a higher-resolution version as needed. The modal includes a close button for easy dismissal and a "View Full Image" button, allowing users to access the original image in greater detail outside of the site interface. This functionality enhances the user experience by providing flexible viewing options, ensuring that users can examine images closely without disrupting their navigation flow.
 
 <br>
@@ -622,6 +634,7 @@ One of the core functions of the site is its Recipe Pages, where users can read 
 <img src="docs/features/open-image-modal.png">
 </details>
 <br>
+
  - At the bottom of the Recipe Page, users will find a set of navigation buttons designed to enhance usability and security:
 
 <br>
@@ -630,21 +643,26 @@ One of the core functions of the site is its Recipe Pages, where users can read 
 <img src="docs/features/recipe-buttons.png">
 </details>
 <br>
+
  - Back Button: Allows users to return to the previous page they navigated from, ensuring seamless navigation across the site.
 Edit Button: Enables the recipe owner and site admins to modify the recipe details as needed.
 Delete Button: Permits the recipe owner and site admins to remove the recipe from the site.
 Visibility and Access Control: The Edit and Delete buttons are exclusively visible to the recipe owner and site admins, ensuring that only authorised individuals can make changes or remove content.
+
 <br>
  - Modal Protections:
 
     - Delete Confirmation Modal: When a user clicks the Delete Button, a confirmation modal appears to warn them before the recipe is permanently deleted. This modal helps prevent accidental deletions by requiring explicit user confirmation.
+
 <br>
 <details>
 <summary>Admin Recipe Modals</summary>
 <img src="docs/features/confirm-delete-recipe.png">
 </details>
 <br>
+
     - Admin-Specific Modal: If an admin attempts to Edit or Delete a recipe that they do not own, a specialised modal will notify them that the recipe belongs to another user. This modal additionally requires the admin to re-enter their password before proceeding, adding an extra layer of security to safeguard against unauthorised actions.
+
 <br>
 <details>
 <summary>Admin Recipe Modals</summary>
@@ -652,6 +670,7 @@ Visibility and Access Control: The Edit and Delete buttons are exclusively visib
 <img src="docs/features/admin-recipe-delete.png">
 </details>
 <br>
+
 Security and User Protection: These confirmation modals serve as essential security measures, protecting both regular users and admins from unintentional or unauthorised deletions. By requiring confirmation and password authentication, the system ensures that all critical actions are deliberate and secure.
 
 <br>
@@ -661,6 +680,7 @@ Security and User Protection: These confirmation modals serve as essential secur
 <img src="docs/features/recipepage-mobile.png">
 </details>
 <br>
+
 ## Add Recipe Page. 
 The Add Recipe page provides users with a straightforward form to create and submit new paint recipes. The form includes several required fields, ensuring that essential information is captured accurately:
 
@@ -687,6 +707,7 @@ This user-friendly interface ensures that both novice and experienced hobbyists 
 <img src="docs/features/addrecipepage-mobile.png">
 </details>
 <br>
+
 The Tags field utilises Awesomeplete, an autocomplete library, to display existing tags from the database as users begin typing. This functionality promotes the reuse of tags, thereby minimising database overhead by preventing the creation of duplicate tags. By using existing tags, the system ensures consistency in tag usage across the platform, enhancing both searchability and organisation of recipes. Additionally, since these tags are shared by all users across the site, they create standardisation of tags, making it easier for users to discover and categorise recipes effectively.
 
 <br>
@@ -695,6 +716,7 @@ The Tags field utilises Awesomeplete, an autocomplete library, to display existi
 <img src="docs/features/awesomeplete-tags.png">
 </details>
 <br>
+
 The Add Image button allows users to upload their images, supporting a variety of file types such as JPEG, GIF, and WebM. On the desktop, the file browser defaults to displaying image files, streamlining the selection process. When accessed on mobile devices, users are presented with options to open their photo library, take a new photo, or search for images using the device's file browser. The adjacent text field is none accessible and simply serves as a visual indicator that the image has been added to the recipe by having its file name populated when the image has been added.
 
  - The Image Description field is utilised to provide an Alt Tag for each uploaded image, enhancing both accessibility and SEO by describing the image content. While uploading an image is optional, when a user chooses not to add one, a placeholder image is automatically inserted. This ensures that the database maintains an entry for the image field, preserving the site's basic functionality. Additionally, if a user uploads an image without providing a description, the text "No Description Provided" is automatically added to the database to adhere to fundamental accessibility standards.
@@ -707,7 +729,8 @@ The Add Image button allows users to upload their images, supporting a variety o
 <img src="docs/features/add-image.png">
 </details>
 <br>
- The user can add multiple stages using the 'Add Stage' Button. Testing shows there to be theoretically no upper limit to the number of stages available, allowing for some very complex recipes to be created. 
+
+The user can add multiple stages using the 'Add Stage' Button. Testing shows there to be theoretically no upper limit to the number of stages available, allowing for some very complex recipes to be created. 
 
   - The remove button will only remove stages from the second stage onwards and as such is disabled until it is needed with a tooltip to explain why. Until the recipe is saved anything that is entered into a stage that the user deletes is lost since this is not written to the DB until the recipe is added using the Add recipe button. 
 <br>
@@ -727,17 +750,19 @@ Much like the Add Recipe page, the Edit Recipe page primarily consists of form f
  - Cancel Button: An additional Cancel button is available when replacing an image. This button hides the Add Image/Add Description fields and restores the previously hidden image, allowing users to revert their changes if they change their minds.
 These differences ensure that users can efficiently update their recipes while maintaining control over the associated images.
 
- <details>
+<br>
+<details>
 <summary>Edit Recipe Page</summary>
 <img src="docs/features/editrecipepage-desktop.png">
 <img src="docs/features/editrecipepage-mobile.png">
 </details>
 
- <details>
+<details>
 <summary>Edit Recipe Page Image</summary>
 <img src="docs/features/edit-recipe-image.png">
 <img src="docs/features/add-image.png">
 </details>
+<br>
 
 ## 404/500/Unauthorised Access. 
 The application includes 404 and 500 error handlers that display user-friendly pages when issues arise. These error pages maintain a consistent design with the rest of the site, featuring the site's mascot/logo and a simple button that redirects users back to the Home Page.
@@ -748,19 +773,24 @@ Additionally, all user-only and admin-only routes are secured with appropriate p
  - Admin-Only Routes: Users attempting to access admin panels without the necessary permissions are redirected to the Home Page.
 
 These measures ensure that users have a seamless experience while maintaining the security and integrity of restricted areas. 
+
+<br>
 <details>
 <summary>404 Page</summary>
 <img src="docs/features/404page.png">
 </details>
+<br>
 
 ## Footer
 The Footer includes links to the site's various social media platforms. Currently, these are dummy links that redirect users to the respective platforms' homepages. 
 
+<br>
 <details>
 <summary>Footer</summary>
 <img src="docs/features/footer-desktop.png">
 <img src="docs/features/footer-mobile.png">
 </details>
+<br>
 
 ## Flash Messages 
 Good design ensures that users are aware of their actions through visual feedback, whether direct (e.g., updating a page) or indirect (e.g., flashing a message). Flash messages appear in the following situations:
@@ -807,6 +837,7 @@ Emails are sent in the following situations:
    - Admin State Change
    - User Account Deletion. 
 
+<br>
 <details>
 <summary>Email Screen shots</summary>
 <img src="docs/emails/welcome.png">
@@ -919,8 +950,8 @@ Having stage titles rendered on the recipe page could be nice so a user knows wh
 
  - Account Change Notification
  Users receive email notifications for any account-level changes, including those initiated by administrators. This ensures that users are consistently informed about modifications to their accounts, providing transparency and enhancing trust in the platform.
-<br>
 
+<br>
 <details>
 <summary>Email Screen shots</summary>
 <img src="docs/emails/welcome.png">
@@ -1256,12 +1287,14 @@ It provides a guided setup process, which is outlined below.
  - 2 Wait for the tool to create the DB
  - 3 Wait for the email to be sent. 
 
+<br>
 <details>
 <summary>The three DB Creation stage</summary>
 <img src="docs/deployment/db-creation.png">
 <img src="docs/deployment/db-construction.png">
 <img src="docs/deployment/db-deployment.png">
 </details>
+<br>
 
 Once the email has been received this will confirm the details of your new database. 
 
@@ -1352,9 +1385,6 @@ Finally, you can, as mentioned, use the Heroku CLI. Where previously you would n
   $ git push heroku main
   ```
 
-
-
-
 # Credits
  - [Tim Nelsons Task Manager Project](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main)    
   This was used as an initial jumping-off point for the layout of the site and is very much baked into the overall look and feel I am using       
@@ -1372,4 +1402,3 @@ Finally, you can, as mentioned, use the Heroku CLI. Where previously you would n
  - The fine community built around [The Fluffenhammer](https://www.thefluffenhammer.com/) for tolerating me going on about this so much in discord and constantly asking if they could test functionality - some of the issues found would still be there if not for you gents. 
  - My incredibly patient wife for putting up with me vanishing for hours at a time while I worked on this over the last couple of months
  - My workmates for putting up with me heavily leaning on my 10% time at work between internal project work to get a bit more time to focus on this. 
-
