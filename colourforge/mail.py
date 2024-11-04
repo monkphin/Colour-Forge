@@ -266,7 +266,7 @@ def email_change(email_address, old_email, username):
     msg = Message(
         subject="Your email has been changed.",
         sender="Colour Forge",
-        recipients=[email_address],
+        recipients=[email_address, old_email],
         reply_to='noreply@colourforge.co.uk'
     )
 
@@ -307,7 +307,7 @@ def admin_email_change(email_address, old_email, username):
     msg = Message(
         subject="Your email has been changed.",
         sender="Colour Forge",
-        recipients=[email_address],
+        recipients=[email_address, old_email],
         reply_to='noreply@colourforge.co.uk'
     )
 
@@ -327,9 +327,90 @@ def admin_email_change(email_address, old_email, username):
 
     # HTML Email
     msg.html = render_template(
-                              "emails/admin_email_change.html",
-                              username=username
-                               )
+                            "emails/admin_email_change.html",
+                            username=username
+    )
+
+    mail.send(msg)
+
+
+def admin_promotion_email(email_address, username):
+    """
+    Sends an email to notify the user that their account has been promoted
+    to have administration access.
+
+    Parameters:
+        email_address (str): The new email address of the recipient.
+        username (str): The username of the recipient.
+
+    Returns:
+        None
+    """
+    msg = Message(
+        subject="You now have admin access",
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
+    )
+
+    # Plain text body
+    msg.body = f"""
+    Hey {username}
+
+    We wanted to inform you that your account has been promoted to have
+    administrative access to the website.
+
+    With great power comes great responsibility. Please use your access with
+    care!
+
+    Thanks,
+    The ColourForge Team
+    """
+
+    # HTML Email
+    msg.html = render_template(
+                            "emails/admin_promotion.html",
+                            username=username
+    )
+
+    mail.send(msg)
+
+
+def admin_demotion_email(email_address, username):
+    """
+    Sends an email to notify the user that their account has been promoted
+    to have administration access.
+
+    Parameters:
+        email_address (str): The new email address of the recipient.
+        username (str): The username of the recipient.
+
+    Returns:
+        None
+    """
+    msg = Message(
+        subject="You no longer have admin access",
+        sender="Colour Forge",
+        recipients=[email_address],
+        reply_to='noreply@colourforge.co.uk'
+    )
+
+    # Plain text body
+    msg.body = f"""
+    Hey {username}
+
+    We wanted to inform you that your account has been demoted to no longer
+    have administrative access to the website.
+
+    Thanks,
+    The ColourForge Team
+    """
+
+    # HTML Email
+    msg.html = render_template(
+                            "emails/admin_demotion.html",
+                            username=username
+    )
 
     mail.send(msg)
 

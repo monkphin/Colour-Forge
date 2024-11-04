@@ -54,7 +54,9 @@ from colourforge.helpers import remove_recipe
 from colourforge.mail import (
                             admin_account_deletion,
                             admin_password_change,
-                            admin_email_change
+                            admin_email_change,
+                            admin_promotion_email,
+                            admin_demotion_email
                             )
 
 admin = Blueprint('admin', __name__)
@@ -305,10 +307,12 @@ def toggle_admin(user_id):
     # Toggle status between admin/none admin.
     if user.is_admin:
         user.is_admin = False
+        admin_demotion_email(user.email, user.username)
         db.session.commit()
         flash('User is no longer an admin!', category='success')
     else:
         user.is_admin = True
+        admin_promotion_email(user.email, user.username)
         db.session.commit()
         flash('User has been promoted to an admin!', category='success')
 
