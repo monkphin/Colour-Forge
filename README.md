@@ -897,8 +897,23 @@ Enable featured recipe tags to display selected recipes on the home page for bot
 Modify URLs to use recipe names instead of recipe_id and ensure that shared links display the recipe's final stage image consistently.
 <br>
 
+- Email Validation
+As it stands I'm assuming users are entering valid emails and using a simple form type check to ensure that they are email like, rather than email addresses. I'd like to implement proper validation checks on registration, email changes and contact form submission. I have found the following [guide to help enable this](https://www.mailercheck.com/articles/email-validation-using-python)
+
 - Custom Recipe Stage Titles 
 Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
+
+- Error handling
+For some reason I misunderstood what try/except rules were intended for in Python and assumed this was more for use in development, rather than on live sites. Quite the mistake, since I work in a reliability based role. So none of my routes or functions actually have any error handling built in. This is something I would like to fix as a priority, since it will allow me to provide better feedback and experiences to end users when problems do occur as well as hook up to monitoring tools such as Datadog and similar to ensure the site is performing as optimally as is possible. 
+
+- Improved messaging and Modals
+While what is in place currently is more than fine. I would like to enhance the experience further using tools such as Sweet Alerts. 
+
+- Drag and Drop image handling. 
+This kind of image interaction is almost an expectation of modern design at this stage, so it is absolutely something I should be looking to implement with button based uploads being used as a fall back. 
+
+- Rich Text support
+Currently recipes and their associated forms can only really handle plain text, while this is mostly fine. The ability to do things like have embedded links could be useful, where a user wants to be able to combine multiple smaller recipes into a single larger one - essentially allowing them to do things like break down each stage by colour, with a recipe for each colour and then the 'final' recipe combining each specific colour based recipe. 
 
 # Security, Defensive Programming and best Practices
  - Password Security 
@@ -1361,6 +1376,9 @@ Finally, you can, as mentioned, use the Heroku CLI. Where previously you would n
    Placeholder image for Paint Library. 
  - [Adam Nicol](https://adnicol.weebly.com/#/)    
    Kind donation of 'Rummy Nate' the mascot and logo of the site. 
+ - [TTL225](https://ttl255.com/jinja2-tutorial-part-1-introduction-and-variable-substitution/)
+   A lot of reading of sites tutorials and guides was done for more advanced Jinja functionality
+
 
 # Acknowledgements
  - [Iuliia Konovalova](https://github.com/IuliiaKonovalova), my Code Institute Mentor for your help, insight and advice throughout this project. 
