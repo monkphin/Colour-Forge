@@ -60,6 +60,7 @@ A paint library and painting recipe book for miniature painters.
   - [Heroku Setup and Configuration](#heroku-set-up-and-configuration)
 
 [Credits](#credits)
+
 [Acknowledgements](#acknowledgements)
 
 
