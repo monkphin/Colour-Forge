@@ -871,7 +871,8 @@ As I integrated additional features, such as user authentication, I continued th
 As mentioned earlier, several features had to be postponed due to time constraints and relative complexity. These deferred features are documented on the [Kanban](https://github.com/users/monkphin/projects/1/views/1) board under the 'Future Improvements' section. Additionally, during the project, a few ideas emerged organically that would require further research before implementation or were beyond the initial scope. These ideas are also documented below.
 
  - Paint Library
-   - The most notable future enhancement is the addition of a Paint Library. Although originally planned, this feature was deferred to ensure timely project completion.    The Paint Library would enable users to add Paints they own to help track what paints they have or may need to acquire, allow usage tracking so users know when to     order more, have links to vendors allowing users to quickly click through to a selection of companies who will be able to sell and ship paints to them. 
+   - The most notable future enhancement is the addition of a Paint Library. Although originally planned, this feature was deferred to ensure timely project completion.
+   -  The Paint Library would enable users to add Paints they own to help track what paints they have or may need to acquire, allow usage tracking so users know when to order more, have links to vendors allowing users to quickly click through to a selection of companies who will be able to sell and ship paints to them. 
 <br>
 
  - Global Paint Library
