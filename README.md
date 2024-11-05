@@ -1286,6 +1286,10 @@ This file needs to be at the root level of your project and should include the e
 
 In the above file we're using a development and debug-enabled environment, this can be useful to allow for debug messages to be pushed to the console. But should never be used in a live production environment since it can create a security risk. 
 
+As you can see from the below, I have configured heroku to not be in debug or development mode. 
+
+<img src="docs/deployment/debug-config.png">
+
 ## PostGres DB Creation
 
 To create the Postgres DB, I used the Code Institute provided Database hosting service, located here: https://dbs.ci-dbs.net/
