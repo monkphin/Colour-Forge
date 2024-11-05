@@ -526,7 +526,7 @@ Once a user has registered and logged into their account, they are able to acces
 </details>
 
 ## Search
-The final feature available to registered users on the navbar is the search box. To conserve space, the search functionality is integrated into a dropdown box, ensuring the navbar remains uncluttered. Users can search for recipes using recipe tags that may have been added to recipes and the results are rendered much like the user's My Recipes page or the Home Page, presenting the user with a list of cards based on the search results. The search query is also presented as the title of the page, to remind users of their specific search terms. This gives the user a quick way of searching for recipes that may be useful for the project they're working on. However, its effectiveness relies on consistent and accurate tagging of recipes by all users. 
+The final feature available to registered users on the navbar is the search box. To conserve space, the search functionality is integrated into a dropdown box, ensuring the navbar remains uncluttered. Users can search for recipes using recipe tags that may have been added to recipes and the results are rendered much like the user's My Recipes page or the Home Page, presenting the user with a list of cards based on the search results. The search query is also presented as the title of the page, to remind users of their specific search terms. This gives the user a quick way of searching for recipes that may be useful for the project they're working on. However, its effectiveness relies on consistent and accurate tagging of recipes by all users. Currently this page does not feature pagination. This is a hold over from the fact I've been working with a very limited data set, so have not seen enough results to feel that its warranted. However, on reflection, this will benefit from a paginated view as more users join and search results become more populated. This is a future enhancement to be implemented as part of the next release. 
 
 <br>
 <details>
@@ -556,6 +556,8 @@ The User Management page within the Admin Panel provides administrators with too
 
 - Similar to the Account page, the User Management page utilises flash messages to provide immediate feedback on both successful and unsuccessful actions. These messages inform the admin of scenarios such as incorrect password entries or attempts to reuse an existing password. Additionally, any changes made to a user's account automatically generate an email notification to that user. This notification serves as a confirmation of the action taken, offering reassurance to users and ensuring transparency by informing them of any modifications to their accounts.
 
+- This page features the ability to search for users by username. Currently this is not a paginated list, so will just return as a long, scrollable list. This, much like the Tag Search is a holdover from having such a small data set to work with that it honestly never occurred to me to use pagination. This will be added as part of the next release. 
+
 <br>
 <details>
 <summary>User Admin</summary>
@@ -566,7 +568,9 @@ The User Management page within the Admin Panel provides administrators with too
 ### Recipe Admin
 The Recipe Admin section provides administrators with a list of all the recipes on the site. The User Admin page also has a search box allowing the admin to search by recipe name. This again falls back on using the same, familiar card view that is prevalent throughout the website and allows the admin another method of accessing and administering the sites user’s recipes. 
 
- - While no action can be taken directly on this page, such as editing or deleting, it gives the admin a quick way to search for a user's recipes to investigate and correct issues that may have been raised to them. 
+ - While no action can be taken directly on this page, such as editing or deleting, it gives the admin a quick way to search for a user's recipes to investigate and correct issues that may have been raised to them.
+
+ - Much like the User Admin page, this also features integrated searching. Allowing admins to quickly find Recipes by name. Again like the other search pags, this is not currently paginated due to working with a small data set so assuming results would also be quite limited in scope vs the rest of the site. Again, this wil be implemented in the next release. 
 
 <br>
 <details>
@@ -867,98 +871,82 @@ As I integrated additional features, such as user authentication, I continued th
 As mentioned earlier, several features had to be postponed due to time constraints and relative complexity. These deferred features are documented on the [Kanban](https://github.com/users/monkphin/projects/1/views/1) board under the 'Future Improvements' section. Additionally, during the project, a few ideas emerged organically that would require further research before implementation or were beyond the initial scope. These ideas are also documented below.
 
  - Paint Library
-   
-  The most notable future enhancement is the addition of a Paint Library. Although originally planned, this feature was deferred to ensure timely project completion.    The Paint Library would enable users to add Paints they own to help track what paints they have or may need to acquire, allow usage tracking so users know when to     order more, have links to vendors allowing users to quickly click through to a selection of companies who will be able to sell and ship paints to them. 
+   - The most notable future enhancement is the addition of a Paint Library. Although originally planned, this feature was deferred to ensure timely project completion.    The Paint Library would enable users to add Paints they own to help track what paints they have or may need to acquire, allow usage tracking so users know when to     order more, have links to vendors allowing users to quickly click through to a selection of companies who will be able to sell and ship paints to them. 
 <br>
 
  - Global Paint Library
-   
- Pre-populate a table with paints from popular vendors, including details like paint names, colours, and bottle volumes. Users can quickly add paints to their library from this list or input custom paints, promoting consistent data handling and easier library management.
+   - Pre-populate a table with paints from popular vendors, including details like paint names, colours, and bottle volumes. Users can quickly add paints to their library from this list or input custom paints, promoting consistent data handling and easier library management.
 <br>
 
 - Linking the paint library to Recipes
-
- Enable users to see which paints are used in each recipe and view all recipes that utilise a specific paint, enhancing discoverability and organisation.
+  - Enable users to see which paints are used in each recipe and view all recipes that utilise a specific paint, enhancing discoverability and organisation.
 <br>
 
 - Full ReCaptcha functionality
-
- Implement backend ReCaptcha to complement the existing frontend ReCaptcha, further reducing spam submissions from forms.
+  - Implement backend ReCaptcha to complement the existing frontend ReCaptcha, further reducing spam submissions from forms.
 <br>
 
 - Automatic Tag removal
-
- Automatically delete tags that are no longer associated with any recipes to maintain a clean and efficient database.
+  - Automatically delete tags that are no longer associated with any recipes to maintain a clean and efficient database.
 <br>
 
 - Colour Combinations. 
-
- Introduce the ability to catalogue colour triads (complementary paints for shades, core colours, and highlights) to help users maintain consistency in their painting techniques.
+  - Introduce the ability to catalogue colour triads (complementary paints for shades, core colours, and highlights) to help users maintain consistency in their painting techniques.
 <br>
 
 - Chips function as links
-
- Extend the tags feature so that clicking on a tag in a recipe displays all recipes sharing that tag, providing an intuitive way to explore related content.
+  - Extend the tags feature so that clicking on a tag in a recipe displays all recipes sharing that tag, providing an intuitive way to explore related content.
 <br>
 
 - Visible Personal pages
-
- Create personal pages for users where they can showcase their entire collection of recipes, fostering a more social and community-driven platform.
+  - Create personal pages for users where they can showcase their entire collection of recipes, fostering a more social and community-driven platform.
 <br>
 
 - Messaging or Commenting functions. 
-
- Enable users to communicate directly within the site to share recipes, suggest improvements, and provide feedback, enhancing community interaction.
+  - Enable users to communicate directly within the site to share recipes, suggest improvements, and provide feedback, enhancing community interaction.
 <br>
 
 - Multiple Images per stage
-
- Support multiple images for each stage in a recipe to display different angles or variations of an effect, improving instructional clarity. 
+  - Support multiple images for each stage in a recipe to display different angles or variations of an effect, improving instructional clarity. 
 <br>
 
 - Image previews on upload 
-
- Implement image previews upon upload, replacing the current text field notification to enhance user experience. I have found [the following](https://codepen.io/Ahmed_B_Hameed/pen/yayevp) which may help achieve this. 
+  - Implement image previews upon upload, replacing the current text field notification to enhance user experience. I have found [the following](https://codepen.io/Ahmed_B_Hameed/pen/yayevp) which may help achieve this. 
 <br>
 
 - Reordering of stages
-
- Allow users to reorder stages within a recipe, enabling them to adjust the sequence without removing and re-adding stages.
+  - Allow users to reorder stages within a recipe, enabling them to adjust the sequence without removing and re-adding stages.
 <br>
 
-- Self Serve password reset
+- User facing search can search for more than just tags
+  - Currently searches are limited to a single field in any of the tables, ideally I would like at least the user facing search to be able to search over multiple fields, such as recipe name, user name and so on. The same could be applicable for the Admin focused searches, where the recipe search could allow for tag or user searches and the user search could search for email address.  
 
- I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. More info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
+- Self Serve password reset
+  - I initially thought this may be something I could implement in time, however from what I've been reading it would require another table to handle password reset tokens, which felt like I was adding more complexity than needed for the time being. More info on how I was looking to approach this can be found [here](https://supertokens.com/blog/implementing-a-forgot-password-flow)
 <br>
 
 - Project progress tracking. 
-
- Introduce tools for users to create and track paint projects, log the number of minis painted, and set goals and milestones, aiding in project management.
+  - Introduce tools for users to create and track paint projects, log the number of minis painted, and set goals and milestones, aiding in project management.
 <br>
 
 - Setting Recipes to be private. 
-
- Allow users to mark certain recipes as private, preventing them from being publicly visible while still logging the recipe details.
+  - Allow users to mark certain recipes as private, preventing them from being publicly visible while still logging the recipe details.
 <br>
 
 - Highlighted Recipes. 
-
- Enable featured recipe tags to display selected recipes on the home page for both logged-in and logged-out users, showcasing standout content.
+  - Enable featured recipe tags to display selected recipes on the home page for both logged-in and logged-out users, showcasing standout content.
 <br>
 
 - Adjusting how directly linked recipe URLs are formed. 
-
- Modify URLs to use recipe names instead of recipe_id and ensure that shared links display the recipe's final stage image consistently.
+  - Modify URLs to use recipe names instead of recipe_id and ensure that shared links display the recipe's final stage image consistently.
 <br>
 
 - Custom Recipe Stage Titles 
-
- Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
+  - Having stage titles rendered on the recipe page could be nice so a user knows what they're about to look at before the stage is revealed, potentially allowing them to prep, or at the very least anticipate each stage and its potential needs. This would require the recipe form to be adapted to include stage titles as well as handling what happens if they're not filled in, assuming they're optional. 
 
 # Security, Defensive Programming and best Practices
  - Password Security 
-
- User passwords are hashed using SHA-512 encryption. Using SHA-512 provides an added layer of protection against brute-force attacks. This decision ensures that user credentials are safeguarded with robust encryption, enhancing overall site security.
+   - User passwords are hashed using SHA-512 encryption. Using SHA-512 provides an added layer of protection against brute-force attacks. This decision ensures that user credentials are safeguarded with robust encryption, enhancing overall site security.
 <br>
 
   ```
@@ -969,8 +957,7 @@ As mentioned earlier, several features had to be postponed due to time constrain
   ```
 
  - Account Change Notification
- 
- Users receive email notifications for any account-level changes, including those initiated by administrators. This ensures that users are consistently informed about modifications to their accounts, providing transparency and enhancing trust in the platform.
+   - Users receive email notifications for any account-level changes, including those initiated by administrators. This ensures that users are consistently informed about modifications to their accounts, providing transparency and enhancing trust in the platform.
 
 <br>
 <details>
@@ -992,8 +979,7 @@ As mentioned earlier, several features had to be postponed due to time constrain
 <br>
 
  - Action Feedback
-   
- Users are notified of the success or failure of their actions through flash alerts. These alerts include reasons for any failures, helping users understand and rectify issues promptly.
+   - Users are notified of the success or failure of their actions through flash alerts. These alerts include reasons for any failures, helping users understand and rectify issues promptly.
 
 <br>
 <details>
@@ -1006,8 +992,7 @@ As mentioned earlier, several features had to be postponed due to time constrain
 <br>
 
  - Modal Based Deletion Protection 
-
- To prevent accidental deletion, modals have been implemented for deleting accounts and recipes, creating a two-stage deletion process. For administrators performing actions on items they do not own, a specific admin-centric modal is presented. This modal highlights that the action affects another user's recipe or account and requires the admin to re-enter their password as a final confirmation. Similarly, for account deletion, the modal used requires users to enter their password ensuring deliberate and secure actions. 
+   - To prevent accidental deletion, modals have been implemented for deleting accounts and recipes, creating a two-stage deletion process. For administrators performing actions on items they do not own, a specific admin-centric modal is presented. This modal highlights that the action affects another user's recipe or account and requires the admin to re-enter their password as a final confirmation. Similarly, for account deletion, the modal used requires users to enter their password ensuring deliberate and secure actions. 
 
 <br>
 <details>
@@ -1018,8 +1003,7 @@ As mentioned earlier, several features had to be postponed due to time constrain
 <br>
 
  - Route Access Control
-
- Many routes on the website are protected and require users to be either logged in or possess administrator privileges. Unauthorised access attempts result in redirection to appropriate pages, such as the login page for unauthenticated users or the home page for users lacking sufficient access rights. This ensures that sensitive areas of the site remain secure and accessible only to authorised individuals.
+   - Many routes on the website are protected and require users to be either logged in or possess administrator privileges. Unauthorised access attempts result in redirection to appropriate pages, such as the login page for unauthenticated users or the home page for users lacking sufficient access rights. This ensures that sensitive areas of the site remain secure and accessible only to authorised individuals.
 
 Logged in User only routes. 
   ```
