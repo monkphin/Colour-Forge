@@ -475,38 +475,44 @@ During development, I encountered a persistent issue where cards in the same row
  
 While this solution works, it’s a temporary fix. Ideally, a more comprehensive approach would involve adjusting font sizes, card dimensions, and text reflow to achieve a fully responsive layout. However, implementing these changes will require additional time.
  
+<br> 
 <details>
 <summary>Reflow Bug</summary>
 <img src="docs/bugs/reflow issue.png">
 </details>
- 
+<br>
+
 ### Text Box issues. 
 Another persistent issue I encountered was with the Materialize text box. For some reason this would not readily adjust when changing screen resolution during testing, consistently causing issues with page overflow which resulted in the page shrinking within the window at varying screen resolutions, compressing the site into itself. 
 I noticed that I'd omitted to include the JavaScript provided by Materialize to help with text box resizing, however even with this added I was finding the behaviour was still present. 
  
 To resolve this, I implemented a custom text box with accompanying JavaScript for resizing. This custom approach not only fixed the resizing issue but also improved the UI by making the text box visually distinct from single-line text fields. Unlike the default Materialize setup, which presents both inputs as blank lines, my custom text box is styled as a distinct box, signalling to users that it can accommodate larger amounts of text.
  
+<br> 
 <details>
-<summary>Reflow Bug</summary>
+<summary>Text Box Bug</summary>
 <img src="docs/bugs/crushed-site-1.png">
 <img src="docs/bugs/crushed-site-2.png">
 </details>
- 
+<br> 
+
 ### Stage Ordering Issues. 
 Late in development, I discovered an issue where updating a single stage within a multi-stage recipe would sometimes cause the stages to reorder unexpectedly. This behaviour is inconsistent, as it does not always occur during recipe editing, making it difficult to predict or replicate reliably.
  
+<br> 
 <details>
 <summary>Sorting Bug</summary>
 <img src="docs/bugs/recipe-sort-bug-edit.png">
 <img src="docs/bugs/recipe-sort-bug.png">
 </details>
- 
+<br>
 <details>
 <summary>Resolved Sorting Bug</summary>
 <img src="docs/bugs/resolved-sort-bug-edit.png">
 <img src="docs/bugs/resolved-sort-bug.png">
 </details>
- 
+<br>
+
 This was the recipe before editing. 
 | stage_id | recipe_id | stage_num | instructions | is_final_stage 
 | -------- | --------- | --------- | ------------ | --------------- |
@@ -515,7 +521,6 @@ This was the recipe before editing.
 |      137 |        53 |         3 | Testing 3    | t               |
  
 This was the recipe after editing. 
-open_punch_bath_8981=> select * from recipe_stages where recipe_id = 53;
 | stage_id | recipe_id | stage_num |           instructions                          | is_final_stage |
 | -------- | --------- | --------- | ----------------------------------------------- |--------------- |
 |      136 |        53 |         2 | Testing 2                                       | f              |
@@ -538,44 +543,52 @@ Jinja for loop after the fix:
 ### Large Image Handling.
 Something I neglected to realise early on is that the free version of Cloudinary has a [max file size](https://support.cloudinary.com/hc/en-us/articles/202520592-Do-you-have-a-file-size-limit#:~:text=On%20our%20free%20plan%2C%20the,also%20limited%20to%2010%20MB.) for uploads, which is set at 10Mb.
 Initially, I was considering letting this slide since I suspect images larger than 10 MB will be very rarely encountered. (In testing the only time I found images larger than this is when uploading uncropped photos from a DSLR, which for the sites use case should be rare enough to be almost 0 of the uploads) however, I wasn't happy just leaving it there so I decided to try to resolve this while I had some time. [This following Stack Overflow article](https://stackoverflow.com/questions/2104080/how-do-i-check-file-size-in-python), [this turing.com article](https://www.turing.com/kb/how-to-get-the-size-of-file-in-python#making-use-of-file-object) proved useful in outlining methods that I could use to approach the issue to create a file size check, which via some trial and error I managed to get working.
- 
+
+<br> 
 <details>
 <summary>Large Image Bug</summary>
 <img src="docs/bugs/large-image-error.png">
 </details>
- 
+<br> 
+
 Even though the site would throw an error, the recipe was still able to be saved, just without the large images. However, this created a few issues. The first of which was that if the image was to be the final stage image this would render the recipe inaccessible since the image is used in the anchor tag to allow users to click through to the recipe page. Additionally, for some reason stages where large images were used and generating the Werkzeug error were not rendering on the recipe page at all.
- 
+
+<br>
 <details>
 <summary>Large Image Recipe Card</summary>
 <img src="docs/bugs/unviewable-recipes.png">
 </details>
- 
+<br> 
 <details>
 <summary>Missing stage due to large image</summary>
 <img src="docs/bugs/missing-stage.png">
 </details>
- 
-After managing to get the check to work, I found it was still allowing the recipe to be saved, but with a missing image icon.
- 
+<br>
+
+After managing to get the check to work, I found it was still allowing the recipe to be saved, but with a missing image icon, what should have been happening was the HTML fall back image should have been using however while investigating this I didnt ralise that had an issue preventing it from working - something which is covered further below.
+
+<br> 
 <details>
 <summary>Broken Image Recipe Card</summary>
 <img src="docs/bugs/broken-large-image.png">
 </details>
- 
+<br> 
 <details>
 <summary>Broken Image stage</summary>
 <img src="docs/bugs/broken-large-image-stage.png">
 </details>
- 
+<br>
+
 One possible solution to this was to reload the page as the return to the large image checker, which while valid would be less than ideal, since if the user had added a fairly long recipe having to re-enter it would create a negative user experience. I quickly realised that the best solution would be to simply pass the two constants that have been set for the placeholder image to cause the recipe to replace the large image with a placeholder image, meaning not only is the recipe able to be saved, but the site can gracefully handle larger images. I do have issues with how slow this process is for large image handling since it can take around 30 seconds to a minute to return anything. Still, I am not currently sure how to best improve performance here, since we're dealing with a few factors - uploading the image from the users’ device to the site, to check before passing to Cloudinary.
 I am also not entirely happy with how the flashed alerts are handled here, since while we need to inform the user of the replacement of their image due to file size, we're also flashing that the recipe was added successfully. A future improvement will be to combine both of these messages or alert the user in another method such as an email or similar.
- 
+
+<br>
 <details>
-<summary>Broken Image stage</summary>
+<summary>Fixed broken image card</summary>
 <img src="docs/bugs/resolved-large-images.png">
 </details>
- 
+<br>
+
 ### Too long Tags causing errors
 At the time the bug was discovered, tags were allowed to be 100 characters long, due to a misunderstanding of how the table would handle multiple tags when the Modals file was generated. This has since been dropped to 20 characters. 
  
@@ -643,12 +656,14 @@ The above was implemented over multiple HTML pages where HTML fallback options e
 The site has a minor graphical issue that I have noticed but can't quite pin down.
  
  - The desktop search bar shows a strip of white beneath it when a user clicks into it to search, I cannot locate a cause for this. 
- 
- <details>
+
+<br> 
+<details>
 <summary>Search Box Bug</summary>
 <img src="docs/bugs/searchbox-bug.png">
 </details>
- 
+<br>
+
 There is evidence of an underlying issue in recipe handling logic, where if something fails in the recipe creation process the recipe will be created still but is missing any data that wasn't written to the DB prior to the point of failure. 
  
  - Failed Recipes
@@ -659,7 +674,8 @@ There is evidence of an underlying issue in recipe handling logic, where if some
  This issue seems to also cause problems with editing recipes past the point of the last data insertion. So if stages were not added, the recipe renders with no stage and stages can not be added when trying to edit the recipe, since the add stage feature assumes that stage 1 will always exist. 
  
  This issue only occurs when a major error happens in the recipe creation process so, with the various safeguards and fixes I've put in place, should happen rarely. But it does warrant further long term investigation and improvement around the recipe creation logic implementing which could, rather than just creating the recipe, warn the user and kick them back to the Add Recipe or Edit Recipe page with some flashed messaging to allow them to make the needed corrections. Longer term, I would want to refactor my code somewhat and include error logging to send issues to a platform such as Datadog, Sentry or another monitoring platform allowing alerts to be generated when issues do occur to help ensure awareness that an issue exists as well as logging where the issue may have occurred to help with debugging and troubleshooting. Finally, this could also allow me to use the flash feature to throw a friendly message at the user to let them know that an issue has occurred but that it is under investigation. 
- 
+
+<br>
 <details>
 <summary>Broken Recipes</summary>
 <img src="docs/bugs/missing-stage.png">
@@ -699,17 +715,19 @@ W3Schools HTML Validator was used to test all HTML. Since much of the site is lo
 # CSS Validation
  
 CSS validation was conducted using the W3Schools validation service. This highlights an error with Materialize CSS. There are also a group of warnings in my own CSS that are highlighted, specifically around the use of vendor extensions and pseudo-elements, which were required to ensure maximal compatibility. 
- 
+
+<br>
 <details>
 <summary>Site CSS Warnings</summary>
 <img src="docs/css-warnings.png">
 </details>
- 
+<br>
 <details>
 <summary>Materialize CSS Issue</summary>
 <img src="docs/bugs/materialize-css-issue.png">
 </details>
- 
+<br>
+
 I had attempted to work around to mitigate the error by using the following addition to my own CSS. 
  
 ```
@@ -734,8 +752,8 @@ A few issues were highlighted, specifically around duplication of the link to th
 <br>
  
 <details>
-<summary>About Page (to add)</summary>
-<img src="docs/wave/WAVE">
+<summary>About Page</summary>
+<img src="docs/wave/wave-about-logged-out.png">
 </details>
 <br>
  
@@ -766,69 +784,69 @@ A few issues were highlighted, specifically around duplication of the link to th
  
 <details>
 <summary>My Recipes Page</summary>
-<img src="docs/wave/WAVE-MyRecipes-LoggedIn.png">
+<img src="docs/wave/wave-myrecipes-loggedin.png">
 </details>
 <br>
  
 <details>
-<summary>Account Page (to add)</summary>
-<img src="docs/wave/WAVE-Acc.png">
+<summary>Account Page</summary>
+<img src="docs/wave/wave-accountpage-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Tag Search Results</summary>
-<img src="docs/wave/WAVE-TagSearchResults-LoggedIn.png">
+<img src="docs/wave/wave-tagsearchresults-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Add Recipe Page Results</summary>
-<img src="docs/wave/WAVE-Addrecipe-LoggedIn-SingleStage.png">
-<img src="docs/wave/WAVE-AddRecipe-LoggedIn-MultiStage.png">
+<img src="docs/wave/wave-addrecipe-loggedin-singlestage.png">
+<img src="docs/wave/wave-addrecipe-loggedin-multistage.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Page Results</summary>
-<img src="docs/wave/WAVE-RecipePage-Loggedin.png">
+<img src="docs/wave/wave-recipepage-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Edit Recipe Results</summary>
-<img src="docs/wave/WAVE-EditRecipe-LoggedIn.png">
+<img src="docs/wave/wave-editrecipe-loggedIn.png">
 </details>
 <br>
  
 <details>
 <summary>Error Page Results</summary>
-<img src="docs/wave/WAVE-ErrorPages-LoggedIn.png">
+<img src="docs/wave/wave-errorpages-loggedin.png">
 </details>
 <br>
  
 ## Admin Pages
 <details>
 <summary>User Admin Results</summary>
-<img src="docs/wave/WAVE-Admin-LoggedIn.png">
+<img src="docs/wave/wave-admin-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>User Admin Search Results</summary>
-<img src="docs/wave/WAVE-AdminSearchResults-LoggedIn.png">
+<img src="docs/wave/wave-adminsearchresults-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/wave/WAVE-RecipeAdmin-LoggedIn.png">
+<img src="docs/wave/wave-recipeadmin-loggedin.png">
 </details>
 <br>
  
 <details>
 <summary>Recipe Admin Search Results</summary>
-<img src="docs/wave/WAVE-RecipeAdminSearch-LoggedIn.png">
+<img src="docs/wave/wave-recipeadminsearch-loggedin.png">
 </details>
 <br>
  
@@ -1024,12 +1042,13 @@ These are used under advice from my mentor, or from notes from parts of the cour
 | Windows          | Firefox | Minor issues with the search box, also found a new problem with the tags selector where this is too narrow for the content which was corrected. | Functions OK |
 | Windows          | Edge    | Minor issues that have been raised elsewhere about the admin drop-down and search box                                                          | Functions OK |                
  
+<br> 
 <details>
 <summary>Example of the Firefox issue before its resolution.</summary>
 <img src="docs/bugs/firefox-bug.png">
 </details>
 <br> 
- 
+
 # Responsiveness
  
 I tested my project both when deployed locally and on the Heroku server using Google Chrome's dev tools, trying various simulated phones as well as just shifting the responsive dimensions screen around to view how varying resolutions impacted the site's rendering. 
