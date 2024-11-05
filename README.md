@@ -1036,6 +1036,7 @@ Global restriction on all routes in the admin file.
  - [Google Fonts](https://fonts.google.com/) - Used to import fonts to the style sheet. 
  - [Techsini](https://techsini.com/) - Mockup generator
  - [Favicon.io](https://favicon.io/favicon-converter/) - Used to generate Favicons. 
+ - [BeautifyTools](https://beautifytools.com/css-beautifier.php) - Used to help generate minified CSS files. 
 
 # Testing and Validation
 
@@ -1362,8 +1363,172 @@ Finally, you can, as mentioned, use the Heroku CLI. Where previously you would n
   $ git push heroku main
   ```
 
+## DNS Configuration
 
+Since my site used a custom domain, I should also add documentation on how this was implemented.
+Firstly, the domain was purchased from [OVH](https://www.ovh.com/). 
+Since I am handling DNS and caching via [Cloudflare](https://www.cloudflare.com/en-gb/), an account with them will also be needed.
 
+The process of purchasing a domain varies from provider to provider and is beyond the scope of this guide due to this. 
+Assuming you want to take advantage of Cloudflare's ability to cache data, provide DDOS protection and more you will need to route your DNS through them, which can be done irrespective of who you purchased the domain from. 
+
+- 1. Within your domain hosts admin console you need to change the DNS servers in use, to point to those provided by Cloudflare. How to do this will vary, but generally you should have a button or option to change the DNS. 
+
+<img src="docs/dns/changedns.png">
+
+- 2. In the cloudflare portal click the Add Domain button, this will take you through a somewhat guided process where you will able to check and confirm each stage. 
+- 3. For the plan, free is more than fine for most basic uses
+- 4. Once a plan has been selected a scan for existing DNS will start and you will be presented with your existing options and entries. Once you're happy, press the blue 'continue button at the bottom of the screen.
+- Finally you will be given a list of actions to carry out, such as disabling DNSSec, updating your name servers and so on. 
+
+<br>
+<details>
+<summary>Cloudflare process</summary>
+<img src="docs/dns/finddns.png">
+<img src="docs/dns/adddomain.png">
+<img src="docs/dns/planselection.png">
+<img src="docs/dns/proxyconfirm.png">
+<img src="docs/dns/finalsteps.png">
+</details>
+<br>
+
+- 5. Once you have the information from the previous stage, you can now follow the instructions Cloudflare provide and update your current domain hosts configuration. 
+
+<br>
+<details>
+<summary>Domain host process</summary>
+<img src="docs/dns/dnssec.png">
+<img src="docs/dns/updatedns.png">
+<img src="docs/dns/dnsmigration.png">
+</details>
+<br>
+
+- 6. These changes can take time to occur, particularly on an older domain, where the existing records may be propagated over the wider internet already. Essentially, any change made to a DNS record needs to be passed to every other DNS server on the planet, how long this takes can be impacted by how low or high the records 'Time to Live' is set to, but general advise suggests to allow 24-48 hours. Though it can often be much faster than this. You can manually check these yourself via the CLI. 
+
+Before Propagation 
+  ```
+  darren@Anton:~$ dig ns colourforge.co.uk
+
+  ; <<>> DiG 9.18.28-0ubuntu0.22.04.1-Ubuntu <<>> ns colourforge.co.uk
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 46269
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+  ;; OPT PSEUDOSECTION:
+  ; EDNS: version: 0, flags:; udp: 512
+  ;; QUESTION SECTION:
+  ;colourforge.co.uk.                        IN      NS
+
+  ;; ANSWER SECTION:
+  colourforge.co.uk.         3600    IN      NS      ns19.ovh.net.
+  colourforge.co.uk.         3600    IN      NS      dns19.ovh.net.
+
+  ;; Query time: 20 msec
+  ;; SERVER: 10.255.255.254#53(10.255.255.254) (UDP)
+  ;; WHEN: Tue Nov 05 00:07:26 GMT 2024
+  ;; MSG SIZE  rcvd: 89
+  ```
+In the above example, my DNS is still with OVH and both their nameservers can be seen in the ANSWER SECTION. 
+
+After Propagation. 
+  ```
+  darren@Anton:~$ dig ns colourforge.co.uk
+
+  ; <<>> DiG 9.18.28-0ubuntu0.22.04.1-Ubuntu <<>> ns colourforge.co.uk
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 34813
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+  ;; OPT PSEUDOSECTION:
+  ; EDNS: version: 0, flags:; udp: 512
+  ;; QUESTION SECTION:
+  ;colourforge.co.uk.             IN      NS
+
+  ;; ANSWER SECTION:
+  colourforge.co.uk.      21600   IN      NS      delilah.ns.cloudflare.com.
+  colourforge.co.uk.      21600   IN      NS      craig.ns.cloudflare.com.
+
+  ;; Query time: 10 msec
+  ;; SERVER: 10.255.255.254#53(10.255.255.254) (UDP)
+  ;; WHEN: Tue Nov 05 00:07:34 GMT 2024
+  ;; MSG SIZE  rcvd: 105
+  ```
+In the above example my DNS has fully migrated to Cloudflare and their name servers can be seen in the ANSWER SECTION.
+
+Generally this can be quite quick and you may see both the old and the new server details being returned over several checks as the change propagates out over the wider internet. Its worth noting that full global propagation can take up to 24-48 hours depending on a number of factors such as the Time to Live of the records, when various name servers last checked the domain and so on. 
+
+Eventually it will update and Cloudflare will pick up the change. At which point you will be presented with this screen 
+
+<img src="docs/dns/completedchange.png">
+
+- 7. Once the DNS has changed over to using Cloudflares, we need to login to Heroku and select the specific project you want this to be used by, then navigate to the settings tab, where about half way down the page  you will see an 'Add Domain' button. 
+
+<img src="docs/dns/herokuadddomain.png">
+
+- 8. Much like in previous steps, this will guide you through the process and you'll be given a DNS target to copy and past into Cloudflares DNS tools. 
+- 9. This may look confusing. But don't worry too much theirs no much to do here. Odds are there will be a few records that have the type of A, these are what tell computers where to send you when you visit the URL. These A records will need to be deleted, this allows you to replace them with your own information. 
+- 10. Once deleted we need to add our copied record from Heroku. To do this click the 'Add Record' button. 
+
+What we need to do is create a 'CNAME' record, this is a type of DNS record that's used to 'copy' other records, such as the string of text that Heroku provided us, which is, in of itself a fully valid domain name. You will also need to set the 'Name' all this is referring to is what comes before your domain name such as the 'www' that many websites use. Or, if you prefer you could use an '@' which tells Cloudflare that you want to be able to use the root of the domain, which is another way of saying just the domain on its own e.g. https://colourforge.co.uk. 
+
+Personally I set up the first CNAME record to be the root of the domain and can then if I choose create more CNAME records that point to the the domain itself so they both function the same way. You will also want to ensure the Proxied button is set to 'on' since this means traffic for this domain will route via Cloudflate allowing you to take advantage of their caching and other features. 
+
+<img src="docs/dns/cloudflareupdatedns.png">
+
+Once you're happy with this, hit the save button. 
+
+- 11. Once the save button has been pressed, that's effectively all that is needed. We now just need to wait for the update to propagate, much like we did before with the change to DNS servers. 
+
+Before propagation 
+  ```
+  darren@Anton:~$ dig colourforge.co.uk
+
+  ; <<>> DiG 9.18.28-0ubuntu0.22.04.1-Ubuntu <<>> colourforge.co.uk
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 64089
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 1, AUTHORITY: 0, ADDITIONAL: 1
+
+  ;; OPT PSEUDOSECTION:
+  ; EDNS: version: 0, flags:; udp: 1232
+  ;; QUESTION SECTION:
+  ;colourforge.co.uk.                        IN      A
+
+  ;; ANSWER SECTION:
+  colourforge.co.uk.         1640    IN      A       213.186.33.5
+
+  ;; Query time: 9 msec
+  ;; SERVER: 10.255.255.254#53(10.255.255.254) (UDP)
+  ;; WHEN: Tue Nov 05 00:30:11 GMT 2024
+  ;; MSG SIZE  rcvd: 59
+  ```
+
+After propagation
+  ```
+  darren@Anton:~$ dig colourforge.co.uk
+
+  ; <<>> DiG 9.18.28-0ubuntu0.22.04.1-Ubuntu <<>> colourforge.co.uk
+  ;; global options: +cmd
+  ;; Got answer:
+  ;; ->>HEADER<<- opcode: QUERY, status: NOERROR, id: 43706
+  ;; flags: qr rd ra; QUERY: 1, ANSWER: 2, AUTHORITY: 0, ADDITIONAL: 1
+
+  ;; OPT PSEUDOSECTION:
+  ; EDNS: version: 0, flags:; udp: 512
+  ;; QUESTION SECTION:
+  ;colourforge.co.uk.             IN      A
+
+  ;; ANSWER SECTION:
+  colourforge.co.uk.      300     IN      A       104.21.53.238
+  colourforge.co.uk.      300     IN      A       172.67.220.5
+
+  ;; Query time: 20 msec
+  ;; SERVER: 10.255.255.254#53(10.255.255.254) (UDP)
+  ;; WHEN: Tue Nov 05 00:30:18 GMT 2024
+  ;; MSG SIZE  rcvd: 78
+  ```
 
 # Credits
  - [Tim Nelsons Task Manager Project](https://github.com/Code-Institute-Solutions/TaskManagerAuth/tree/main)    
@@ -1378,6 +1543,10 @@ Finally, you can, as mentioned, use the Heroku CLI. Where previously you would n
    Kind donation of 'Rummy Nate' the mascot and logo of the site. 
  - [TTL225](https://ttl255.com/jinja2-tutorial-part-1-introduction-and-variable-substitution/)
    A lot of reading of sites tutorials and guides was done for more advanced Jinja functionality
+ - [TablesGenerator](https://www.tablesgenerator.com/markdown_tables#)
+   A tool that helped with building some of the tables in the documentation. 
+ - [W3Schools](https://www.w3schools.com/) 
+   A constant and consistent companion throughout the project. 
 
 
 # Acknowledgements
